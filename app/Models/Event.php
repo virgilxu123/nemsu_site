@@ -2,9 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
+#[Fillable(['id', 'photo', 'name', 'slug', 'description', 'location', 'start_date', 'end_date', 'is_allday', 'is_published'])]
 class Event extends Model
 {
-    //
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
+    protected $attributes = [
+        'is_allday' => false,
+        'is_published' => false,
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
+            'is_allday' => 'boolean',
+            'is_published' => 'boolean',
+        ];
+    }
 }

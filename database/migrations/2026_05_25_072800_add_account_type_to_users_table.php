@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        if (! Schema::hasColumn('users', 'account_type')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('account_type')->default('contributor')->index();
+            });
+        }
     }
 
     /**
@@ -21,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasColumn('users', 'account_type')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('account_type');
+            });
+        }
     }
 };
