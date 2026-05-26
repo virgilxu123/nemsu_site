@@ -5,21 +5,16 @@ import {
     BookOpen,
     Building2,
     CalendarDays,
-    ChevronLeft,
-    ChevronRight,
     FileText,
     GraduationCap,
     Landmark,
-    MapPin,
     Megaphone,
-    Microscope,
     ShieldCheck,
-    Sparkles,
-    Users,
 } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import type { Component, CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue';
 import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
 import { index as newsIndex, show as newsShow } from '@/routes/news';
 
@@ -53,6 +48,7 @@ type Campus = {
     name: string;
     focus: string;
     detail: string;
+    location: string;
 };
 
 type Metric = {
@@ -250,8 +246,8 @@ onMounted(() => {
             });
         },
         {
-            rootMargin: '-8% 0px -14% 0px',
-            threshold: 0.2,
+            rootMargin: '0px 0px -25% 0px',
+            threshold: 0,
         },
     );
 
@@ -296,31 +292,43 @@ const campuses: Campus[] = [
         name: 'Tandag',
         focus: 'Main Campus',
         detail: 'Central administration, graduate studies, engineering, information technology, and medicine.',
+        location: 'Tandag City',
     },
     {
         name: 'Cantilan',
         focus: 'Technology Education',
         detail: 'Industrial technology, trades, and technical education programs.',
+        location: 'Cantilan',
     },
     {
         name: 'San Miguel',
         focus: 'Agriculture and Forestry',
         detail: 'Agro-forestry, field laboratories, and community-based extension.',
+        location: 'San Miguel',
     },
     {
         name: 'Lianga',
         focus: 'Fisheries and Marine Sciences',
         detail: 'Coastal resources, aquaculture, and marine research.',
+        location: 'Lianga',
     },
     {
         name: 'Cagwait',
         focus: 'Industrial Technology',
         detail: 'Technology programs and campus life near the coast.',
+        location: 'Cagwait',
+    },
+    {
+        name: 'Tagbina',
+        focus: 'Community-Based Education',
+        detail: 'Accessible academic programs and extension services for southern Surigao del Sur communities.',
+        location: 'Tagbina',
     },
     {
         name: 'Bislig',
         focus: 'Agroforestry and Industry',
         detail: 'Integrated programs for forestry, engineering, and regional industry.',
+        location: 'Bislig City',
     },
 ];
 
@@ -584,14 +592,12 @@ const governanceLinks: Feature[] = [
         <section
             id="news"
             tabindex="-1"
-            data-scroll-section="news"
             class="bg-[#f7f8f5] py-16 dark:bg-slate-950"
         >
-            <div
-                :class="revealClasses('news')"
-                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-            >
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
+                    data-scroll-section="news-top"
+                    :class="[revealClasses('news-top')]"
                     class="grid items-start gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(24rem,0.85fr)]"
                 >
                     <div class="grid gap-4">
@@ -715,10 +721,10 @@ const governanceLinks: Feature[] = [
                             </div>
                             <div class="min-w-0 self-center">
                                 <div
-                                    class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-medium text-slate-500 dark:text-slate-400"
+                                    class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-slate-500 dark:text-slate-400"
                                 >
                                     <span
-                                        class="rounded bg-[#f8e7eb] px-2 py-0.5 text-[#9b1c31] dark:bg-rose-400/10 dark:text-rose-200"
+                                        class="uppercase tracking-wide text-[#9b1c31] dark:text-rose-300"
                                         >{{ item.type }}</span
                                     >
                                     <span
@@ -732,12 +738,12 @@ const governanceLinks: Feature[] = [
                                     </span>
                                 </div>
                                 <h3
-                                    class="mt-2 line-clamp-2 font-sans text-sm leading-6 font-semibold tracking-normal text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
+                                    class="mt-2 line-clamp-2 font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                                 >
                                     {{ item.title }}
                                 </h3>
                                 <p
-                                    class="mt-2 truncate text-xs font-medium text-slate-500 dark:text-slate-400"
+                                    class="mt-3 truncate text-xs font-semibold text-slate-500 dark:text-slate-400"
                                 >
                                     {{ item.office }}
                                 </p>
@@ -776,7 +782,8 @@ const governanceLinks: Feature[] = [
                 </div>
 
                 <div
-                    class="mt-10 border-t border-slate-200 pt-8 dark:border-white/10"
+                    data-scroll-section="announcements"
+                    :class="[revealClasses('announcements', 'up'), 'mt-10 border-t border-slate-200 pt-8 dark:border-white/10']"
                 >
                     <div>
                         <p
@@ -828,7 +835,7 @@ const governanceLinks: Feature[] = [
                                     {{ item.type }}
                                 </p>
                                 <h3
-                                    class="mt-2 line-clamp-2 text-lg leading-7 font-semibold tracking-normal text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
+                                    class="mt-2 line-clamp-2 font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                                 >
                                     {{ item.title }}
                                 </h3>
@@ -863,128 +870,17 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section
-            id="campuses"
-            data-scroll-section="campuses"
-            class="bg-white py-16 dark:bg-slate-900"
-        >
-            <div
-                :class="revealClasses('campuses', 'left')"
-                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-            >
-                <div class="max-w-2xl">
-                    <p
-                        class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                    >
-                        Campuses
-                    </p>
-                    <h2
-                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                    >
-                        One system, distinct campus strengths
-                    </h2>
-                </div>
-                <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    <article
-                        v-for="(campus, index) in campuses"
-                        :key="campus.name"
-                        :style="staggerDelay('campuses', index)"
-                        class="rounded-md border border-slate-200 p-5 transition hover:-translate-y-1 hover:border-[#2f6f4e]/50 hover:bg-[#f8fcf8] dark:border-white/10 dark:hover:bg-white/5"
-                    >
-                        <div class="flex items-center gap-3">
-                            <span
-                                class="inline-flex size-10 items-center justify-center rounded-md bg-[#edf7ed] text-[#2f6f4e] dark:bg-emerald-400/10 dark:text-emerald-200"
-                            >
-                                <MapPin class="size-5" aria-hidden="true" />
-                            </span>
-                            <div>
-                                <h3
-                                    class="font-semibold text-slate-950 dark:text-white"
-                                >
-                                    {{ campus.name }}
-                                </h3>
-                                <p
-                                    class="text-sm text-[#2f6f4e] dark:text-emerald-200"
-                                >
-                                    {{ campus.focus }}
-                                </p>
-                            </div>
-                        </div>
-                        <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                        >
-                            {{ campus.detail }}
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section
-            id="research"
-            data-scroll-section="research"
-            class="bg-[#1711d4] bg-cover bg-center bg-no-repeat py-16 text-white lg:bg-fixed"
-            :style="
+        <WelcomeCampuses
+            :campuses="campuses"
+            :background-style="
                 parallaxBackground(
                     sectionImages.research,
                     'linear-gradient(100deg, rgba(6,43,73,.96), rgba(6,43,73,.82) 58%, rgba(6,43,73,.58))',
                 )
             "
-        >
-            <div
-                :class="revealClasses('research')"
-                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8"
-            >
-                <div class="lg:col-span-1">
-                    <p
-                        class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
-                    >
-                        Research, Innovation, and Extension
-                    </p>
-                    <h2 class="mt-3 text-3xl font-semibold tracking-normal">
-                        A clearer home for RIE work
-                    </h2>
-                </div>
-                <div class="grid gap-4 md:grid-cols-3 lg:col-span-2">
-                    <article
-                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
-                    >
-                        <Microscope
-                            class="size-7 text-[#f2b705]"
-                            aria-hidden="true"
-                        />
-                        <h3 class="mt-5 font-semibold">Research</h3>
-                        <p class="mt-3 text-sm leading-7 text-sky-100">
-                            Centers, publications, manuals, and research news.
-                        </p>
-                    </article>
-                    <article
-                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
-                    >
-                        <Sparkles
-                            class="size-7 text-[#f2b705]"
-                            aria-hidden="true"
-                        />
-                        <h3 class="mt-5 font-semibold">Innovation</h3>
-                        <p class="mt-3 text-sm leading-7 text-sky-100">
-                            Patents, utility models, copyrights, and trademarks.
-                        </p>
-                    </article>
-                    <article
-                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
-                    >
-                        <Users
-                            class="size-7 text-[#f2b705]"
-                            aria-hidden="true"
-                        />
-                        <h3 class="mt-5 font-semibold">Extension</h3>
-                        <p class="mt-3 text-sm leading-7 text-sky-100">
-                            Programs, community partnerships, and updates.
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
+            :stagger-delay="staggerDelay"
+            :reveal-classes="revealClasses"
+        />
 
         <section
             id="governance"

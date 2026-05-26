@@ -1,22 +1,36 @@
 <script setup lang="ts">
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-vue-next';
+import {
+    ArrowRight,
+    ChevronLeft,
+    ChevronRight,
+    Sparkles,
+} from 'lucide-vue-next';
 
-type BannerItem = { id: number | string; title?: string | null; summary?: string | null; imageUrl: string; link?: string | null };
+type BannerItem = {
+    id: number | string;
+    title?: string | null;
+    summary?: string | null;
+    imageUrl: string;
+    link?: string | null;
+};
 type Metric = { label: string; value: string; note: string };
 
-const props = withDefaults(defineProps<{
-    heroSlides: BannerItem[];
-    activeHeroIndex: number | null;
-    activeHeroSlide: BannerItem;
-    isDefaultHeroSlide: boolean;
-    hasMultipleHeroSlides: boolean;
-    metrics: Metric[];
-    fallbackHeroSlide: BannerItem;
-    revealClasses: (section: string) => string;
-    selectHeroSlide: (index: number) => void;
-    showNextHeroSlideManually: () => void;
-    showPreviousHeroSlideManually: () => void;
-}>(), {});
+withDefaults(
+    defineProps<{
+        heroSlides: BannerItem[];
+        activeHeroIndex: number | null;
+        activeHeroSlide: BannerItem;
+        isDefaultHeroSlide: boolean;
+        hasMultipleHeroSlides: boolean;
+        metrics: Metric[];
+        fallbackHeroSlide: BannerItem;
+        revealClasses: (section: string) => string;
+        selectHeroSlide: (index: number) => void;
+        showNextHeroSlideManually: () => void;
+        showPreviousHeroSlideManually: () => void;
+    }>(),
+    {},
+);
 </script>
 
 <template>

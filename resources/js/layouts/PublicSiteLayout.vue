@@ -9,9 +9,18 @@ import {
     ShieldCheck,
     UserRound,
     X,
+    Facebook,
+    Youtube,
+    Instagram,
+    MonitorPlay,
+    Phone,
+    Mail,
+    BadgeCheck,
+    FileSearch,
 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { dashboard, home } from '@/routes';
+import { boardOfRegents, officeOfThePresident } from '@/routes/about';
 
 type NavGroup = {
     label: string;
@@ -42,10 +51,11 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Leadership',
                 links: [
-                    { label: 'Board of Regents', href: '#governance' },
-                    { label: 'Office of the President', href: '#governance' },
-                    { label: 'INNOVATE Agenda', href: '#about' },
-                    { label: 'ALPAS', href: '#about' },
+                    { label: 'Board of Regents', href: boardOfRegents().url },
+                    {
+                        label: 'Office of the President',
+                        href: officeOfThePresident().url,
+                    },
                 ],
             },
         ],
@@ -65,10 +75,6 @@ const navGroups: NavGroup[] = [
                         href: '#governance',
                     },
                     { label: 'Academic Affairs', href: '#academics' },
-                    {
-                        label: 'Research, Innovation, and Extension',
-                        href: '#research',
-                    },
                 ],
             },
             {
@@ -345,21 +351,21 @@ const utilityLinks = [
                     <div class="flex gap-2">
                         <a
                             href="#services"
-                            class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            class="inline-flex size-10 items-center justify-center rounded-md border border-sky-200 bg-sky-50 text-sky-700 transition hover:bg-sky-100 hover:text-sky-800 dark:border-sky-400/20 dark:bg-sky-400/10 dark:text-sky-200 dark:hover:bg-sky-400/15"
                             aria-label="Online services"
                         >
                             <Globe2 class="size-4" aria-hidden="true" />
                         </a>
                         <a
                             href="#governance"
-                            class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            class="inline-flex size-10 items-center justify-center rounded-md border border-emerald-200 bg-emerald-50 text-emerald-700 transition hover:bg-emerald-100 hover:text-emerald-800 dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-200 dark:hover:bg-emerald-400/15"
                             aria-label="Governance"
                         >
                             <ShieldCheck class="size-4" aria-hidden="true" />
                         </a>
                         <a
                             href="#academics"
-                            class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            class="inline-flex size-10 items-center justify-center rounded-md border border-amber-200 bg-amber-50 text-amber-700 transition hover:bg-amber-100 hover:text-amber-800 dark:border-amber-400/20 dark:bg-amber-400/10 dark:text-amber-200 dark:hover:bg-amber-400/15"
                             aria-label="Academics"
                         >
                             <GraduationCap class="size-4" aria-hidden="true" />
@@ -367,50 +373,200 @@ const utilityLinks = [
                     </div>
                 </section>
 
-                <div class="grid gap-8 sm:grid-cols-3">
+                <div
+                    class="grid gap-8 sm:grid-cols-2 xl:grid-cols-[0.8fr_1.6fr_0.9fr]"
+                >
                     <section>
                         <h2
                             class="text-sm font-semibold text-slate-950 dark:text-white"
                         >
-                            Information
+                            Follow Us
                         </h2>
                         <div
-                            class="mt-4 grid gap-2 text-sm text-slate-600 dark:text-slate-300"
+                            class="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300"
                         >
-                            <a href="#about">About Us</a>
-                            <a href="#governance">Administration</a>
-                            <a href="#academics">Academic Affairs</a>
-                            <a href="#research">Research and Extension</a>
+                            <a
+                                href="#"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <Facebook
+                                    class="size-4 text-[#1877f2] transition group-hover:scale-105"
+                                    aria-hidden="true"
+                                />
+                                Facebook
+                            </a>
+                            <a
+                                href="#"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <MonitorPlay
+                                    class="size-4 text-cyan-500 transition group-hover:scale-105 dark:text-cyan-300"
+                                    aria-hidden="true"
+                                />
+                                Tiktok
+                            </a>
+                            <a
+                                href="#"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <Instagram
+                                    class="size-4 text-pink-600 transition group-hover:scale-105 dark:text-pink-400"
+                                    aria-hidden="true"
+                                />
+                                Instagram
+                            </a>
+                            <a
+                                href="#"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <Youtube
+                                    class="size-4 text-red-600 transition group-hover:scale-105 dark:text-red-400"
+                                    aria-hidden="true"
+                                />
+                                Youtube
+                            </a>
+                        </div>
+                    </section>
+                    <section class="sm:col-span-2 xl:col-span-1">
+                        <h2
+                            class="text-sm font-semibold text-slate-950 dark:text-white"
+                        >
+                            Contact Details
+                        </h2>
+                        <div
+                            class="mt-4 grid gap-4 text-sm text-slate-600 sm:grid-cols-2 dark:text-slate-300"
+                        >
+                            <div
+                                class="flex flex-col gap-1 rounded bg-slate-50 p-2.5 dark:bg-white/5"
+                            >
+                                <span
+                                    class="text-xs font-semibold tracking-wider text-slate-900 uppercase dark:text-slate-200"
+                                    >Office of the President</span
+                                >
+                                <a
+                                    href="tel:+63862140001"
+                                    class="inline-flex items-center gap-1.5 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                                >
+                                    <Phone
+                                        class="size-3.5 text-emerald-600 dark:text-emerald-300"
+                                        aria-hidden="true"
+                                    />
+                                    (086) 214-0001
+                                </a>
+                            </div>
+                            <div
+                                class="flex flex-col gap-1 rounded bg-slate-50 p-2.5 dark:bg-white/5"
+                            >
+                                <span
+                                    class="text-xs font-semibold tracking-wider text-slate-900 uppercase dark:text-slate-200"
+                                    >Information Unit</span
+                                >
+                                <a
+                                    href="mailto:info@nemsu.edu.ph"
+                                    class="inline-flex items-center gap-1.5 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                                >
+                                    <Mail
+                                        class="size-3.5 text-sky-600 dark:text-sky-300"
+                                        aria-hidden="true"
+                                    />
+                                    info@nemsu.edu.ph
+                                </a>
+                            </div>
+                            <div
+                                class="flex flex-col gap-1 rounded bg-slate-50 p-2.5 dark:bg-white/5"
+                            >
+                                <span
+                                    class="text-xs font-semibold tracking-wider text-slate-900 uppercase dark:text-slate-200"
+                                    >Registrar's Office</span
+                                >
+                                <a
+                                    href="tel:+63862140002"
+                                    class="inline-flex items-center gap-1.5 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                                >
+                                    <Phone
+                                        class="size-3.5 text-emerald-600 dark:text-emerald-300"
+                                        aria-hidden="true"
+                                    />
+                                    (086) 214-0002
+                                </a>
+                            </div>
+                            <div
+                                class="flex flex-col gap-1 rounded bg-slate-50 p-2.5 dark:bg-white/5"
+                            >
+                                <span
+                                    class="text-xs font-semibold tracking-wider text-slate-900 uppercase dark:text-slate-200"
+                                    >Admission Office</span
+                                >
+                                <a
+                                    href="tel:+63862140003"
+                                    class="inline-flex items-center gap-1.5 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                                >
+                                    <Phone
+                                        class="size-3.5 text-emerald-600 dark:text-emerald-300"
+                                        aria-hidden="true"
+                                    />
+                                    (086) 214-0003
+                                </a>
+                            </div>
+                            <div
+                                class="flex flex-col gap-1 rounded bg-slate-50 p-2.5 dark:bg-white/5"
+                            >
+                                <span
+                                    class="text-xs font-semibold tracking-wider text-slate-900 uppercase dark:text-slate-200"
+                                    >Guidance Office</span
+                                >
+                                <a
+                                    href="tel:+63862140004"
+                                    class="inline-flex items-center gap-1.5 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                                >
+                                    <Phone
+                                        class="size-3.5 text-emerald-600 dark:text-emerald-300"
+                                        aria-hidden="true"
+                                    />
+                                    (086) 214-0004
+                                </a>
+                            </div>
                         </div>
                     </section>
                     <section>
                         <h2
                             class="text-sm font-semibold text-slate-950 dark:text-white"
                         >
-                            Services
+                            Resources
                         </h2>
                         <div
-                            class="mt-4 grid gap-2 text-sm text-slate-600 dark:text-slate-300"
+                            class="mt-4 grid gap-3 text-sm text-slate-600 dark:text-slate-300"
                         >
-                            <a href="#services">Admission</a>
-                            <a href="#services">Registrar</a>
-                            <a href="#services">Guidance Office</a>
-                            <a href="#governance">BAC Matters</a>
-                        </div>
-                    </section>
-                    <section>
-                        <h2
-                            class="text-sm font-semibold text-slate-950 dark:text-white"
-                        >
-                            Contact
-                        </h2>
-                        <div
-                            class="mt-4 grid gap-2 text-sm text-slate-600 dark:text-slate-300"
-                        >
-                            <span>086-214-4221</span>
-                            <span>information@nemsu.edu.ph</span>
-                            <a href="#governance">Transparency Seal</a>
-                            <a href="#governance">Freedom of Information</a>
+                            <a
+                                href="#services"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <BadgeCheck
+                                    class="size-4 text-amber-600 transition group-hover:scale-105 dark:text-amber-300"
+                                    aria-hidden="true"
+                                />
+                                Certification
+                            </a>
+                            <a
+                                href="#governance"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <ShieldCheck
+                                    class="size-4 text-emerald-600 transition group-hover:scale-105 dark:text-emerald-300"
+                                    aria-hidden="true"
+                                />
+                                Transparency Seal
+                            </a>
+                            <a
+                                href="#governance"
+                                class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
+                            >
+                                <FileSearch
+                                    class="size-4 text-sky-600 transition group-hover:scale-105 dark:text-sky-300"
+                                    aria-hidden="true"
+                                />
+                                Freedom of Information
+                            </a>
                         </div>
                     </section>
                 </div>
