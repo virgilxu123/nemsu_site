@@ -11,7 +11,7 @@ import {
     X,
 } from 'lucide-vue-next';
 import { ref } from 'vue';
-import { dashboard, home, login } from '@/routes';
+import { dashboard, home } from '@/routes';
 
 type NavGroup = {
     label: string;
@@ -146,7 +146,7 @@ const utilityLinks = [
             class="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur dark:border-white/10 dark:bg-slate-950/95"
         >
             <div
-                class="border-b border-slate-200/70 bg-[#062b49] text-white dark:border-white/10"
+                class="border-b border-slate-200/70 bg-[#1711d4] text-white dark:border-white/10"
             >
                 <div
                     class="mx-auto flex h-10 max-w-7xl items-center justify-between gap-4 px-4 text-xs sm:px-6 lg:px-8"
@@ -182,7 +182,7 @@ const utilityLinks = [
                     />
                     <span class="min-w-0">
                         <span
-                            class="block text-sm font-semibold tracking-wide text-[#062b49] uppercase dark:text-sky-200"
+                            class="block text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-200"
                             >NEMSU</span
                         >
                         <span
@@ -244,19 +244,12 @@ const utilityLinks = [
                     <Link
                         v-if="$page.props.auth.user"
                         :href="dashboard()"
-                        class="inline-flex h-10 items-center gap-2 rounded-md bg-[#062b49] px-4 text-sm font-semibold text-white transition hover:bg-[#0b3d66]"
+                        class="inline-flex h-10 items-center gap-2 rounded-md bg-[#1711d4] px-4 text-sm font-semibold text-white transition hover:bg-[#0f0ab8]"
                     >
                         <UserRound class="size-4" aria-hidden="true" />
                         Dashboard
                     </Link>
-                    <Link
-                        v-else
-                        :href="login()"
-                        class="inline-flex h-10 items-center gap-2 rounded-md bg-[#062b49] px-4 text-sm font-semibold text-white transition hover:bg-[#0b3d66]"
-                    >
-                        <UserRound class="size-4" aria-hidden="true" />
-                        Login
-                    </Link>
+                    <!-- Login removed per request -->
                 </div>
 
                 <button
@@ -331,7 +324,7 @@ const utilityLinks = [
                         />
                         <div>
                             <p
-                                class="text-sm font-semibold tracking-wide text-[#062b49] uppercase dark:text-sky-200"
+                                class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-200"
                             >
                                 NEMSU
                             </p>

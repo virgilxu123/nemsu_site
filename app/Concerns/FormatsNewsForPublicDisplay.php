@@ -18,7 +18,7 @@ trait FormatsNewsForPublicDisplay
     {
         return [
             'id' => $news->id,
-            'type' => 'Press Release',
+            'type' => $news->type === 'announcement' ? 'Announcement' : 'Press Release',
             'title' => $this->normalizeDisplayText($news->title) ?? '',
             'slug' => $news->slug,
             'excerpt' => $this->normalizeDisplayText($news->short_description),
@@ -29,13 +29,14 @@ trait FormatsNewsForPublicDisplay
     }
 
     /**
-     * @return array{id: string, type: string, title: string, slug: string, excerpt: string|null, contentHtml: string, date: string|null, office: string, photoUrl: string|null}
+     * @return array{id: string, type: string, title: string, slug: string, excerpt: string|null, contentHtml: string, galleryImages: list<array{url: string, alt: string}>, date: string|null, office: string, photoUrl: string|null}
      */
     protected function newsArticleData(News $news): array
     {
         return [
             ...$this->newsListData($news),
             'contentHtml' => $this->cleanArticleHtml($news->content),
+            'galleryImages' => $this->articleGalleryImages($news),
         ];
     }
 
@@ -80,6 +81,63 @@ trait FormatsNewsForPublicDisplay
 
     protected function cleanArticleHtml(string $html): string
     {
+        [$document, $main] = $this->articleDocument($html);
+
+        if (! $main instanceof DOMElement) {
+            return '';
+        }
+
+        $this->sanitizeNode($main);
+        $this->removeArticleImages($main);
+        $this->removeEmptyImageWrappers($main);
+
+        return collect(iterator_to_array($main->childNodes))
+            ->map(fn (DOMNode $node): string => $document->saveHTML($node) ?: '')
+            ->implode('');
+    }
+
+    /**
+     * @return list<array{url: string, alt: string}>
+     */
+    private function articleGalleryImages(News $news): array
+    {
+        [, $main] = $this->articleDocument($news->content);
+
+        if (! $main instanceof DOMElement) {
+            return [];
+        }
+
+        $leadPhotoUrl = $this->newsPhotoUrl($news->photo);
+        $seen = collect([$leadPhotoUrl])->filter()->flip();
+
+        return collect(iterator_to_array($main->getElementsByTagName('img')))
+            ->filter(fn (DOMNode $node): bool => $node instanceof DOMElement)
+            ->map(function (DOMElement $image) use ($news): ?array {
+                $url = $this->absoluteLegacyUrl($image->getAttribute('src'));
+
+                if ($url === '' || Str::of($url)->lower()->startsWith('javascript:')) {
+                    return null;
+                }
+
+                return [
+                    'url' => $url,
+                    'alt' => $this->normalizeDisplayText($image->getAttribute('alt'))
+                        ?: $this->normalizeDisplayText($news->title)
+                        ?: 'News photo',
+                ];
+            })
+            ->filter()
+            ->reject(fn (array $image): bool => $seen->has($image['url']))
+            ->unique('url')
+            ->values()
+            ->all();
+    }
+
+    /**
+     * @return array{0: DOMDocument, 1: DOMElement|null}
+     */
+    private function articleDocument(string $html): array
+    {
         $document = new DOMDocument;
         $decoded = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
@@ -93,15 +151,35 @@ trait FormatsNewsForPublicDisplay
 
         $main = $document->getElementsByTagName('main')->item(0);
 
-        if (! $main instanceof DOMElement) {
-            return '';
+        return [$document, $main instanceof DOMElement ? $main : null];
+    }
+
+    private function removeArticleImages(DOMElement $main): void
+    {
+        foreach (iterator_to_array($main->getElementsByTagName('img')) as $image) {
+            if ($image instanceof DOMElement) {
+                $image->parentNode?->removeChild($image);
+            }
         }
+    }
 
-        $this->sanitizeNode($main);
+    private function removeEmptyImageWrappers(DOMNode $node): void
+    {
+        foreach (iterator_to_array($node->childNodes) as $child) {
+            if (! $child instanceof DOMElement) {
+                continue;
+            }
 
-        return collect(iterator_to_array($main->childNodes))
-            ->map(fn (DOMNode $node): string => $document->saveHTML($node) ?: '')
-            ->implode('');
+            $this->removeEmptyImageWrappers($child);
+
+            if (
+                in_array($child->tagName, ['p', 'figure'], true)
+                && trim($child->textContent) === ''
+                && $child->getElementsByTagName('*')->length === 0
+            ) {
+                $child->parentNode?->removeChild($child);
+            }
+        }
     }
 
     private function sanitizeNode(DOMNode $node): void

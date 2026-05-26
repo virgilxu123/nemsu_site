@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
-import { show as newsShow } from '@/routes/news';
 import {
     ArrowRight,
     BookOpen,
     Building2,
     CalendarDays,
+    ChevronLeft,
+    ChevronRight,
     FileText,
     GraduationCap,
     Landmark,
@@ -17,7 +17,11 @@ import {
     Sparkles,
     Users,
 } from 'lucide-vue-next';
-import type { Component } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import type { Component, CSSProperties } from 'vue';
+import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
+import { index as newsIndex, show as newsShow } from '@/routes/news';
 
 type Feature = {
     icon: Component;
@@ -37,6 +41,14 @@ type NewsItem = {
     photoUrl?: string | null;
 };
 
+type BannerItem = {
+    id: number | string;
+    title?: string | null;
+    summary?: string | null;
+    imageUrl: string;
+    link?: string | null;
+};
+
 type Campus = {
     name: string;
     focus: string;
@@ -49,7 +61,211 @@ type Metric = {
     note: string;
 };
 
+type RevealDirection = 'down' | 'left' | 'right' | 'up';
+
 const heroImage = 'https://nemsu.edu.ph/files/News/cm-00.jpg';
+const fallbackHeroSlide: BannerItem = {
+    id: 'nemsu-hero',
+    title: 'North Eastern Mindanao State University',
+    summary:
+        'We drive sustainable development through quality instruction, innovative research, community collaboration, and technological advancement.',
+    imageUrl: heroImage,
+};
+
+const sectionImages = {
+    about: 'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
+    academics: 'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
+    research: 'https://nemsu.edu.ph/files/News/REA-00.jpg',
+    services: 'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
+};
+
+const parallaxBackground = (image: string, overlay: string): CSSProperties => ({
+    backgroundImage: `${overlay}, url("${image}")`,
+});
+
+const revealOffset: Record<RevealDirection, string> = {
+    down: '-translate-y-8',
+    left: 'translate-x-8',
+    right: '-translate-x-8',
+    up: 'translate-y-8',
+};
+
+const visibleSections = ref<Set<string>>(new Set(['hero']));
+const activeHeroIndex = ref(0);
+let revealObserver: IntersectionObserver | null = null;
+let heroCarouselTimer: ReturnType<typeof window.setInterval> | null = null;
+let shouldAutoRotateHero = false;
+
+const setSectionVisibility = (section: string, isVisible: boolean): void => {
+    const nextVisibleSections = new Set(visibleSections.value);
+
+    if (isVisible) {
+        nextVisibleSections.add(section);
+    } else {
+        nextVisibleSections.delete(section);
+    }
+
+    visibleSections.value = nextVisibleSections;
+};
+
+const isSectionVisible = (section: string): boolean =>
+    visibleSections.value.has(section);
+
+const revealClasses = (
+    section: string,
+    direction: RevealDirection = 'up',
+): string =>
+    [
+        'transition-all duration-700 ease-out will-change-transform motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none',
+        isSectionVisible(section)
+            ? 'translate-x-0 translate-y-0 opacity-100 blur-0'
+            : `${revealOffset[direction]} opacity-0 blur-[2px]`,
+    ].join(' ');
+
+const staggerDelay = (section: string, index: number): CSSProperties => ({
+    transitionDelay: isSectionVisible(section) ? `${index * 80}ms` : '0ms',
+});
+
+const props = withDefaults(
+    defineProps<{
+        banners?: BannerItem[];
+        featuredNews?: NewsItem | null;
+        pressReleases?: NewsItem[];
+        announcements?: NewsItem[];
+    }>(),
+    {
+        banners: () => [],
+        featuredNews: null,
+        pressReleases: () => [],
+        announcements: () => [],
+    },
+);
+
+const heroSlides = computed<BannerItem[]>(() => {
+    const banners = props.banners ?? [];
+
+    return [fallbackHeroSlide, ...banners];
+});
+
+const activeHeroSlide = computed<BannerItem>(
+    () => heroSlides.value[activeHeroIndex.value] ?? fallbackHeroSlide,
+);
+
+const hasMultipleHeroSlides = computed(() => heroSlides.value.length > 1);
+const isDefaultHeroSlide = computed(
+    () => activeHeroSlide.value.id === fallbackHeroSlide.id,
+);
+
+const setHeroSlide = (index: number): void => {
+    const slideCount = heroSlides.value.length;
+
+    if (slideCount === 0) {
+        activeHeroIndex.value = 0;
+
+        return;
+    }
+
+    activeHeroIndex.value = (index + slideCount) % slideCount;
+};
+
+const startHeroCarousel = (): void => {
+    if (
+        !shouldAutoRotateHero ||
+        !hasMultipleHeroSlides.value ||
+        heroCarouselTimer !== null
+    ) {
+        return;
+    }
+
+    heroCarouselTimer = window.setInterval(showNextHeroSlide, 6500);
+};
+
+const stopHeroCarousel = (): void => {
+    if (heroCarouselTimer === null) {
+        return;
+    }
+
+    window.clearInterval(heroCarouselTimer);
+    heroCarouselTimer = null;
+};
+
+const resetHeroCarousel = (): void => {
+    stopHeroCarousel();
+    startHeroCarousel();
+};
+
+const showNextHeroSlide = (): void => {
+    setHeroSlide(activeHeroIndex.value + 1);
+};
+
+const showPreviousHeroSlide = (): void => {
+    setHeroSlide(activeHeroIndex.value - 1);
+};
+
+const selectHeroSlide = (index: number): void => {
+    setHeroSlide(index);
+    resetHeroCarousel();
+};
+
+const showNextHeroSlideManually = (): void => {
+    showNextHeroSlide();
+    resetHeroCarousel();
+};
+
+const showPreviousHeroSlideManually = (): void => {
+    showPreviousHeroSlide();
+    resetHeroCarousel();
+};
+
+onMounted(() => {
+    const animatedSections = document.querySelectorAll<HTMLElement>(
+        '[data-scroll-section]',
+    );
+    const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    if (prefersReducedMotion) {
+        visibleSections.value = new Set(
+            Array.from(animatedSections)
+                .map((section) => section.dataset.scrollSection)
+                .filter(Boolean) as string[],
+        );
+
+        return;
+    }
+
+    shouldAutoRotateHero = true;
+
+    revealObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const section = entry.target.getAttribute(
+                    'data-scroll-section',
+                );
+
+                if (section) {
+                    setSectionVisibility(section, entry.isIntersecting);
+                }
+            });
+        },
+        {
+            rootMargin: '-8% 0px -14% 0px',
+            threshold: 0.2,
+        },
+    );
+
+    animatedSections.forEach((section) => {
+        revealObserver?.observe(section);
+    });
+
+    startHeroCarousel();
+});
+
+onBeforeUnmount(() => {
+    revealObserver?.disconnect();
+    stopHeroCarousel();
+});
 
 const quickActions: Feature[] = [
     {
@@ -74,17 +290,6 @@ const quickActions: Feature[] = [
         href: '#campuses',
     },
 ];
-
-const props = withDefaults(
-    defineProps<{
-        featuredNews?: NewsItem | null;
-        pressReleases?: NewsItem[];
-    }>(),
-    {
-        featuredNews: null,
-        pressReleases: () => [],
-    },
-);
 
 const campuses: Campus[] = [
     {
@@ -191,91 +396,33 @@ const governanceLinks: Feature[] = [
     <PublicSiteLayout>
         <Head title="North Eastern Mindanao State University" />
 
-        <section class="relative overflow-hidden bg-[#062b49] text-white">
-            <img
-                :src="heroImage"
-                alt="NEMSU campus activity"
-                class="absolute inset-0 h-full w-full object-cover opacity-28"
-            />
-            <div class="absolute inset-0 bg-[#062b49]/82"></div>
-
-            <div
-                class="relative mx-auto grid min-h-[72svh] max-w-7xl content-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8"
-            >
-                <div class="max-w-3xl">
-                    <p
-                        class="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-sky-100 uppercase"
-                    >
-                        <Sparkles class="size-4" aria-hidden="true" />
-                        Research University for Sustainable Development
-                    </p>
-                    <h1
-                        class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
-                    >
-                        North Eastern Mindanao State University
-                    </h1>
-                    <p
-                        class="mt-6 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
-                    >
-                        We drive sustainable development through quality
-                        instruction, innovative research, community
-                        collaboration, and technological advancement.
-                    </p>
-                    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-                        <a
-                            href="#academics"
-                            class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#f2b705] px-5 text-sm font-semibold text-slate-950 transition hover:bg-[#ffd24a]"
-                        >
-                            Explore Programs
-                            <ArrowRight class="size-4" aria-hidden="true" />
-                        </a>
-                        <a
-                            href="#services"
-                            class="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/25 px-5 text-sm font-semibold text-white transition hover:bg-white/10"
-                        >
-                            Online Services
-                            <ArrowRight class="size-4" aria-hidden="true" />
-                        </a>
-                    </div>
-                </div>
-
-                <aside class="self-end border-l border-white/20 pl-6">
-                    <p
-                        class="text-sm font-semibold tracking-wide text-sky-100 uppercase"
-                    >
-                        NEMSU at a glance
-                    </p>
-                    <div class="mt-5 grid grid-cols-2 gap-4">
-                        <div
-                            v-for="metric in metrics"
-                            :key="metric.label"
-                            class="border-t border-white/20 pt-4"
-                        >
-                            <p class="text-3xl font-semibold text-white">
-                                {{ metric.value }}
-                            </p>
-                            <p class="mt-1 text-sm font-medium text-sky-100">
-                                {{ metric.label }}
-                            </p>
-                            <p class="mt-1 text-xs text-sky-200">
-                                {{ metric.note }}
-                            </p>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-        </section>
+        <WelcomeHero
+            :hero-slides="heroSlides"
+            :active-hero-index="activeHeroIndex"
+            :active-hero-slide="activeHeroSlide"
+            :is-default-hero-slide="isDefaultHeroSlide"
+            :has-multiple-hero-slides="hasMultipleHeroSlides"
+            :metrics="metrics"
+            :fallback-hero-slide="fallbackHeroSlide"
+            :reveal-classes="revealClasses"
+            :select-hero-slide="selectHeroSlide"
+            :show-next-hero-slide-manually="showNextHeroSlideManually"
+            :show-previous-hero-slide-manually="showPreviousHeroSlideManually"
+        />
 
         <section
+            data-scroll-section="quick-actions"
             class="border-b border-slate-200 bg-white dark:border-white/10 dark:bg-slate-950"
         >
             <div
+                :class="revealClasses('quick-actions')"
                 class="mx-auto grid max-w-7xl gap-4 px-4 py-6 sm:px-6 md:grid-cols-3 lg:px-8"
             >
                 <a
-                    v-for="action in quickActions"
+                    v-for="(action, index) in quickActions"
                     :key="action.title"
                     :href="action.href"
+                    :style="staggerDelay('quick-actions', index)"
                     class="group grid grid-cols-[auto_1fr_auto] items-start gap-4 rounded-md border border-slate-200 p-4 transition hover:border-[#0b6680] hover:bg-slate-50 dark:border-white/10 dark:hover:border-sky-400/60 dark:hover:bg-white/5"
                 >
                     <span
@@ -305,8 +452,19 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="about" class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
+        <section
+            id="about"
+            data-scroll-section="about"
+            class="relative isolate overflow-hidden bg-[#f7f8f5] bg-cover bg-center bg-no-repeat py-16 lg:bg-fixed dark:bg-slate-950"
+            :style="
+                parallaxBackground(
+                    sectionImages.about,
+                    'linear-gradient(115deg, rgba(247,248,245,.97), rgba(247,248,245,.88) 58%, rgba(6,43,73,.74))',
+                )
+            "
+        >
             <div
+                :class="revealClasses('about', 'right')"
                 class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
             >
                 <div>
@@ -323,7 +481,7 @@ const governanceLinks: Feature[] = [
                 </div>
                 <div class="grid gap-6 md:grid-cols-2">
                     <article
-                        class="rounded-md border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/5"
+                        class="rounded-md border border-slate-200 bg-white/90 p-6 shadow-sm shadow-slate-900/5 backdrop-blur dark:border-white/10 dark:bg-slate-950/70"
                     >
                         <h3
                             class="text-lg font-semibold text-slate-950 dark:text-white"
@@ -338,7 +496,7 @@ const governanceLinks: Feature[] = [
                         </p>
                     </article>
                     <article
-                        class="rounded-md border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/5"
+                        class="rounded-md border border-slate-200 bg-white/90 p-6 shadow-sm shadow-slate-900/5 backdrop-blur dark:border-white/10 dark:bg-slate-950/70"
                     >
                         <h3
                             class="text-lg font-semibold text-slate-950 dark:text-white"
@@ -356,8 +514,21 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="academics" class="bg-white py-16 dark:bg-slate-900">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section
+            id="academics"
+            data-scroll-section="academics"
+            class="relative isolate overflow-hidden bg-white bg-cover bg-center bg-no-repeat py-16 lg:bg-fixed dark:bg-slate-900"
+            :style="
+                parallaxBackground(
+                    sectionImages.academics,
+                    'linear-gradient(100deg, rgba(255,255,255,.98), rgba(255,255,255,.92) 64%, rgba(230,243,245,.82))',
+                )
+            "
+        >
+            <div
+                :class="revealClasses('academics')"
+                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+            >
                 <div
                     class="flex flex-col justify-between gap-6 md:flex-row md:items-end"
                 >
@@ -376,7 +547,7 @@ const governanceLinks: Feature[] = [
                     </div>
                     <a
                         href="#campuses"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#062b49] dark:text-sky-200"
+                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
                     >
                         View campuses
                         <ArrowRight class="size-4" aria-hidden="true" />
@@ -385,9 +556,10 @@ const governanceLinks: Feature[] = [
 
                 <div class="mt-8 grid gap-4 md:grid-cols-3">
                     <article
-                        v-for="track in academicTracks"
+                        v-for="(track, index) in academicTracks"
                         :key="track.title"
-                        class="rounded-md border border-slate-200 bg-[#fbfcfa] p-6 dark:border-white/10 dark:bg-white/5"
+                        :style="staggerDelay('academics', index)"
+                        class="rounded-md border border-slate-200 bg-white/[0.88] p-6 shadow-sm shadow-slate-900/5 backdrop-blur transition hover:-translate-y-1 hover:border-[#0b6680]/50 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-slate-950/70"
                     >
                         <component
                             :is="track.icon"
@@ -409,8 +581,16 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="updates" class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section
+            id="news"
+            tabindex="-1"
+            data-scroll-section="news"
+            class="bg-[#f7f8f5] py-16 dark:bg-slate-950"
+        >
+            <div
+                :class="revealClasses('news')"
+                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+            >
                 <div
                     class="grid items-start gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(24rem,0.85fr)]"
                 >
@@ -434,7 +614,7 @@ const governanceLinks: Feature[] = [
                             />
                             <div
                                 v-else
-                                class="absolute inset-0 grid place-items-center bg-[#062b49]"
+                                class="absolute inset-0 grid place-items-center bg-[#1711d4]"
                             >
                                 <Megaphone
                                     class="size-14 text-white/60"
@@ -552,7 +732,7 @@ const governanceLinks: Feature[] = [
                                     </span>
                                 </div>
                                 <h3
-                                    class="mt-2 line-clamp-2 font-sans text-sm leading-6 font-semibold tracking-normal text-slate-950 transition group-hover:text-[#062b49] dark:text-white dark:group-hover:text-sky-100"
+                                    class="mt-2 line-clamp-2 font-sans text-sm leading-6 font-semibold tracking-normal text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                                 >
                                     {{ item.title }}
                                 </h3>
@@ -563,6 +743,28 @@ const governanceLinks: Feature[] = [
                                 </p>
                             </div>
                         </Link>
+
+                        <Link
+                            :href="newsIndex()"
+                            class="group mt-1 inline-flex min-h-12 w-full items-center justify-between gap-3 rounded-md border border-[#9b1c31]/25 bg-white px-4 py-3 text-left text-sm font-semibold text-[#1711d4] shadow-sm shadow-slate-900/5 transition hover:border-[#9b1c31]/50 hover:bg-[#fff8f9] dark:border-rose-300/25 dark:bg-white/5 dark:text-sky-100 dark:hover:border-rose-200/50 dark:hover:bg-white/[0.08]"
+                        >
+                            <span class="min-w-0">
+                                <span class="block"> See more news </span>
+                                <span
+                                    class="mt-0.5 block text-xs font-medium text-slate-500 dark:text-slate-400"
+                                >
+                                    Browse the full NEMSU newsroom
+                                </span>
+                            </span>
+                            <span
+                                class="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-[#1711d4] text-white transition group-hover:bg-[#9b1c31]"
+                            >
+                                <ArrowRight
+                                    class="size-4 transition group-hover:translate-x-1"
+                                    aria-hidden="true"
+                                />
+                            </span>
+                        </Link>
                         <article
                             v-if="props.pressReleases.length === 0"
                             class="rounded-md border border-dashed border-slate-300 bg-white p-6 text-sm text-slate-600 dark:border-white/15 dark:bg-white/5 dark:text-slate-300"
@@ -572,11 +774,104 @@ const governanceLinks: Feature[] = [
                         </article>
                     </div>
                 </div>
+
+                <div
+                    class="mt-10 border-t border-slate-200 pt-8 dark:border-white/10"
+                >
+                    <div>
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
+                        >
+                            Announcements
+                        </p>
+                        <h2
+                            class="mt-3 max-w-2xl text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        >
+                            Time-sensitive notices from university offices
+                        </h2>
+                    </div>
+
+                    <div
+                        v-if="props.announcements.length > 0"
+                        class="mt-6 grid gap-4 md:grid-cols-3"
+                    >
+                        <Link
+                            v-for="item in props.announcements"
+                            :key="item.id"
+                            :href="newsShow(item.slug)"
+                            class="group flex min-h-48 flex-col rounded-md border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:border-[#0b6680]/55 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-sky-300/50"
+                        >
+                            <div class="flex items-start justify-between gap-4">
+                                <span
+                                    class="inline-flex size-11 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                                >
+                                    <Megaphone
+                                        class="size-5"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 rounded bg-[#e6f3f5] px-2.5 py-1 text-xs font-semibold text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
+                                >
+                                    <CalendarDays
+                                        class="size-3.5"
+                                        aria-hidden="true"
+                                    />
+                                    {{ item.date }}
+                                </span>
+                            </div>
+
+                            <div class="mt-5 min-w-0">
+                                <p
+                                    class="text-xs font-semibold tracking-wide text-[#795200] uppercase dark:text-[#f2b705]"
+                                >
+                                    {{ item.type }}
+                                </p>
+                                <h3
+                                    class="mt-2 line-clamp-2 text-lg leading-7 font-semibold tracking-normal text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
+                                >
+                                    {{ item.title }}
+                                </h3>
+                                <p
+                                    v-if="item.excerpt"
+                                    class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                                >
+                                    {{ item.excerpt }}
+                                </p>
+                            </div>
+
+                            <div
+                                class="mt-auto flex items-center justify-between gap-4 pt-5 text-xs font-medium text-slate-500 dark:text-slate-400"
+                            >
+                                <span class="truncate">{{ item.office }}</span>
+                                <ArrowRight
+                                    class="size-4 shrink-0 transition group-hover:translate-x-1 group-hover:text-[#0b6680] dark:group-hover:text-sky-200"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                        </Link>
+                    </div>
+
+                    <article
+                        v-else
+                        class="mt-6 rounded-md border border-dashed border-slate-300 bg-white p-6 text-sm leading-7 text-slate-600 dark:border-white/15 dark:bg-white/5 dark:text-slate-300"
+                    >
+                        Announcements will appear here after published
+                        announcement records are available.
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section id="campuses" class="bg-white py-16 dark:bg-slate-900">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section
+            id="campuses"
+            data-scroll-section="campuses"
+            class="bg-white py-16 dark:bg-slate-900"
+        >
+            <div
+                :class="revealClasses('campuses', 'left')"
+                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+            >
                 <div class="max-w-2xl">
                     <p
                         class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
@@ -591,9 +886,10 @@ const governanceLinks: Feature[] = [
                 </div>
                 <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                     <article
-                        v-for="campus in campuses"
+                        v-for="(campus, index) in campuses"
                         :key="campus.name"
-                        class="rounded-md border border-slate-200 p-5 dark:border-white/10"
+                        :style="staggerDelay('campuses', index)"
+                        class="rounded-md border border-slate-200 p-5 transition hover:-translate-y-1 hover:border-[#2f6f4e]/50 hover:bg-[#f8fcf8] dark:border-white/10 dark:hover:bg-white/5"
                     >
                         <div class="flex items-center gap-3">
                             <span
@@ -624,8 +920,19 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="research" class="bg-[#062b49] py-16 text-white">
+        <section
+            id="research"
+            data-scroll-section="research"
+            class="bg-[#1711d4] bg-cover bg-center bg-no-repeat py-16 text-white lg:bg-fixed"
+            :style="
+                parallaxBackground(
+                    sectionImages.research,
+                    'linear-gradient(100deg, rgba(6,43,73,.96), rgba(6,43,73,.82) 58%, rgba(6,43,73,.58))',
+                )
+            "
+        >
             <div
+                :class="revealClasses('research')"
                 class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8"
             >
                 <div class="lg:col-span-1">
@@ -639,7 +946,9 @@ const governanceLinks: Feature[] = [
                     </h2>
                 </div>
                 <div class="grid gap-4 md:grid-cols-3 lg:col-span-2">
-                    <article class="rounded-md border border-white/15 p-5">
+                    <article
+                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
+                    >
                         <Microscope
                             class="size-7 text-[#f2b705]"
                             aria-hidden="true"
@@ -649,7 +958,9 @@ const governanceLinks: Feature[] = [
                             Centers, publications, manuals, and research news.
                         </p>
                     </article>
-                    <article class="rounded-md border border-white/15 p-5">
+                    <article
+                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
+                    >
                         <Sparkles
                             class="size-7 text-[#f2b705]"
                             aria-hidden="true"
@@ -659,7 +970,9 @@ const governanceLinks: Feature[] = [
                             Patents, utility models, copyrights, and trademarks.
                         </p>
                     </article>
-                    <article class="rounded-md border border-white/15 p-5">
+                    <article
+                        class="rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur transition hover:-translate-y-1 hover:border-[#f2b705]/45 hover:bg-white/[0.12]"
+                    >
                         <Users
                             class="size-7 text-[#f2b705]"
                             aria-hidden="true"
@@ -673,8 +986,15 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="governance" class="bg-white py-16 dark:bg-slate-900">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section
+            id="governance"
+            data-scroll-section="governance"
+            class="bg-white py-16 dark:bg-slate-900"
+        >
+            <div
+                :class="revealClasses('governance', 'right')"
+                class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+            >
                 <div class="max-w-2xl">
                     <p
                         class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
@@ -689,9 +1009,10 @@ const governanceLinks: Feature[] = [
                 </div>
                 <div class="mt-8 grid gap-4 md:grid-cols-3">
                     <a
-                        v-for="item in governanceLinks"
+                        v-for="(item, index) in governanceLinks"
                         :key="item.title"
                         :href="item.href"
+                        :style="staggerDelay('governance', index)"
                         class="rounded-md border border-slate-200 p-6 transition hover:border-[#9b1c31] hover:bg-[#fff8f9] dark:border-white/10 dark:hover:border-rose-300/60 dark:hover:bg-white/5"
                     >
                         <component
@@ -714,8 +1035,19 @@ const governanceLinks: Feature[] = [
             </div>
         </section>
 
-        <section id="services" class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
+        <section
+            id="services"
+            data-scroll-section="services"
+            class="bg-[#f7f8f5] bg-cover bg-center bg-no-repeat py-16 lg:bg-fixed dark:bg-slate-950"
+            :style="
+                parallaxBackground(
+                    sectionImages.services,
+                    'linear-gradient(100deg, rgba(247,248,245,.97), rgba(247,248,245,.9) 58%, rgba(6,43,73,.76))',
+                )
+            "
+        >
             <div
+                :class="revealClasses('services')"
                 class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8"
             >
                 <div>
@@ -739,7 +1071,7 @@ const governanceLinks: Feature[] = [
                 </div>
                 <div class="grid gap-3 sm:grid-cols-2">
                     <a
-                        v-for="label in [
+                        v-for="(label, index) in [
                             'Admission',
                             'Directory',
                             'Registrar',
@@ -749,7 +1081,8 @@ const governanceLinks: Feature[] = [
                         ]"
                         :key="label"
                         href="#services"
-                        class="inline-flex items-center justify-between rounded-md border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 dark:border-white/10 dark:bg-white/5 dark:text-white"
+                        :style="staggerDelay('services', index)"
+                        class="inline-flex items-center justify-between rounded-md border border-slate-200 bg-white/90 px-4 py-3 text-sm font-semibold text-slate-800 shadow-sm shadow-slate-900/5 backdrop-blur transition hover:-translate-y-0.5 hover:border-[#0b6680]/50 hover:bg-white dark:border-white/10 dark:bg-slate-950/70 dark:text-white"
                     >
                         {{ label }}
                         <ArrowRight
