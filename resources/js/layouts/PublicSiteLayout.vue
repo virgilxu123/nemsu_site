@@ -20,10 +20,16 @@ import {
 } from 'lucide-vue-next';
 import { ref } from 'vue';
 import { dashboard, home } from '@/routes';
-import { boardOfRegents, officeOfThePresident } from '@/routes/about';
+import {
+    boardOfRegents,
+    officeOfThePresident,
+    university,
+} from '@/routes/about';
+import { transparencySeal } from '@/routes/administration';
 
 type NavGroup = {
     label: string;
+    shortLabel?: string;
     columns: {
         heading: string;
         links: {
@@ -42,10 +48,19 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'University',
                 links: [
-                    { label: 'History', href: '#about' },
-                    { label: 'Vision and Mission', href: '#about' },
-                    { label: 'Core Values', href: '#about' },
-                    { label: 'University Seal', href: '#about' },
+                    { label: 'History', href: `${university().url}#history` },
+                    {
+                        label: 'Vision and Mission',
+                        href: `${university().url}#vision-and-mission`,
+                    },
+                    {
+                        label: 'Core Values',
+                        href: `${university().url}#core-values`,
+                    },
+                    {
+                        label: 'University Seal',
+                        href: `${university().url}#university-seal`,
+                    },
                 ],
             },
             {
@@ -64,27 +79,45 @@ const navGroups: NavGroup[] = [
         label: 'Administration',
         columns: [
             {
-                heading: 'Vice Presidents',
+                heading: 'Administration and Finance',
                 links: [
+                    { label: 'OVPAF Profile', href: '#governance' },
                     {
-                        label: 'Administration and Finance',
+                        label: 'Offices under OVPAF',
                         href: '#governance',
                     },
-                    {
-                        label: 'Planning and Strategic Initiatives',
-                        href: '#governance',
-                    },
-                    { label: 'Academic Affairs', href: '#academics' },
+                    // { label: 'Unit Head', href: '#governance' },
+                    // { label: 'Email', href: '#governance' },
+                    // { label: 'Contact Details', href: '#governance' },
                 ],
             },
             {
                 heading: 'Good Governance',
                 links: [
-                    { label: 'Transparency Seal', href: '#governance' },
+                    { label: 'Transparency Seal', href: transparencySeal().url },
                     { label: 'Freedom of Information', href: '#governance' },
                     { label: "Citizen's Charter", href: '#governance' },
-                    { label: 'BAC Matters', href: '#governance' },
                 ],
+            },
+        ],
+    },
+    {
+        label: 'Planning and Strategic Initiatives',
+        shortLabel: 'Planning & Strategy',
+        columns: [
+            {
+                heading: 'OVPSI',
+                links: [
+                    { label: 'Profile', href: '#governance' },
+                    { label: 'Offices under OVPSI', href: '#governance' },
+                    // { label: 'Unit Head', href: '#governance' },
+                    // { label: 'Email', href: '#governance' },
+                    // { label: 'Contact Details', href: '#governance' },
+                ],
+            },
+            {
+                heading: 'Procurement',
+                links: [{ label: 'BAC Matters', href: '#governance' }],
             },
         ],
     },
@@ -92,7 +125,17 @@ const navGroups: NavGroup[] = [
         label: 'Academics',
         columns: [
             {
-                heading: 'Programs',
+                heading: 'Academic Affairs',
+                links: [
+                    { label: 'OVPAA Profile', href: '#academics' },
+                    { label: 'Offices under OVPAA', href: '#academics' },
+                    // { label: 'Unit Head', href: '#academics' },
+                    // { label: 'Email', href: '#academics' },
+                    // { label: 'Contact Details', href: '#academics' },
+                ],
+            },
+            {
+                heading: 'Program Offerings',
                 links: [
                     { label: 'Undergraduate Programs', href: '#academics' },
                     { label: 'Graduate School Programs', href: '#academics' },
@@ -100,13 +143,33 @@ const navGroups: NavGroup[] = [
                     { label: 'College of Medicine', href: '#academics' },
                 ],
             },
+        ],
+    },
+    {
+        label: 'Research, Innovation, and Extension',
+        shortLabel: 'RIE',
+        columns: [
             {
-                heading: 'Support',
+                heading: 'OVPRIE',
                 links: [
-                    { label: 'Admission', href: '#services' },
-                    { label: 'Registrar', href: '#services' },
-                    { label: 'Guidance Office', href: '#services' },
-                    { label: 'University Library', href: '#services' },
+                    { label: 'Profile', href: '#research' },
+                    { label: 'RIE Manual', href: '#research' },
+                    { label: 'Offices under OVPRIE', href: '#research' },
+                    { label: 'Research Office', href: '#research' },
+                    { label: 'Innovation Office', href: '#research' },
+                    { label: 'Extension Office', href: '#research' },
+                ],
+            },
+            {
+                heading: 'Research, Innovation, Extension',
+                links: [
+                    { label: 'Research Centers', href: '#research' },
+                    { label: 'Publication', href: '#research' },
+                    {
+                        label: 'Patents, UI, Copyrights and Trademarks',
+                        href: '#research',
+                    },
+                    { label: 'News and Updates', href: '#research' },
                 ],
             },
         ],
@@ -198,7 +261,7 @@ const utilityLinks = [
                     </span>
                 </Link>
 
-                <nav class="hidden items-center gap-1 lg:flex">
+                <nav class="hidden items-center gap-1 xl:flex">
                     <div
                         v-for="group in navGroups"
                         :key="group.label"
@@ -206,13 +269,14 @@ const utilityLinks = [
                     >
                         <button
                             type="button"
-                            class="inline-flex h-10 items-center gap-1 rounded-md px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+                            class="inline-flex h-10 items-center gap-1 whitespace-nowrap rounded-md px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+                            :title="group.label"
                         >
-                            {{ group.label }}
+                            {{ group.shortLabel ?? group.label }}
                             <ChevronDown class="size-4" aria-hidden="true" />
                         </button>
                         <div
-                            class="invisible absolute top-full left-0 w-[34rem] translate-y-2 rounded-md border border-slate-200 bg-white p-4 opacity-0 shadow-xl shadow-slate-900/10 transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-slate-900"
+                            class="invisible absolute top-full left-0 w-136 translate-y-2 rounded-md border border-slate-200 bg-white p-4 opacity-0 shadow-xl shadow-slate-900/10 transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-slate-900"
                         >
                             <div class="grid grid-cols-2 gap-4">
                                 <section
@@ -239,7 +303,7 @@ const utilityLinks = [
                     </div>
                 </nav>
 
-                <div class="hidden items-center gap-2 lg:flex">
+                <div class="hidden items-center gap-2 xl:flex">
                     <button
                         type="button"
                         class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/10"
@@ -260,7 +324,7 @@ const utilityLinks = [
 
                 <button
                     type="button"
-                    class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-800 lg:hidden dark:border-white/10 dark:text-white"
+                    class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-800 xl:hidden dark:border-white/10 dark:text-white"
                     aria-label="Toggle menu"
                     @click="mobileOpen = !mobileOpen"
                 >
@@ -271,7 +335,7 @@ const utilityLinks = [
 
             <div
                 v-if="mobileOpen"
-                class="border-t border-slate-200 bg-white px-4 py-4 lg:hidden dark:border-white/10 dark:bg-slate-950"
+                class="border-t border-slate-200 bg-white px-4 py-4 xl:hidden dark:border-white/10 dark:bg-slate-950"
             >
                 <nav class="mx-auto grid max-w-7xl gap-3">
                     <details
@@ -548,7 +612,7 @@ const utilityLinks = [
                                 Certification
                             </a>
                             <a
-                                href="#governance"
+                                :href="transparencySeal().url"
                                 class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
                             >
                                 <ShieldCheck
