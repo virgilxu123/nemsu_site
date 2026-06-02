@@ -33,7 +33,7 @@ class LegacyNemsuSqlSeeder extends Seeder
      */
     public function run(): void
     {
-        $sqlPath = env('LEGACY_NEMSU_SQL_PATH', 'C:\Users\Me\Downloads\nemsuedu_site_db.sql');
+        $sqlPath = env('LEGACY_NEMSU_SQL_PATH');
 
         if (! is_file($sqlPath)) {
             throw new RuntimeException("Legacy SQL dump not found at [{$sqlPath}].");

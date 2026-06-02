@@ -21,6 +21,7 @@ import {
 import { ref } from 'vue';
 import { dashboard, home } from '@/routes';
 import { boardOfRegents, officeOfThePresident } from '@/routes/about';
+import { index as announcementsIndex } from '@/routes/announcements';
 
 type NavGroup = {
     label: string;
@@ -137,6 +138,7 @@ const navGroups: NavGroup[] = [
 ];
 
 const utilityLinks = [
+    { label: 'Announcements', href: announcementsIndex().url },
     { label: 'Sustainability', href: '#about' },
     { label: 'Online Services', href: '#services' },
     { label: 'Directory', href: '#footer' },

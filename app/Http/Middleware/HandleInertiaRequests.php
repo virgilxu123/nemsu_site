@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Navigation\ResolveNavigationItemUrl;
+use App\Models\NavigationItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -40,8 +43,49 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'can' => [
+                    'manageCms' => $request->user()?->can('manage-cms') ?? false,
+                ],
+            ],
+            'navigation' => fn (): array => [
+                'main' => $this->navigationTree('main'),
+                'footer' => $this->navigationTree('footer'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
+    }
+
+    /**
+     * @return list<array{id: string, label: string, url: string, children: list<array{id: string, label: string, url: string, children: array}>}>
+     */
+    private function navigationTree(string $location): array
+    {
+        $items = NavigationItem::query()
+            ->select(['id', 'parent_id', 'location', 'label', 'url', 'route_name', 'target_type', 'target_id', 'sort_order'])
+            ->where('location', $location)
+            ->where('is_active', true)
+            ->orderBy('sort_order')
+            ->orderBy('label')
+            ->get();
+
+        $groupedItems = $items->groupBy(fn (NavigationItem $item): string => $item->parent_id ?? 'root');
+        $resolver = app(ResolveNavigationItemUrl::class);
+
+        $build = function (string $parentId) use (&$build, $groupedItems, $resolver): array {
+            /** @var Collection<int, NavigationItem> $children */
+            $children = $groupedItems->get($parentId, collect());
+
+            return $children
+                ->map(fn (NavigationItem $item): array => [
+                    'id' => $item->id,
+                    'label' => $item->label,
+                    'url' => $resolver->handle($item),
+                    'children' => $build($item->id),
+                ])
+                ->values()
+                ->all();
+        };
+
+        return $build('root');
     }
 }

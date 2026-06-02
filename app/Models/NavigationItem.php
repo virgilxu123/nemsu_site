@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Concerns\Searchable;
+use App\Concerns\Sortable;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['parent_id', 'location', 'label', 'url', 'route_name', 'target_type', 'target_id', 'sort_order', 'is_active'])]
 class NavigationItem extends Model
 {
-    use HasUuids;
+    use HasFactory, HasUuids, Searchable, Sortable;
 
     protected $attributes = [
         'sort_order' => 0,
@@ -20,7 +23,7 @@ class NavigationItem extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id')->orderBy('sort_order')->orderBy('label');
     }
 
     public function parent(): BelongsTo

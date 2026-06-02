@@ -12,3 +12,15 @@ export type NavItem = {
     icon?: LucideIcon;
     isActive?: boolean;
 };
+
+export type CmsNavigationItem = {
+    id: string;
+    label: string;
+    url: string;
+    children: CmsNavigationItem[];
+};
+
+export type SharedNavigation = {
+    main: CmsNavigationItem[];
+    footer: CmsNavigationItem[];
+};

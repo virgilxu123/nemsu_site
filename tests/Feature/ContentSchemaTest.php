@@ -6,7 +6,7 @@ use App\Models\NavigationItem;
 use App\Models\News;
 use App\Models\Program;
 use App\Models\SiteMetric;
-use Illuminate\Support\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
@@ -72,7 +72,7 @@ test('representative content models support fillable fields and casts', function
         'date' => '2026-05-25 08:00:00',
     ]);
 
-    expect($news->date)->toBeInstanceOf(Carbon::class);
+    expect($news->date)->toBeInstanceOf(CarbonInterface::class);
     expect($news->is_published)->toBeTrue();
     expect($news->featured)->toBeTrue();
 
@@ -94,7 +94,7 @@ test('representative content models support fillable fields and casts', function
 
     expect($page->getKey())->toBeString()->not->toBeEmpty();
     expect($page->status)->toBe('draft');
-    expect($page->published_at)->toBeInstanceOf(Carbon::class);
+    expect($page->published_at)->toBeInstanceOf(CarbonInterface::class);
     expect($page->is_published)->toBeTrue();
 
     $navigationItem = NavigationItem::create([

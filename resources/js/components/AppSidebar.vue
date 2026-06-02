@@ -1,6 +1,15 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import { Link, usePage } from '@inertiajs/vue3';
+import {
+    BookOpen,
+    FileText,
+    FolderGit2,
+    LayoutGrid,
+    Megaphone,
+    MenuSquare,
+    Newspaper,
+} from 'lucide-vue-next';
+import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -15,15 +24,45 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import { index as adminAnnouncementsIndex } from '@/routes/admin/announcements';
+import { index as adminContentPagesIndex } from '@/routes/admin/content-pages';
+import { index as adminNavigationIndex } from '@/routes/admin/navigation';
+import { index as adminNewsIndex } from '@/routes/admin/news';
+import type { Auth, NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
+const page = usePage<{ auth: Auth }>();
+
+const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
+    ...(page.props.auth.can.manageCms
+        ? [
+              {
+                  title: 'Content Pages',
+                  href: adminContentPagesIndex(),
+                  icon: FileText,
+              },
+              {
+                  title: 'News',
+                  href: adminNewsIndex(),
+                  icon: Newspaper,
+              },
+              {
+                  title: 'Announcements',
+                  href: adminAnnouncementsIndex(),
+                  icon: Megaphone,
+              },
+              {
+                  title: 'Navigation',
+                  href: adminNavigationIndex(),
+                  icon: MenuSquare,
+              },
+          ]
+        : []),
+]);
 
 const footerNavItems: NavItem[] = [
     {
