@@ -14,6 +14,7 @@ import {
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import type { Component, CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import WelcomeAtAGlance from '@/pages/welcome-sections/WelcomeAtAGlance.vue';
 import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue';
 import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
 import { index as newsIndex, show as newsShow } from '@/routes/news';
@@ -49,6 +50,22 @@ type Campus = {
     focus: string;
     detail: string;
     location: string;
+};
+
+type GlanceStat = {
+    key: string;
+    label: string;
+    value: string;
+    scope: string;
+    description: string;
+    icon: 'students' | 'personnel' | 'graduates' | 'map';
+};
+
+type MapHighlight = {
+    label: string;
+    description: string;
+    top: string;
+    left: string;
 };
 
 type Metric = {
@@ -128,12 +145,16 @@ const props = withDefaults(
         featuredNews?: NewsItem | null;
         pressReleases?: NewsItem[];
         announcements?: NewsItem[];
+        atAGlanceStats?: GlanceStat[];
+        atAGlanceMapHighlights?: MapHighlight[];
     }>(),
     {
         banners: () => [],
         featuredNews: null,
         pressReleases: () => [],
         announcements: () => [],
+        atAGlanceStats: () => [],
+        atAGlanceMapHighlights: () => [],
     },
 );
 
@@ -150,6 +171,84 @@ const activeHeroSlide = computed<BannerItem>(
 const hasMultipleHeroSlides = computed(() => heroSlides.value.length > 1);
 const isDefaultHeroSlide = computed(
     () => activeHeroSlide.value.id === fallbackHeroSlide.id,
+);
+
+const fallbackAtAGlanceStats: GlanceStat[] = [
+    {
+        key: 'student-population',
+        label: 'Student Population',
+        value: '32,768',
+        scope: 'System-wide',
+        description:
+            'Sample enrollment figure prepared for the public homepage layout.',
+        icon: 'students',
+    },
+    {
+        key: 'faculty-staff-profile',
+        label: 'Faculty and Staff Profile',
+        value: '850+',
+        scope: 'System-wide',
+        description:
+            'Dummy personnel count covering faculty, administrative, and support teams.',
+        icon: 'personnel',
+    },
+    {
+        key: 'graduates',
+        label: 'Number of Graduates',
+        value: '3,200+',
+        scope: 'System-wide',
+        description:
+            'Placeholder graduate output for testing the final content hierarchy.',
+        icon: 'graduates',
+    },
+    {
+        key: 'location-map',
+        label: 'Location Map',
+        value: '7',
+        scope: 'Campuses',
+        description:
+            'Sample campus count connected to the map preview and campus section.',
+        icon: 'map',
+    },
+];
+
+const fallbackAtAGlanceMapHighlights: MapHighlight[] = [
+    {
+        label: 'Tandag',
+        description: 'Main campus',
+        top: '18%',
+        left: '48%',
+    },
+    {
+        label: 'Cantilan',
+        description: 'Northern cluster',
+        top: '34%',
+        left: '30%',
+    },
+    {
+        label: 'Lianga',
+        description: 'Coastal cluster',
+        top: '55%',
+        left: '54%',
+    },
+    {
+        label: 'Bislig',
+        description: 'Southern cluster',
+        top: '70%',
+        left: '38%',
+    },
+];
+
+const atAGlanceStats = computed<GlanceStat[]>(() =>
+    props.atAGlanceStats.length > 0
+        ? props.atAGlanceStats
+        : fallbackAtAGlanceStats,
+);
+
+const atAGlanceMapHighlights = computed<MapHighlight[]>(() =>
+    props.atAGlanceMapHighlights.length > 0
+        ? props.atAGlanceMapHighlights
+        : fallbackAtAGlanceMapHighlights,
 );
 
 const setHeroSlide = (index: number): void => {
@@ -869,6 +968,13 @@ const governanceLinks: Feature[] = [
                 </div>
             </div>
         </section>
+
+        <WelcomeAtAGlance
+            :stats="atAGlanceStats"
+            :map-highlights="atAGlanceMapHighlights"
+            :stagger-delay="staggerDelay"
+            :reveal-classes="revealClasses"
+        />
 
         <WelcomeCampuses
             :campuses="campuses"
