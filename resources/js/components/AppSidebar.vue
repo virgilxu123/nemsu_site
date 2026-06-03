@@ -4,6 +4,7 @@ import {
     BookOpen,
     FileText,
     FolderGit2,
+    Image as ImageIcon,
     LayoutGrid,
     Megaphone,
     MenuSquare,
@@ -25,6 +26,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as adminAnnouncementsIndex } from '@/routes/admin/announcements';
+import { index as adminBannersIndex } from '@/routes/admin/banners';
 import { index as adminContentPagesIndex } from '@/routes/admin/content-pages';
 import { index as adminNavigationIndex } from '@/routes/admin/navigation';
 import { index as adminNewsIndex } from '@/routes/admin/news';
@@ -54,6 +56,11 @@ const mainNavItems = computed<NavItem[]>(() => [
                   title: 'Announcements',
                   href: adminAnnouncementsIndex(),
                   icon: Megaphone,
+              },
+              {
+                  title: 'Banners',
+                  href: adminBannersIndex(),
+                  icon: ImageIcon,
               },
               {
                   title: 'Navigation',
