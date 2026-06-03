@@ -74,7 +74,7 @@ onMounted(() => {
         (entries) => {
             if (entries[0].isIntersecting) {
                 // Dummy values for demonstration
-                animateValue(12450, 'population', 2500);
+                animateValue(32768, 'population', 2500);
                 animateValue(850, 'faculty', 2500);
                 animateValue(3200, 'graduates', 2500);
                 animateValue(props.campuses.length, 'campuses', 2500);
