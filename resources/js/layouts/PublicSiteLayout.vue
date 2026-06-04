@@ -26,6 +26,7 @@ import {
     university,
 } from '@/routes/about';
 import { transparencySeal } from '@/routes/administration';
+import { show as campusShow } from '@/routes/campuses';
 
 type NavGroup = {
     label: string;
@@ -180,19 +181,19 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'NEMSU System',
                 links: [
-                    { label: 'Tandag', href: '#campuses' },
-                    { label: 'Cantilan', href: '#campuses' },
-                    { label: 'San Miguel', href: '#campuses' },
-                    { label: 'Cagwait', href: '#campuses' },
+                    { label: 'Tandag', href: campusShow('tandag').url },
+                    { label: 'Cantilan', href: campusShow('cantilan').url },
+                    { label: 'San Miguel', href: campusShow('san-miguel').url },
+                    { label: 'Cagwait', href: campusShow('cagwait').url },
                 ],
             },
             {
                 heading: 'More Campuses',
                 links: [
-                    { label: 'Lianga', href: '#campuses' },
-                    { label: 'Tagbina', href: '#campuses' },
-                    { label: 'Bislig', href: '#campuses' },
-                    { label: 'Campus Life', href: '#campuses' },
+                    { label: 'Lianga', href: campusShow('lianga').url },
+                    { label: 'Tagbina', href: campusShow('tagbina').url },
+                    { label: 'Bislig', href: campusShow('bislig').url },
+                    { label: 'Campus Life', href: campusShow('tandag').url },
                 ],
             },
         ],

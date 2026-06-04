@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CampusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/campuses/{campus}', [CampusController::class, 'show'])->name('campuses.show');
 Route::inertia('/about/university', 'about/University')->name('about.university');
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::inertia('/about/office-of-the-president', 'about/OfficeOfThePresident')->name('about.office-of-the-president');

@@ -46,6 +46,7 @@ type BannerItem = {
 };
 
 type Campus = {
+    slug: string;
     name: string;
     focus: string;
     detail: string;
@@ -388,42 +389,49 @@ const quickActions: Feature[] = [
 
 const campuses: Campus[] = [
     {
+        slug: 'tandag',
         name: 'Tandag',
         focus: 'Main Campus',
         detail: 'Central administration, graduate studies, engineering, information technology, and medicine.',
         location: 'Tandag City',
     },
     {
+        slug: 'cantilan',
         name: 'Cantilan',
         focus: 'Technology Education',
         detail: 'Industrial technology, trades, and technical education programs.',
         location: 'Cantilan',
     },
     {
+        slug: 'san-miguel',
         name: 'San Miguel',
         focus: 'Agriculture and Forestry',
         detail: 'Agro-forestry, field laboratories, and community-based extension.',
         location: 'San Miguel',
     },
     {
+        slug: 'lianga',
         name: 'Lianga',
         focus: 'Fisheries and Marine Sciences',
         detail: 'Coastal resources, aquaculture, and marine research.',
         location: 'Lianga',
     },
     {
+        slug: 'cagwait',
         name: 'Cagwait',
         focus: 'Industrial Technology',
         detail: 'Technology programs and campus life near the coast.',
         location: 'Cagwait',
     },
     {
+        slug: 'tagbina',
         name: 'Tagbina',
         focus: 'Community-Based Education',
         detail: 'Accessible academic programs and extension services for southern Surigao del Sur communities.',
         location: 'Tagbina',
     },
     {
+        slug: 'bislig',
         name: 'Bislig',
         focus: 'Agroforestry and Industry',
         detail: 'Integrated programs for forestry, engineering, and regional industry.',

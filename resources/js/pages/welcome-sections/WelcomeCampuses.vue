@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
 import { ArrowRight, Building2, MapPin, Navigation } from 'lucide-vue-next';
 import { ref, onMounted, onUnmounted } from 'vue';
 import type { CSSProperties } from 'vue';
+import { show as campusShow } from '@/routes/campuses';
 
-type Campus = { name: string; focus: string; detail: string; location: string };
+type Campus = {
+    slug: string;
+    name: string;
+    focus: string;
+    detail: string;
+    location: string;
+};
 type CampusPhoto = { primary: string; secondary: string };
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -162,22 +170,23 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <a
-                    href="#services"
+                <Link
+                    :href="campusShow('tandag')"
                     class="mt-8 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white transition hover:bg-white/[0.16]"
                 >
-                    Campus services
+                    View main campus
                     <ArrowRight class="size-4" aria-hidden="true" />
-                </a>
+                </Link>
             </div>
 
             <div
                 class="grid gap-4 lg:py-16 lg:pr-8"
                 aria-label="NEMSU campuses"
             >
-                <article
+                <Link
                     v-for="(campus, index) in campuses"
                     :key="campus.name"
+                    :href="campusShow(campus.slug)"
                     :data-scroll-section="`campus-row-${index}`"
                     :class="[
                         'group grid min-h-64 gap-6 rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur hover:border-[#f2b705]/45 hover:bg-white/[0.12] sm:p-6 xl:grid-cols-[minmax(19rem,0.9fr)_1fr]',
@@ -260,7 +269,7 @@ onUnmounted(() => {
                             <span>Graduates</span>
                         </div>
                     </div>
-                </article>
+                </Link>
             </div>
         </div>
     </section>
