@@ -25,6 +25,7 @@ import {
     officeOfThePresident,
     university,
 } from '@/routes/about';
+import { academicAffairs } from '@/routes/academics';
 import { transparencySeal } from '@/routes/administration';
 import { show as campusShow } from '@/routes/campuses';
 
@@ -128,8 +129,14 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Academic Affairs',
                 links: [
-                    { label: 'OVPAA Profile', href: '#academics' },
-                    { label: 'Offices under OVPAA', href: '#academics' },
+                    {
+                        label: 'OVPAA Profile',
+                        href: `${academicAffairs().url}#ovpaa-profile`,
+                    },
+                    {
+                        label: 'Offices under OVPAA',
+                        href: `${academicAffairs().url}#ovpaa-offices`,
+                    },
                     // { label: 'Unit Head', href: '#academics' },
                     // { label: 'Email', href: '#academics' },
                     // { label: 'Contact Details', href: '#academics' },
@@ -138,10 +145,22 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Program Offerings',
                 links: [
-                    { label: 'Undergraduate Programs', href: '#academics' },
-                    { label: 'Graduate School Programs', href: '#academics' },
-                    { label: 'College of Law', href: '#academics' },
-                    { label: 'College of Medicine', href: '#academics' },
+                    {
+                        label: 'Undergraduate Programs',
+                        href: `${academicAffairs().url}#undergraduate-programs`,
+                    },
+                    {
+                        label: 'Graduate School Programs',
+                        href: `${academicAffairs().url}#graduate-school-programs`,
+                    },
+                    {
+                        label: 'College of Law',
+                        href: `${academicAffairs().url}#college-of-law`,
+                    },
+                    {
+                        label: 'College of Medicine',
+                        href: `${academicAffairs().url}#college-of-medicine`,
+                    },
                 ],
             },
         ],
