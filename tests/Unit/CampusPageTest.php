@@ -11,22 +11,33 @@ test('campus page can be viewed', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('campuses/Show')
             ->has('campuses', 7)
-            ->has('campus', fn (Assert $page) => $page
-                ->where('slug', 'tandag')
-                ->where('name', 'Tandag Campus')
-                ->has('profile')
-                ->has('director')
-                ->has('facilities')
-                ->has('programs')
-                ->has('services')
-                ->has('studentGovernment')
-                ->has('updates')
-                ->etc()
-            )
+            ->where('campus.slug', 'tandag')
+            ->where('campus.name', 'Tandag Campus')
+            ->has('campus.profile')
+            ->has('campus.director')
+            ->has('campus.facilities')
+            ->has('campus.facilityGallery', 19)
+            ->has('campus.programs')
+            ->has('campus.services')
+            ->has('campus.studentGovernment')
+            ->has('campus.updates')
         );
 });
 
 test('unknown campus returns not found', function () {
     $this->get('/campuses/unknown-campus')
         ->assertNotFound();
+});
+
+test('all campus data files are loaded', function () {
+    expect(config('campus_profiles'))
+        ->toHaveKeys([
+            'tandag',
+            'cantilan',
+            'san-miguel',
+            'lianga',
+            'cagwait',
+            'tagbina',
+            'bislig',
+        ]);
 });

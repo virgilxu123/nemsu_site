@@ -3,7 +3,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import {
     ArrowRight,
     BadgeCheck,
-    Building2,
     CalendarDays,
     GraduationCap,
     HeartHandshake,
@@ -27,6 +26,16 @@ type Stat = {
 type ProgramGroup = {
     college: string;
     offerings: string[];
+};
+
+type FacilityGalleryItem = {
+    image: string;
+    alt: string;
+    title?: string;
+    description?: string;
+    category?: string;
+    featured?: boolean;
+    wide?: boolean;
 };
 
 type Campus = {
@@ -57,6 +66,7 @@ type Campus = {
     };
     stats: Stat[];
     facilities: string[];
+    facilityGallery: FacilityGalleryItem[];
     programs: ProgramGroup[];
     campusLife: string[];
     services: string[];
@@ -178,29 +188,32 @@ defineProps<{
 
         <section class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
+                class="mx-auto grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8"
             >
-                <div>
+                <article class="max-w-4xl">
                     <p
                         class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                     >
-                        Profile of the Campus
+                        About the Campus
                     </p>
                     <h2
-                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        class="mt-3 max-w-3xl text-3xl leading-tight font-semibold tracking-normal text-slate-950 dark:text-white sm:text-4xl"
                     >
                         {{ campus.profile.headline }}
                     </h2>
-                    <p class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    <p
+                        class="mt-6 whitespace-pre-line text-base leading-8 text-slate-600 dark:text-slate-300"
+                    >
                         {{ campus.profile.overview }}
                     </p>
-                </div>
+                </article>
 
-                <div class="grid gap-4 sm:grid-cols-2">
+                <aside class="grid gap-4 lg:sticky lg:top-24">
                     <article
-                        class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
+                        class="relative overflow-hidden rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
                     >
-                        <div class="flex items-start gap-4">
+                        <div class="absolute inset-x-0 top-0 h-1 bg-[#1711d4]"></div>
+                        <div class="flex items-center gap-4">
                             <span
                                 class="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-[#e6f3f5] text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
                             >
@@ -218,84 +231,199 @@ defineProps<{
                                 </p>
                             </div>
                         </div>
-                        <div class="mt-5 grid gap-2 text-sm text-slate-600 dark:text-slate-300">
-                            <a :href="`mailto:${campus.director.email}`" class="inline-flex items-center gap-2 hover:text-[#1711d4] dark:hover:text-sky-200">
-                                <Mail class="size-4" aria-hidden="true" />
+                        <div
+                            class="mt-6 grid gap-2 border-t border-slate-200 pt-5 text-sm text-slate-600 dark:border-white/10 dark:text-slate-300"
+                        >
+                            <a
+                                :href="`mailto:${campus.director.email}`"
+                                class="inline-flex min-h-10 items-center gap-3 rounded-md px-3 transition hover:bg-[#e6f3f5] hover:text-[#1711d4] dark:hover:bg-white/10 dark:hover:text-sky-200"
+                            >
+                                <Mail class="size-4 shrink-0" aria-hidden="true" />
                                 {{ campus.director.email }}
                             </a>
-                            <a :href="`tel:${campus.director.phone}`" class="inline-flex items-center gap-2 hover:text-[#1711d4] dark:hover:text-sky-200">
-                                <Phone class="size-4" aria-hidden="true" />
+                            <a
+                                :href="`tel:${campus.director.phone}`"
+                                class="inline-flex min-h-10 items-center gap-3 rounded-md px-3 transition hover:bg-[#e6f3f5] hover:text-[#1711d4] dark:hover:bg-white/10 dark:hover:text-sky-200"
+                            >
+                                <Phone class="size-4 shrink-0" aria-hidden="true" />
                                 {{ campus.director.phone }}
                             </a>
                         </div>
                     </article>
 
                     <article
-                        class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
+                        class="relative overflow-hidden rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
                     >
-                        <span
-                            class="inline-flex size-12 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                        <div class="absolute inset-x-0 top-0 h-1 bg-[#f2b705]"></div>
+                        <div class="flex items-center gap-4">
+                            <span
+                                class="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                            >
+                                <MapPin class="size-5" aria-hidden="true" />
+                            </span>
+                            <div>
+                                <p class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
+                                    Visit the Campus
+                                </p>
+                                <h3 class="mt-2 font-semibold text-slate-950 dark:text-white">
+                                    Contact Details
+                                </h3>
+                            </div>
+                        </div>
+                        <div
+                            class="mt-6 grid gap-4 border-t border-slate-200 pt-5 text-sm leading-6 text-slate-600 dark:border-white/10 dark:text-slate-300"
                         >
-                            <MapPin class="size-5" aria-hidden="true" />
-                        </span>
-                        <h3 class="mt-5 font-semibold text-slate-950 dark:text-white">
-                            Contact Details
-                        </h3>
-                        <div class="mt-4 grid gap-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                            <p>{{ campus.contact.address }}</p>
-                            <p>{{ campus.contact.email }}</p>
-                            <p>{{ campus.contact.phone }}</p>
-                            <p>{{ campus.contact.officeHours }}</p>
+                            <p class="flex gap-3">
+                                <MapPin class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
+                                <span>{{ campus.contact.address }}</span>
+                            </p>
+                            <a
+                                :href="`mailto:${campus.contact.email}`"
+                                class="flex gap-3 transition hover:text-[#1711d4] dark:hover:text-sky-200"
+                            >
+                                <Mail class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
+                                <span>{{ campus.contact.email }}</span>
+                            </a>
+                            <a
+                                :href="`tel:${campus.contact.phone}`"
+                                class="flex gap-3 transition hover:text-[#1711d4] dark:hover:text-sky-200"
+                            >
+                                <Phone class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
+                                <span>{{ campus.contact.phone }}</span>
+                            </a>
+                            <p class="flex gap-3">
+                                <CalendarDays class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
+                                <span>{{ campus.contact.officeHours }}</span>
+                            </p>
                         </div>
                     </article>
-                </div>
+                </aside>
             </div>
         </section>
 
         <section class="bg-white py-16 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+                <div class="flex items-end justify-between gap-4">
                     <div>
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
+                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             Facilities
                         </p>
-                        <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                            Learning spaces and service points
-                        </h2>
+                        <h3 class="mt-2 text-xl font-semibold text-slate-950 dark:text-white">
+                            Spaces across the campus
+                        </h3>
                     </div>
-                    <div class="grid gap-3 sm:grid-cols-2">
-                        <div
-                            v-for="facility in campus.facilities"
-                            :key="facility"
-                            class="flex items-center gap-3 rounded-md border border-slate-200 p-4 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
-                        >
-                            <Building2 class="size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
-                            {{ facility }}
-                        </div>
-                    </div>
+                    <span
+                        class="shrink-0 text-sm font-medium text-slate-500 dark:text-slate-400"
+                    >
+                        {{ campus.facilityGallery.length }} photos
+                    </span>
                 </div>
 
-                <div class="mt-14 grid gap-4 md:grid-cols-2">
+                <div
+                    v-if="campus.facilityGallery.length"
+                    class="mt-6 grid gap-4 sm:grid-cols-2 lg:auto-rows-[15rem] lg:grid-flow-dense lg:grid-cols-6"
+                >
+                    <figure
+                        v-for="facility in campus.facilityGallery"
+                        :key="facility.image"
+                        class="group relative min-h-64 overflow-hidden rounded-md border border-slate-200 bg-slate-100 shadow-sm shadow-slate-900/5 lg:min-h-0 dark:border-white/10 dark:bg-slate-800"
+                        :class="[
+                            facility.featured
+                                ? 'sm:col-span-2 lg:col-span-4 lg:row-span-2'
+                                : facility.wide
+                                  ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2'
+                                  : 'lg:col-span-2',
+                        ]"
+                    >
+                        <img
+                            :src="facility.image"
+                            :alt="facility.alt"
+                            loading="lazy"
+                            decoding="async"
+                            class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                        />
+                        <figcaption
+                            v-if="facility.title || facility.description || facility.category"
+                            class="absolute inset-x-0 bottom-0 bg-linear-to-t from-slate-950/90 via-slate-950/65 to-transparent px-5 pt-16 pb-5 text-white"
+                        >
+                            <p
+                                v-if="facility.category"
+                                class="text-xs font-semibold tracking-wide text-[#f2b705] uppercase"
+                            >
+                                {{ facility.category }}
+                            </p>
+                            <h4 v-if="facility.title" class="mt-1 font-semibold">
+                                {{ facility.title }}
+                            </h4>
+                            <p
+                                v-if="facility.description"
+                                class="mt-1 max-w-lg text-sm leading-6 text-sky-100"
+                            >
+                                {{ facility.description }}
+                            </p>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div
+                    v-else
+                    class="mt-6 rounded-md border border-dashed border-slate-300 px-6 py-12 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400"
+                >
+                    Facility photos will be added soon.
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl">
+                    <p
+                        class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                    >
+                        Program Offerings
+                    </p>
+                    <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        Academic pathways available at the campus
+                    </h2>
+                </div>
+
+                <div class="mt-8 columns-1 gap-4 md:columns-2">
                     <article
                         v-for="group in campus.programs"
                         :key="group.college"
-                        class="rounded-md border border-slate-200 bg-[#f7f8f5] p-6 dark:border-white/10 dark:bg-white/5"
+                        class="mb-4 break-inside-avoid-column rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
+                        :class="
+                            group.offerings.length > 10
+                                ? 'border-[#1711d4]/25 ring-1 ring-[#1711d4]/10 dark:border-sky-300/20 dark:ring-sky-300/10'
+                                : ''
+                        "
                     >
-                        <div class="flex items-center gap-3">
-                            <GraduationCap class="size-6 text-[#1711d4] dark:text-sky-200" aria-hidden="true" />
-                            <h3 class="font-semibold text-slate-950 dark:text-white">
-                                {{ group.college }}
-                            </h3>
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex min-w-0 items-start gap-3">
+                                <span
+                                    class="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#e6f3f5] text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200"
+                                >
+                                    <GraduationCap class="size-4" aria-hidden="true" />
+                                </span>
+                                <h3 class="text-base leading-6 font-semibold text-slate-950 dark:text-white">
+                                    {{ group.college }}
+                                </h3>
+                            </div>
+                            <span
+                                class="shrink-0 rounded bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:bg-white/10 dark:text-slate-300"
+                            >
+                                {{ group.offerings.length }}
+                                {{ group.offerings.length === 1 ? 'program' : 'programs' }}
+                            </span>
                         </div>
-                        <ul class="mt-5 grid gap-3 text-sm text-slate-600 dark:text-slate-300">
+                        <ul class="mt-5 grid gap-2.5 text-sm leading-6 text-slate-600 dark:text-slate-300">
                             <li
                                 v-for="offering in group.offerings"
                                 :key="offering"
                                 class="flex gap-3"
                             >
-                                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#9b1c31]"></span>
+                                <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#9b1c31]"></span>
                                 {{ offering }}
                             </li>
                         </ul>
@@ -304,50 +432,89 @@ defineProps<{
             </div>
         </section>
 
-        <section class="bg-[#061b49] py-16 text-white">
+        <section class="bg-white py-16 dark:bg-slate-900">
             <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-3 lg:px-8"
+                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
             >
-                <article class="rounded-md border border-white/10 bg-white/[0.06] p-6">
-                    <HeartHandshake class="size-7 text-[#f2b705]" aria-hidden="true" />
-                    <h2 class="mt-5 text-xl font-semibold">Campus Life</h2>
-                    <ul class="mt-5 grid gap-3 text-sm leading-6 text-sky-100">
-                        <li v-for="item in campus.campusLife" :key="item">
-                            {{ item }}
-                        </li>
-                    </ul>
-                </article>
-
-                <article class="rounded-md border border-white/10 bg-white/[0.06] p-6">
-                    <ShieldCheck class="size-7 text-emerald-300" aria-hidden="true" />
-                    <h2 class="mt-5 text-xl font-semibold">Services</h2>
-                    <ul class="mt-5 grid gap-3 text-sm leading-6 text-sky-100">
-                        <li v-for="service in campus.services" :key="service">
-                            {{ service }}
-                        </li>
-                    </ul>
-                </article>
-
-                <article class="rounded-md border border-white/10 bg-white/[0.06] p-6">
-                    <Sparkles class="size-7 text-rose-200" aria-hidden="true" />
-                    <h2 class="mt-5 text-xl font-semibold">
-                        University Student Government
-                    </h2>
-                    <p class="mt-3 text-sm leading-6 text-sky-100">
-                        {{ campus.studentGovernment.name }}
+                <div>
+                    <HeartHandshake class="size-7 text-[#9b1c31] dark:text-rose-300" aria-hidden="true" />
+                    <p
+                        class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                    >
+                        Campus Life
                     </p>
-                    <p class="mt-2 text-xs font-semibold tracking-wide text-[#f2b705] uppercase">
+                    <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        Student experiences beyond the classroom
+                    </h2>
+                </div>
+
+                <ul class="grid gap-3 sm:grid-cols-2">
+                    <li
+                        v-for="item in campus.campusLife"
+                        :key="item"
+                        class="flex gap-3 rounded-md border border-slate-200 p-5 text-sm leading-6 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                    >
+                        <BadgeCheck class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="bg-[#061b49] py-16 text-white">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="max-w-2xl">
+                    <ShieldCheck class="size-7 text-emerald-300" aria-hidden="true" />
+                    <p class="mt-5 text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
+                        Services
+                    </p>
+                    <h2 class="mt-3 text-3xl font-semibold tracking-normal">
+                        Campus support and student service points
+                    </h2>
+                </div>
+
+                <ul class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    <li
+                        v-for="service in campus.services"
+                        :key="service"
+                        class="flex gap-3 rounded-md border border-white/10 bg-white/[0.06] p-5 text-sm leading-6 text-sky-100"
+                    >
+                        <ShieldCheck class="mt-1 size-4 shrink-0 text-emerald-300" aria-hidden="true" />
+                        {{ service }}
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="bg-white py-16 dark:bg-slate-900">
+            <div
+                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
+            >
+                <div>
+                    <Sparkles class="size-7 text-[#1711d4] dark:text-sky-200" aria-hidden="true" />
+                    <p
+                        class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                    >
+                        University Student Government
+                    </p>
+                    <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        {{ campus.studentGovernment.name }}
+                    </h2>
+                    <p class="mt-4 text-sm font-semibold text-[#0b6680] dark:text-sky-300">
                         {{ campus.studentGovernment.focus }}
                     </p>
-                    <ul class="mt-5 grid gap-3 text-sm leading-6 text-sky-100">
-                        <li
-                            v-for="initiative in campus.studentGovernment.initiatives"
-                            :key="initiative"
-                        >
-                            {{ initiative }}
-                        </li>
-                    </ul>
-                </article>
+                </div>
+
+                <ul class="grid gap-3">
+                    <li
+                        v-for="initiative in campus.studentGovernment.initiatives"
+                        :key="initiative"
+                        class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
+                    >
+                        <Sparkles class="size-4 shrink-0 text-[#f2b705]" aria-hidden="true" />
+                        {{ initiative }}
+                    </li>
+                </ul>
             </div>
         </section>
 
