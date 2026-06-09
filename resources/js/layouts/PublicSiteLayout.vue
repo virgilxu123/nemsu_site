@@ -25,8 +25,10 @@ import {
     officeOfThePresident,
     university,
 } from '@/routes/about';
+import { academicAffairs } from '@/routes/academics';
 import { transparencySeal } from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
+import { show as campusShow } from '@/routes/campuses';
 
 type NavGroup = {
     label: string;
@@ -128,8 +130,14 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Academic Affairs',
                 links: [
-                    { label: 'OVPAA Profile', href: '#academics' },
-                    { label: 'Offices under OVPAA', href: '#academics' },
+                    {
+                        label: 'OVPAA Profile',
+                        href: `${academicAffairs().url}#ovpaa-profile`,
+                    },
+                    {
+                        label: 'Offices under OVPAA',
+                        href: `${academicAffairs().url}#ovpaa-offices`,
+                    },
                     // { label: 'Unit Head', href: '#academics' },
                     // { label: 'Email', href: '#academics' },
                     // { label: 'Contact Details', href: '#academics' },
@@ -138,10 +146,22 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Program Offerings',
                 links: [
-                    { label: 'Undergraduate Programs', href: '#academics' },
-                    { label: 'Graduate School Programs', href: '#academics' },
-                    { label: 'College of Law', href: '#academics' },
-                    { label: 'College of Medicine', href: '#academics' },
+                    {
+                        label: 'Undergraduate Programs',
+                        href: `${academicAffairs().url}#undergraduate-programs`,
+                    },
+                    {
+                        label: 'Graduate School Programs',
+                        href: `${academicAffairs().url}#graduate-school-programs`,
+                    },
+                    {
+                        label: 'College of Law',
+                        href: `${academicAffairs().url}#college-of-law`,
+                    },
+                    {
+                        label: 'College of Medicine',
+                        href: `${academicAffairs().url}#college-of-medicine`,
+                    },
                 ],
             },
         ],
@@ -181,19 +201,19 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'NEMSU System',
                 links: [
-                    { label: 'Tandag', href: '#campuses' },
-                    { label: 'Cantilan', href: '#campuses' },
-                    { label: 'San Miguel', href: '#campuses' },
-                    { label: 'Cagwait', href: '#campuses' },
+                    { label: 'Tandag', href: campusShow('tandag').url },
+                    { label: 'Cantilan', href: campusShow('cantilan').url },
+                    { label: 'San Miguel', href: campusShow('san-miguel').url },
+                    { label: 'Cagwait', href: campusShow('cagwait').url },
                 ],
             },
             {
                 heading: 'More Campuses',
                 links: [
-                    { label: 'Lianga', href: '#campuses' },
-                    { label: 'Tagbina', href: '#campuses' },
-                    { label: 'Bislig', href: '#campuses' },
-                    { label: 'Campus Life', href: '#campuses' },
+                    { label: 'Lianga', href: campusShow('lianga').url },
+                    { label: 'Tagbina', href: campusShow('tagbina').url },
+                    { label: 'Bislig', href: campusShow('bislig').url },
+                    { label: 'Campus Life', href: campusShow('tandag').url },
                 ],
             },
         ],

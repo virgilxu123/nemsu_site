@@ -17,8 +17,10 @@ createInertiaApp({
                 return null;
             case name.startsWith('content/'):
                 return null;
+            case name.startsWith('campuses/'):
             case name.startsWith('about/'):
             case name.startsWith('administration/'):
+            case name.startsWith('academics/'):
                 return null;
             case name.startsWith('auth/'):
                 return AuthLayout;

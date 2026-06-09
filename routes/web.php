@@ -7,11 +7,15 @@ use App\Http\Controllers\Admin\NavigationItemController as AdminNavigationItemCo
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ContentPageController;
+use App\Http\Controllers\AcademicAffairsController;
+use App\Http\Controllers\CampusController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/academics/academic-affairs', AcademicAffairsController::class)->name('academics.academic-affairs');
+Route::get('/campuses/{campus}', [CampusController::class, 'show'])->name('campuses.show');
 Route::inertia('/about/university', 'about/University')->name('about.university');
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::inertia('/about/office-of-the-president', 'about/OfficeOfThePresident')->name('about.office-of-the-president');
