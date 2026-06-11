@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\AcademicAffairsController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
 use App\Http\Controllers\Admin\NavigationItemController as AdminNavigationItemController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\ContentPageController;
-use App\Http\Controllers\AcademicAffairsController;
 use App\Http\Controllers\CampusController;
+use App\Http\Controllers\ContentPageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +19,8 @@ Route::get('/campuses/{campus}', [CampusController::class, 'show'])->name('campu
 Route::inertia('/about/university', 'about/University')->name('about.university');
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::inertia('/about/office-of-the-president', 'about/OfficeOfThePresident')->name('about.office-of-the-president');
+Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
+Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');

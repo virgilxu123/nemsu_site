@@ -26,7 +26,11 @@ import {
     university,
 } from '@/routes/about';
 import { academicAffairs } from '@/routes/academics';
-import { transparencySeal } from '@/routes/administration';
+import {
+    citizensCharter,
+    transparencySeal,
+    vpaf,
+} from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
 
@@ -84,10 +88,13 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Administration and Finance',
                 links: [
-                    { label: 'OVPAF Profile', href: '#governance' },
+                    {
+                        label: 'OVPAF Profile',
+                        href: `${vpaf().url}#ovpaf-profile`,
+                    },
                     {
                         label: 'Offices under OVPAF',
-                        href: '#governance',
+                        href: `${vpaf().url}#ovpaf-offices`,
                     },
                     // { label: 'Unit Head', href: '#governance' },
                     // { label: 'Email', href: '#governance' },
@@ -97,9 +104,18 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'Good Governance',
                 links: [
-                    { label: 'Transparency Seal', href: transparencySeal().url },
-                    { label: 'Freedom of Information', href: '#governance' },
-                    { label: "Citizen's Charter", href: '#governance' },
+                    {
+                        label: 'Transparency Seal',
+                        href: transparencySeal().url,
+                    },
+                    {
+                        label: 'Freedom of Information',
+                        href: `${vpaf().url}#freedom-of-information`,
+                    },
+                    {
+                        label: "Citizen's Charter",
+                        href: citizensCharter().url,
+                    },
                 ],
             },
         ],
@@ -291,7 +307,7 @@ const utilityLinks = [
                     >
                         <button
                             type="button"
-                            class="inline-flex h-10 items-center gap-1 whitespace-nowrap rounded-md px-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+                            class="inline-flex h-10 items-center gap-1 rounded-md px-3 text-sm font-medium whitespace-nowrap text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
                             :title="group.label"
                         >
                             {{ group.shortLabel ?? group.label }}
@@ -644,7 +660,7 @@ const utilityLinks = [
                                 Transparency Seal
                             </a>
                             <a
-                                href="#governance"
+                                :href="`${vpaf().url}#freedom-of-information`"
                                 class="group inline-flex items-center gap-2 transition hover:text-[#1711d4] dark:hover:text-sky-300"
                             >
                                 <FileSearch
