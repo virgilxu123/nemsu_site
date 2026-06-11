@@ -49,6 +49,16 @@ type ServiceHighlight = {
     }[];
 };
 
+type StudentGovernmentActivity = {
+    title: string;
+    date: string;
+    description: string;
+    images: {
+        image: string;
+        alt: string;
+    }[];
+};
+
 type Campus = {
     slug: string;
     name: string;
@@ -88,6 +98,7 @@ type Campus = {
         adviser: string;
         focus: string;
         initiatives: string[];
+        activities: StudentGovernmentActivity[];
     };
     updates: {
         date: string;
@@ -699,45 +710,87 @@ defineProps<{
         </section>
 
         <section class="bg-white py-16 dark:bg-slate-900">
-            <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
-            >
-                <div>
-                    <Sparkles
-                        class="size-7 text-[#1711d4] dark:text-sky-200"
-                        aria-hidden="true"
-                    />
-                    <p
-                        class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                    >
-                        University Student Government
-                    </p>
-                    <h2
-                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                    >
-                        {{ campus.studentGovernment.name }}
-                    </h2>
-                    <p
-                        class="mt-4 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
-                    >
-                        {{ campus.studentGovernment.focus }}
-                    </p>
-                </div>
-
-                <ul class="grid gap-3">
-                    <li
-                        v-for="initiative in campus.studentGovernment
-                            .initiatives"
-                        :key="initiative"
-                        class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
-                    >
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+                    <div>
                         <Sparkles
-                            class="size-4 shrink-0 text-[#f2b705]"
+                            class="size-7 text-[#1711d4] dark:text-sky-200"
                             aria-hidden="true"
                         />
-                        {{ initiative }}
-                    </li>
-                </ul>
+                        <p
+                            class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            University Student Government
+                        </p>
+                        <h2
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        >
+                            {{ campus.studentGovernment.name }}
+                        </h2>
+                        <p
+                            class="mt-4 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
+                        >
+                            {{ campus.studentGovernment.focus }}
+                        </p>
+                    </div>
+
+                    <ul class="grid gap-3">
+                        <li
+                            v-for="initiative in campus.studentGovernment
+                                .initiatives"
+                            :key="initiative"
+                            class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
+                        >
+                            <Sparkles
+                                class="size-4 shrink-0 text-[#f2b705]"
+                                aria-hidden="true"
+                            />
+                            {{ initiative }}
+                        </li>
+                    </ul>
+                </div>
+
+                <div
+                    v-if="campus.studentGovernment.activities.length"
+                    class="mt-12 grid gap-6 lg:grid-cols-2"
+                >
+                    <article
+                        v-for="activity in campus.studentGovernment.activities"
+                        :key="activity.title"
+                        class="overflow-hidden rounded-lg border border-slate-200 bg-[#f7f8f5] dark:border-white/10 dark:bg-white/5"
+                    >
+                        <div
+                            v-if="activity.images.length"
+                            class="grid grid-cols-2 gap-1 bg-slate-200 dark:bg-slate-800"
+                        >
+                            <img
+                                v-for="image in activity.images"
+                                :key="image.image"
+                                :src="image.image"
+                                :alt="image.alt"
+                                class="aspect-4/3 size-full object-cover"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="p-6">
+                            <p
+                                class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                {{ activity.date }}
+                            </p>
+                            <h3
+                                class="mt-2 text-xl font-semibold text-slate-950 dark:text-white"
+                            >
+                                {{ activity.title }}
+                            </h3>
+                            <p
+                                class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                            >
+                                {{ activity.description }}
+                            </p>
+                        </div>
+                    </article>
+                </div>
             </div>
         </section>
 

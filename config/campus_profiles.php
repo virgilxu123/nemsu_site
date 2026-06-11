@@ -83,6 +83,7 @@ foreach ($definitions as $definition) {
                 'Campus events and leadership formation',
                 'Service desks for student concerns',
             ],
+            'activities' => $definition['studentGovernmentActivities'] ?? [],
         ],
         'updates' => $definition['updates'] ?? [
             [

@@ -18,6 +18,110 @@ TEXT,
     'highlights' => ['Central administration', 'Graduate studies', 'Medicine and allied programs'],
     'director' => 'Dr. Florecito D. Calub',
     'focus' => 'Student services modernization',
+    'studentGovernmentActivities' => [
+        [
+            'title' => 'Donation Drive',
+            'date' => 'February 14, 2026',
+            'description' => 'The University Student Government, in partnership with the Office of Student Welfare, the League of Financial Management Students, the Association of Science Educators, CRANIUM, and Junior Hospitality and Tourism Management, conducted a donation drive in Barangay Bioto, Tandag City; Purok 2A, Barangay Poblacion, Cortes; and Barangay Nurcia, Lanuza.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/tandag/student-government/donation-drive-1.jpeg',
+                    'alt' => 'USG volunteers with residents and donated supplies',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/donation-drive-2.jpeg',
+                    'alt' => 'USG volunteers distributing donation drive supplies',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/donation-drive-3.jpeg',
+                    'alt' => 'Donation drive volunteers and community beneficiaries',
+                ],
+            ],
+        ],
+        [
+            'title' => 'International Linggo ng Kabataan 2025',
+            'date' => 'August 12, 2025',
+            'description' => 'NEMSU students and USG officers participated in International Linggo ng Kabataan 2025, hosted by the Local Youth Development Council at Tandag Gymnasium. They joined various contests that promoted youth involvement and community spirit.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/tandag/student-government/linggo-ng-kabataan-1.jpeg',
+                    'alt' => 'NEMSU students participating in Linggo ng Kabataan',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/linggo-ng-kabataan-2.jpeg',
+                    'alt' => 'USG officers at the Linggo ng Kabataan program',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/linggo-ng-kabataan-3.jpeg',
+                    'alt' => 'NEMSU delegates during Linggo ng Kabataan activities',
+                ],
+            ],
+        ],
+        [
+            'title' => '51st Nutrition Month Celebration',
+            'date' => 'July 15, 2025',
+            'description' => 'The University Student Government participated in the 51st Nutrition Month celebration at Mabua Covered Court, promoting the importance of food and nutrition security.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-1.jpeg',
+                    'alt' => 'USG participants at the Nutrition Month celebration',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-2.jpeg',
+                    'alt' => 'Nutrition Month participants at Mabua Covered Court',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-3.jpeg',
+                    'alt' => 'USG representatives promoting nutrition security',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-4.jpeg',
+                    'alt' => 'Nutrition Month community activity',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-5.jpeg',
+                    'alt' => 'Students participating in the Nutrition Month program',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/nutrition-month-6.jpeg',
+                    'alt' => 'USG delegates during the Nutrition Month celebration',
+                ],
+            ],
+        ],
+        [
+            'title' => 'PRIDEAYON 2025',
+            'date' => 'June 29, 2025',
+            'description' => 'PRIDEAYON 2025 opened with a vibrant parade celebrating the LGBTQIA+ community and its allies in Tandag City. NEMSU Tandag USG collaborated with the Provincial Youth Development Council for the event and program at Tandag City Boulevard.',
+            'images' => [],
+        ],
+        [
+            'title' => 'World Earth Month Tree Planting',
+            'date' => 'April 11, 2025',
+            'description' => 'The University Student Government, in partnership with PENRO, conducted a tree planting activity in celebration of World Earth Month 2025. The initiative supported the theme "Our Power, Our Planet" and promoted environmental action and sustainability.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/tandag/student-government/earth-month-tree-planting-1.jpeg',
+                    'alt' => 'USG volunteers during the Earth Month tree planting activity',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/earth-month-tree-planting-2.jpeg',
+                    'alt' => 'Students planting trees for World Earth Month',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/earth-month-tree-planting-3.jpeg',
+                    'alt' => 'USG and PENRO participants at the tree planting site',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/earth-month-tree-planting-4.jpeg',
+                    'alt' => 'Earth Month volunteers preparing tree seedlings',
+                ],
+                [
+                    'image' => '/images/campuses/tandag/student-government/earth-month-tree-planting-5.jpeg',
+                    'alt' => 'NEMSU volunteers promoting environmental sustainability',
+                ],
+            ],
+        ],
+    ],
     'facilities' => [
         'Learning resource center',
         'Computer and innovation laboratories',

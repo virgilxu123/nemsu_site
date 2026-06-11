@@ -21,6 +21,7 @@ test('campus page can be viewed', function () {
             ->has('campus.services')
             ->has('campus.serviceHighlights', 4)
             ->has('campus.studentGovernment')
+            ->has('campus.studentGovernment.activities', 5)
             ->has('campus.updates')
         );
 });
