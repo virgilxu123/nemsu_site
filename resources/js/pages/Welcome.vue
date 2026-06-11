@@ -59,7 +59,13 @@ type GlanceStat = {
     value: string;
     scope: string;
     description: string;
-    icon: 'students' | 'personnel' | 'graduates' | 'map';
+    icon:
+        | 'accessibility'
+        | 'graduates'
+        | 'map'
+        | 'personnel'
+        | 'programs'
+        | 'students';
 };
 
 type MapHighlight = {
@@ -67,6 +73,7 @@ type MapHighlight = {
     description: string;
     top: string;
     left: string;
+    labelPosition: 'left' | 'right';
 };
 
 type Metric = {
@@ -177,66 +184,91 @@ const isDefaultHeroSlide = computed(
 const fallbackAtAGlanceStats: GlanceStat[] = [
     {
         key: 'student-population',
-        label: 'Student Population',
-        value: '32,768',
-        scope: 'System-wide',
+        label: 'Current Enrollment',
+        value: '33,338',
+        scope: 'AY 2025-2026',
         description:
-            'Sample enrollment figure prepared for the public homepage layout.',
+            'First-semester enrollment across eight reporting locations, including Marihatag Extension.',
         icon: 'students',
     },
     {
         key: 'faculty-staff-profile',
-        label: 'Faculty and Staff Profile',
-        value: '850+',
-        scope: 'System-wide',
+        label: 'Faculty and Staff',
+        value: '1,563',
+        scope: 'Dec. 31, 2025',
         description:
-            'Dummy personnel count covering faculty, administrative, and support teams.',
+            'Seven-campus HRMO total: 974 plantilla and 589 non-plantilla personnel.',
         icon: 'personnel',
     },
     {
-        key: 'graduates',
-        label: 'Number of Graduates',
-        value: '3,200+',
-        scope: 'System-wide',
+        key: 'academic-programs',
+        label: 'Academic Programs',
+        value: '99',
+        scope: 'Apr. 30, 2026',
         description:
-            'Placeholder graduate output for testing the final content hierarchy.',
-        icon: 'graduates',
+            'Undergraduate, graduate, post-graduate, and professional program offerings.',
+        icon: 'programs',
     },
     {
-        key: 'location-map',
-        label: 'Location Map',
-        value: '7',
-        scope: 'Campuses',
+        key: 'pwd-senior-citizens',
+        label: 'PWD and Senior Personnel',
+        value: '60',
+        scope: 'Dec. 31, 2025',
         description:
-            'Sample campus count connected to the map preview and campus section.',
-        icon: 'map',
+            'Comprising 43 senior citizens and 17 persons with disabilities.',
+        icon: 'accessibility',
     },
 ];
 
 const fallbackAtAGlanceMapHighlights: MapHighlight[] = [
     {
-        label: 'Tandag',
-        description: 'Main campus',
-        top: '18%',
-        left: '48%',
+        label: 'Cantilan',
+        description: 'Campus',
+        top: '9%',
+        left: '41%',
+        labelPosition: 'right',
     },
     {
-        label: 'Cantilan',
-        description: 'Northern cluster',
+        label: 'Tandag',
+        description: 'Main campus',
+        top: '28%',
+        left: '55%',
+        labelPosition: 'right',
+    },
+    {
+        label: 'San Miguel',
+        description: 'Campus',
         top: '34%',
-        left: '30%',
+        left: '41%',
+        labelPosition: 'left',
+    },
+    {
+        label: 'Cagwait',
+        description: 'Campus',
+        top: '40%',
+        left: '59%',
+        labelPosition: 'right',
     },
     {
         label: 'Lianga',
-        description: 'Coastal cluster',
+        description: 'Campus',
         top: '55%',
-        left: '54%',
+        left: '45%',
+        labelPosition: 'left',
+    },
+    {
+        label: 'Tagbina',
+        description: 'Campus',
+        top: '68%',
+        left: '55%',
+        labelPosition: 'right',
     },
     {
         label: 'Bislig',
-        description: 'Southern cluster',
-        top: '70%',
-        left: '38%',
+        description: 'Campus',
+        top: '83%',
+        left: '59%',
+        labelPosition: 'right',
     },
 ];
 
@@ -831,7 +863,7 @@ const governanceLinks: Feature[] = [
                                     class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-slate-500 dark:text-slate-400"
                                 >
                                     <span
-                                        class="uppercase tracking-wide text-[#9b1c31] dark:text-rose-300"
+                                        class="tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                                         >{{ item.type }}</span
                                     >
                                     <span
@@ -890,7 +922,10 @@ const governanceLinks: Feature[] = [
 
                 <div
                     data-scroll-section="announcements"
-                    :class="[revealClasses('announcements', 'up'), 'mt-10 border-t border-slate-200 pt-8 dark:border-white/10']"
+                    :class="[
+                        revealClasses('announcements', 'up'),
+                        'mt-10 border-t border-slate-200 pt-8 dark:border-white/10',
+                    ]"
                 >
                     <div>
                         <p

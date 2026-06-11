@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,6 +18,10 @@ class CampusController extends Controller
         $campusProfile = $campuses[$campus] ?? null;
 
         abort_if($campusProfile === null, 404);
+
+        $campusProfile['prospectuses'] = collect($campusProfile['prospectuses'])
+            ->map(fn (string $path): string => Storage::disk('public')->url($path))
+            ->all();
 
         return Inertia::render('campuses/Show', [
             'campus' => $campusProfile,

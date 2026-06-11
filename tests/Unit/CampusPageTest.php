@@ -19,6 +19,7 @@ test('campus page can be viewed', function () {
             ->has('campus.facilityGallery', 19)
             ->has('campus.programs')
             ->has('campus.services')
+            ->has('campus.serviceHighlights', 4)
             ->has('campus.studentGovernment')
             ->has('campus.updates')
         );

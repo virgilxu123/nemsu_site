@@ -70,8 +70,10 @@ foreach ($definitions as $definition) {
         'facilities' => $definition['facilities'],
         'facilityGallery' => $definition['facilityGallery'] ?? [],
         'programs' => $definition['programs'],
+        'prospectuses' => $definition['prospectuses'] ?? [],
         'campusLife' => $definition['campusLife'] ?? $sharedCampusLife,
         'services' => $definition['services'] ?? $sharedServices,
+        'serviceHighlights' => $definition['serviceHighlights'] ?? [],
         'studentGovernment' => [
             'name' => 'University Student Government - '.$name,
             'adviser' => 'Student Affairs and Services Office',
