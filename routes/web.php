@@ -11,6 +11,7 @@ use App\Http\Controllers\CampusController;
 use App\Http\Controllers\ContentPageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\VppsiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -20,6 +21,7 @@ Route::inertia('/about/university', 'about/University')->name('about.university'
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::inertia('/about/office-of-the-president', 'about/OfficeOfThePresident')->name('about.office-of-the-president');
 Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
+Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');

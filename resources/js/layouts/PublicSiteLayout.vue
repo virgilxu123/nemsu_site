@@ -30,6 +30,7 @@ import {
     citizensCharter,
     transparencySeal,
     vpaf,
+    vppsi,
 } from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
@@ -125,10 +126,16 @@ const navGroups: NavGroup[] = [
         shortLabel: 'Planning & Strategy',
         columns: [
             {
-                heading: 'OVPSI',
+                heading: 'OVPPSI',
                 links: [
-                    { label: 'Profile', href: '#governance' },
-                    { label: 'Offices under OVPSI', href: '#governance' },
+                    {
+                        label: 'Profile',
+                        href: `${vppsi().url}#ovppsi-profile`,
+                    },
+                    {
+                        label: 'Offices under OVPPSI',
+                        href: `${vppsi().url}#ovppsi-offices`,
+                    },
                     // { label: 'Unit Head', href: '#governance' },
                     // { label: 'Email', href: '#governance' },
                     // { label: 'Contact Details', href: '#governance' },
@@ -136,7 +143,12 @@ const navGroups: NavGroup[] = [
             },
             {
                 heading: 'Procurement',
-                links: [{ label: 'BAC Matters', href: '#governance' }],
+                links: [
+                    {
+                        label: 'BAC Matters',
+                        href: `${vppsi().url}#bac-matters`,
+                    },
+                ],
             },
         ],
     },
