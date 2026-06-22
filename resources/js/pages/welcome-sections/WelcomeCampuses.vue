@@ -142,7 +142,7 @@ onUnmounted(() => {
                         class="mt-3 max-w-xl text-3xl font-semibold tracking-normal"
                     >
                         One NEMSU system, distinct campus strengths
-                    </h2>
+                    </h2>Campus footprint preview
                     <p class="mt-5 max-w-md text-sm leading-7 text-sky-100">
                         A quick system view for the campus pages: population,
                         faculty and staff profile, graduates, and location map.

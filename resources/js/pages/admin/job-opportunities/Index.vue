@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Edit, ExternalLink, FileText, Plus, RotateCcw, Search, Trash2 } from 'lucide-vue-next';
+import { Edit, Plus, RotateCcw, Search, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
-import AdminBacMatterController from '@/actions/App/Http/Controllers/Admin/BacMatterController';
+import AdminJobOpportunityController from '@/actions/App/Http/Controllers/Admin/JobOpportunityController';
 import Heading from '@/components/Heading.vue';
 import SortableTableHeader from '@/components/SortableTableHeader.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTableQuery } from '@/composables/useTableQuery';
-import { create, edit, index } from '@/routes/admin/bac-matters';
+import { create, edit, index } from '@/routes/admin/job-opportunities';
 import type { SortDirection, TableQueryFilters } from '@/types';
-import type { BacMatterItem } from './types';
+import type { JobOpportunityItem } from './types';
 
 type PaginationLink = {
     url: string | null;
@@ -19,64 +19,63 @@ type PaginationLink = {
     active: boolean;
 };
 
-type PaginatedBacMatters = {
-    data: BacMatterItem[];
+type PaginatedOpportunities = {
+    data: JobOpportunityItem[];
     from: number | null;
     to: number | null;
     total: number;
     links: PaginationLink[];
 };
 
-type BacMatterFilters = TableQueryFilters & {
+type JobOpportunityFilters = TableQueryFilters & {
     search: string;
-    type: string;
-    status: 'all' | 'published' | 'draft';
+    hiring_status: 'all' | 'hiring' | 'closed';
+    publication_status: 'all' | 'published' | 'draft';
     sort_by?: string;
     sort_direction?: SortDirection;
 };
 
 const props = defineProps<{
-    filters: BacMatterFilters;
-    types: string[];
-    matters: PaginatedBacMatters;
+    filters: JobOpportunityFilters;
+    opportunities: PaginatedOpportunities;
 }>();
 
 defineOptions({
     layout: {
-        breadcrumbs: [{ title: 'BAC Matters', href: index() }],
+        breadcrumbs: [{ title: 'Job Opportunities', href: index() }],
     },
 });
 
 const { filters, handleFilter, handlePageLink, handleSort, resetFilter } =
-    useTableQuery<BacMatterFilters>({
+    useTableQuery<JobOpportunityFilters>({
         url: index.url(),
         initialFilters: props.filters,
-        only: ['filters', 'matters'],
+        only: ['filters', 'opportunities'],
         debounce: 250,
     });
 
 const hasActiveFilters = computed(
     () =>
         filters.search !== '' ||
-        filters.type !== 'all' ||
-        filters.status !== 'all' ||
+        filters.hiring_status !== 'all' ||
+        filters.publication_status !== 'all' ||
         filters.sort_by !== undefined ||
         filters.sort_direction !== undefined,
 );
 
 const clearFilters = (): void => {
     resetFilter({
-        type: 'all',
-        status: 'all',
+        hiring_status: 'all',
+        publication_status: 'all',
     });
 };
 
-const deleteMatter = (matter: BacMatterItem): void => {
-    if (!window.confirm(`Delete "${matter.name}"?`)) {
+const deleteOpportunity = (opportunity: JobOpportunityItem): void => {
+    if (!window.confirm(`Delete "${opportunity.name}"?`)) {
         return;
     }
 
-    router.delete(AdminBacMatterController.destroy.url(matter.id), {
+    router.delete(AdminJobOpportunityController.destroy.url(opportunity.id), {
         preserveScroll: true,
     });
 };
@@ -88,52 +87,55 @@ const paginationLabel = (label: string): string =>
 </script>
 
 <template>
-    <Head title="BAC Matters" />
+    <Head title="Job Opportunities" />
 
     <div class="flex h-full flex-1 flex-col gap-6 overflow-x-auto p-4">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <Heading
-                title="BAC Matters"
-                description="Manage procurement notices, bid documents, and related BAC resources."
+                title="Job Opportunities"
+                description="Manage position announcements and hiring availability."
             />
 
             <Button as-child>
                 <Link :href="create()">
                     <Plus class="size-4" />
-                    New BAC matter
+                    New job opportunity
                 </Link>
             </Button>
         </div>
 
-        <div class="flex flex-col gap-3 md:flex-row md:items-center">
-            <div class="relative w-full md:max-w-sm">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <div class="relative w-full lg:max-w-sm">
                 <Search
                     class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
                 />
                 <Input
                     v-model="filters.search"
                     class="pl-9"
-                    placeholder="Search name, file, link, or type"
+                    placeholder="Search name, slug, or content"
                 />
             </div>
 
             <select
-                v-model="filters.type"
-                @change="handleFilter({ type: filters.type })"
+                v-model="filters.hiring_status"
+                @change="handleFilter({ hiring_status: filters.hiring_status })"
                 class="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
-                <option value="all">All types</option>
-                <option v-for="type in types" :key="type" :value="type">
-                    {{ type }}
-                </option>
+                <option value="all">All hiring statuses</option>
+                <option value="hiring">Currently hiring</option>
+                <option value="closed">Not hiring</option>
             </select>
 
             <select
-                v-model="filters.status"
-                @change="handleFilter({ status: filters.status })"
+                v-model="filters.publication_status"
+                @change="
+                    handleFilter({
+                        publication_status: filters.publication_status,
+                    })
+                "
                 class="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
             >
-                <option value="all">All statuses</option>
+                <option value="all">All publication statuses</option>
                 <option value="published">Published</option>
                 <option value="draft">Draft</option>
             </select>
@@ -152,7 +154,7 @@ const paginationLabel = (label: string): string =>
         <div
             class="overflow-hidden rounded-md border border-sidebar-border/70 dark:border-sidebar-border"
         >
-            <table class="w-full min-w-[58rem] text-sm">
+            <table class="w-full min-w-[64rem] text-sm">
                 <thead class="bg-muted/50 text-left">
                     <tr>
                         <SortableTableHeader
@@ -162,16 +164,7 @@ const paginationLabel = (label: string): string =>
                             :sort-direction="filters.sort_direction"
                             @sort="handleSort"
                         />
-                        <SortableTableHeader
-                            column="type"
-                            label="Type"
-                            :sort-by="filters.sort_by"
-                            :sort-direction="filters.sort_direction"
-                            @sort="handleSort"
-                        />
-                        <th class="px-4 py-3 text-left font-medium">
-                            Destination
-                        </th>
+                        <th class="px-4 py-3 text-left font-medium">Slug</th>
                         <SortableTableHeader
                             column="date"
                             label="Date"
@@ -180,8 +173,15 @@ const paginationLabel = (label: string): string =>
                             @sort="handleSort"
                         />
                         <SortableTableHeader
+                            column="is_hiring"
+                            label="Hiring"
+                            :sort-by="filters.sort_by"
+                            :sort-direction="filters.sort_direction"
+                            @sort="handleSort"
+                        />
+                        <SortableTableHeader
                             column="is_published"
-                            label="Status"
+                            label="Publication"
                             :sort-by="filters.sort_by"
                             :sort-direction="filters.sort_direction"
                             @sort="handleSort"
@@ -200,54 +200,55 @@ const paginationLabel = (label: string): string =>
                 </thead>
                 <tbody>
                     <tr
-                        v-for="matter in matters.data"
-                        :key="matter.id"
+                        v-for="opportunity in opportunities.data"
+                        :key="opportunity.id"
                         class="border-t border-sidebar-border/70"
                     >
-                        <td class="max-w-lg px-4 py-4">
-                            <div class="font-medium">
-                                {{ matter.name }}
-                            </div>
+                        <td class="max-w-md px-4 py-4 font-medium">
+                            {{ opportunity.name }}
                         </td>
-                        <td class="px-4 py-4">
-                            {{ matter.type ?? 'Not set' }}
-                        </td>
-                        <td class="px-4 py-4">
-                            <a
-                                v-if="matter.destinationUrl"
-                                :href="matter.destinationUrl"
-                                target="_blank"
-                                rel="noopener"
-                                class="inline-flex items-center gap-2 font-medium underline underline-offset-4"
-                            >
-                                <FileText
-                                    v-if="matter.destinationLabel === 'File'"
-                                    class="size-4"
-                                />
-                                <ExternalLink v-else class="size-4" />
-                                {{ matter.destinationLabel }}
-                            </a>
-                            <span v-else class="text-muted-foreground">
-                                None
-                            </span>
-                        </td>
-                        <td class="px-4 py-4">{{ matter.date ?? 'Not set' }}</td>
+                        <td class="px-4 py-4">{{ opportunity.slug }}</td>
+                        <td class="px-4 py-4">{{ opportunity.date }}</td>
                         <td class="px-4 py-4">
                             <Badge
                                 :variant="
-                                    matter.isPublished ? 'default' : 'secondary'
+                                    opportunity.isHiring
+                                        ? 'default'
+                                        : 'secondary'
                                 "
                             >
-                                {{ matter.isPublished ? 'Published' : 'Draft' }}
+                                {{
+                                    opportunity.isHiring
+                                        ? 'Hiring'
+                                        : 'Not hiring'
+                                }}
                             </Badge>
                         </td>
                         <td class="px-4 py-4">
-                            {{ matter.updatedAt ?? 'Not updated' }}
+                            <Badge
+                                :variant="
+                                    opportunity.isPublished
+                                        ? 'default'
+                                        : 'secondary'
+                                "
+                            >
+                                {{
+                                    opportunity.isPublished
+                                        ? 'Published'
+                                        : 'Draft'
+                                }}
+                            </Badge>
+                        </td>
+                        <td class="px-4 py-4">
+                            {{ opportunity.updatedAt ?? 'Not updated' }}
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex justify-end gap-2">
                                 <Button size="icon" variant="ghost" as-child>
-                                    <Link :href="edit(matter.id)" title="Edit">
+                                    <Link
+                                        :href="edit(opportunity.id)"
+                                        title="Edit"
+                                    >
                                         <Edit class="size-4" />
                                         <span class="sr-only">Edit</span>
                                     </Link>
@@ -257,7 +258,7 @@ const paginationLabel = (label: string): string =>
                                     variant="ghost"
                                     type="button"
                                     title="Delete"
-                                    @click="deleteMatter(matter)"
+                                    @click="deleteOpportunity(opportunity)"
                                 >
                                     <Trash2 class="size-4" />
                                     <span class="sr-only">Delete</span>
@@ -265,12 +266,12 @@ const paginationLabel = (label: string): string =>
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="matters.data.length === 0">
+                    <tr v-if="opportunities.data.length === 0">
                         <td
                             colspan="7"
                             class="px-4 py-10 text-center text-muted-foreground"
                         >
-                            No BAC matters found.
+                            No job opportunities found.
                         </td>
                     </tr>
                 </tbody>
@@ -278,16 +279,16 @@ const paginationLabel = (label: string): string =>
         </div>
 
         <div
-            v-if="matters.total > 0"
+            v-if="opportunities.total > 0"
             class="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground"
         >
             <div>
-                Showing {{ matters.from }} to {{ matters.to }} of
-                {{ matters.total }} BAC matters
+                Showing {{ opportunities.from }} to {{ opportunities.to }} of
+                {{ opportunities.total }} job opportunities
             </div>
             <div class="flex flex-wrap gap-2">
                 <Button
-                    v-for="link in matters.links"
+                    v-for="link in opportunities.links"
                     :key="link.label"
                     type="button"
                     :variant="link.active ? 'default' : 'outline'"

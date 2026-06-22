@@ -2,8 +2,10 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     BookOpen,
+    BriefcaseBusiness,
     FileText,
     FolderGit2,
+    Gavel,
     Image as ImageIcon,
     LayoutGrid,
     Megaphone,
@@ -26,8 +28,10 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as adminAnnouncementsIndex } from '@/routes/admin/announcements';
+import { index as adminBacMattersIndex } from '@/routes/admin/bac-matters';
 import { index as adminBannersIndex } from '@/routes/admin/banners';
 import { index as adminContentPagesIndex } from '@/routes/admin/content-pages';
+import { index as adminJobOpportunitiesIndex } from '@/routes/admin/job-opportunities';
 import { index as adminNavigationIndex } from '@/routes/admin/navigation';
 import { index as adminNewsIndex } from '@/routes/admin/news';
 import type { Auth, NavItem } from '@/types';
@@ -56,6 +60,16 @@ const mainNavItems = computed<NavItem[]>(() => [
                   title: 'Announcements',
                   href: adminAnnouncementsIndex(),
                   icon: Megaphone,
+              },
+              {
+                  title: 'BAC Matters',
+                  href: adminBacMattersIndex(),
+                  icon: Gavel,
+              },
+              {
+                  title: 'Job Opportunities',
+                  href: adminJobOpportunitiesIndex(),
+                  icon: BriefcaseBusiness,
               },
               {
                   title: 'Banners',

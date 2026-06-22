@@ -382,7 +382,7 @@ const degreeLabel = (degree: string): string =>
                     :variant="link.active ? 'default' : 'outline'"
                     size="sm"
                     :disabled="link.url === null"
-                    @click="handlePageLink(link.url)"
+                    @click="link.url && handlePageLink(link.url)"
                 >
                     {{ paginationLabel(link.label) }}
                 </Button>

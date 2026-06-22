@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\AcademicAffairsController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\BacMatterController as AdminBacMatterController;
 use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 use App\Http\Controllers\Admin\ContentPageController as AdminContentPageController;
+use App\Http\Controllers\Admin\JobOpportunityController as AdminJobOpportunityController;
 use App\Http\Controllers\Admin\NavigationItemController as AdminNavigationItemController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ProgramController as AdminProgramController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\ContentPageController;
@@ -48,9 +51,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->names('admin.announcements')
         ->middleware('can:manage-cms');
 
+    Route::resource('admin/bac-matters', AdminBacMatterController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->names('admin.bac-matters')
+        ->middleware('can:manage-cms');
+
     Route::resource('admin/banners', AdminBannerController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->names('admin.banners')
+        ->middleware('can:manage-cms');
+
+    Route::resource('admin/job-opportunities', AdminJobOpportunityController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->names('admin.job-opportunities')
+        ->middleware('can:manage-cms');
+
+    Route::resource('admin/programs', AdminProgramController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
+        ->names('admin.programs')
         ->middleware('can:manage-cms');
 
     Route::resource('admin/navigation', AdminNavigationItemController::class)
