@@ -34,6 +34,7 @@ import {
 } from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
+import { rie } from '@/routes/research';
 
 type NavGroup = {
     label: string;
@@ -201,24 +202,45 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'OVPRIE',
                 links: [
-                    { label: 'Profile', href: '#research' },
-                    { label: 'RIE Manual', href: '#research' },
-                    { label: 'Offices under OVPRIE', href: '#research' },
-                    { label: 'Research Office', href: '#research' },
-                    { label: 'Innovation Office', href: '#research' },
-                    { label: 'Extension Office', href: '#research' },
+                    { label: 'Profile', href: `${rie().url}#ovprie-profile` },
+                    { label: 'RIE Manual', href: `${rie().url}#rie-manual` },
+                    {
+                        label: 'Offices under OVPRIE',
+                        href: `${rie().url}#ovprie-offices`,
+                    },
+                    {
+                        label: 'Research Office',
+                        href: `${rie().url}#research`,
+                    },
+                    {
+                        label: 'Innovation Office',
+                        href: `${rie().url}#innovation`,
+                    },
+                    {
+                        label: 'Extension Office',
+                        href: `${rie().url}#extension`,
+                    },
                 ],
             },
             {
                 heading: 'Research, Innovation, Extension',
                 links: [
-                    { label: 'Research Centers', href: '#research' },
-                    { label: 'Publication', href: '#research' },
+                    {
+                        label: 'Research Centers',
+                        href: `${rie().url}#research-centers`,
+                    },
+                    {
+                        label: 'Publication',
+                        href: `${rie().url}#publication`,
+                    },
                     {
                         label: 'Patents, UI, Copyrights and Trademarks',
-                        href: '#research',
+                        href: `${rie().url}#intellectual-property`,
                     },
-                    { label: 'News and Updates', href: '#research' },
+                    {
+                        label: 'News and Updates',
+                        href: `${rie().url}#rie-news`,
+                    },
                 ],
             },
         ],

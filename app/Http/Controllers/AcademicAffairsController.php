@@ -58,7 +58,7 @@ class AcademicAffairsController extends Controller
                 'title' => 'Office of the Vice President for Academic Affairs',
                 'subtitle' => 'Academic Affairs',
                 'summary' => 'The OVPAA coordinates instruction, curricular development, academic quality assurance, and student learning pathways across the NEMSU system.',
-                'unitHead' => 'Biencent Biol',
+                'unitHead' => 'Maria Lady Sol A. Suazo, Ph.D',
                 'role' => 'Vice President for Academic Affairs',
                 'email' => 'ovpaa@nemsu.edu.ph',
                 'phone' => '(086) 214-0005',
