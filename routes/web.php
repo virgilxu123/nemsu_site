@@ -24,6 +24,7 @@ Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administrat
 Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
+Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
