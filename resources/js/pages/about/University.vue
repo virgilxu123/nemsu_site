@@ -492,7 +492,7 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
-            <!-- <section
+            <section
                 id="history"
                 class="scroll-mt-28 bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
             >
@@ -571,7 +571,7 @@ onBeforeUnmount(() => {
                         </article>
                     </div>
                 </div>
-            </section> -->
+            </section>
 
             <section
                 id="vision-and-mission"
@@ -581,10 +581,10 @@ onBeforeUnmount(() => {
                     <div
                         data-scroll-section="vision-mission"
                         :class="revealClasses('vision-mission')"
-                        class="grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:divide-x lg:divide-slate-300 dark:lg:divide-white/10"
+                        class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]"
                     >
                         <div
-                            class="grid text-center lg:sticky lg:top-28 lg:self-start lg:pr-10"
+                            class="grid gap-10"
                         >
                             <article
                                 class="border-b border-slate-300 pb-8 dark:border-white/10"
@@ -595,21 +595,21 @@ onBeforeUnmount(() => {
                                     Vision
                                 </h3>
                                 <p
-                                    class="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     A Research University advancing technology
                                     and innovation for sustainable development.
                                 </p>
                             </article>
 
-                            <article class="pt-8">
+                            <article>
                                 <h3
                                     class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
                                 >
                                     Mission
                                 </h3>
                                 <p
-                                    class="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     We drive sustainable development through
                                     quality instruction, innovative research,
@@ -617,11 +617,38 @@ onBeforeUnmount(() => {
                                     advancement.
                                 </p>
                             </article>
+
+                            <article>
+                                <h3
+                                    class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
+                                >
+                                    Core Values
+                                </h3>
+                                <p
+                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                >
+                                    Compassion, Accountability, Responsiveness,
+                                    Excellence, and Service.
+                                </p>
+                            </article>
+
+                            <article>
+                                <h3
+                                    class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
+                                >
+                                    Quality Policy
+                                </h3>
+                                <p
+                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                >
+                                   The North Eastern Mindanao State University commits itself to produce highly motivated, globally competitive, and morally upright human resource through the delivery of transformative and quality higher education that conforms to international standards driven by excellent instruction, relevant researches, sustainable extension, and production services. Together with our stakeholders, we shall endeavor for continual improvement of our quality management system in consonance with statutory and regulatory requirements for clients and industry satisfaction for quality of life.
+                                </p>
+                            </article>
                         </div>
 
                         <article
                             id="nemsu-hymn"
-                            class="grid scroll-mt-28 text-center lg:pl-10"
+                            class="grid max-w-3xl scroll-mt-28"
                         >
                             <!-- <Music2
                                 class="mx-auto mb-5 size-10 text-[#f2b705]"
@@ -638,7 +665,7 @@ onBeforeUnmount(() => {
                                 Live. Rise. Soar. Excel.
                             </h3>
                             <dl
-                                class="mx-auto mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
+                                class="mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
                             >
                                 <div>
                                     <dt
@@ -678,7 +705,7 @@ onBeforeUnmount(() => {
                                 </div>
                             </dl>
                             <div
-                                class="mx-auto mt-6 max-w-2xl border-t border-slate-300 pt-5 text-left dark:border-white/10"
+                                class="mt-6 max-w-2xl border-t border-slate-300 pt-5 text-left dark:border-white/10"
                             >
                                 <p
                                     class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
@@ -748,26 +775,6 @@ onBeforeUnmount(() => {
                                 </div>
                             </article>
                         </div>
-                    </div>
-
-                    <div
-                        data-scroll-section="quality-policy"
-                        :class="revealClasses('quality-policy')"
-                        class="mt-10 border-t border-slate-200 pt-8 text-center dark:border-white/10"
-                    >
-                        <p
-                            class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
-                        >
-                            Quality Policy
-                        </p>
-                        <p
-                            class="mx-auto mt-3 max-w-4xl text-sm leading-7 text-slate-700 dark:text-slate-300"
-                        >
-                            NEMSU is committed to quality and excellent service,
-                            continual improvement, and compliance with
-                            applicable standards in support of stakeholder
-                            satisfaction.
-                        </p>
                     </div>
                 </div>
             </section>
