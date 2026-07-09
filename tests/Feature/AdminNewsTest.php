@@ -2,6 +2,8 @@
 
 use App\Models\News;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -95,6 +97,51 @@ test('admins can store news with normalized data', function () {
         ->and($news->content)->not->toContain('onclick');
 });
 
+test('admins can upload a lead photo and inline content images', function () {
+    Storage::fake('public');
+    $admin = newsAdminUser();
+    $uploadId = (string) Str::uuid();
+
+    $this->actingAs($admin)
+        ->post(route('admin.news.store'), newsPayload([
+            'content' => '<p>Story body.</p><img src="blob:preview" data-upload-id="'.$uploadId.'" alt="Campus laboratory" onerror="bad()">',
+            'photo_upload' => UploadedFile::fake()->image('lead.webp'),
+            'content_images' => [
+                $uploadId => UploadedFile::fake()->image('laboratory.png'),
+            ],
+        ]))
+        ->assertSessionHasNoErrors();
+
+    $news = News::query()->firstOrFail();
+    $contentPath = str($news->content)->match('#/storage/(news/content/[^" ]+)#')->toString();
+
+    expect($news->photo)->toStartWith('news/photos/')
+        ->and($news->content)->toContain('<img')
+        ->and($news->content)->toContain('alt="Campus laboratory"')
+        ->and($news->content)->not->toContain('data-upload-id')
+        ->and($news->content)->not->toContain('onerror');
+
+    Storage::disk('public')->assertExists($news->photo);
+    Storage::disk('public')->assertExists($contentPath);
+});
+
+test('news image uploads validate type and size', function () {
+    Storage::fake('public');
+    $admin = newsAdminUser();
+
+    $this->actingAs($admin)
+        ->post(route('admin.news.store'), newsPayload([
+            'photo_upload' => UploadedFile::fake()->create('lead.gif', 100, 'image/gif'),
+        ]))
+        ->assertSessionHasErrors('photo_upload');
+
+    $this->actingAs($admin)
+        ->post(route('admin.news.store'), newsPayload([
+            'photo_upload' => UploadedFile::fake()->image('lead.jpg')->size(5121),
+        ]))
+        ->assertSessionHasErrors('photo_upload');
+});
+
 test('admins can update news while keeping the current slug valid', function () {
     $admin = newsAdminUser();
     $news = News::factory()->create([
@@ -126,15 +173,75 @@ test('admins can update news while keeping the current slug valid', function () 
         ->assertSessionHasErrors('slug');
 });
 
-test('admins can delete news', function () {
+test('updating news preserves legacy photos and replaces managed uploads', function () {
+    Storage::fake('public');
     $admin = newsAdminUser();
-    $news = News::factory()->create();
+    $legacyNews = News::factory()->create(['photo' => 'legacy-photo.jpg']);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.news.update', $legacyNews), newsPayload([
+            'slug' => $legacyNews->slug,
+        ]))
+        ->assertSessionHasNoErrors();
+
+    expect($legacyNews->refresh()->photo)->toBe('legacy-photo.jpg');
+
+    $managedNews = News::factory()->create(['photo' => 'news/photos/original.jpg']);
+    Storage::disk('public')->put($managedNews->photo, 'original');
+
+    $this->actingAs($admin)
+        ->patch(route('admin.news.update', $managedNews), newsPayload([
+            'slug' => $managedNews->slug,
+            'photo_upload' => UploadedFile::fake()->image('replacement.png'),
+        ]))
+        ->assertSessionHasNoErrors();
+
+    $replacementPhoto = $managedNews->refresh()->photo;
+
+    Storage::disk('public')->assertMissing('news/photos/original.jpg');
+    Storage::disk('public')->assertExists($replacementPhoto);
+});
+
+test('removing news images deletes only managed uploads', function () {
+    Storage::fake('public');
+    $admin = newsAdminUser();
+    Storage::disk('public')->put('news/photos/remove.jpg', 'photo');
+    Storage::disk('public')->put('news/content/remove.jpg', 'content');
+    $news = News::factory()->create([
+        'photo' => 'news/photos/remove.jpg',
+        'content' => '<p>Body</p><img src="/storage/news/content/remove.jpg" alt="Remove">',
+    ]);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.news.update', $news), newsPayload([
+            'slug' => $news->slug,
+            'content' => '<p>Body without image</p>',
+            'remove_photo' => '1',
+        ]))
+        ->assertSessionHasNoErrors();
+
+    expect($news->refresh()->photo)->toBeNull();
+    Storage::disk('public')->assertMissing('news/photos/remove.jpg');
+    Storage::disk('public')->assertMissing('news/content/remove.jpg');
+});
+
+test('admins can delete news', function () {
+    Storage::fake('public');
+    $admin = newsAdminUser();
+    Storage::disk('public')->put('news/photos/delete.jpg', 'photo');
+    Storage::disk('public')->put('news/content/delete.jpg', 'content');
+    $news = News::factory()->create([
+        'photo' => 'news/photos/delete.jpg',
+        'content' => '<p>Body</p><img src="/storage/news/content/delete.jpg">',
+    ]);
 
     $this->actingAs($admin)
         ->delete(route('admin.news.destroy', $news))
         ->assertRedirect(route('admin.news.index'));
 
     $this->assertModelMissing($news);
+    Storage::disk('public')->assertMissing('news/photos/delete.jpg');
+    Storage::disk('public')->assertMissing('news/content/delete.jpg');
 });
 
 test('admin news index searches filters and sorts records', function () {

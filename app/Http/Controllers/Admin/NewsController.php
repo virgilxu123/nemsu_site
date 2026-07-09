@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\News\ManageNewsImages;
 use App\Actions\News\SaveNews;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNewsRequest;
@@ -15,6 +16,8 @@ use Inertia\Response;
 
 class NewsController extends Controller
 {
+    public function __construct(private ManageNewsImages $manageNewsImages) {}
+
     public function index(Request $request): Response
     {
         $search = trim((string) $request->query('search', ''));
@@ -104,8 +107,9 @@ class NewsController extends Controller
         return to_route('admin.news.edit', $news);
     }
 
-    public function destroy(News $news): RedirectResponse
+    public function destroy(News $news, SaveNews $saveNews): RedirectResponse
     {
+        $saveNews->deleteUploads($news);
         $news->delete();
 
         Inertia::flash('toast', [
@@ -137,7 +141,7 @@ class NewsController extends Controller
     }
 
     /**
-     * @return array{id: string, title: string, slug: string, short_description: string|null, content: string|null, photo: string|null, author: string|null, office_id: int|null, type: string, is_published: bool, featured: bool, date: string|null}
+     * @return array{id: string, title: string, slug: string, short_description: string|null, content: string|null, photo: string|null, photo_url: string|null, author: string|null, office_id: int|null, type: string, is_published: bool, featured: bool, date: string|null}
      */
     private function newsFormData(News $news): array
     {
@@ -148,6 +152,7 @@ class NewsController extends Controller
             'short_description' => $news->short_description,
             'content' => $news->content,
             'photo' => $news->photo,
+            'photo_url' => $this->manageNewsImages->photoUrl($news->photo),
             'author' => $news->author,
             'office_id' => $news->office_id,
             'type' => $news->type,

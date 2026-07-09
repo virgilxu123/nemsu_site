@@ -6,6 +6,7 @@ use App\Models\News;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Normalizer;
 
@@ -36,7 +37,7 @@ trait FormatsNewsForPublicDisplay
         return [
             ...$this->newsListData($news),
             'contentHtml' => $this->cleanArticleHtml($news->content),
-            'galleryImages' => $this->articleGalleryImages($news),
+            'galleryImages' => [],
         ];
     }
 
@@ -72,6 +73,10 @@ trait FormatsNewsForPublicDisplay
             return null;
         }
 
+        if (Str::of($photo)->startsWith('news/')) {
+            return Storage::disk('public')->url($photo);
+        }
+
         if (Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
             return $this->absoluteLegacyUrl($photo);
         }
@@ -88,49 +93,10 @@ trait FormatsNewsForPublicDisplay
         }
 
         $this->sanitizeNode($main);
-        $this->removeArticleImages($main);
-        $this->removeEmptyImageWrappers($main);
 
         return collect(iterator_to_array($main->childNodes))
             ->map(fn (DOMNode $node): string => $document->saveHTML($node) ?: '')
             ->implode('');
-    }
-
-    /**
-     * @return list<array{url: string, alt: string}>
-     */
-    private function articleGalleryImages(News $news): array
-    {
-        [, $main] = $this->articleDocument($news->content);
-
-        if (! $main instanceof DOMElement) {
-            return [];
-        }
-
-        $leadPhotoUrl = $this->newsPhotoUrl($news->photo);
-        $seen = collect([$leadPhotoUrl])->filter()->flip();
-
-        return collect(iterator_to_array($main->getElementsByTagName('img')))
-            ->filter(fn (DOMNode $node): bool => $node instanceof DOMElement)
-            ->map(function (DOMElement $image) use ($news): ?array {
-                $url = $this->absoluteLegacyUrl($image->getAttribute('src'));
-
-                if ($url === '' || Str::of($url)->lower()->startsWith('javascript:')) {
-                    return null;
-                }
-
-                return [
-                    'url' => $url,
-                    'alt' => $this->normalizeDisplayText($image->getAttribute('alt'))
-                        ?: $this->normalizeDisplayText($news->title)
-                        ?: 'News photo',
-                ];
-            })
-            ->filter()
-            ->reject(fn (array $image): bool => $seen->has($image['url']))
-            ->unique('url')
-            ->values()
-            ->all();
     }
 
     /**
@@ -152,34 +118,6 @@ trait FormatsNewsForPublicDisplay
         $main = $document->getElementsByTagName('main')->item(0);
 
         return [$document, $main instanceof DOMElement ? $main : null];
-    }
-
-    private function removeArticleImages(DOMElement $main): void
-    {
-        foreach (iterator_to_array($main->getElementsByTagName('img')) as $image) {
-            if ($image instanceof DOMElement) {
-                $image->parentNode?->removeChild($image);
-            }
-        }
-    }
-
-    private function removeEmptyImageWrappers(DOMNode $node): void
-    {
-        foreach (iterator_to_array($node->childNodes) as $child) {
-            if (! $child instanceof DOMElement) {
-                continue;
-            }
-
-            $this->removeEmptyImageWrappers($child);
-
-            if (
-                in_array($child->tagName, ['p', 'figure'], true)
-                && trim($child->textContent) === ''
-                && $child->getElementsByTagName('*')->length === 0
-            ) {
-                $child->parentNode?->removeChild($child);
-            }
-        }
     }
 
     private function sanitizeNode(DOMNode $node): void
@@ -241,6 +179,10 @@ trait FormatsNewsForPublicDisplay
         $url = trim($url);
 
         if (Str::of($url)->startsWith(['http://', 'https://', '#', 'mailto:', 'tel:'])) {
+            return $url;
+        }
+
+        if (Str::of($url)->startsWith('/storage/')) {
             return $url;
         }
 

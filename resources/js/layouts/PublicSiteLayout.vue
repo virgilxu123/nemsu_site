@@ -2,19 +2,20 @@
 import { Link } from '@inertiajs/vue3';
 import {
     ChevronDown,
-    Globe2,
+    Facebook,
+    Mail,
     Menu,
+    Phone,
     Search,
     UserRound,
     X,
-    Facebook,
-    Phone,
-    Mail,
 } from 'lucide-vue-next';
+import type { Component } from 'vue';
 import { ref } from 'vue';
 import { dashboard, home } from '@/routes';
 import {
     boardOfRegents,
+    innovateAgenda,
     officeOfThePresident,
     university,
 } from '@/routes/about';
@@ -41,6 +42,33 @@ type NavGroup = {
     }[];
 };
 
+type FooterContactItem = {
+    label: string;
+    value: string;
+    href?: string;
+};
+
+type FooterOfficeContact = {
+    office: string;
+    value: string;
+    href: string;
+    icon: Component;
+};
+
+type FooterSocialLink = {
+    label: string;
+    href: string;
+    icon: Component;
+};
+
+type FooterImageLink = {
+    label: string;
+    href: string;
+    image: string;
+    imageAlt: string;
+    external?: boolean;
+};
+
 const mobileOpen = ref(false);
 
 const navGroups: NavGroup[] = [
@@ -57,7 +85,7 @@ const navGroups: NavGroup[] = [
                     },
                     {
                         label: 'INNOVATE Agenda',
-                        href: `${officeOfThePresident().url}#innovate-agenda`,
+                        href: innovateAgenda().url,
                     },
                 ],
             },
@@ -256,6 +284,81 @@ const utilityLinks = [
     { label: 'Directory', href: '#footer' },
     { label: 'Admission', href: '#services' },
 ];
+
+const footerContactItems: FooterContactItem[] = [
+    {
+        label: '',
+        value: 'Rosario, Tandag City, 8300 Surigao del Sur, Philippines',
+    },
+];
+
+const footerOfficeContacts: FooterOfficeContact[] = [
+    {
+        office: 'Office of the President',
+        value: '(086) 214-0001',
+        href: 'tel:+63862140001',
+        icon: Phone,
+    },
+    {
+        office: 'Information Unit',
+        value: 'info@nemsu.edu.ph',
+        href: 'mailto:info@nemsu.edu.ph',
+        icon: Mail,
+    },
+    {
+        office: "Registrar's Office",
+        value: '(086) 214-0002',
+        href: 'tel:+63862140002',
+        icon: Phone,
+    },
+    {
+        office: 'Admission Office',
+        value: '(086) 214-0003',
+        href: 'tel:+63862140003',
+        icon: Phone,
+    },
+    {
+        office: 'Guidance Office',
+        value: '(086) 214-0004',
+        href: 'tel:+63862140004',
+        icon: Phone,
+    },
+];
+
+const footerSocialLinks: FooterSocialLink[] = [
+    {
+        label: 'NEMSU on Facebook',
+        href: 'https://www.facebook.com/nemsueduph',
+        icon: Facebook,
+    },
+];
+
+const certificationLinks: FooterImageLink[] = [
+    {
+        label: 'ISO Certification',
+        href: 'https://drive.google.com/file/d/1LI4qP_Ge4NfFhDhZ5mlXR5dY5YP3laX4/view',
+        image: 'https://nemsu.edu.ph/assets/images/ISO.jpg',
+        imageAlt: 'ISO certification logos',
+        external: true,
+    },
+];
+
+const governanceSealLinks: FooterImageLink[] = [
+    {
+        label: 'Transparency Seal',
+        href: transparencySeal().url,
+        image: '/storage/assets/image/the_transparency_seal2_0-150x150.png',
+        imageAlt: 'Transparency Seal',
+    },
+    {
+        label: 'Freedom of Information',
+        href: `${vpaf().url}#freedom-of-information`,
+        image: '/storage/assets/image/FOI-Logo_0-150x150.png',
+        imageAlt: 'Freedom of Information seal',
+    },
+];
+
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -445,159 +548,204 @@ const utilityLinks = [
 
         <footer
             id="footer"
-            class="border-t-4 border-[#1711d4] bg-slate-950 text-white"
+            class="border-t-4 border-[#1711d4] bg-white text-slate-950 dark:bg-slate-950 dark:text-white"
         >
             <div
-                class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.1fr_1fr_1fr] lg:px-8"
+                class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.05fr_1.15fr_0.9fr_0.9fr] lg:items-start lg:gap-12 lg:px-8 xl:gap-16"
             >
-                <section>
-                    <div class="flex items-center gap-5">
+                <section class="grid content-start gap-7">
+                    <div class="flex flex-col items-start gap-4">
                         <img
                             src="https://nemsu.edu.ph/assets/images/NEMSU.png"
                             alt="NEMSU seal"
-                            class="size-24 shrink-0 rounded-full bg-white object-contain p-1 ring-4 ring-white/10"
+                            class="size-32 shrink-0 rounded-full object-contain shadow-sm ring-1 shadow-slate-900/10 ring-slate-200 dark:ring-white/15"
                         />
-                        <div>
-                            <p
-                                class="text-2xl font-bold tracking-wide text-white uppercase"
-                            >
-                                NEMSU
-                            </p>
-                            <p
-                                class="mt-1 max-w-xs text-sm leading-6 font-medium text-sky-100"
-                            >
-                                North Eastern Mindanao State University
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="mt-7 grid gap-3 text-sm text-slate-300">
-                        <p class="flex items-start gap-3">
-                            <Globe2
-                                class="mt-0.5 size-4 shrink-0 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            <span>
-                                Rosario, Tandag City, 8300 Surigao del Sur,
-                                Philippines
-                            </span>
+                        <p
+                            class="text-4xl font-extrabold tracking-wide text-slate-950 dark:text-white"
+                        >
+                            NEMSU
                         </p>
-                        <a
-                            href="tel:+63862144221"
-                            class="flex items-center gap-3 transition hover:text-white"
-                        >
-                            <Phone
-                                class="size-4 shrink-0 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            (086) 214-4221
-                        </a>
-                        <a
-                            href="mailto:information@nemsu.edu.ph"
-                            class="flex items-center gap-3 transition hover:text-white"
-                        >
-                            <Mail
-                                class="size-4 shrink-0 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            information@nemsu.edu.ph
-                        </a>
                     </div>
 
                     <div
-                        class="mt-7 flex gap-2"
-                        aria-label="Official social media"
+                        class="grid gap-3 text-sm text-slate-700 dark:text-slate-300"
                     >
-                        <a
-                            href="https://www.facebook.com/photo?fbid=434718275981498&set=a.158278150292180"
-                            target="_blank"
-                            rel="noopener"
-                            class="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/5 transition hover:border-[#1877f2] hover:bg-[#1877f2]"
-                            aria-label="NEMSU on Facebook"
+                        <component
+                            :is="item.href ? 'a' : 'p'"
+                            v-for="item in footerContactItems"
+                            :key="item.label"
+                            :href="item.href"
+                            class="flex rounded-md transition hover:text-[#1711d4] dark:hover:text-sky-200"
                         >
-                            <Facebook class="size-5" aria-hidden="true" />
-                        </a>
+                            <span>
+                                <span
+                                    class="block text-xs font-semibold tracking-wide text-slate-500 dark:text-slate-400"
+                                >
+                                    {{ item.label }}
+                                </span>
+                                <span class="block leading-6">{{
+                                    item.value
+                                }}</span>
+                            </span>
+                        </component>
+                    </div>
+
+                    <div>
+                        <h2
+                            class="text-sm font-semibold tracking-wide text-slate-950 dark:text-white"
+                        >
+                            Follow Us
+                        </h2>
+                        <div
+                            class="mt-4 flex flex-wrap gap-3"
+                            aria-label="Official social media"
+                        >
+                            <a
+                                v-for="social in footerSocialLinks"
+                                :key="social.label"
+                                :href="social.href"
+                                target="_blank"
+                                rel="noopener"
+                                class="inline-flex size-8 items-center justify-center rounded-full bg-[#1711d4]/10 text-[#1711d4] transition hover:bg-[#1711d4] hover:text-white dark:bg-[#f2b705]/15 dark:text-[#f2b705] dark:hover:bg-[#f2b705] dark:hover:text-slate-950"
+                                :aria-label="social.label"
+                            >
+                                <component
+                                    :is="social.icon"
+                                    class="size-4"
+                                    aria-hidden="true"
+                                />
+                            </a>
+                        </div>
                     </div>
                 </section>
 
                 <section>
                     <h2
-                        class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
+                        class="text-sm font-semibold tracking-wide text-slate-950 dark:text-white"
                     >
-                        Official Links
+                        Contacts
                     </h2>
-                    <nav class="mt-5 grid gap-3 text-sm text-slate-300">
+                    <div class="mt-5 grid gap-5">
                         <a
-                            href="https://nemsu.edu.ph/directory"
-                            target="_blank"
-                            rel="noopener"
-                            class="transition hover:text-white"
+                            v-for="contact in footerOfficeContacts"
+                            :key="contact.office"
+                            :href="contact.href"
+                            class="group flex items-center gap-3 text-sm text-slate-700 transition hover:text-[#1711d4] dark:text-slate-300 dark:hover:text-sky-200"
                         >
-                            University Directory
+                            <span
+                                class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[#1711d4]/10 text-[#1711d4] transition group-hover:bg-[#1711d4] group-hover:text-white dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                            >
+                                <component
+                                    :is="contact.icon"
+                                    class="size-4"
+                                    aria-hidden="true"
+                                />
+                            </span>
+                            <span>
+                                <span
+                                    class="block font-semibold tracking-wide text-slate-950 dark:text-white"
+                                >
+                                    {{ contact.office }}
+                                </span>
+                                <span class="mt-1 block leading-6">
+                                    {{ contact.value }}
+                                </span>
+                            </span>
                         </a>
-                        <a
-                            :href="citizensCharter().url"
-                            class="transition hover:text-white"
-                        >
-                            Citizen's Charter
-                        </a>
-                        <a
-                            :href="transparencySeal().url"
-                            class="transition hover:text-white"
-                        >
-                            Transparency Seal
-                        </a>
-                        <a
-                            :href="`${vpaf().url}#freedom-of-information`"
-                            class="transition hover:text-white"
-                        >
-                            Freedom of Information
-                        </a>
-                        <a
-                            href="https://memo.nemsu.edu.ph"
-                            target="_blank"
-                            rel="noopener"
-                            class="transition hover:text-white"
-                        >
-                            University Memoranda
-                        </a>
-                    </nav>
+                    </div>
                 </section>
 
-                <section>
+                <section
+                    class="grid content-start justify-items-center text-center"
+                >
                     <h2
-                        class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
+                        class="text-sm font-semibold tracking-wide text-slate-950 dark:text-white"
                     >
-                        Government & Certification
+                        Certification
                     </h2>
-                    <div class="mt-5 flex flex-wrap items-center gap-4">
+                    <div class="mt-5 grid gap-4">
                         <a
-                            :href="transparencySeal().url"
-                            class="grid size-28 place-items-center rounded-md bg-white p-3 transition hover:-translate-y-1"
-                            aria-label="Transparency Seal"
+                            v-for="certification in certificationLinks"
+                            :key="certification.label"
+                            :href="certification.href"
+                            :target="
+                                certification.external ? '_blank' : undefined
+                            "
+                            :rel="
+                                certification.external ? 'noopener' : undefined
+                            "
+                            class="grid min-h-36 justify-items-center"
+                            :aria-label="certification.label"
                         >
                             <img
-                                src="https://nemsu.edu.ph/assets/images/seal.png"
-                                alt="Transparency Seal"
-                                class="max-h-full max-w-full object-contain"
+                                :src="certification.image"
+                                :alt="certification.imageAlt"
+                                class="mx-auto max-h-32 max-w-full object-contain"
+                            />
+                        </a>
+                    </div>
+                </section>
+
+                <section
+                    class="grid content-start justify-items-center text-center"
+                >
+                    <h2
+                        class="text-sm font-semibold tracking-wide text-slate-950 dark:text-white"
+                    >
+                        Transparency Seal
+                    </h2>
+                    <div class="mt-5 grid justify-items-center gap-7">
+                        <a
+                            :href="governanceSealLinks[0].href"
+                            :target="
+                                governanceSealLinks[0].external
+                                    ? '_blank'
+                                    : undefined
+                            "
+                            :rel="
+                                governanceSealLinks[0].external
+                                    ? 'noopener'
+                                    : undefined
+                            "
+                            class="grid justify-items-center"
+                            :aria-label="governanceSealLinks[0].label"
+                        >
+                            <img
+                                :src="governanceSealLinks[0].image"
+                                :alt="governanceSealLinks[0].imageAlt"
+                                class="mx-auto max-h-28 max-w-full object-contain"
                             />
                         </a>
                         <a
-                            href="https://www.gov.ph"
-                            target="_blank"
-                            rel="noopener"
-                            class="grid size-28 place-items-center rounded-md border border-white/15 bg-white/5 p-3 text-center text-xs leading-5 font-semibold text-sky-100 transition hover:-translate-y-1 hover:bg-white/10"
+                            :href="governanceSealLinks[1].href"
+                            :target="
+                                governanceSealLinks[1].external
+                                    ? '_blank'
+                                    : undefined
+                            "
+                            :rel="
+                                governanceSealLinks[1].external
+                                    ? 'noopener'
+                                    : undefined
+                            "
+                            class="grid justify-items-center gap-4 text-sm font-semibold tracking-wide text-slate-950 transition dark:text-white"
+                            :aria-label="governanceSealLinks[1].label"
                         >
-                            Republic of the Philippines
+                            <span>{{ governanceSealLinks[1].label }}</span>
+                            <img
+                                :src="governanceSealLinks[1].image"
+                                :alt="governanceSealLinks[1].imageAlt"
+                                class="mx-auto max-h-28 max-w-full object-contain"
+                            />
                         </a>
                     </div>
                 </section>
             </div>
             <div
-                class="border-t border-white/10 py-5 text-center text-xs text-slate-400"
+                class="border-t border-slate-200 bg-[#1711d4] px-4 py-5 text-center text-xs text-white dark:border-white/10"
             >
-                © {{ new Date().getFullYear() }} North Eastern Mindanao State
-                University. All rights reserved.
+                © {{ currentYear }} North Eastern Mindanao State University. All
+                rights reserved.
             </div>
         </footer>
     </div>

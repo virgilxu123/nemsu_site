@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { FormDataConvertible } from '@inertiajs/core';
 import { Form, Link } from '@inertiajs/vue3';
-import { Save } from 'lucide-vue-next';
-import { computed, ref, watch } from 'vue';
+import { ImageOff, Save } from 'lucide-vue-next';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import InputError from '@/components/InputError.vue';
 import RichTextEditor from '@/components/RichTextEditor.vue';
 import { Button } from '@/components/ui/button';
@@ -24,7 +25,6 @@ type EditableNewsFormData = {
     slug: string;
     short_description: string;
     content: string;
-    photo: string;
     author: string;
     office_id: number | null;
     type: 'news' | 'announcement';
@@ -48,7 +48,6 @@ const blankNewsItem: EditableNewsFormData = {
     slug: '',
     short_description: '',
     content: '',
-    photo: '',
     author: '',
     office_id: null,
     type: defaultType.value,
@@ -63,7 +62,6 @@ const formData = ref<EditableNewsFormData>({
     short_description:
         props.newsItem?.short_description ?? blankNewsItem.short_description,
     content: props.newsItem?.content ?? blankNewsItem.content,
-    photo: props.newsItem?.photo ?? blankNewsItem.photo,
     author: props.newsItem?.author ?? blankNewsItem.author,
     office_id: props.newsItem?.office_id ?? blankNewsItem.office_id,
     type: props.newsItem?.type ?? defaultType.value,
@@ -74,6 +72,62 @@ const formData = ref<EditableNewsFormData>({
 
 const slugWasEdited = ref(Boolean(props.newsItem?.slug));
 const officeValue = computed(() => formData.value.office_id?.toString() ?? '');
+const contentImages = ref<Record<string, File>>({});
+const photoInput = ref<HTMLInputElement | null>(null);
+const photoFile = ref<File | null>(null);
+const removePhoto = ref(false);
+const photoPreviewUrl = ref<string | null>(props.newsItem?.photo_url ?? null);
+let localPhotoPreviewUrl: string | null = null;
+
+const transformForm = (
+    data: Record<string, FormDataConvertible>,
+): Record<string, FormDataConvertible> => ({
+    ...data,
+    content_images: contentImages.value,
+});
+
+const updateContentImages = (images: Record<string, File>): void => {
+    contentImages.value = images;
+};
+
+const selectPhoto = (event: Event): void => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+        localPhotoPreviewUrl = null;
+    }
+
+    photoFile.value = file;
+    removePhoto.value = false;
+    localPhotoPreviewUrl = file ? URL.createObjectURL(file) : null;
+    photoPreviewUrl.value =
+        localPhotoPreviewUrl ?? props.newsItem?.photo_url ?? null;
+};
+
+const clearPhoto = (): void => {
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+        localPhotoPreviewUrl = null;
+    }
+
+    if (photoInput.value) {
+        photoInput.value.value = '';
+    }
+
+    photoFile.value = null;
+    photoPreviewUrl.value = null;
+    removePhoto.value = Boolean(props.newsItem?.photo);
+};
+
+const contentImageError = (
+    errors: Record<string, string>,
+): string | undefined =>
+    errors.content_images ??
+    Object.entries(errors).find(([key]) =>
+        key.startsWith('content_images.'),
+    )?.[1];
 
 const slugify = (value: string): string =>
     value
@@ -91,11 +145,18 @@ watch(
         }
     },
 );
+
+onBeforeUnmount(() => {
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+    }
+});
 </script>
 
 <template>
     <Form
         v-bind="formAction"
+        :transform="transformForm"
         class="grid gap-6"
         v-slot="{ errors, processing }"
     >
@@ -142,9 +203,12 @@ watch(
                     id="content"
                     v-model="formData.content"
                     label="Body"
+                    enable-images
+                    @attachments-change="updateContentImages"
                 />
                 <input type="hidden" name="content" :value="formData.content" />
                 <InputError :message="errors.content" />
+                <InputError :message="contentImageError(errors)" />
             </section>
 
             <aside class="grid h-fit gap-5">
@@ -189,13 +253,41 @@ watch(
 
                 <div class="grid gap-2">
                     <Label for="photo">Photo</Label>
-                    <Input
-                        id="photo"
-                        v-model="formData.photo"
-                        name="photo"
-                        placeholder="https://example.com/photo.jpg"
+                    <img
+                        v-if="photoPreviewUrl"
+                        :src="photoPreviewUrl"
+                        alt="News photo preview"
+                        class="aspect-video w-full rounded-md border border-input object-cover"
                     />
-                    <InputError :message="errors.photo" />
+                    <input
+                        id="photo"
+                        ref="photoInput"
+                        name="photo_upload"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        class="block w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-sm file:font-medium"
+                        @change="selectPhoto"
+                    />
+                    <input
+                        type="hidden"
+                        name="remove_photo"
+                        :value="removePhoto ? '1' : '0'"
+                    />
+                    <p class="text-xs text-muted-foreground">
+                        JPEG, PNG, or WebP. Maximum 5 MB.
+                    </p>
+                    <Button
+                        v-if="photoPreviewUrl || photoFile"
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        class="w-fit"
+                        @click="clearPhoto"
+                    >
+                        <ImageOff class="size-4" />
+                        Remove photo
+                    </Button>
+                    <InputError :message="errors.photo_upload" />
                 </div>
 
                 <div class="grid gap-2">

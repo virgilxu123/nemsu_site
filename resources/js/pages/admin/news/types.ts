@@ -5,6 +5,7 @@ export type NewsFormData = {
     short_description: string | null;
     content: string | null;
     photo: string | null;
+    photo_url: string | null;
     author: string | null;
     office_id: number | null;
     type: 'news' | 'announcement';

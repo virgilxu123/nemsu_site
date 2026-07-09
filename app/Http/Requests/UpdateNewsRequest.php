@@ -31,7 +31,10 @@ class UpdateNewsRequest extends FormRequest
             ],
             'short_description' => ['nullable', 'string'],
             'content' => ['required', 'string'],
-            'photo' => ['nullable', 'string', 'max:255'],
+            'photo_upload' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'remove_photo' => ['sometimes', 'boolean'],
+            'content_images' => ['sometimes', 'array'],
+            'content_images.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'author' => ['nullable', 'string', 'max:255'],
             'office_id' => ['nullable', 'integer', Rule::exists('offices', 'id')],
             'type' => ['required', 'string', Rule::in(['news', 'announcement'])],
@@ -50,6 +53,7 @@ class UpdateNewsRequest extends FormRequest
             'slug' => Str::slug($slug !== '' ? $slug : $title),
             'is_published' => $this->boolean('is_published'),
             'featured' => $this->boolean('featured'),
+            'remove_photo' => $this->boolean('remove_photo'),
         ]);
     }
 }

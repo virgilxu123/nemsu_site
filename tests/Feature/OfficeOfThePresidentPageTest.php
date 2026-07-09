@@ -24,3 +24,11 @@ test('office of the president page can be viewed', function () {
             ->where('pressReleases.0.slug', 'latest-presidential-press-release')
         );
 });
+
+test('innovate agenda page can be viewed', function () {
+    $this->get(route('about.innovate-agenda'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('about/InnovateAgenda')
+        );
+});

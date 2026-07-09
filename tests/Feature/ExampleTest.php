@@ -281,15 +281,14 @@ test('published news article page can be viewed', function () {
             ->where('article.title', 'Detailed university story')
             ->where('article.slug', 'detailed-university-story')
             ->where('article.photoUrl', 'https://nemsu.edu.ph/files/News/story.jpg')
-            ->has('article.galleryImages', 1)
-            ->where('article.galleryImages.0.url', 'https://nemsu.edu.ph/public_files/images/story.jpg')
+            ->has('article.galleryImages', 0)
             ->has('latestNews')
         );
 
     expect($response->inertiaProps('article.contentHtml'))
         ->toContain('Full public article.')
-        ->not->toContain('<img')
-        ->not->toContain('https://nemsu.edu.ph/public_files/images/story.jpg')
+        ->toContain('<img')
+        ->toContain('https://nemsu.edu.ph/public_files/images/story.jpg')
         ->not->toContain('<script')
         ->not->toContain('onerror');
 });

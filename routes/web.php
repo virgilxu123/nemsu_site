@@ -24,6 +24,7 @@ Route::get('/campuses/{campus}', [CampusController::class, 'show'])->name('campu
 Route::inertia('/about/university', 'about/University')->name('about.university');
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::get('/about/office-of-the-president', OfficeOfThePresidentController::class)->name('about.office-of-the-president');
+Route::inertia('/about/innovate-agenda', 'about/InnovateAgenda')->name('about.innovate-agenda');
 Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
 Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');

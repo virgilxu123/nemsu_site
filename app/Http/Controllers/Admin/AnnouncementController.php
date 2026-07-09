@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\News\ManageNewsImages;
 use App\Actions\News\SaveNews;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNewsRequest;
@@ -15,6 +16,8 @@ use Inertia\Response;
 
 class AnnouncementController extends Controller
 {
+    public function __construct(private ManageNewsImages $manageNewsImages) {}
+
     public function index(Request $request): Response
     {
         $search = trim((string) $request->query('search', ''));
@@ -115,10 +118,11 @@ class AnnouncementController extends Controller
         return to_route('admin.announcements.edit', $announcement);
     }
 
-    public function destroy(News $announcement): RedirectResponse
+    public function destroy(News $announcement, SaveNews $saveNews): RedirectResponse
     {
         $this->ensureAnnouncement($announcement);
 
+        $saveNews->deleteUploads($announcement);
         $announcement->delete();
 
         Inertia::flash('toast', [
@@ -150,7 +154,7 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * @return array{id: string, title: string, slug: string, short_description: string|null, content: string|null, photo: string|null, author: string|null, office_id: int|null, type: string, is_published: bool, featured: bool, date: string|null}
+     * @return array{id: string, title: string, slug: string, short_description: string|null, content: string|null, photo: string|null, photo_url: string|null, author: string|null, office_id: int|null, type: string, is_published: bool, featured: bool, date: string|null}
      */
     private function announcementFormData(News $announcement): array
     {
@@ -161,6 +165,7 @@ class AnnouncementController extends Controller
             'short_description' => $announcement->short_description,
             'content' => $announcement->content,
             'photo' => $announcement->photo,
+            'photo_url' => $this->manageNewsImages->photoUrl($announcement->photo),
             'author' => $announcement->author,
             'office_id' => $announcement->office_id,
             'type' => 'announcement',

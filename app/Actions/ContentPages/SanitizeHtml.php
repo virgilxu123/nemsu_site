@@ -12,7 +12,7 @@ class SanitizeHtml
     public function handle(string $html): string
     {
         $html = preg_replace('/<\s*(script|style|iframe|object|embed)\b[^>]*>.*?<\s*\/\s*\1\s*>/is', '', $html) ?? '';
-        $html = strip_tags($html, '<p><br><strong><b><em><i><u><s><blockquote><ul><ol><li><a><h2><h3><h4>');
+        $html = strip_tags($html, '<p><br><strong><b><em><i><u><s><blockquote><ul><ol><li><a><img><h2><h3><h4>');
 
         $document = new DOMDocument;
         $previous = libxml_use_internal_errors(true);
@@ -43,8 +43,14 @@ class SanitizeHtml
                 continue;
             }
 
+            $allowedAttributes = match ($child->tagName) {
+                'a' => ['href', 'title', 'target', 'rel'],
+                'img' => ['src', 'alt', 'title'],
+                default => [],
+            };
+
             foreach (iterator_to_array($child->attributes) as $attribute) {
-                if ($child->tagName !== 'a' || ! in_array($attribute->name, ['href', 'title', 'target', 'rel'], true)) {
+                if (! in_array($attribute->name, $allowedAttributes, true)) {
                     $child->removeAttribute($attribute->name);
                 }
             }
@@ -56,6 +62,14 @@ class SanitizeHtml
                     $child->removeAttribute('href');
                 } else {
                     $child->setAttribute('rel', 'noopener');
+                }
+            }
+
+            if ($child->tagName === 'img' && $child->hasAttribute('src')) {
+                $src = trim($child->getAttribute('src'));
+
+                if ($src === '' || Str::of($src)->lower()->startsWith(['javascript:', 'data:', 'blob:'])) {
+                    $child->removeAttribute('src');
                 }
             }
 
