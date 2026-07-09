@@ -67,36 +67,18 @@ const navGroups: NavGroup[] = [
         label: 'Administration',
         columns: [
             {
-                heading: 'Administration and Finance',
                 links: [
                     {
-                        label: 'OVPAF Profile',
+                        label: 'Administration and Finance',
                         href: `${vpaf().url}#ovpaf-profile`,
                     },
                     {
-                        label: 'Offices under OVPAF',
+                        label: 'Good Governance',
                         href: `${vpaf().url}#ovpaf-offices`,
                     },
                     // { label: 'Unit Head', href: '#governance' },
                     // { label: 'Email', href: '#governance' },
                     // { label: 'Contact Details', href: '#governance' },
-                ],
-            },
-            {
-                heading: 'Good Governance',
-                links: [
-                    {
-                        label: 'Transparency Seal',
-                        href: transparencySeal().url,
-                    },
-                    {
-                        label: 'Freedom of Information',
-                        href: `${vpaf().url}#freedom-of-information`,
-                    },
-                    {
-                        label: "Citizen's Charter",
-                        href: citizensCharter().url,
-                    },
                 ],
             },
         ],
