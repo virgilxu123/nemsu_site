@@ -78,12 +78,12 @@ const iconComponents: Record<GlanceIcon, Component> = {
                     >
                         NEMSU at a Glance
                     </p>
-                    <h2
+                    <h3
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
                     >
                         A quick system-wide snapshot for students, personnel,
                         graduates, and campus locations
-                    </h2>
+                    </h3>
                     <p
                         class="mt-4 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300"
                     >
@@ -136,11 +136,11 @@ const iconComponents: Record<GlanceIcon, Component> = {
                         >
                             {{ stat.value }}
                         </p>
-                        <h3
+                        <h4
                             class="mt-3 text-base font-semibold text-slate-950 dark:text-white"
                         >
                             {{ stat.label }}
-                        </h3>
+                        </h4>
                         <p
                             class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
                         >
@@ -163,9 +163,9 @@ const iconComponents: Record<GlanceIcon, Component> = {
                             >
                                 Location Map
                             </p>
-                            <h3 class="mt-3 text-2xl font-semibold">
+                            <h4 class="mt-3 text-2xl font-semibold">
                                 Campus footprint preview
-                            </h3>
+                            </h4>
                             <p class="mt-3 text-sm leading-7 text-sky-100">
                                 Seven campuses serving communities across
                                 Surigao del Sur.

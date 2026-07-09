@@ -110,8 +110,8 @@ const setupRevealAnimation = (): void => {
             });
         },
         {
-            rootMargin: '-8% 0px -12% 0px',
-            threshold: 0.16,
+            rootMargin: '0px',
+            threshold: 0.1,
         },
     );
 

@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import {
-    BadgeCheck,
     BookOpen,
-    Compass,
-    Flag,
-    Leaf,
-    ShieldCheck,
-    Sparkles,
+    ChevronLeft,
+    ChevronRight,
+    Circle,
+    Flame,
+    Music2,
+    Shield,
+    TreePine,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import type { Component, CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
-
-type PageAnchor = {
-    label: string;
-    href: string;
-};
 
 type HistoryItem = {
     year: string;
@@ -26,20 +21,17 @@ type HistoryItem = {
     description: string;
 };
 
-type CoreValue = {
-    title: string;
-    description: string;
-    icon: Component;
+type HistorySlide = HistoryItem & {
+    image: string;
+    imageAlt: string;
 };
 
-type SealPart = {
+type CoreValue = {
     title: string;
     description: string;
 };
 
 const sealImage = 'https://nemsu.edu.ph/assets/images/NEMSU.png';
-const heroImage = 'https://nemsu.edu.ph/files/News/cm-00.jpg';
-
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -48,13 +40,43 @@ const revealOffset: Record<RevealDirection, string> = {
 };
 
 const visibleSections = ref<Set<string>>(new Set(['university-hero']));
+const activeHistorySlide = ref(0);
 let revealObserver: IntersectionObserver | null = null;
+let historySlideInterval: ReturnType<typeof setInterval> | null = null;
 
-const pageAnchors: PageAnchor[] = [
-    { label: 'History', href: '#history' },
-    { label: 'Vision and Mission', href: '#vision-and-mission' },
-    { label: 'Core Values', href: '#core-values' },
-    { label: 'University Seal', href: '#university-seal' },
+const historySlides: HistorySlide[] = [
+    {
+        year: '1982',
+        title: 'The Tandag story begins',
+        description:
+            'A 153-student extension center planted the roots of today’s multi-campus University.',
+        image: '/images/campuses/tandag/facilities/gallery/academic-building.jpg',
+        imageAlt: 'Academic building at NEMSU Tandag Campus',
+    },
+    {
+        year: '1992',
+        title: 'One growing academic system',
+        description:
+            'Campuses in Tandag, Cagwait, Tagbina, Lianga, and San Miguel came together under SSPC.',
+        image: '/images/campuses/tandag/facilities/gallery/main-academic-complex.jpg',
+        imageAlt: 'Main academic complex at NEMSU Tandag Campus',
+    },
+    {
+        year: '2010',
+        title: 'A state university is born',
+        description:
+            'Republic Act No. 9998 converted the institution into Surigao del Sur State University.',
+        image: '/images/campuses/tandag/facilities/gallery/administrative-building.jpg',
+        imageAlt: 'Administrative building at NEMSU Tandag Campus',
+    },
+    {
+        year: '2021',
+        title: 'NEMSU takes its name',
+        description:
+            'Republic Act No. 11584 established the name North Eastern Mindanao State University.',
+        image: '/images/campuses/tandag/facilities/gallery/university-gymnasium.jpg',
+        imageAlt: 'University gymnasium at NEMSU Tandag Campus',
+    },
 ];
 
 const historyItems: HistoryItem[] = [
@@ -100,65 +122,60 @@ const coreValues: CoreValue[] = [
     {
         title: 'Compassion',
         description:
-            'Promotes empathy, sincerity, and authenticity within a caring and supportive academic community.',
-        icon: Leaf,
+            'Compassion entails our value of promoting empathy, sincerity, and authenticity within the academic community to foster a caring and supportive environment where individuals feel understood, valued, and respected.',
     },
     {
         title: 'Accountability',
         description:
-            'Upholds integrity, transparency, responsibility, and ethical stewardship of resources for the common good.',
-        icon: ShieldCheck,
+            'Accountability signifies our unwavering commitment to integrity, honesty, and transparent practices, coupled with a sense of responsibility for our actions and decisions, ensuring ethical, effiecient, and cost-effective stewardship of resources for the common good.',
     },
     {
         title: 'Responsiveness',
         description:
-            'Commits to prompt action and quality communication for clients and stakeholders.',
-        icon: Compass,
+            'Responsive is a prompt action and release consistent quality communication that is focus on providing correct and complete action and/or information to clients and stakeholders.',
     },
     {
         title: 'Excellence',
         description:
-            'Pursues the highest standards of performance through innovation, dedication, and impact.',
-        icon: Sparkles,
+            'Excellence means our consistent pursuit of the highest standards of performance, characterized by innovation, dedication, and impactful contributions across all aspects of endeavor.',
     },
     {
         title: 'Service',
         description:
-            'Embodies professionalism, dedication, collaboration, and continual improvement in service to the community and nation.',
-        icon: BadgeCheck,
+            'Service is the embodiment of our professionalism, dedication, and a service-oriented mindset, committed to fulfilling our mission with excellence, integrity, and continual improvement, while fostering interdependence, collaboration, and sustainable success within the community and nation-building endeavors.',
     },
 ];
 
-const sealParts: SealPart[] = [
-    {
-        title: 'Ring',
-        description:
-            'Represents continuity, leadership, and the bridge between the university and the wider world.',
-    },
-    {
-        title: 'Shield',
-        description:
-            'Represents the university purposes, mission, vision, and the academic fields across the campuses.',
-    },
-    {
-        title: 'Color',
-        description:
-            'The sky-blue identity stands for faithful courage among teaching forces, students, administration, and staff.',
-    },
-    {
-        title: 'Open Book',
-        description: 'Symbolizes knowledge offered by the university.',
-    },
-    {
-        title: 'Torch and Laurel',
-        description:
-            'The torch is a guiding light, while the laurel proclaims victory over global challenges.',
-    },
-];
+const hymnLyrics = `Onward with a noble mission
+Unifying with a vision;
+Glorious footprints of knowledge won
+Breeding grounds of Glocal Champions
 
-const heroBackground = (image: string): CSSProperties => ({
-    backgroundImage: `linear-gradient(115deg, rgba(23,17,212,.95), rgba(7,52,93,.82) 55%, rgba(5,15,36,.72)), url("${image}")`,
-});
+Emblem of Mindanaoan nobility
+Radiates the name of a growing NEMSU;
+North Eastern Mindanao State University
+Flying flag above the pacific blue.
+
+Refrain:
+Live! Rise! Soar and Excel!
+In the NEMSU education
+Leading to a better world
+By sculpting better lives,
+The NEMSU vision, NEMSU touch
+
+N.E.M.S.U
+The laying portals of brilliant hatch
+(Repeat Refrain)
+
+Coda:
+The NEMSU vision
+NEMSU touch
+NEMSU!`;
+
+const showHistorySlide = (index: number): void => {
+    activeHistorySlide.value =
+        (index + historySlides.length) % historySlides.length;
+};
 
 const setSectionVisibility = (section: string, isVisible: boolean): void => {
     const nextVisibleSections = new Set(visibleSections.value);
@@ -204,6 +221,10 @@ onMounted(() => {
         return;
     }
 
+    historySlideInterval = window.setInterval(() => {
+        showHistorySlide(activeHistorySlide.value + 1);
+    }, 6000);
+
     revealObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
@@ -217,8 +238,8 @@ onMounted(() => {
             });
         },
         {
-            rootMargin: '0px 0px -25% 0px',
-            threshold: 0,
+            rootMargin: '0px',
+            threshold: 0.1,
         },
     );
 
@@ -229,6 +250,10 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     revealObserver?.disconnect();
+
+    if (historySlideInterval !== null) {
+        window.clearInterval(historySlideInterval);
+    }
 });
 </script>
 
@@ -237,98 +262,308 @@ onBeforeUnmount(() => {
         <Head title="About the University" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section
-                class="relative isolate overflow-hidden bg-[#1711d4] bg-cover bg-center py-16 text-white sm:py-20"
-                :style="heroBackground(heroImage)"
-            >
-                <img
-                    :src="sealImage"
-                    alt=""
-                    class="pointer-events-none absolute right-6 bottom-6 z-0 hidden size-40 object-contain opacity-[0.06] sm:block lg:size-52"
-                    aria-hidden="true"
-                />
-
+            <section class="bg-white pt-4 pb-10 dark:bg-slate-950">
                 <div
                     data-scroll-section="university-hero"
                     :class="revealClasses('university-hero')"
-                    class="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[1fr_25rem] lg:px-8"
+                    class="relative w-full"
                 >
-                    <div>
-                        <p
-                            class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                        >
-                            About Us
-                        </p>
-                        <h1
-                            class="mt-5 max-w-3xl text-4xl font-semibold tracking-normal text-white sm:text-5xl lg:text-6xl"
-                        >
-                            North Eastern Mindanao State University
-                        </h1>
-                        <p
-                            class="mt-6 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
-                        >
-                            One page for the university's history, vision and
-                            mission, core values, and seal.
-                        </p>
-                    </div>
+                    <div class="relative">
+                        <div
+                            class="absolute inset-x-0 top-12 bottom-0 bg-[#f5f8ff] dark:bg-slate-900"
+                            aria-hidden="true"
+                        ></div>
+                        <div
+                            class="absolute top-0 left-0 h-px w-full bg-[#0b3a75]/20"
+                            aria-hidden="true"
+                        ></div>
+                        <div
+                            class="absolute top-0 left-0 h-1.5 w-32 bg-[#f2b705]"
+                            aria-hidden="true"
+                        ></div>
 
-                    <nav
-                        class="self-end rounded-md border border-white/15 bg-white/10 p-3 backdrop-blur"
-                        aria-label="University page sections"
-                    >
-                        <a
-                            v-for="anchor in pageAnchors"
-                            :key="anchor.href"
-                            :href="anchor.href"
-                            class="block rounded-md px-4 py-3 text-sm font-semibold text-white/90 transition hover:bg-white hover:text-[#1711d4]"
+                        <div
+                            class="relative shadow-2xl shadow-slate-950/10"
                         >
-                            {{ anchor.label }}
-                        </a>
-                    </nav>
+                            <div
+                                class="absolute -top-3 left-0 h-1 w-44 bg-[#f2b705]"
+                                aria-hidden="true"
+                            ></div>
+                            <div
+                                class="absolute -top-3 right-0 h-1 w-24 bg-[#0b3a75]"
+                                aria-hidden="true"
+                            ></div>
+                            <div class="relative">
+                                <div
+                                    class="relative overflow-hidden border border-slate-200 bg-slate-950 shadow-xl shadow-slate-950/15 dark:border-white/10"
+                                >
+                                    <div
+                                        class="relative h-[80vh] min-h-[24rem] max-h-[38rem]"
+                                    >
+                                        <img
+                                            v-for="(slide, index) in historySlides"
+                                            :key="slide.year"
+                                            :src="slide.image"
+                                            :alt="
+                                                index === activeHistorySlide
+                                                    ? slide.imageAlt
+                                                    : ''
+                                            "
+                                            class="absolute inset-0 size-full object-cover object-center saturate-75 brightness-90 contrast-105 transition duration-1000 motion-reduce:transition-none"
+                                            :class="
+                                                index === activeHistorySlide
+                                                    ? 'scale-100 opacity-100'
+                                                    : 'scale-105 opacity-0'
+                                            "
+                                        />
+                                        <div
+                                            class="absolute inset-0 bg-linear-to-r from-[#061b3b]/45 via-[#061b3b]/10 to-transparent"
+                                        ></div>
+                                        <div
+                                            class="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-slate-950/45 to-transparent"
+                                        ></div>
+                                        <div
+                                            class="absolute bottom-0 left-0 h-1 w-1/3 bg-[#f2b705]"
+                                            aria-hidden="true"
+                                        ></div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="relative z-20 bg-[#061b3b] px-6 py-6 sm:absolute sm:inset-x-0 sm:top-[65%] sm:bg-transparent sm:px-10 sm:py-0"
+                                >
+                                    <div class="mx-auto max-w-7xl">
+                                        <div
+                                            class="max-w-[40rem] border-l-4 border-[#f2b705] bg-[#061b3b]/75 px-5 py-4 text-white shadow-2xl shadow-slate-950/30 backdrop-blur-[2px] sm:px-6"
+                                        >
+                                            <p
+                                                class="text-xs font-semibold tracking-[0.22em] text-[#f2b705] uppercase sm:text-sm"
+                                            >
+                                                About the University
+                                            </p>
+                                            <h2
+                                                class="mt-3 max-w-3xl font-serif text-3xl font-semibold tracking-normal text-white sm:text-4xl"
+                                            >
+                                                About North Eastern Mindanao
+                                                State University
+                                            </h2>
+                                            <p
+                                                class="mt-3 max-w-2xl text-sm leading-6 text-slate-100 sm:text-base"
+                                            >
+                                                A research university advancing
+                                                technology, innovation,
+                                                sustainable development, and
+                                                public service across North
+                                                Eastern Mindanao.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="relative z-10 flex flex-col gap-4 border-x border-b border-slate-200 bg-white/95 px-5 py-3 shadow-lg shadow-slate-950/10 backdrop-blur-sm sm:-mt-20 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:-mt-24 dark:border-white/10 dark:bg-slate-950/95"
+                            >
+                                <div class="flex items-center gap-3">
+                                    <span
+                                        class="h-7 w-1 bg-[#f2b705]"
+                                        aria-hidden="true"
+                                    ></span>
+                                    <p
+                                        class="text-xs font-semibold tracking-[0.22em] text-slate-500 uppercase dark:text-slate-300"
+                                    >
+                                        Visual archive
+                                        <span
+                                            class="ml-2 text-[#0b3a75] dark:text-[#f2b705]"
+                                        >
+                                            {{
+                                                historySlides[
+                                                    activeHistorySlide
+                                                ]?.year
+                                            }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="flex flex-wrap items-center gap-3 sm:gap-4"
+                                >
+                                    <div
+                                        class="flex items-center gap-1 bg-slate-100 p-1 dark:bg-white/10"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="inline-flex size-8 items-center justify-center bg-white text-[#0b3a75] shadow-sm shadow-slate-900/5 transition hover:bg-[#0b3a75] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b3a75] active:scale-95 dark:bg-slate-950 dark:text-[#f2b705] dark:hover:bg-[#f2b705] dark:hover:text-slate-950"
+                                            aria-label="Previous history milestone"
+                                            @click="
+                                                showHistorySlide(
+                                                    activeHistorySlide - 1,
+                                                )
+                                            "
+                                        >
+                                            <ChevronLeft
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="inline-flex size-8 items-center justify-center bg-white text-[#0b3a75] shadow-sm shadow-slate-900/5 transition hover:bg-[#0b3a75] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b3a75] active:scale-95 dark:bg-slate-950 dark:text-[#f2b705] dark:hover:bg-[#f2b705] dark:hover:text-slate-950"
+                                            aria-label="Next history milestone"
+                                            @click="
+                                                showHistorySlide(
+                                                    activeHistorySlide + 1,
+                                                )
+                                            "
+                                        >
+                                            <ChevronRight
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </button>
+                                    </div>
+
+                                    <div
+                                        class="flex h-8 items-center gap-1.5"
+                                        aria-label="History slides"
+                                    >
+                                        <button
+                                            v-for="(slide, index) in historySlides"
+                                            :key="`indicator-${slide.year}`"
+                                            type="button"
+                                            class="h-1.5 transition-all"
+                                            :class="
+                                                index === activeHistorySlide
+                                                    ? 'w-12 bg-[#f2b705]'
+                                                    : 'w-4 bg-slate-300 hover:w-6 hover:bg-[#0b3a75]/60 dark:bg-white/30'
+                                            "
+                                            :aria-label="`Show ${slide.year} milestone`"
+                                            @click="showHistorySlide(index)"
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="h-px bg-[#f2b705]"
+                                aria-hidden="true"
+                            ></div>
+                        </div>
+
+                        <div
+                            class="relative z-10 bg-[#f5f8ff] dark:bg-slate-900"
+                        >
+                            <div
+                                class="mx-auto max-w-7xl px-6 pt-5 pb-6 sm:px-10"
+                            >
+                                <div
+                                    class="max-w-xl border-l-2 border-[#f2b705] pl-6 lg:ml-auto"
+                                    aria-label="Active history milestone"
+                                >
+                                    <p
+                                        class="text-sm font-semibold tracking-[0.18em] text-[#0b3a75] uppercase dark:text-[#f2b705]"
+                                    >
+                                        {{
+                                            historySlides[activeHistorySlide]
+                                                ?.year
+                                        }}
+                                        Archival Milestone
+                                    </p>
+                                    <h3
+                                        class="mt-3 text-xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                    >
+                                        {{
+                                            historySlides[activeHistorySlide]
+                                                ?.title
+                                        }}
+                                    </h3>
+                                    <p
+                                        class="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{
+                                            historySlides[activeHistorySlide]
+                                                ?.description
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section id="history" class="scroll-mt-28 py-14 sm:py-16">
-                <div
-                    class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8"
-                >
+            <!-- <section
+                id="history"
+                class="scroll-mt-28 bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div
                         data-scroll-section="history-heading"
-                        :class="revealClasses('history-heading', 'right')"
+                        :class="revealClasses('history-heading')"
+                        class="mx-auto max-w-3xl text-center"
                     >
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
                         >
                             History
                         </p>
                         <h2
                             class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                         >
-                            From extension center to state university
+                            From Extension Center to State University
                         </h2>
                     </div>
 
-                    <div class="grid gap-4">
+                    <div class="relative mt-14">
+                        <div
+                            class="absolute top-0 bottom-0 left-4 w-1 bg-white md:left-1/2 md:-translate-x-1/2 dark:bg-white/10"
+                            aria-hidden="true"
+                        ></div>
+
                         <article
                             v-for="(item, index) in historyItems"
                             :key="item.year"
                             :data-scroll-section="`history-${index}`"
-                            :class="revealClasses(`history-${index}`)"
-                            class="grid gap-4 rounded-md border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5 sm:grid-cols-[6rem_1fr] dark:border-white/10 dark:bg-white/[0.04]"
+                            class="relative grid pb-12 pl-12 last:pb-0 md:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1fr)] md:pl-0"
                         >
                             <span
-                                class="inline-flex h-12 w-20 items-center justify-center rounded-md bg-[#1711d4] text-sm font-bold text-white"
+                                class="absolute top-7 left-4 z-10 size-6 -translate-x-1/2 rounded-full border-4 border-[#1711d4] bg-[#f5f8ff] md:left-1/2 dark:border-[#f2b705] dark:bg-slate-900"
+                                aria-hidden="true"
+                            ></span>
+
+                            <div
+                                :class="[
+                                    revealClasses(
+                                        `history-${index}`,
+                                        index % 2 === 0 ? 'right' : 'left',
+                                    ),
+                                    index % 2 === 0
+                                        ? 'md:col-start-1 md:mr-5'
+                                        : 'md:col-start-3 md:ml-5',
+                                ]"
+                                class="relative bg-white p-7 shadow-sm shadow-slate-900/10 ring-1 ring-slate-200 dark:bg-slate-950 dark:ring-white/10"
                             >
-                                {{ item.year }}
-                            </span>
-                            <div>
+                                <span
+                                    aria-hidden="true"
+                                    :class="
+                                        index % 2 === 0
+                                            ? '-right-2'
+                                            : '-left-2'
+                                    "
+                                    class="absolute top-8 hidden size-4 rotate-45 bg-white ring-1 ring-slate-200 md:block dark:bg-slate-950 dark:ring-white/10"
+                                ></span>
+                                <span
+                                    class="font-serif text-3xl font-bold text-slate-950 dark:text-white"
+                                >
+                                    {{ item.year }}
+                                </span>
                                 <h3
-                                    class="font-semibold text-slate-950 dark:text-white"
+                                    class="mt-8 font-semibold text-slate-950 dark:text-white"
                                 >
                                     {{ item.title }}
                                 </h3>
                                 <p
-                                    class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
                                 >
                                     {{ item.description }}
                                 </p>
@@ -336,57 +571,121 @@ onBeforeUnmount(() => {
                         </article>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <section
                 id="vision-and-mission"
-                class="scroll-mt-28 border-y border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-900"
+                class="scroll-mt-28 border-y border-slate-200 bg-[#f5f8ff] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-900"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div
                         data-scroll-section="vision-mission"
                         :class="revealClasses('vision-mission')"
-                        class="grid gap-5 lg:grid-cols-2"
+                        class="grid items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:divide-x lg:divide-slate-300 dark:lg:divide-white/10"
                     >
-                        <article
-                            class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                        <div
+                            class="grid text-center lg:sticky lg:top-28 lg:self-start lg:pr-10"
                         >
-                            <BookOpen
-                                class="size-8 text-[#1711d4] dark:text-sky-200"
-                                aria-hidden="true"
-                            />
-                            <p
-                                class="mt-6 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            <article
+                                class="border-b border-slate-300 pb-8 dark:border-white/10"
                             >
-                                Vision
-                            </p>
-                            <h2
-                                class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                            >
-                                A Research University advancing technology and
-                                innovation for sustainable development.
-                            </h2>
-                        </article>
+                                <h3
+                                    class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
+                                >
+                                    Vision
+                                </h3>
+                                <p
+                                    class="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                >
+                                    A Research University advancing technology
+                                    and innovation for sustainable development.
+                                </p>
+                            </article>
+
+                            <article class="pt-8">
+                                <h3
+                                    class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
+                                >
+                                    Mission
+                                </h3>
+                                <p
+                                    class="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                >
+                                    We drive sustainable development through
+                                    quality instruction, innovative research,
+                                    community collaboration, and technological
+                                    advancement.
+                                </p>
+                            </article>
+                        </div>
 
                         <article
-                            class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                            id="nemsu-hymn"
+                            class="grid scroll-mt-28 text-center lg:pl-10"
                         >
-                            <Flag
-                                class="size-8 text-[#f2b705]"
+                            <!-- <Music2
+                                class="mx-auto mb-5 size-10 text-[#f2b705]"
                                 aria-hidden="true"
-                            />
-                            <p
-                                class="mt-6 text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
+                            /> -->
+                            <h3
+                                class="text-sm font-bold tracking-[0.2em] text-[#1711d4] uppercase dark:text-[#f2b705]"
                             >
-                                Mission
-                            </p>
-                            <h2
+                                NEMSU Hymn
+                            </h3>
+                            <h3
                                 class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                We drive sustainable development through quality
-                                instruction, innovative research, community
-                                collaboration, and technological advancement.
-                            </h2>
+                                Live. Rise. Soar. Excel.
+                            </h3>
+                            <dl
+                                class="mx-auto mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
+                            >
+                                <div>
+                                    <dt
+                                        class="font-semibold text-slate-950 dark:text-white"
+                                    >
+                                        Lyricist
+                                    </dt>
+                                    <dd
+                                        class="mt-1 text-slate-600 dark:text-slate-300"
+                                    >
+                                        Prof. Evelyn T. Bagood
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt
+                                        class="font-semibold text-slate-950 dark:text-white"
+                                    >
+                                        Composer
+                                    </dt>
+                                    <dd
+                                        class="mt-1 text-slate-600 dark:text-slate-300"
+                                    >
+                                        Mr. Castor V. Balacuit
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt
+                                        class="font-semibold text-slate-950 dark:text-white"
+                                    >
+                                        Arranger
+                                    </dt>
+                                    <dd
+                                        class="mt-1 text-slate-600 dark:text-slate-300"
+                                    >
+                                        Mr. Carl Martin R. Engcoy
+                                    </dd>
+                                </div>
+                            </dl>
+                            <div
+                                class="mx-auto mt-6 max-w-2xl border-t border-slate-300 pt-5 text-left dark:border-white/10"
+                            >
+                                <p
+                                    class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                >
+                                    {{ hymnLyrics }}
+                                </p>
+                            </div>
                         </article>
                     </div>
                 </div>
@@ -397,48 +696,163 @@ onBeforeUnmount(() => {
                     <div
                         data-scroll-section="values-heading"
                         :class="revealClasses('values-heading')"
-                        class="max-w-3xl"
+                        class="text-center"
                     >
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
                         >
-                            Core Values
+                            Core Values & Quality Policy
                         </p>
                         <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
                         >
                             NEMSU CARES
                         </h2>
                     </div>
 
-                    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-                        <article
-                            v-for="(value, index) in coreValues"
-                            :key="value.title"
-                            :data-scroll-section="`value-${index}`"
-                            :class="revealClasses(`value-${index}`)"
-                            class="rounded-md border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                    <div
+                        class="mt-10 grid items-stretch gap-6 lg:grid-cols-[11rem_minmax(0,1fr)]"
+                    >
+                        <div
+                            class="hidden border-l-4 border-[#1711d4] pl-7 text-[#1711d4] lg:grid lg:grid-rows-5 dark:text-[#f2b705]"
+                            aria-label="NEMSU CARES"
                         >
                             <span
-                                class="inline-flex size-11 items-center justify-center rounded-md bg-[#e7f3fb] text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200"
+                                v-for="letter in ['C', 'A', 'R', 'E', 'S']"
+                                :key="letter"
+                                class="grid min-h-20 items-center text-5xl font-bold"
                             >
-                                <component
-                                    :is="value.icon"
-                                    class="size-5"
-                                    aria-hidden="true"
-                                />
+                                {{ letter }}
                             </span>
-                            <h3
-                                class="mt-5 text-lg font-semibold text-slate-950 dark:text-white"
+                        </div>
+
+                        <div class="divide-y divide-slate-200 dark:divide-white/10">
+                            <article
+                                v-for="(value, index) in coreValues"
+                                :key="value.title"
+                                :data-scroll-section="`value-${index}`"
+                                :class="revealClasses(`value-${index}`)"
+                                class="py-5"
                             >
-                                {{ value.title }}
-                            </h3>
-                            <p
-                                class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                            >
-                                {{ value.description }}
-                            </p>
-                        </article>
+                                <div>
+                                    <h3
+                                        class="text-lg font-semibold text-slate-950 dark:text-white"
+                                    >
+                                        {{ value.title }}
+                                    </h3>
+                                    <p
+                                        class="mt-1 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{ value.description }}
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <div
+                        data-scroll-section="quality-policy"
+                        :class="revealClasses('quality-policy')"
+                        class="mt-10 border-t border-slate-200 pt-8 text-center dark:border-white/10"
+                    >
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
+                        >
+                            Quality Policy
+                        </p>
+                        <p
+                            class="mx-auto mt-3 max-w-4xl text-sm leading-7 text-slate-700 dark:text-slate-300"
+                        >
+                            NEMSU is committed to quality and excellent service,
+                            continual improvement, and compliance with
+                            applicable standards in support of stakeholder
+                            satisfaction.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section
+                aria-hidden="true"
+                class="hidden"
+            >
+                <div
+                    class="mx-auto grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8"
+                >
+                    <div
+                        data-scroll-section="hymn-identity"
+                        :class="revealClasses('hymn-identity', 'right')"
+                        class="border-l-4 border-[#1711d4] pl-6 text-[#1711d4] dark:text-[#f2b705]"
+                    >
+                        <Music2
+                            class="size-12"
+                            aria-hidden="true"
+                        />
+                        <p
+                            class="mt-6 text-sm font-semibold tracking-[0.2em] uppercase"
+                        >
+                            University Tradition
+                        </p>
+                        <p
+                            class="mt-3 text-3xl font-semibold text-slate-950 dark:text-white"
+                        >
+                            Live. Rise. Soar. Excel.
+                        </p>
+                    </div>
+
+                    <div
+                        data-scroll-section="hymn-copy"
+                        :class="revealClasses('hymn-copy', 'left')"
+                        class="lg:border-l lg:border-slate-300 lg:pl-10 dark:lg:border-white/10"
+                    >
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
+                        >
+                            NEMSU Hymn
+                        </p>
+                        <h2
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        >
+                            The University’s shared song
+                        </h2>
+                        <dl class="mt-6 grid gap-4 text-sm sm:grid-cols-3">
+                            <div>
+                                <dt
+                                    class="font-semibold text-slate-950 dark:text-white"
+                                >
+                                    Lyricist
+                                </dt>
+                                <dd
+                                    class="mt-1 text-slate-600 dark:text-slate-300"
+                                >
+                                    Prof. Evelyn T. Bagood
+                                </dd>
+                            </div>
+                            <div>
+                                <dt
+                                    class="font-semibold text-slate-950 dark:text-white"
+                                >
+                                    Composer
+                                </dt>
+                                <dd
+                                    class="mt-1 text-slate-600 dark:text-slate-300"
+                                >
+                                    Mr. Castor V. Balacuit
+                                </dd>
+                            </div>
+                            <div>
+                                <dt
+                                    class="font-semibold text-slate-950 dark:text-white"
+                                >
+                                    Arranger
+                                </dt>
+                                <dd
+                                    class="mt-1 text-slate-600 dark:text-slate-300"
+                                >
+                                    Mr. Carl Martin R. Engcoy
+                                </dd>
+                            </div>
+                        </dl>
                     </div>
                 </div>
             </section>
@@ -447,24 +861,10 @@ onBeforeUnmount(() => {
                 id="university-seal"
                 class="scroll-mt-28 bg-[#1711d4] py-14 text-white sm:py-16"
             >
-                <div
-                    class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[22rem_1fr] lg:px-8"
-                >
+                <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                     <div
-                        data-scroll-section="seal-visual"
-                        :class="revealClasses('seal-visual', 'right')"
-                        class="grid justify-items-center rounded-md border border-white/15 bg-white p-8 shadow-xl shadow-slate-950/20"
-                    >
-                        <img
-                            :src="sealImage"
-                            alt="NEMSU seal"
-                            class="size-56 object-contain"
-                        />
-                    </div>
-
-                    <div
-                        data-scroll-section="seal-copy"
-                        :class="revealClasses('seal-copy', 'left')"
+                        data-scroll-section="seal-heading"
+                        :class="revealClasses('seal-heading')"
                     >
                         <p
                             class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
@@ -472,23 +872,77 @@ onBeforeUnmount(() => {
                             University Seal
                         </p>
                         <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-white"
+                            class="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl"
                         >
-                            The official emblem of the university
+                            Symbols of knowledge, courage, and service
                         </h2>
-                        <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                            <article
-                                v-for="part in sealParts"
-                                :key="part.title"
-                                class="rounded-md border border-white/15 bg-white/10 p-4 backdrop-blur"
+                    </div>
+
+                    <div
+                        data-scroll-section="seal-visual"
+                        :class="revealClasses('seal-visual')"
+                        class="mx-auto mt-10 grid max-w-5xl items-center gap-10 text-left lg:grid-cols-[1fr_20rem_1fr]"
+                    >
+                        <div
+                            class="grid gap-6"
+                            aria-label="University seal symbols"
+                        >
+                            <span
+                                class="inline-flex items-center gap-3 text-sm font-semibold"
                             >
-                                <h3 class="font-semibold text-white">
-                                    {{ part.title }}
-                                </h3>
-                                <p class="mt-2 text-sm leading-7 text-sky-100">
-                                    {{ part.description }}
-                                </p>
-                            </article>
+                                <Circle
+                                    class="size-5 text-[#f2b705]"
+                                    aria-hidden="true"
+                                />
+                                Continuity
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-3 text-sm font-semibold"
+                            >
+                                <Shield
+                                    class="size-5 text-[#f2b705]"
+                                    aria-hidden="true"
+                                />
+                                Purpose
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-3 text-sm font-semibold"
+                            >
+                                <BookOpen
+                                    class="size-5 text-[#f2b705]"
+                                    aria-hidden="true"
+                                />
+                                Knowledge
+                            </span>
+                        </div>
+
+                        <div class="grid justify-items-center">
+                            <img
+                                :src="sealImage"
+                                alt="NEMSU University Seal"
+                                class="size-64 object-contain drop-shadow-2xl sm:size-80"
+                            />
+                        </div>
+
+                        <div class="grid gap-6">
+                            <span
+                                class="inline-flex items-center gap-3 text-sm font-semibold"
+                            >
+                                <Flame
+                                    class="size-5 text-[#f2b705]"
+                                    aria-hidden="true"
+                                />
+                                Guiding light
+                            </span>
+                            <span
+                                class="inline-flex items-center gap-3 text-sm font-semibold"
+                            >
+                                <TreePine
+                                    class="size-5 text-[#f2b705]"
+                                    aria-hidden="true"
+                                />
+                                Growth
+                            </span>
                         </div>
                     </div>
                 </div>

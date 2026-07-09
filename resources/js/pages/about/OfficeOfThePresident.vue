@@ -5,18 +5,22 @@ import {
     BadgeCheck,
     BookOpen,
     Building2,
+    CalendarDays,
     FileText,
     GraduationCap,
+    Images,
     Landmark,
     Lightbulb,
     Map,
     Megaphone,
-    ShieldCheck,
+    Newspaper,
+    Quote,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { Component, CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
+import { index as newsIndex, show as newsShow } from '@/routes/news';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -37,9 +41,53 @@ type AgendaItem = {
     actions: string[];
 };
 
+type NewsItem = {
+    id: string;
+    title: string;
+    slug: string;
+    excerpt?: string | null;
+    date: string | null;
+    office: string;
+    photoUrl?: string | null;
+};
+
+type GalleryPhoto = {
+    src: string;
+    alt: string;
+    caption: string;
+};
+
+defineProps<{
+    pressReleases: NewsItem[];
+}>();
+
 const nemsuSeal = 'https://nemsu.edu.ph/assets/images/NEMSU.png';
 const presidentPhoto = 'https://www.nemsu.edu.ph/assets/bor/2.png';
 const campusImage = 'https://nemsu.edu.ph/files/News/cm-00.jpg';
+
+const presidentGallery: GalleryPhoto[] = [
+    {
+        src: 'https://nemsu.edu.ph/files/News/Project-Culmination-banner-00.jpg',
+        alt: 'President Nemesio G. Loayon at a NEMSU community project',
+        caption: 'Advancing sustainable livelihoods and marine conservation',
+    },
+    {
+        src: 'https://nemsu.edu.ph/files/News/650x600-Banner-Bagong-Pilipinas.png',
+        alt: 'President Nemesio G. Loayon during a university flag ceremony',
+        caption: 'Leading the University community in public service',
+    },
+    {
+        src: 'https://nemsu.edu.ph/files/News/up-00.jpg',
+        alt: 'President Nemesio G. Loayon with higher education leaders',
+        caption: 'Building partnerships for excellence and equity',
+    },
+    {
+        src: 'https://nemsu.edu.ph/files/News/Flag-20202300.png',
+        alt: 'President Nemesio G. Loayon addressing the NEMSU community',
+        caption:
+            'Sharing the University’s direction with the academic community',
+    },
+];
 
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
@@ -89,20 +137,6 @@ const contentBlocks: ContentBlock[] = [
         title: 'A professor, researcher, and administrator in public service',
         body: 'Dr. Nemesio G. Loayon is a professor of Education specializing in Education Administration and the 4th University President of NEMSU Tandag. In more than three decades of service, his experiences molded him to become a multifaceted academician, researcher, and administrator equipped with a dedication to public service.',
         icon: Landmark,
-    },
-    {
-        id: 'vision',
-        label: 'Vision',
-        title: 'Premier Research University',
-        body: 'A premier Research University that leverages social innovation and economic competitiveness for sustainable development.',
-        icon: Lightbulb,
-    },
-    {
-        id: 'mission',
-        label: 'Mission',
-        title: 'Responsive research, instruction, and extension',
-        body: 'As NEMSU transforms itself into a premier research University, it shall govern an academic community that shall construct responsive-research programs, provides industry-standard programs of instruction, and manages technology-driven projects and market-oriented extension services, all towards shaping the role and significance of Northeastern Mindanao in the political and economic integration among the Southeast Asian nation as one.',
-        icon: ShieldCheck,
     },
 ];
 
@@ -267,8 +301,8 @@ onMounted(() => {
             });
         },
         {
-            rootMargin: '0px 0px -25% 0px',
-            threshold: 0,
+            rootMargin: '0px',
+            threshold: 0.1,
         },
     );
 
@@ -316,6 +350,11 @@ onBeforeUnmount(() => {
                                 class="h-full w-full object-cover object-top"
                             />
                         </div>
+                        <p
+                            class="mt-4 text-center text-xs font-semibold tracking-wide text-sky-100 uppercase"
+                        >
+                            Current official portrait
+                        </p>
                     </div>
 
                     <div class="text-center lg:text-left">
@@ -336,24 +375,79 @@ onBeforeUnmount(() => {
                             class="mx-auto mt-8 grid max-w-2xl gap-3 sm:grid-cols-3 lg:mx-0"
                         >
                             <a
-                                href="#bio-note"
+                                href="#presidents-message"
                                 class="rounded-md border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-[#1711d4]"
                             >
-                                Bio Note
+                                President's Message
                             </a>
                             <a
-                                href="#strategy"
+                                href="#executive-corner"
                                 class="rounded-md border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-[#1711d4]"
                             >
-                                8-Point Agenda
+                                Executive Corner
                             </a>
                             <a
-                                href="#roadmap"
+                                href="#innovate-agenda"
                                 class="rounded-md border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-[#1711d4]"
                             >
-                                Road Map
+                                INNOVATE Agenda
                             </a>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section
+                id="presidents-message"
+                class="scroll-mt-28 border-b border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-900"
+            >
+                <div
+                    data-scroll-section="presidents-message"
+                    :class="revealClasses('presidents-message', 'right')"
+                    class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[15rem_minmax(0,1fr)] lg:px-8"
+                >
+                    <div
+                        class="flex min-h-52 items-center justify-center rounded-md bg-[#1711d4] p-8 text-white shadow-xl shadow-[#1711d4]/15"
+                    >
+                        <div class="text-center">
+                            <Quote
+                                class="mx-auto size-12 text-[#f2b705]"
+                                aria-hidden="true"
+                            />
+                            <p
+                                class="mt-5 text-sm font-semibold tracking-wide uppercase"
+                            >
+                                President's Message
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="self-center">
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            From the University President
+                        </p>
+                        <h2
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        >
+                            Innovation with purpose, public service with impact
+                        </h2>
+                        <p
+                            class="mt-5 text-base leading-8 text-slate-700 dark:text-slate-300"
+                        >
+                            NEMSU moves forward as one academic
+                            community—grounded in responsive research, excellent
+                            instruction, and technology-driven extension. Our
+                            shared work is to create opportunities, strengthen
+                            our communities, and shape a sustainable future for
+                            Northeastern Mindanao.
+                        </p>
+                        <p
+                            class="mt-5 font-semibold text-[#1711d4] dark:text-sky-200"
+                        >
+                            Dr. Nemesio G. Loayon, SUC President III
+                        </p>
                     </div>
                 </div>
             </section>
@@ -410,7 +504,115 @@ onBeforeUnmount(() => {
             </section>
 
             <section
-                id="strategy"
+                id="executive-corner"
+                class="scroll-mt-28 border-y border-slate-200 bg-slate-950 py-14 text-white sm:py-16 dark:border-white/10"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div
+                        data-scroll-section="executive-corner-heading"
+                        :class="revealClasses('executive-corner-heading')"
+                        class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between"
+                    >
+                        <div>
+                            <p
+                                class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
+                            >
+                                Executive Corner
+                            </p>
+                            <h2
+                                class="mt-3 text-3xl font-semibold tracking-normal text-white"
+                            >
+                                Press releases from the University
+                            </h2>
+                            <p
+                                class="mt-4 max-w-2xl text-sm leading-7 text-slate-300"
+                            >
+                                Updates on presidential engagements,
+                                institutional directions, and the work of the
+                                NEMSU community.
+                            </p>
+                        </div>
+                        <Link
+                            :href="newsIndex()"
+                            class="inline-flex items-center gap-2 text-sm font-semibold text-sky-200 transition hover:text-white"
+                        >
+                            View all press releases
+                            <ArrowRight class="size-4" aria-hidden="true" />
+                        </Link>
+                    </div>
+
+                    <div
+                        v-if="pressReleases.length"
+                        class="mt-8 grid gap-5 lg:grid-cols-3"
+                    >
+                        <Link
+                            v-for="(release, index) in pressReleases"
+                            :key="release.id"
+                            :href="newsShow(release.slug)"
+                            :data-scroll-section="`executive-release-${index}`"
+                            :class="
+                                revealClasses(
+                                    `executive-release-${index}`,
+                                    index % 2 === 0 ? 'right' : 'up',
+                                )
+                            "
+                            class="group overflow-hidden rounded-md border border-white/10 bg-white/[0.06] transition hover:-translate-y-1 hover:bg-white/10"
+                        >
+                            <div
+                                class="aspect-[16/9] overflow-hidden bg-slate-800"
+                            >
+                                <img
+                                    v-if="release.photoUrl"
+                                    :src="release.photoUrl"
+                                    :alt="release.title"
+                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                />
+                                <div
+                                    v-else
+                                    class="flex h-full items-center justify-center"
+                                >
+                                    <Newspaper
+                                        class="size-10 text-slate-500"
+                                        aria-hidden="true"
+                                    />
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <div
+                                    class="flex items-center gap-2 text-xs font-semibold tracking-wide text-sky-200 uppercase"
+                                >
+                                    <CalendarDays
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                    {{ release.date ?? 'Press release' }}
+                                </div>
+                                <h3
+                                    class="mt-3 text-lg leading-7 font-semibold text-white"
+                                >
+                                    {{ release.title }}
+                                </h3>
+                                <p
+                                    v-if="release.excerpt"
+                                    class="mt-3 line-clamp-3 text-sm leading-6 text-slate-300"
+                                >
+                                    {{ release.excerpt }}
+                                </p>
+                            </div>
+                        </Link>
+                    </div>
+
+                    <div
+                        v-else
+                        class="mt-8 rounded-md border border-dashed border-white/20 p-8 text-center text-sm text-slate-300"
+                    >
+                        Press releases will appear here once they are published.
+                    </div>
+                </div>
+            </section>
+
+            <section
+                id="innovate-agenda"
                 class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -423,7 +625,7 @@ onBeforeUnmount(() => {
                             <p
                                 class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                             >
-                                Strategy
+                                INNOVATE Agenda
                             </p>
                             <h2
                                 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
@@ -668,6 +870,68 @@ onBeforeUnmount(() => {
                             />
                         </span>
                     </Link>
+                </div>
+            </section>
+
+            <section
+                id="presidents-gallery"
+                class="scroll-mt-28 bg-white py-14 sm:py-16 dark:bg-slate-950"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div
+                        data-scroll-section="presidents-gallery-heading"
+                        :class="revealClasses('presidents-gallery-heading')"
+                        class="flex items-end gap-4"
+                    >
+                        <span
+                            class="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-[#e7f3fb] text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
+                        >
+                            <Images class="size-6" aria-hidden="true" />
+                        </span>
+                        <div>
+                            <p
+                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                President's Gallery
+                            </p>
+                            <h2
+                                class="mt-2 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            >
+                                Leadership in action
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <figure
+                            v-for="(photo, index) in presidentGallery"
+                            :key="photo.src"
+                            :data-scroll-section="`president-gallery-${index}`"
+                            :class="
+                                revealClasses(
+                                    `president-gallery-${index}`,
+                                    index % 2 === 0 ? 'right' : 'left',
+                                )
+                            "
+                            class="group overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                        >
+                            <div
+                                class="aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900"
+                            >
+                                <img
+                                    :src="photo.src"
+                                    :alt="photo.alt"
+                                    loading="lazy"
+                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                />
+                            </div>
+                            <figcaption
+                                class="p-4 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                            >
+                                {{ photo.caption }}
+                            </figcaption>
+                        </figure>
+                    </div>
                 </div>
             </section>
         </div>

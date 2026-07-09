@@ -170,3 +170,68 @@
         @apply bg-background text-foreground;
     }
 }
+
+.public-site main {
+    font-size: clamp(1rem, 0.97rem + 0.18vw, 1.125rem);
+    line-height: 1.7;
+}
+
+.public-site main :where(p, li, dd) {
+    font-size: inherit;
+    line-height: 1.72;
+}
+
+.public-site main :where(p[class*='text-xs'], li[class*='text-xs']) {
+    font-size: 0.875rem;
+    line-height: 1.55;
+}
+
+.public-site main :where(p[class*='text-sm'], li[class*='text-sm'], dd[class*='text-sm']) {
+    font-size: clamp(0.9375rem, 0.92rem + 0.16vw, 1.0625rem);
+    line-height: 1.7;
+}
+
+.public-site main :where(h1) {
+    font-size: clamp(3rem, 4.7vw, 5.25rem);
+    line-height: 1.02;
+    letter-spacing: 0;
+}
+
+.public-site main :where(h2) {
+    font-size: clamp(2.25rem, 3vw, 3.75rem);
+    line-height: 1.1;
+    letter-spacing: 0;
+}
+
+.public-site main :where(h3) {
+    font-size: clamp(1.35rem, 1.2rem + 0.65vw, 1.9rem);
+    line-height: 1.25;
+    letter-spacing: 0;
+}
+
+.public-site main :where(h4) {
+    font-size: clamp(1.125rem, 1rem + 0.35vw, 1.4rem);
+    line-height: 1.3;
+}
+
+.public-site main :where(.uppercase[class*='tracking-']) {
+    letter-spacing: 0.12em;
+}
+
+.public-site main :where(a, button) {
+    text-underline-offset: 0.22em;
+}
+
+@media (max-width: 640px) {
+    .public-site main {
+        font-size: 1rem;
+    }
+
+    .public-site main :where(h1) {
+        font-size: clamp(2.5rem, 11vw, 3.75rem);
+    }
+
+    .public-site main :where(h2) {
+        font-size: clamp(2rem, 8vw, 2.85rem);
+    }
+}

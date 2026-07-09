@@ -138,11 +138,11 @@ onUnmounted(() => {
                     >
                         Campuses
                     </p>
-                    <h2
+                    <h3
                         class="mt-3 max-w-xl text-3xl font-semibold tracking-normal"
                     >
                         One NEMSU system, distinct campus strengths
-                    </h2>Campus footprint preview
+                    </h3>Campus footprint preview
                     <p class="mt-5 max-w-md text-sm leading-7 text-sky-100">
                         A quick system view for the campus pages: population,
                         faculty and staff profile, graduates, and location map.
@@ -253,9 +253,9 @@ onUnmounted(() => {
                                     NEMSU System
                                 </span>
                             </div>
-                            <h3 class="mt-4 font-semibold text-white">
+                            <h4 class="mt-4 font-semibold text-white">
                                 {{ campus.focus }}
-                            </h3>
+                            </h4>
                             <p class="mt-3 text-sm leading-7 text-sky-100">
                                 {{ campus.detail }}
                             </p>

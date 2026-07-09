@@ -77,14 +77,14 @@ withDefaults(
                     <Sparkles class="size-4" aria-hidden="true" />
                     Research University for Sustainable Development
                 </p>
-                <h1
+                <h2
                     class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
                 >
                     {{
                         fallbackHeroSlide.title ||
                         'North Eastern Mindanao State University'
                     }}
-                </h1>
+                </h2>
                 <p
                     class="mt-6 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
                 >

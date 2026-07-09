@@ -378,8 +378,8 @@ onMounted(() => {
             });
         },
         {
-            rootMargin: '0px 0px -25% 0px',
-            threshold: 0,
+            rootMargin: '0px',
+            threshold: 0.1,
         },
     );
 
@@ -620,21 +620,21 @@ const governanceLinks: Feature[] = [
                     >
                         About NEMSU
                     </p>
-                    <h2
+                    <h3
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                     >
                         A system built for Mindanaoan progress
-                    </h2>
+                    </h3>
                 </div>
                 <div class="grid gap-6 md:grid-cols-2">
                     <article
                         class="rounded-md border border-slate-200 bg-white/90 p-6 shadow-sm shadow-slate-900/5 backdrop-blur dark:border-white/10 dark:bg-slate-950/70"
                     >
-                        <h3
+                        <h4
                             class="text-lg font-semibold text-slate-950 dark:text-white"
                         >
                             Vision
-                        </h3>
+                        </h4>
                         <p
                             class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
                         >
@@ -645,11 +645,11 @@ const governanceLinks: Feature[] = [
                     <article
                         class="rounded-md border border-slate-200 bg-white/90 p-6 shadow-sm shadow-slate-900/5 backdrop-blur dark:border-white/10 dark:bg-slate-950/70"
                     >
-                        <h3
+                        <h4
                             class="text-lg font-semibold text-slate-950 dark:text-white"
                         >
                             Mission
-                        </h3>
+                        </h4>
                         <p
                             class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
                         >
@@ -685,12 +685,12 @@ const governanceLinks: Feature[] = [
                         >
                             Academic Affairs
                         </p>
-                        <h2
+                        <h3
                             class="mt-3 max-w-2xl text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                         >
                             Program pages ready for prospectus, objectives, and
                             learning outcomes
-                        </h2>
+                        </h3>
                     </div>
                     <a
                         href="#campuses"
@@ -713,11 +713,11 @@ const governanceLinks: Feature[] = [
                             class="size-7 text-[#0b6680] dark:text-sky-300"
                             aria-hidden="true"
                         />
-                        <h3
+                        <h4
                             class="mt-5 text-lg font-semibold text-slate-950 dark:text-white"
                         >
                             {{ track.title }}
-                        </h3>
+                        </h4>
                         <p
                             class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
                         >
@@ -822,11 +822,11 @@ const governanceLinks: Feature[] = [
                         <div
                             class="flex items-center justify-between border-b border-slate-200 pb-3 dark:border-white/10"
                         >
-                            <h2
+                            <h3
                                 class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white"
                             >
                                 Latest News
-                            </h2>
+                            </h3>
                             <span
                                 class="h-1.5 w-1.5 rounded-full bg-[#9b1c31]"
                                 aria-hidden="true"
@@ -876,11 +876,11 @@ const governanceLinks: Feature[] = [
                                         {{ item.date }}
                                     </span>
                                 </div>
-                                <h3
+                                <h4
                                     class="mt-2 line-clamp-2 font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                                 >
                                     {{ item.title }}
-                                </h3>
+                                </h4>
                                 <p
                                     class="mt-3 truncate text-xs font-semibold text-slate-500 dark:text-slate-400"
                                 >
@@ -933,11 +933,11 @@ const governanceLinks: Feature[] = [
                         >
                             Announcements
                         </p>
-                        <h2
+                        <h3
                             class="mt-3 max-w-2xl text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                         >
                             Time-sensitive notices from university offices
-                        </h2>
+                        </h3>
                     </div>
 
                     <div
@@ -976,11 +976,11 @@ const governanceLinks: Feature[] = [
                                 >
                                     {{ item.type }}
                                 </p>
-                                <h3
+                                <h4
                                     class="mt-2 line-clamp-2 font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                                 >
                                     {{ item.title }}
-                                </h3>
+                                </h4>
                                 <p
                                     v-if="item.excerpt"
                                     class="mt-3 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
@@ -1046,11 +1046,11 @@ const governanceLinks: Feature[] = [
                     >
                         Good Governance
                     </p>
-                    <h2
+                    <h3
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                     >
                         Public accountability content grouped for quick access
-                    </h2>
+                    </h3>
                 </div>
                 <div class="mt-8 grid gap-4 md:grid-cols-3">
                     <a
@@ -1065,11 +1065,11 @@ const governanceLinks: Feature[] = [
                             class="size-7 text-[#9b1c31] dark:text-rose-300"
                             aria-hidden="true"
                         />
-                        <h3
+                        <h4
                             class="mt-5 font-semibold text-slate-950 dark:text-white"
                         >
                             {{ item.title }}
-                        </h3>
+                        </h4>
                         <p
                             class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
                         >
@@ -1101,11 +1101,11 @@ const governanceLinks: Feature[] = [
                     >
                         Online Services
                     </p>
-                    <h2
+                    <h3 
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                     >
                         Student and public services without the maze
-                    </h2>
+                    </h3>
                     <p
                         class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
                     >

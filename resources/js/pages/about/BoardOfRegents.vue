@@ -243,8 +243,8 @@ onMounted(() => {
             });
         },
         {
-            rootMargin: '0px 0px -25% 0px',
-            threshold: 0,
+            rootMargin: '0px',
+            threshold: 0.1,
         },
     );
 
