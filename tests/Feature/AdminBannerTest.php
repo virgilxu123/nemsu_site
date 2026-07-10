@@ -2,6 +2,7 @@
 
 use App\Models\Banner;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 function bannerAdminUser(): User
@@ -141,11 +142,21 @@ test('admin banner index searches filters and sorts records', function () {
 });
 
 test('published banners continue to feed the homepage carousel', function () {
+    Storage::fake('public');
+    Storage::disk('public')->put('images/banners/home/homepage banner.jpg', 'banner');
+
     Banner::factory()->published()->create([
         'photo' => 'homepage banner.jpg',
         'title' => 'Homepage Banner',
         'content' => '<p>Featured campus update.</p>',
         'link' => 'https://nemsu.edu.ph',
+        'created_at' => now()->subMinute(),
+    ]);
+    Banner::factory()->published()->create([
+        'photo' => 'missing banner.jpg',
+        'title' => 'Missing Banner',
+        'content' => '<p>This banner has no local file.</p>',
+        'created_at' => now(),
     ]);
     Banner::factory()->create([
         'photo' => 'draft.jpg',
@@ -160,7 +171,7 @@ test('published banners continue to feed the homepage carousel', function () {
             ->has('banners', 1)
             ->where('banners.0.title', 'Homepage Banner')
             ->where('banners.0.summary', 'Featured campus update.')
-            ->where('banners.0.imageUrl', 'https://nemsu.edu.ph/files/Banner/homepage%20banner.jpg')
+            ->where('banners.0.imageUrl', '/storage/images/banners/home/homepage%20banner.jpg')
             ->where('banners.0.link', 'https://nemsu.edu.ph')
         );
 });

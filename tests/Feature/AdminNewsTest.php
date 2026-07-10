@@ -76,6 +76,30 @@ test('admins can view news management pages', function () {
         );
 });
 
+test('admin news edit resolves legacy and managed photo urls', function () {
+    $admin = newsAdminUser();
+    $legacyNews = News::factory()->create([
+        'photo' => 'https://www.nemsu.edu.ph/files/News/admin%20legacy.jpg',
+    ]);
+    $managedNews = News::factory()->create([
+        'photo' => 'news/photos/example.jpg',
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.news.edit', $legacyNews))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('newsItem.photo_url', Storage::disk('public')->url('images/content/news/'.rawurlencode('admin legacy.jpg')))
+        );
+
+    $this->actingAs($admin)
+        ->get(route('admin.news.edit', $managedNews))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('newsItem.photo_url', Storage::disk('public')->url('news/photos/example.jpg'))
+        );
+});
+
 test('admins can store news with normalized data', function () {
     $admin = newsAdminUser();
 

@@ -216,7 +216,7 @@ onBeforeUnmount(() => {
                             </div>
 
                             <h1
-                                class="mt-5 max-w-5xl text-4xl leading-[1.02] font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
+                                class="mt-5 max-w-5xl font-academic text-[1.875rem] leading-[1.2] font-semibold tracking-[-0.025em] text-balance md:text-uni-h1"
                             >
                                 {{ props.article.title }}
                             </h1>
@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
                         </div>
 
                         <aside
-                            class="hidden self-end border-t border-white/20 pt-5 text-sm leading-6 text-white/70 lg:block"
+                            class="hidden self-end border-t border-white/20 pt-5 text-uni-micro text-white/70 lg:block"
                         >
                             <p class="font-semibold text-white">
                                 {{ props.article.office }}
@@ -251,7 +251,7 @@ onBeforeUnmount(() => {
             >
                 <main class="min-w-0">
                     <div
-                        class="mx-auto mb-8 flex max-w-3xl flex-wrap items-center gap-x-4 gap-y-2 border-b border-slate-200 pb-6 text-sm text-slate-500 dark:border-white/10 dark:text-slate-400"
+                        class="mx-auto mb-8 flex max-w-[70ch] flex-wrap items-center gap-x-4 gap-y-2 border-b border-slate-200 pb-6 text-uni-micro text-slate-500 dark:border-white/10 dark:text-slate-400"
                     >
                         <span
                             class="font-semibold text-slate-950 dark:text-white"
@@ -278,7 +278,7 @@ onBeforeUnmount(() => {
                                 </span>
                                 <div>
                                     <h2
-                                        class="text-sm font-semibold tracking-normal text-slate-950 dark:text-white"
+                                        class="font-sans text-uni-micro font-semibold text-slate-950 dark:text-white"
                                     >
                                         Article photos
                                     </h2>
@@ -332,7 +332,7 @@ onBeforeUnmount(() => {
                     </section>
 
                     <div
-                        class="mx-auto max-w-3xl text-[1.04rem] leading-8 text-slate-700 dark:text-slate-200 [&_a]:font-semibold [&_a]:text-[#0b6680] hover:[&_a]:text-[#9b1c31] dark:[&_a]:text-sky-200 [&_blockquote]:my-9 [&_blockquote]:border-l-4 [&_blockquote]:border-[#9b1c31] [&_blockquote]:bg-white [&_blockquote]:py-4 [&_blockquote]:pr-5 [&_blockquote]:pl-5 [&_blockquote]:text-lg [&_blockquote]:leading-8 [&_blockquote]:font-medium [&_blockquote]:text-slate-700 dark:[&_blockquote]:bg-white/5 dark:[&_blockquote]:text-slate-200 [&_br]:my-2 [&_h2]:mt-12 [&_h2]:text-3xl [&_h2]:leading-tight [&_h2]:font-semibold [&_h2]:text-slate-950 dark:[&_h2]:text-white [&_h3]:mt-9 [&_h3]:text-2xl [&_h3]:leading-tight [&_h3]:font-semibold [&_h3]:text-slate-950 dark:[&_h3]:text-white [&_img]:my-8 [&_img]:max-h-[44rem] [&_img]:w-full [&_img]:rounded-xl [&_img]:object-contain [&_li]:my-2 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-6 [&_strong]:font-semibold [&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6"
+                        class="mx-auto max-w-[70ch] text-uni-body text-slate-700 dark:text-slate-200 [&_a]:font-semibold [&_a]:text-[#0b6680] hover:[&_a]:text-[#9b1c31] dark:[&_a]:text-sky-200 [&_blockquote]:my-9 [&_blockquote]:border-l-4 [&_blockquote]:border-[#9b1c31] [&_blockquote]:bg-white [&_blockquote]:py-4 [&_blockquote]:pr-5 [&_blockquote]:pl-5 [&_blockquote]:text-uni-body [&_blockquote]:font-medium [&_blockquote]:text-slate-700 dark:[&_blockquote]:bg-white/5 dark:[&_blockquote]:text-slate-200 [&_br]:my-2 [&_h2]:mt-12 [&_h2]:font-academic [&_h2]:text-[1.5rem] [&_h2]:leading-[1.3] [&_h2]:font-semibold [&_h2]:tracking-[-0.02em] [&_h2]:text-slate-950 md:[&_h2]:text-uni-h2 dark:[&_h2]:text-white [&_h3]:mt-9 [&_h3]:font-academic [&_h3]:text-[1.125rem] [&_h3]:leading-[1.4] [&_h3]:font-semibold [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950 md:[&_h3]:text-uni-h3 dark:[&_h3]:text-white [&_img]:my-8 [&_img]:max-h-[44rem] [&_img]:w-full [&_img]:rounded-xl [&_img]:object-contain [&_li]:my-2 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-6 [&_strong]:font-semibold [&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6"
                         v-html="props.article.contentHtml"
                     ></div>
                 </main>
@@ -344,12 +344,12 @@ onBeforeUnmount(() => {
                         class="border-b border-slate-200 pb-4 dark:border-white/10"
                     >
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-uni-micro font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             Latest News
                         </p>
                         <h2
-                            class="mt-2 text-xl leading-tight font-semibold text-slate-950 dark:text-white"
+                            class="mt-2 font-sans text-xl leading-tight font-semibold text-slate-950 dark:text-white"
                         >
                             More from NEMSU
                         </h2>
@@ -379,12 +379,12 @@ onBeforeUnmount(() => {
                         </div>
                         <div class="min-w-0">
                             <p
-                                class="text-[11px] font-medium text-slate-500 dark:text-slate-400"
+                                class="text-uni-micro font-medium text-slate-500 dark:text-slate-400"
                             >
                                 {{ item.date }}
                             </p>
                             <h3
-                                class="mt-1 line-clamp-2 text-sm leading-5 font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
+                                class="mt-1 line-clamp-2 font-sans text-uni-micro font-semibold text-slate-950 transition group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-100"
                             >
                                 {{ item.title }}
                             </h3>

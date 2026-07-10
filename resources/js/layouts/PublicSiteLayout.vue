@@ -20,17 +20,12 @@ import {
     university,
 } from '@/routes/about';
 import { academicAffairs } from '@/routes/academics';
-import {
-    citizensCharter,
-    transparencySeal,
-    vpaf,
-    vppsi,
-} from '@/routes/administration';
+import { transparencySeal, vpaf, vppsi } from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
-import { index as servicesIndex } from '@/routes/services';
 import { show as newsShow } from '@/routes/news';
 import { rie } from '@/routes/research';
+import { index as servicesIndex } from '@/routes/services';
 
 type NavGroup = {
     label: string;
@@ -98,6 +93,8 @@ const currentTickerHref = computed(() =>
         ? newsShow(currentTickerItem.value.slug).url
         : announcementsIndex().url,
 );
+
+const headerSealImage = '/storage/images/branding/logos/nemsu-logo.png';
 
 const stopTicker = (): void => {
     if (tickerInterval === null) {
@@ -385,7 +382,7 @@ const certificationLinks: FooterImageLink[] = [
     {
         label: 'ISO Certification',
         href: 'https://drive.google.com/file/d/1LI4qP_Ge4NfFhDhZ5mlXR5dY5YP3laX4/view',
-        image: 'https://nemsu.edu.ph/assets/images/ISO.jpg',
+        image: '/storage/images/compliance/iso/iso.png',
         imageAlt: 'ISO certification logos',
         external: true,
     },
@@ -395,13 +392,13 @@ const governanceSealLinks: FooterImageLink[] = [
     {
         label: 'Transparency Seal',
         href: transparencySeal().url,
-        image: '/storage/assets/image/the_transparency_seal2_0-150x150.png',
+        image: '/storage/images/compliance/transparency-seal/the_transparency_seal2_0-150x150.png',
         imageAlt: 'Transparency Seal',
     },
     {
         label: 'Freedom of Information',
         href: `${vpaf().url}#freedom-of-information`,
-        image: '/storage/assets/image/FOI-Logo_0-150x150.png',
+        image: '/storage/images/compliance/freedom-of-information/FOI-Logo_0-150x150.png',
         imageAlt: 'Freedom of Information seal',
     },
 ];
@@ -443,7 +440,9 @@ const currentYear = new Date().getFullYear();
                                 >
                                     Latest
                                 </span>
-                                <span class="truncate font-medium text-white">
+                                <span
+                                    class="truncate font-medium text-[#ffbd02]"
+                                >
                                     {{ currentTickerItem.title }}
                                 </span>
                             </Link>
@@ -484,7 +483,7 @@ const currentYear = new Date().getFullYear();
             >
                 <Link :href="home()" class="flex min-w-0 items-center gap-3">
                     <img
-                        src="https://nemsu.edu.ph/assets/images/NEMSU.png"
+                        :src="headerSealImage"
                         alt="NEMSU seal"
                         class="h-12 w-12 shrink-0 rounded-full bg-white object-contain ring-1 ring-slate-200"
                     />
@@ -641,7 +640,7 @@ const currentYear = new Date().getFullYear();
                 <section class="grid content-start gap-7">
                     <div class="flex flex-col items-start gap-4">
                         <img
-                            src="https://nemsu.edu.ph/assets/images/NEMSU.png"
+                            src="/storage/images/branding/logos/nemsu-logo.png"
                             alt="NEMSU seal"
                             class="size-32 shrink-0 rounded-full object-contain shadow-sm ring-1 shadow-slate-900/10 ring-slate-200 dark:ring-white/15"
                         />

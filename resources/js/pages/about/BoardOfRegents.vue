@@ -25,7 +25,7 @@ const markImageAsFailed = (name: string): void => {
 };
 
 const boardMemberPhoto = (fileName: string): string =>
-    `/storage/assets/image/board-of-regents/${encodeURIComponent(fileName)}`;
+    `/storage/images/governance/board-of-regents/${encodeURIComponent(fileName)}`;
 
 const initialsOf = (name: string): string => {
     if (name.toLowerCase() === 'vacant') {

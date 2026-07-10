@@ -95,9 +95,9 @@ const fallbackHeroSlide: BannerItem = {
 
 const sectionImages = {
     about: 'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
-    academics: 'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
+    academics: '/storage/images/banners/home/RM-Top-3-banner.jpg',
     research: 'https://nemsu.edu.ph/files/News/REA-00.jpg',
-    services: 'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
+    services: '/storage/images/banners/home/BannerCOL-Passer.jpg',
 };
 
 const parallaxBackground = (image: string, overlay: string): CSSProperties => ({
@@ -1101,7 +1101,7 @@ const governanceLinks: Feature[] = [
                     >
                         Online Services
                     </p>
-                    <h3 
+                    <h3
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                     >
                         Student and public services without the maze
