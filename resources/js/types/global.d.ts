@@ -1,5 +1,13 @@
 import type { Auth } from '@/types/auth';
 
+type PublicNewsTickerItem = {
+    id: string;
+    type: 'Announcement' | 'Press Release';
+    title: string;
+    slug: string;
+    date: string | null;
+};
+
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
     interface ImportMetaEnv {
@@ -18,6 +26,7 @@ declare module '@inertiajs/core' {
         sharedPageProps: {
             name: string;
             auth: Auth;
+            publicNewsTicker: PublicNewsTickerItem[];
             sidebarOpen: boolean;
             [key: string]: unknown;
         };

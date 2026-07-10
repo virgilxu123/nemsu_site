@@ -150,6 +150,49 @@ test('home page includes latest published announcements separately from press re
         );
 });
 
+test('public news ticker shares five latest published announcements and press releases', function () {
+    $publishedAt = now();
+
+    foreach (range(1, 6) as $index) {
+        News::factory()->create([
+            'title' => "Ticker update {$index}",
+            'slug' => "ticker-update-{$index}",
+            'type' => $index % 2 === 0 ? 'news' : 'announcement',
+            'is_published' => true,
+            'date' => $publishedAt->copy()->subMinutes($index),
+        ]);
+    }
+
+    News::factory()->create([
+        'title' => 'Draft ticker update',
+        'slug' => 'draft-ticker-update',
+        'type' => 'announcement',
+        'is_published' => false,
+        'date' => $publishedAt->copy()->addMinute(),
+    ]);
+
+    $response = $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Welcome')
+            ->has('publicNewsTicker', 5)
+            ->where('publicNewsTicker.0.title', 'Ticker update 1')
+            ->where('publicNewsTicker.0.type', 'Announcement')
+            ->where('publicNewsTicker.1.title', 'Ticker update 2')
+            ->where('publicNewsTicker.1.type', 'Press Release')
+        );
+
+    expect(collect($response->inertiaProps('publicNewsTicker'))->pluck('title')->all())
+        ->toBe([
+            'Ticker update 1',
+            'Ticker update 2',
+            'Ticker update 3',
+            'Ticker update 4',
+            'Ticker update 5',
+        ])
+        ->not->toContain('Ticker update 6', 'Draft ticker update');
+});
+
 test('news index page can be browsed', function () {
     News::create([
         'id' => (string) Str::uuid(),

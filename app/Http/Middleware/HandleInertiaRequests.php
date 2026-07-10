@@ -3,13 +3,17 @@
 namespace App\Http\Middleware;
 
 use App\Actions\Navigation\ResolveNavigationItemUrl;
+use App\Concerns\FormatsNewsForPublicDisplay;
 use App\Models\NavigationItem;
+use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+    use FormatsNewsForPublicDisplay;
+
     /**
      * The root template that's loaded on the first page visit.
      *
@@ -51,8 +55,32 @@ class HandleInertiaRequests extends Middleware
                 'main' => $this->navigationTree('main'),
                 'footer' => $this->navigationTree('footer'),
             ],
+            'publicNewsTicker' => fn (): array => $this->publicNewsTicker(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
+    }
+
+    /**
+     * @return list<array{id: string, type: string, title: string, slug: string, date: string|null}>
+     */
+    private function publicNewsTicker(): array
+    {
+        return News::query()
+            ->select(['id', 'title', 'slug', 'type', 'is_published', 'date'])
+            ->where('is_published', true)
+            ->whereIn('type', ['announcement', 'news'])
+            ->orderByDesc('date')
+            ->limit(5)
+            ->get()
+            ->map(fn (News $news): array => [
+                'id' => $news->id,
+                'type' => $news->type === 'announcement' ? 'Announcement' : 'Press Release',
+                'title' => $this->normalizeDisplayText($news->title) ?? '',
+                'slug' => $news->slug,
+                'date' => $news->date?->format('M j, Y'),
+            ])
+            ->values()
+            ->all();
     }
 
     /**

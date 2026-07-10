@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import {
     ChevronDown,
     Facebook,
@@ -11,8 +11,8 @@ import {
     X,
 } from 'lucide-vue-next';
 import type { Component } from 'vue';
-import { ref } from 'vue';
-import { dashboard, home } from '@/routes';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { dashboard, directory, home } from '@/routes';
 import {
     boardOfRegents,
     innovateAgenda,
@@ -28,6 +28,8 @@ import {
 } from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
+import { index as servicesIndex } from '@/routes/services';
+import { show as newsShow } from '@/routes/news';
 import { rie } from '@/routes/research';
 
 type NavGroup = {
@@ -69,7 +71,71 @@ type FooterImageLink = {
     external?: boolean;
 };
 
+type PublicNewsTickerItem = {
+    id: string;
+    type: 'Announcement' | 'Press Release';
+    title: string;
+    slug: string;
+    date: string | null;
+};
+
 const mobileOpen = ref(false);
+const tickerIndex = ref(0);
+const page = usePage();
+
+let tickerInterval: ReturnType<typeof window.setInterval> | null = null;
+
+const publicNewsTicker = computed(
+    () => (page.props.publicNewsTicker ?? []) as PublicNewsTickerItem[],
+);
+
+const currentTickerItem = computed(
+    () => publicNewsTicker.value[tickerIndex.value] ?? null,
+);
+
+const currentTickerHref = computed(() =>
+    currentTickerItem.value
+        ? newsShow(currentTickerItem.value.slug).url
+        : announcementsIndex().url,
+);
+
+const stopTicker = (): void => {
+    if (tickerInterval === null) {
+        return;
+    }
+
+    window.clearInterval(tickerInterval);
+    tickerInterval = null;
+};
+
+const startTicker = (): void => {
+    stopTicker();
+
+    if (typeof window === 'undefined' || publicNewsTicker.value.length <= 1) {
+        return;
+    }
+
+    tickerInterval = window.setInterval(() => {
+        tickerIndex.value =
+            (tickerIndex.value + 1) % publicNewsTicker.value.length;
+    }, 5000);
+};
+
+onMounted(() => {
+    startTicker();
+});
+
+onBeforeUnmount(() => {
+    stopTicker();
+});
+
+watch(publicNewsTicker, (items) => {
+    if (tickerIndex.value >= items.length) {
+        tickerIndex.value = 0;
+    }
+
+    startTicker();
+});
 
 const navGroups: NavGroup[] = [
     {
@@ -260,11 +326,11 @@ const navGroups: NavGroup[] = [
 ];
 
 const utilityLinks = [
-    { label: 'Announcements', href: announcementsIndex().url },
-    { label: 'Sustainability', href: '#about' },
-    { label: 'Online Services', href: '#services' },
-    { label: 'Directory', href: '#footer' },
-    { label: 'Admission', href: '#services' },
+    // { label: 'Announcements', href: announcementsIndex().url },
+    { label: 'Sustainability', href: 'https://sdg.nemsu.edu.ph/' },
+    { label: 'Online Services', href: servicesIndex().url },
+    { label: 'Directory', href: directory().url },
+    // { label: 'Admission', href: '#services' },
 ];
 
 const footerContactItems: FooterContactItem[] = [
@@ -356,10 +422,47 @@ const currentYear = new Date().getFullYear();
                 <div
                     class="mx-auto flex h-10 max-w-7xl items-center justify-between gap-4 px-4 text-xs sm:px-6 lg:px-8"
                 >
-                    <div class="hidden items-center gap-4 sm:flex">
-                        <span>086-214-4221</span>
-                        <span class="h-3 w-px bg-white/30"></span>
-                        <span>information@nemsu.edu.ph</span>
+                    <div class="hidden min-w-0 flex-1 items-center sm:flex">
+                        <Transition
+                            mode="out-in"
+                            enter-active-class="motion-safe:transition motion-safe:duration-300 motion-safe:ease-out motion-reduce:transition-none"
+                            enter-from-class="opacity-0 motion-safe:-translate-y-1"
+                            enter-to-class="opacity-100 motion-safe:translate-y-0"
+                            leave-active-class="motion-safe:transition motion-safe:duration-200 motion-safe:ease-in motion-reduce:transition-none"
+                            leave-from-class="opacity-100 motion-safe:translate-y-0"
+                            leave-to-class="opacity-0 motion-safe:translate-y-1"
+                        >
+                            <Link
+                                v-if="currentTickerItem"
+                                :key="currentTickerItem.id"
+                                :href="currentTickerHref"
+                                class="group flex max-w-full min-w-0 items-center gap-2 rounded px-2 py-1 text-white/85 transition hover:bg-white/10 hover:text-white"
+                            >
+                                <span
+                                    class="shrink-0 rounded bg-white/15 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-white uppercase"
+                                >
+                                    Latest
+                                </span>
+                                <span class="truncate font-medium text-white">
+                                    {{ currentTickerItem.title }}
+                                </span>
+                            </Link>
+                            <Link
+                                v-else
+                                key="empty-ticker"
+                                :href="announcementsIndex()"
+                                class="flex max-w-full min-w-0 items-center gap-2 rounded px-2 py-1 text-white/85 transition hover:bg-white/10 hover:text-white"
+                            >
+                                <span
+                                    class="shrink-0 rounded bg-white/15 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-white uppercase"
+                                >
+                                    Latest
+                                </span>
+                                <span class="truncate font-medium text-white">
+                                    Latest updates will appear here soon.
+                                </span>
+                            </Link>
+                        </Transition>
                     </div>
                     <nav
                         class="flex min-w-0 flex-1 items-center justify-end gap-1 sm:flex-none"

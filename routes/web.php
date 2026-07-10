@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProgramController as AdminProgramController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\ContentPageController;
+use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeOfThePresidentController;
@@ -30,6 +31,8 @@ Route::get('/administration/vppsi', VppsiController::class)->name('administratio
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');
+Route::inertia('/services', 'services/Index')->name('services.index');
+Route::get('/directory', DirectoryController::class)->name('directory');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{news:slug}', [NewsController::class, 'show'])->name('news.show');
