@@ -27,6 +27,7 @@ Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.b
 Route::get('/about/office-of-the-president', OfficeOfThePresidentController::class)->name('about.office-of-the-president');
 Route::inertia('/about/innovate-agenda', 'about/InnovateAgenda')->name('about.innovate-agenda');
 Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
+Route::inertia('/administration/good-governance', 'administration/GoodGovernance')->name('administration.good-governance');
 Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');

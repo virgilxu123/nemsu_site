@@ -161,11 +161,11 @@ const navGroups: NavGroup[] = [
                 links: [
                     {
                         label: 'Administration and Finance',
-                        href: `${vpaf().url}#ovpaf-profile`,
+                        href: `${vpaf().url}`,
                     },
                     {
                         label: 'Good Governance',
-                        href: `${vpaf().url}#ovpaf-offices`,
+                        href: goodGovernance().url,
                     },
                     // { label: 'Unit Head', href: '#governance' },
                     // { label: 'Email', href: '#governance' },
