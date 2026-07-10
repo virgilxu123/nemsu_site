@@ -22,6 +22,7 @@ import {
 import { academicAffairs } from '@/routes/academics';
 import {
     citizensCharter,
+    goodGovernance,
     transparencySeal,
     vpaf,
     vppsi,
@@ -164,11 +165,11 @@ const navGroups: NavGroup[] = [
                 links: [
                     {
                         label: 'Administration and Finance',
-                        href: `${vpaf().url}#ovpaf-profile`,
+                        href: `${vpaf().url}`,
                     },
                     {
                         label: 'Good Governance',
-                        href: `${vpaf().url}#ovpaf-offices`,
+                        href: goodGovernance().url,
                     },
                     // { label: 'Unit Head', href: '#governance' },
                     // { label: 'Email', href: '#governance' },
@@ -400,7 +401,7 @@ const governanceSealLinks: FooterImageLink[] = [
     },
     {
         label: 'Freedom of Information',
-        href: `${vpaf().url}#freedom-of-information`,
+        href: `${goodGovernance().url}#freedom-of-information`,
         image: '/storage/assets/image/FOI-Logo_0-150x150.png',
         imageAlt: 'Freedom of Information seal',
     },
