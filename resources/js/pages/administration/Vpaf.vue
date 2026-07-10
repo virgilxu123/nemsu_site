@@ -2,13 +2,13 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { show as officeShow } from '@/actions/App/Http/Controllers/OvpafOfficeController';
 import { home } from '@/routes';
-import { show as contentPageShow } from '@/routes/content-pages';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
 const heroBackgroundImage =
-    '/images/administration/ovprie/ovpaf/6I3A7029(1).jpg';
+    '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -25,36 +25,58 @@ type Office = {
 };
 const listedOffices: Office[] = [
     {
-        name: 'Procurement Management System Office',
-        href: contentPageShow.url('procurement-management-system-office'),
+        name: 'Chief Administrative Office - Finance Division',
+        href: officeShow.url('chief-administrative-office-finance-division'),
     },
     {
-        name: 'Alumni Affairs Office',
-        href: contentPageShow.url('alumni-affairs-office'),
+        name: 'Chief Administrative Office - Admin Division',
+        href: officeShow.url('chief-administrative-office-admin-division'),
     },
     {
-        name: 'Records Management Office',
-        href: contentPageShow.url('records-management-office'),
+        name: 'Supervising Administrative Office - Finance Division',
+        href: officeShow.url(
+            'supervising-administrative-office-finance-division',
+        ),
     },
     {
-        name: 'GAD and Values Restoration Office',
-        href: contentPageShow.url('gad-and-values-restoration-office'),
+        name: 'Supervising Administrative Office - Administration Division',
+        href: officeShow.url(
+            'supervising-administrative-office-administration-division',
+        ),
     },
     {
-        name: 'Information and Public Affairs Office',
-        href: contentPageShow.url('information-and-public-affairs-office'),
+        name: 'Accounting Office',
+        href: officeShow.url('accounting-office'),
     },
     {
-        name: 'Quality Assurance Office',
-        href: contentPageShow.url('quality-assurance-office'),
+        name: 'Budget Office',
+        href: officeShow.url('budget-office'),
     },
     {
-        name: 'Planning Office',
-        href: contentPageShow.url('planning-office'),
+        name: 'Human Resource Management Office',
+        href: officeShow.url('human-resource-management-office'),
     },
     {
-        name: 'General Services Office',
-        href: contentPageShow.url('general-services-office'),
+        name: 'Supply Office',
+        href: officeShow.url('supply-office'),
+    },
+    {
+        name: 'Cashier Office',
+        href: officeShow.url('cashier-office'),
+    },
+    {
+        name: 'Income-Generating Project and Auxiliary Services Office',
+        href: officeShow.url(
+            'income-generating-project-and-auxiliary-services-office',
+        ),
+    },
+    {
+        name: 'Disaster Risk Management Office',
+        href: officeShow.url('disaster-risk-management-office'),
+    },
+    {
+        name: 'Energy Efficiency and Conservation Office',
+        href: officeShow.url('energy-efficiency-and-conservation-office'),
     },
 ];
 
@@ -298,9 +320,9 @@ onBeforeUnmount(() => {
                     >
                         <div class="relative overflow-hidden rounded-sm">
                             <img
-                                src="/images/administration/ovprie/ovpaf/DONAIRE-MAGLINTE,%20,MICHIKO,%20N%20SFFB%20NEMSU_0880%20copy.jpg"
+                                src="/images/administration/ovpaf/DONAIRE-MAGLINTE,%20,MICHIKO,%20N%20SFFB%20NEMSU_0880%20copy.jpg"
                                 alt="Atty. Mitchiko Donaire-Maglinte"
-                                class="h-96 w-full object-cover object-top"
+                                class="h-96 w-full object-cover object-top [filter:contrast(.96)_saturate(.96)_blur(.2px)]"
                             />
                             <div
                                 class="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/45 to-transparent"
@@ -352,7 +374,7 @@ onBeforeUnmount(() => {
                             v-for="office in listedOffices"
                             :key="office.name"
                             :href="office.href"
-                            class="group inline-flex items-center justify-center gap-2 text-base font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-lg"
+                            class="group inline-flex items-center justify-center gap-2 text-base font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-lg lg:text-base"
                         >
                             <span>{{ office.name }}</span>
                             <span
