@@ -16,6 +16,7 @@ use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeOfThePresidentController;
+use App\Http\Controllers\OvpafOfficeController;
 use App\Http\Controllers\VppsiController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.b
 Route::get('/about/office-of-the-president', OfficeOfThePresidentController::class)->name('about.office-of-the-president');
 Route::inertia('/about/innovate-agenda', 'about/InnovateAgenda')->name('about.innovate-agenda');
 Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
+Route::get('/administration/vpaf/offices/{office}', [OvpafOfficeController::class, 'show'])->name('administration.vpaf.offices.show');
 Route::inertia('/administration/good-governance', 'administration/GoodGovernance')->name('administration.good-governance');
 Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
