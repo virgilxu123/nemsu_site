@@ -316,9 +316,9 @@ onBeforeUnmount(() => {
                         id="ovpaf-profile"
                         data-scroll-section="ovpaf-profile"
                         :class="revealClasses('ovpaf-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden rounded-md border border-white/60 bg-white/95 p-2 text-slate-950 shadow-2xl ring-1 shadow-slate-950/25 ring-slate-950/5 backdrop-blur-xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:border-white/10 dark:bg-slate-950/90 dark:text-white"
+                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
-                        <div class="relative overflow-hidden rounded-sm">
+                        <div class="relative overflow-hidden">
                             <img
                                 src="/images/administration/ovpaf/DONAIRE-MAGLINTE,%20,MICHIKO,%20N%20SFFB%20NEMSU_0880%20copy.jpg"
                                 alt="Atty. Mitchiko Donaire-Maglinte"
@@ -374,7 +374,7 @@ onBeforeUnmount(() => {
                             v-for="office in listedOffices"
                             :key="office.name"
                             :href="office.href"
-                            class="group inline-flex items-center justify-center gap-2 text-base font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-lg lg:text-base"
+                            class="group inline-flex items-center justify-center gap-2 text-base font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-sm lg:text-base"
                         >
                             <span>{{ office.name }}</span>
                             <span

@@ -54,7 +54,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mr. Calvin R. Sillar',
             'email' => 'accounting@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '\images\administration\ovpaf\SILLAR, CALVIN, R SFFB NEMSU_6032 copy.jpg',
         ],
         'budget-office' => [
             'title' => 'Budget Office',
@@ -81,7 +81,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mrs. Jovelyn Clarit',
             'email' => 'supplyofficemain@gmail.com',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/CLARIT, JOVELYN, B SFFB NEMSU_0690 copy.jpg',
         ],
         'cashier-office' => [
             'title' => 'Cashier Office',
@@ -90,7 +90,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mrs. Glesilda L. Canda',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '\images\administration\ovpaf\CANDA, GLESILDA, L SFFB NEMSU_4705 copy.jpg',
         ],
         'income-generating-project-and-auxiliary-services-office' => [
             'title' => 'Income-Generating Project and Auxiliary Services Office',
@@ -99,7 +99,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mr. Roel T. Lim',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '\images\administration\ovpaf\LIM, ROEL, T SFFB NEMSU_2787 copy.jpg',
         ],
         'disaster-risk-management-office' => [
             'title' => 'Disaster Risk Management Office',
@@ -117,7 +117,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Engr. Kennie Montenegro',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '\images\administration\ovpaf\MONTENEGRO, KENNIE, F SFFB NEMSU_2950 copy.jpg',
         ],
     ];
 
