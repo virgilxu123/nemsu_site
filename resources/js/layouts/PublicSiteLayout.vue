@@ -20,7 +20,12 @@ import {
     university,
 } from '@/routes/about';
 import { academicAffairs } from '@/routes/academics';
-import { transparencySeal, vpaf, vppsi } from '@/routes/administration';
+import {
+    goodGovernance,
+    transparencySeal,
+    vpaf,
+    vppsi,
+} from '@/routes/administration';
 import { index as announcementsIndex } from '@/routes/announcements';
 import { show as campusShow } from '@/routes/campuses';
 import { show as newsShow } from '@/routes/news';

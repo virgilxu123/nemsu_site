@@ -1,24 +1,11 @@
 <script setup lang="ts">
 import {
-    Accessibility,
     ArrowRight,
-    BookOpenCheck,
     Building2,
-    GraduationCap,
     Landmark,
-    MapPin,
-    UserCheck,
-    Users,
 } from 'lucide-vue-next';
-import type { Component, CSSProperties } from 'vue';
+import type { CSSProperties } from 'vue';
 
-type GlanceIcon =
-    | 'accessibility'
-    | 'graduates'
-    | 'map'
-    | 'personnel'
-    | 'programs'
-    | 'students';
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
 type GlanceStat = {
@@ -27,7 +14,6 @@ type GlanceStat = {
     value: string;
     scope: string;
     description: string;
-    icon: GlanceIcon;
 };
 
 type MapHighlight = {
@@ -44,15 +30,6 @@ defineProps<{
     staggerDelay: (section: string, index: number) => CSSProperties;
     revealClasses: (section: string, direction?: RevealDirection) => string;
 }>();
-
-const iconComponents: Record<GlanceIcon, Component> = {
-    accessibility: Accessibility,
-    students: Users,
-    personnel: UserCheck,
-    graduates: GraduationCap,
-    map: MapPin,
-    programs: BookOpenCheck,
-};
 </script>
 
 <template>
@@ -110,29 +87,8 @@ const iconComponents: Record<GlanceIcon, Component> = {
                         :style="staggerDelay('at-a-glance', index)"
                         class="group relative isolate overflow-hidden rounded-md border border-slate-200 bg-white/88 p-6 shadow-sm shadow-slate-900/5 backdrop-blur transition hover:-translate-y-1 hover:border-[#0b6680]/45 hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-slate-950/70 dark:hover:border-sky-300/45"
                     >
-                        <div
-                            class="absolute top-0 right-0 -z-10 h-24 w-24 translate-x-8 -translate-y-8 rounded-full bg-[#f2b705]/20 transition group-hover:scale-125 dark:bg-[#f2b705]/10"
-                        ></div>
-
-                        <div class="flex items-start justify-between gap-4">
-                            <span
-                                class="inline-flex size-12 items-center justify-center rounded-md bg-[#e6f3f5] text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
-                            >
-                                <component
-                                    :is="iconComponents[stat.icon]"
-                                    class="size-6"
-                                    aria-hidden="true"
-                                />
-                            </span>
-                            <span
-                                class="rounded bg-[#fff4cc] px-2.5 py-1 text-xs font-semibold text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                            >
-                                {{ stat.scope }}
-                            </span>
-                        </div>
-
                         <p
-                            class="mt-7 text-4xl font-semibold tracking-tight text-slate-950 dark:text-white"
+                            class="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
                             {{ stat.value }}
                         </p>
