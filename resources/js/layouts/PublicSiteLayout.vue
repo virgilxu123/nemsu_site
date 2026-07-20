@@ -634,7 +634,7 @@ const currentYear = new Date().getFullYear();
 
         <footer
             id="footer"
-            class="border-t-4 border-[#1711d4] bg-white text-slate-950 dark:bg-slate-950 dark:text-white"
+            class="border-t-1 border-[#1711d4] bg-white text-slate-950 dark:bg-slate-950 dark:text-white"
         >
             <div
                 class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-[1.05fr_1.15fr_0.9fr_0.9fr] lg:items-start lg:gap-12 lg:px-8 xl:gap-16"

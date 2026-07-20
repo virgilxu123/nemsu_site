@@ -232,9 +232,9 @@ onBeforeUnmount(() => {
                     <aside
                         data-scroll-section="office-profile"
                         :class="revealClasses('office-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden rounded-md border border-white/60 bg-white/95 p-2 text-slate-950 shadow-2xl ring-1 shadow-slate-950/25 ring-slate-950/5 backdrop-blur-xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:border-white/10 dark:bg-slate-950/90 dark:text-white"
+                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
-                        <div class="relative overflow-hidden rounded-sm">
+                        <div class="relative overflow-hidden">
                             <img
                                 v-if="props.office.headImage"
                                 :src="props.office.headImage"
@@ -251,11 +251,6 @@ onBeforeUnmount(() => {
                                     >
                                         {{ headInitials || 'OV' }}
                                     </span>
-                                    <p
-                                        class="mt-5 px-6 text-sm font-semibold tracking-[0.2em] text-[#f2b705] uppercase"
-                                    >
-                                        Head photo pending
-                                    </p>
                                 </div>
                             </div>
                             <div
@@ -311,42 +306,6 @@ onBeforeUnmount(() => {
                             </div>
                         </div>
                     </aside>
-                </div>
-            </section>
-
-            <section
-                id="other-offices"
-                class="bg-[#1f007c] py-14 text-white sm:py-16"
-            >
-                <div
-                    data-scroll-section="other-offices"
-                    :class="revealClasses('other-offices')"
-                    class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-                >
-                    <p
-                        class="text-sm font-semibold tracking-wide text-[#ffbf00] uppercase"
-                    >
-                        Offices under OVPAF
-                    </p>
-                    <nav
-                        aria-label="Other offices under OVPAF"
-                        class="mt-10 grid gap-x-12 gap-y-7 text-center sm:grid-cols-2 lg:grid-cols-3"
-                    >
-                        <Link
-                            v-for="officeLink in props.offices"
-                            :key="officeLink.slug"
-                            :href="officeShow.url(officeLink.slug)"
-                            :class="[
-                                'group inline-flex items-center justify-center gap-2 text-base font-bold transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-lg',
-                                officeLink.slug === props.office.slug
-                                    ? 'text-[#f2b705]'
-                                    : 'text-white',
-                            ]"
-                        >
-                            <Building2 class="size-4" aria-hidden="true" />
-                            <span>{{ officeLink.title }}</span>
-                        </Link>
-                    </nav>
                 </div>
             </section>
         </div>

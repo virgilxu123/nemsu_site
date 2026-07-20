@@ -195,11 +195,11 @@ onBeforeUnmount(() => {
                     :class="revealClasses('good-governance-hero')"
                     class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
                 >
-                    <p
-                        class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                    >
-                        Good Governance
-                    </p>
+                    <h3
+                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                        >
+                            Good Governance and Public Accountability Resources
+                        </h3>
 
                     <nav
                         aria-label="Breadcrumb"
