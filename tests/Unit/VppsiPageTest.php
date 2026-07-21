@@ -23,5 +23,7 @@ test('vppsi page contains the supplied planning and strategy directory', functio
         ->toContain('General Services Office')
         ->toContain('mrsacevedo@nemsu.edu.ph')
         ->toContain('planning@nemsu.edu.ph')
-        ->toContain('id="bac-matters"');
+        ->toContain('id="bac-matters"')
+        ->toContain('data-scroll-section="bac-matters"')
+        ->toContain('preserve-state');
 });

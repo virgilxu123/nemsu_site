@@ -18,6 +18,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeOfThePresidentController;
 use App\Http\Controllers\OvpafOfficeController;
 use App\Http\Controllers\VppsiController;
+use App\Http\Controllers\VppsiOfficeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
@@ -31,6 +32,7 @@ Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administrat
 Route::get('/administration/vpaf/offices/{office}', [OvpafOfficeController::class, 'show'])->name('administration.vpaf.offices.show');
 Route::inertia('/administration/good-governance', 'administration/GoodGovernance')->name('administration.good-governance');
 Route::get('/administration/vppsi', VppsiController::class)->name('administration.vppsi');
+Route::get('/administration/vppsi/offices/{office}', [VppsiOfficeController::class, 'show'])->name('administration.vppsi.offices.show');
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');

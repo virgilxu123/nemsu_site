@@ -180,17 +180,16 @@ const navGroups: NavGroup[] = [
     },
     {
         label: 'Planning and Strategic Initiatives',
-        shortLabel: 'Planning & Strategy',
+        shortLabel: 'Planning',
         columns: [
             {
-                heading: 'OVPPSI',
                 links: [
                     {
-                        label: 'Profile',
-                        href: `${vppsi().url}#ovppsi-profile`,
+                        label: 'Planning and Strategic Initiatives',
+                        href: `${vppsi().url}`,
                     },
                     {
-                        label: 'Offices under OVPPSI',
+                        label: 'BAC Matters',
                         href: `${vppsi().url}#ovppsi-offices`,
                     },
                     // { label: 'Unit Head', href: '#governance' },
@@ -198,15 +197,7 @@ const navGroups: NavGroup[] = [
                     // { label: 'Contact Details', href: '#governance' },
                 ],
             },
-            {
-                heading: 'Procurement',
-                links: [
-                    {
-                        label: 'BAC Matters',
-                        href: `${vppsi().url}#bac-matters`,
-                    },
-                ],
-            },
+            
         ],
     },
     {

@@ -8,9 +8,13 @@ import {
     FileText,
     ShieldCheck,
 } from 'lucide-vue-next';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { Component } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { goodGovernance } from '@/routes/administration';
 import { home } from '@/routes';
+
+type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
 type DocumentLink = {
     label: string;
@@ -46,7 +50,19 @@ type PillarCard = {
     icon: Component;
 };
 
-const sealImage = 'https://nemsu.edu.ph/assets/images/seal.png';
+const heroLeftImage =
+    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroRightImage =
+    '/images/campuses/tandag/facilities/gallery/administrative-building.jpg';
+const revealOffset: Record<RevealDirection, string> = {
+    down: '-translate-y-8',
+    left: 'translate-x-8',
+    right: '-translate-x-8',
+    up: 'translate-y-8',
+};
+
+const visibleSections = ref<Set<string>>(new Set());
+let revealObserver: IntersectionObserver | null = null;
 
 const doc = (label: string, href: string): DocumentLink => ({
     label,
@@ -466,10 +482,81 @@ const transparencySections: TransparencySection[] = [
             { label: '2024 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1Vi7eTrjR2FrY-7CwmHUXOYxlPNhHoKBy/edit?usp=drive_link&ouid=118069644834388500470&rtpof=true&sd=true' },
             { label: '2023 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/13RwB_ZvmJwUnoWJbXiPhDhM6olvSdS2D/edit?usp=sharing' },
             { label: '2022 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1-peJiXcwBVjAdspKYb-QfTas4nO5cytZ/edit?usp=sharing' },
-            { label: '2021 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1HQUNHkxSsrr5YRp2idNBvH2Sse3VauU3/edit?usp=sharing' },
+            { label: '2021 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1HQUNHkxSsrr5YRp2idNBvh3Sse3VauU3/edit?usp=sharing' },
         ],
     },
 ];
+
+const setSectionVisibility = (section: string, isVisible: boolean): void => {
+    const nextVisibleSections = new Set(visibleSections.value);
+
+    if (isVisible) {
+        nextVisibleSections.add(section);
+    } else {
+        nextVisibleSections.delete(section);
+    }
+
+    visibleSections.value = nextVisibleSections;
+};
+
+const isSectionVisible = (section: string): boolean =>
+    visibleSections.value.has(section);
+
+const revealClasses = (
+    section: string,
+    direction: RevealDirection = 'up',
+): string =>
+    [
+        'transition-all duration-700 ease-out will-change-transform motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none',
+        isSectionVisible(section)
+            ? 'translate-x-0 translate-y-0 opacity-100 blur-0'
+            : `${revealOffset[direction]} opacity-0 blur-[2px]`,
+    ].join(' ');
+
+onMounted(() => {
+    const animatedSections = document.querySelectorAll<HTMLElement>(
+        '[data-scroll-section]',
+    );
+    const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    if (prefersReducedMotion) {
+        visibleSections.value = new Set(
+            Array.from(animatedSections)
+                .map((section) => section.dataset.scrollSection)
+                .filter(Boolean) as string[],
+        );
+
+        return;
+    }
+
+    revealObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const section = entry.target.getAttribute(
+                    'data-scroll-section',
+                );
+
+                if (section) {
+                    setSectionVisibility(section, entry.isIntersecting);
+                }
+            });
+        },
+        {
+            rootMargin: '0px',
+            threshold: 0.1,
+        },
+    );
+
+    animatedSections.forEach((section) => {
+        revealObserver?.observe(section);
+    });
+});
+
+onBeforeUnmount(() => {
+    revealObserver?.disconnect();
+});
 </script>
 
 <template>
@@ -477,94 +564,127 @@ const transparencySections: TransparencySection[] = [
         <Head title="Transparency Seal" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section class="relative isolate overflow-hidden bg-[#1711d4] py-14 text-white sm:py-16 lg:py-20">
-                <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.16),transparent_38%),radial-gradient(circle_at_bottom_right,rgba(242,183,5,0.18),transparent_34%)]"></div>
-                <div class="absolute -top-32 -right-32 -z-10 size-80 rounded-full bg-white/10 blur-3xl"></div>
-                <div class="absolute -bottom-32 -left-24 -z-10 size-72 rounded-full bg-[#0b3d91]/40 blur-3xl"></div>
+            <section class="relative isolate overflow-hidden bg-[#07113f] py-4 text-slate-950 sm:py-6 lg:py-8 dark:bg-slate-950 dark:text-white">
+                <div class="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/45 to-slate-950/80" aria-hidden="true"></div>
 
-                <div class="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-[20rem_minmax(0,1fr)] lg:px-8">
-                    <div class="rounded-4xl border border-white/15 bg-white/10 p-4 shadow-2xl shadow-slate-950/30 backdrop-blur">
-                        <div class="overflow-hidden rounded-3xl bg-white p-4">
-                            <img :src="sealImage" alt="Transparency seal" class="w-full object-contain" />
+                <div class="relative z-10 w-full">
+                    <div class="relative flex w-full flex-col items-center py-4 lg:h-[18rem] lg:py-0">
+                        <div
+                            class="pointer-events-none absolute top-1/2 left-1/2 z-0 hidden h-[18rem] w-[49rem] -translate-x-1/2 -translate-y-1/2 lg:block"
+                            aria-hidden="true"
+                        >
+                            <div class="absolute top-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(100%_0,100%_100%,0_100%)]"></div>
+                            <div class="absolute top-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_100%,0_100%)]"></div>
+                            <div class="absolute bottom-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,100%_100%)]"></div>
+                            <div class="absolute bottom-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
                         </div>
-                        <div class="mt-4 rounded-2xl border border-white/10 bg-slate-950/25 p-4 text-sm leading-6 text-slate-100">
-                            <p class="font-semibold text-white">Source</p>
-                            <p class="mt-1 text-slate-200">
-                                Retrieved from the DBM transparency seal reference used by the University’s public accountability page.
-                            </p>
-                            <a href="https://www.dbm.gov.ph/" target="_blank" rel="noreferrer" class="mt-3 inline-flex items-center gap-2 font-semibold text-[#f2b705] transition hover:text-white">
-                                dbm.gov.ph
-                                <ArrowUpRight class="size-4" aria-hidden="true" />
-                            </a>
+
+                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:left-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
+                            <img
+                                :src="heroLeftImage"
+                                alt="NEMSU administration building facade"
+                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
+                            />
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
                         </div>
-                    </div>
 
-                    <div class="text-center lg:text-left">
-                        <p class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15">
-                            Administration
-                        </p>
-                        <h1 class="mt-5 text-4xl font-semibold tracking-normal text-white sm:text-5xl lg:text-6xl">
-                            Transparency Seal
-                        </h1>
-                        <p class="mt-4 max-w-3xl text-lg leading-8 text-sky-100 sm:text-xl">
-                            Public accountability resources, annual financial reports, and transparency records presented in the same visual language as the rest of the NEMSU public site.
-                        </p>
+                        <div class="relative z-20 -my-5 min-h-44 w-[90%] max-w-4xl text-center text-white sm:min-h-48 lg:absolute lg:top-1/2 lg:left-1/2 lg:m-0 lg:h-[18rem] lg:w-[49rem] lg:-translate-x-1/2 lg:-translate-y-1/2">
+                            <div class="relative z-10 flex min-h-44 w-full flex-col items-center justify-center overflow-hidden bg-[#073b73] px-8 py-6 text-center sm:min-h-48 sm:px-12 lg:h-full lg:px-16">
+                                <img
+                                    src="/images/administration/ovpaf/pattern.png"
+                                    alt=""
+                                    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-screen"
+                                    aria-hidden="true"
+                                />
+                                <h3 class="relative z-10 text-4xl font-semibold whitespace-nowrap tracking-normal text-[#7dd3fc] sm:text-5xl lg:text-[3.35rem]">
+                                    TRANSPARENCY SEAL
+                                </h3>
+                                <nav
+                                    class="relative z-10 mt-5 text-sm  text-white/80"
+                                    aria-label="Breadcrumb"
+                                >
+                                    <ol class="flex flex-wrap items-center justify-center gap-2">
+                                        <li>
+                                            <Link
+                                                :href="home()"
+                                                class="transition hover:text-[#f2b705]"
+                                            >
+                                                Home
+                                            </Link>
+                                        </li>
+                                        <li class="text-white/80" aria-hidden="true">
+                                            /
+                                        </li>
+                                        <li>
+                                            <Link
+                                                :href="goodGovernance()"
+                                                class="transition hover:text-[#f2b705]"
+                                            >
+                                                Good Governance
+                                            </Link>
+                                        </li>
+                                        <li class="text-white/80" aria-hidden="true">
+                                            /
+                                        </li>
+                                        <li class="text-[#f2b705]" aria-current="page">
+                                            Transparency Seal
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
 
-                        <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
-                            <Link :href="home()" class="inline-flex items-center justify-center rounded-md border border-white/20 bg-white px-5 py-3 text-sm font-semibold text-[#1711d4] transition hover:bg-[#f2b705] hover:text-slate-950">
-                                Back to Home
-                            </Link>
-                            <a href="#annual-reports" class="inline-flex items-center justify-center rounded-md border border-white/15 bg-white/10 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white hover:text-[#1711d4]">
-                                Jump to Archive
-                            </a>
+                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:right-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
+                            <img
+                                :src="heroRightImage"
+                                alt="NEMSU campus administrative building"
+                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
+                            />
+                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section class="py-14 sm:py-16">
-                <div class="mx-auto grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
-                    <article v-for="card in transparencyPillars" :key="card.title" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4">
-                        <span class="inline-flex size-11 items-center justify-center rounded-xl bg-[#e7f3fb] text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200">
-                            <component :is="card.icon" class="size-5" aria-hidden="true" />
-                        </span>
-                        <h2 class="mt-4 text-xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                            {{ card.title }}
-                        </h2>
-                        <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                            {{ card.description }}
-                        </p>
-                    </article>
-                </div>
-            </section>
-
-            <section id="annual-reports" class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900">
+            <section
+                id="annual-reports"
+                class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
+            >
                 <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8">
-                    <aside class="lg:sticky lg:top-32 lg:self-start">
+                    <aside
+                        data-scroll-section="annual-reports-heading"
+                        class="lg:sticky lg:top-32 lg:self-start"
+                        :class="revealClasses('annual-reports-heading', 'right')"
+                    >
                         <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
                             Annual Financial Reports
                         </p>
-                        <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
                             Year-by-year archive
-                        </h2>
+                        </h4>
                         <p class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
                             The attached data is organized from the latest posted year down to 2020 so each quarter remains easy to scan.
                         </p>
                     </aside>
 
                     <div class="grid gap-5">
-                        <article v-for="year in transparencyYears" :key="year.year" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4">
-                            <div class="border-b border-slate-200 bg-slate-950 p-5 text-white dark:border-white/10">
+                        <article
+                            v-for="year in transparencyYears"
+                            :key="year.year"
+                            :data-scroll-section="`annual-report-${year.year}`"
+                            class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
+                            :class="revealClasses(`annual-report-${year.year}`)"
+                        >
+                            <div class="border-b border-[#0f0ab8] bg-[#1711d4] p-5 text-white dark:border-white/10">
                                 <p class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
                                     {{ year.year }}
                                 </p>
                                 <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                                     <div>
-                                        <h3 class="text-2xl font-semibold tracking-normal">
+                                        <h4 class="text-2xl font-semibold tracking-normal">
                                             {{ year.summary }}
-                                        </h3>
+                                        </h4>
                                     </div>
-                                    <p class="text-sm text-sky-100">
+                                    <p class="text-sm text-white/85">
                                         {{ year.quarters.length }} quarter blocks
                                     </p>
                                 </div>
@@ -577,9 +697,9 @@ const transparencySections: TransparencySection[] = [
                                             <CalendarRange class="size-5" aria-hidden="true" />
                                         </span>
                                         <div>
-                                            <h4 class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white">
+                                            <h5 class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white">
                                                 {{ quarterArchive.label }}
-                                            </h4>
+                                            </h5>
                                             <p class="text-xs text-slate-500 dark:text-slate-400">
                                                 {{ quarterArchive.documents.length ? `${quarterArchive.documents.length} files` : 'No file posted yet' }}
                                             </p>
@@ -606,14 +726,18 @@ const transparencySections: TransparencySection[] = [
 
             <section class="py-14 sm:py-16">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-5 rounded-4xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 sm:p-8 lg:grid-cols-[1fr_auto] dark:border-white/10 dark:bg-white/4">
+                    <div
+                        data-scroll-section="public-access"
+                        class="grid gap-5 rounded-4xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 sm:p-8 lg:grid-cols-[1fr_auto] dark:border-white/10 dark:bg-white/4"
+                        :class="revealClasses('public-access', 'up')"
+                    >
                         <div>
                             <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
                                 Public access
                             </p>
-                            <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                            <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
                                 Keep the seal visible and the records easy to verify.
-                            </h2>
+                            </h4>
                             <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
                                 This page keeps the seal image, the accountability summary, and the financial archive aligned with the public site styling used across NEMSU.
                             </p>
@@ -630,28 +754,38 @@ const transparencySections: TransparencySection[] = [
 
             <section class="border-t border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl">
+                    <div
+                        data-scroll-section="transparency-sections-heading"
+                        class="max-w-3xl"
+                        :class="revealClasses('transparency-sections-heading', 'right')"
+                    >
                         <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
                             Transparency seal sections
                         </p>
-                        <h2 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
                             Sections III to X are now laid out here.
-                        </h2>
+                        </h4>
                         <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
                             Each block below matches the requested transparency seal grouping. Items without uploaded files are shown as labels so the section structure stays visible.
                         </p>
                     </div>
 
                     <div class="mt-8 grid gap-5">
-                        <article v-for="section in transparencySections" :key="section.code" class="overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4">
-                            <div class="border-b border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-slate-900/60">
-                                <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
+                        <article
+                            v-for="section in transparencySections"
+                            :key="section.code"
+                            :data-scroll-section="`transparency-section-${section.code}`"
+                            class="overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
+                            :class="revealClasses(`transparency-section-${section.code}`)"
+                        >
+                            <div class="border-b border-[#0f0ab8] bg-[#1711d4] p-5 text-white dark:border-white/10">
+                                <p class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
                                     {{ section.code }}
                                 </p>
-                                <h3 class="mt-2 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                                <h4 class="mt-2 text-2xl font-semibold tracking-normal text-white">
                                     {{ section.title }}
-                                </h3>
-                                <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                                </h4>
+                                <p class="mt-2 text-sm leading-6 text-white/80">
                                     {{ section.description }}
                                 </p>
                             </div>
