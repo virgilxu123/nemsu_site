@@ -71,15 +71,23 @@ class ManageNewsImages
             return null;
         }
 
+        $photo = trim($photo);
+
         if ($this->isManagedPath($photo)) {
             return Storage::disk('public')->url($photo);
+        }
+
+        $legacyPhotoUrl = $this->legacyNewsPhotoUrl($photo);
+
+        if ($legacyPhotoUrl !== null) {
+            return $legacyPhotoUrl;
         }
 
         if (Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
             return $photo;
         }
 
-        return 'https://nemsu.edu.ph/files/News/'.rawurlencode($photo);
+        return $this->localNewsContentImageUrl($photo);
     }
 
     /**
@@ -142,6 +150,36 @@ class ManageNewsImages
         }
 
         return $this->isManagedPath($path) ? $path : null;
+    }
+
+    private function legacyNewsPhotoUrl(string $photo): ?string
+    {
+        $path = parse_url($photo, PHP_URL_PATH);
+
+        if (! is_string($path)) {
+            return null;
+        }
+
+        $prefix = '/files/News/';
+
+        if (! Str::of($path)->startsWith($prefix)) {
+            return null;
+        }
+
+        $host = parse_url($photo, PHP_URL_HOST);
+
+        if (is_string($host) && ! in_array(Str::lower($host), ['nemsu.edu.ph', 'www.nemsu.edu.ph'], true)) {
+            return null;
+        }
+
+        $filename = rawurldecode(Str::after($path, $prefix));
+
+        return $filename === '' ? null : $this->localNewsContentImageUrl($filename);
+    }
+
+    private function localNewsContentImageUrl(string $filename): string
+    {
+        return Storage::disk('public')->url('images/content/news/'.rawurlencode($filename));
     }
 
     /**

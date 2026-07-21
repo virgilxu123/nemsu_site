@@ -95,9 +95,9 @@ const fallbackHeroSlide: BannerItem = {
 
 const sectionImages = {
     about: 'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
-    academics: 'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
+    academics: '/storage/images/banners/home/RM-Top-3-banner.jpg',
     research: 'https://nemsu.edu.ph/files/News/REA-00.jpg',
-    services: 'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
+    services: '/storage/images/banners/home/BannerCOL-Passer.jpg',
 };
 
 const parallaxBackground = (image: string, overlay: string): CSSProperties => ({
@@ -928,15 +928,10 @@ const governanceLinks: Feature[] = [
                     ]"
                 >
                     <div>
-                        <p
-                            class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                        >
-                            Announcements
-                        </p>
                         <h3
-                            class="mt-3 max-w-2xl text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            class="max-w-2xl text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                         >
-                            Time-sensitive notices from university offices
+                            Announcement
                         </h3>
                     </div>
 
@@ -950,22 +945,10 @@ const governanceLinks: Feature[] = [
                             :href="newsShow(item.slug)"
                             class="group flex min-h-48 flex-col rounded-md border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5 transition hover:-translate-y-0.5 hover:border-[#0b6680]/55 hover:shadow-lg hover:shadow-slate-900/10 dark:border-white/10 dark:bg-white/5 dark:hover:border-sky-300/50"
                         >
-                            <div class="flex items-start justify-between gap-4">
+                            <div class="flex justify-end">
                                 <span
-                                    class="inline-flex size-11 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                                    class="rounded bg-[#e6f3f5] px-2.5 py-1 text-xs font-semibold text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
                                 >
-                                    <Megaphone
-                                        class="size-5"
-                                        aria-hidden="true"
-                                    />
-                                </span>
-                                <span
-                                    class="inline-flex items-center gap-1.5 rounded bg-[#e6f3f5] px-2.5 py-1 text-xs font-semibold text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
-                                >
-                                    <CalendarDays
-                                        class="size-3.5"
-                                        aria-hidden="true"
-                                    />
                                     {{ item.date }}
                                 </span>
                             </div>
@@ -990,13 +973,9 @@ const governanceLinks: Feature[] = [
                             </div>
 
                             <div
-                                class="mt-auto flex items-center justify-between gap-4 pt-5 text-xs font-medium text-slate-500 dark:text-slate-400"
+                                class="mt-auto pt-5 text-xs font-medium text-slate-500 dark:text-slate-400"
                             >
                                 <span class="truncate">{{ item.office }}</span>
-                                <ArrowRight
-                                    class="size-4 shrink-0 transition group-hover:translate-x-1 group-hover:text-[#0b6680] dark:group-hover:text-sky-200"
-                                    aria-hidden="true"
-                                />
                             </div>
                         </Link>
                     </div>
@@ -1101,7 +1080,7 @@ const governanceLinks: Feature[] = [
                     >
                         Online Services
                     </p>
-                    <h3 
+                    <h3
                         class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                     >
                         Student and public services without the maze

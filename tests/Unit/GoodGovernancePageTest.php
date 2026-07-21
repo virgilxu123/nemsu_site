@@ -38,3 +38,11 @@ test('good governance page provides governance and foi resources', function () {
 
     expect(substr_count($page, "        href: 'https://"))->toBe(7);
 });
+
+test('public layout links to the good governance route helper', function () {
+    $layout = file_get_contents(resource_path('js/layouts/PublicSiteLayout.vue'));
+
+    expect($layout)
+        ->toContain('goodGovernance')
+        ->toContain('href: goodGovernance().url');
+});

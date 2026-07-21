@@ -2,8 +2,14 @@
 
 use App\Models\Banner;
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
+
+function newsContentImageUrl(string $filename): string
+{
+    return Storage::disk('public')->url('images/content/news/'.rawurlencode($filename));
+}
 
 test('returns a successful response', function () {
     $response = $this->get(route('home'));
@@ -18,6 +24,7 @@ test('home page includes latest published press releases', function () {
         'slug' => 'published-press-release',
         'short_description' => 'A visible public update.',
         'content' => 'Full public update.',
+        'photo' => 'https://nemsu.edu.ph/files/News/legacy%20absolute.jpg',
         'author' => 'Public Information Office',
         'type' => 'news',
         'is_published' => true,
@@ -40,6 +47,7 @@ test('home page includes latest published press releases', function () {
             ->component('Welcome')
             ->has('pressReleases', 1)
             ->where('pressReleases.0.title', 'Published press release')
+            ->where('pressReleases.0.photoUrl', newsContentImageUrl('legacy absolute.jpg'))
             ->where('pressReleases.0.type', 'Press Release')
             ->where('pressReleases.0.office', 'Public Information Office')
         );
@@ -69,7 +77,7 @@ test('home page includes published banners for the hero carousel', function () {
             ->has('banners', 1)
             ->where('banners.0.title', 'Topnotcher Celebration')
             ->where('banners.0.summary', 'NEMSU celebrates another milestone.')
-            ->where('banners.0.imageUrl', 'https://nemsu.edu.ph/files/Banner/top%203.jpg')
+            ->where('banners.0.imageUrl', '/storage/images/banners/home/top%203.jpg')
             ->where('banners.0.link', 'https://nemsu.edu.ph')
         );
 });
@@ -297,7 +305,7 @@ test('home page includes featured news separately from press releases', function
         ->assertInertia(fn (Assert $page) => $page
             ->component('Welcome')
             ->where('featuredNews.title', 'Featured university story')
-            ->where('featuredNews.photoUrl', 'https://nemsu.edu.ph/files/News/featured%20story.jpg')
+            ->where('featuredNews.photoUrl', newsContentImageUrl('featured story.jpg'))
             ->has('pressReleases', 1)
             ->where('pressReleases.0.title', 'Regular university story')
         );
@@ -310,7 +318,7 @@ test('published news article page can be viewed', function () {
         'slug' => 'detailed-university-story',
         'short_description' => 'A public article summary.',
         'content' => '<p>Full public article.</p><script>alert("x")</script><img src="/public_files/images/story.jpg" onerror="alert(1)">',
-        'photo' => 'story.jpg',
+        'photo' => "story.jpg\r\n",
         'author' => 'Public Information Office',
         'type' => 'news',
         'is_published' => true,
@@ -323,7 +331,7 @@ test('published news article page can be viewed', function () {
             ->component('news/Show')
             ->where('article.title', 'Detailed university story')
             ->where('article.slug', 'detailed-university-story')
-            ->where('article.photoUrl', 'https://nemsu.edu.ph/files/News/story.jpg')
+            ->where('article.photoUrl', newsContentImageUrl('story.jpg'))
             ->has('article.galleryImages', 0)
             ->has('latestNews')
         );

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Concerns\FormatsNewsForPublicDisplay;
 use App\Models\Banner;
 use App\Models\News;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,8 +24,10 @@ class HomeController extends Controller
                 ->select(['id', 'photo', 'link', 'title', 'content', 'created_at'])
                 ->where('is_published', true)
                 ->latest()
-                ->limit(8)
                 ->get()
+                ->filter(fn (Banner $banner): bool => $this->bannerPhotoExists($banner->photo))
+                ->take(8)
+                ->values()
                 ->map(fn (Banner $banner): array => $this->bannerData($banner)),
             'featuredNews' => $this->featuredNews(),
             'pressReleases' => News::query()
@@ -79,15 +82,27 @@ class HomeController extends Controller
 
     private function bannerPhotoUrl(string $photo): string
     {
-        $photo = Str::of(html_entity_decode($photo, ENT_QUOTES | ENT_HTML5, 'UTF-8'))
+        $photo = $this->normalizeBannerPhoto($photo);
+
+        return '/storage/images/banners/home/'.rawurlencode($photo);
+    }
+
+    private function bannerPhotoExists(string $photo): bool
+    {
+        $photo = $this->normalizeBannerPhoto($photo);
+
+        if ($photo === '' || Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
+            return false;
+        }
+
+        return Storage::disk('public')->exists('images/banners/home/'.$photo);
+    }
+
+    private function normalizeBannerPhoto(string $photo): string
+    {
+        return Str::of(html_entity_decode($photo, ENT_QUOTES | ENT_HTML5, 'UTF-8'))
             ->stripTags()
             ->squish()
             ->toString();
-
-        if (Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
-            return $this->absoluteLegacyUrl($photo);
-        }
-
-        return 'https://nemsu.edu.ph/files/Banner/'.rawurlencode($photo);
     }
 }

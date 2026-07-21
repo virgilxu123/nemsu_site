@@ -3,9 +3,9 @@ import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, CalendarDays, Newspaper, User } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import type { BreadcrumbItem } from '@/types';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { index as newsIndex, show as newsShow } from '@/routes/news';
+import type { BreadcrumbItem } from '@/types';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -35,8 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Office of the President', href: '/about/office-of-the-president' },
 ];
 
-// Updated asset paths to use local storage convention
-const presidentPhoto = '/storage/assets/image/op/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
+const presidentPhoto = '/storage/images/governance/university-president/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
 
 const presidentGallery: GalleryPhoto[] = [
     {
