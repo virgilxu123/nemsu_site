@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import {
-    ArrowRight,
-    ArrowUpRight,
-    BadgeCheck,
-    ShieldCheck,
-} from 'lucide-vue-next';
+import { ArrowRight, ArrowUpRight } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { citizensCharter, transparencySeal } from '@/routes/administration';
@@ -162,68 +158,15 @@ onBeforeUnmount(() => {
         <Head title="Good Governance" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section
-                class="relative isolate z-10 overflow-visible bg-slate-950 py-16 text-white sm:py-20"
-            >
-                <img
-                    :src="heroBackgroundImage"
-                    alt=""
-                    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-60 select-none"
-                    aria-hidden="true"
-                />
-                <div
-                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
-                    aria-hidden="true"
-                ></div>
-                <div
-                    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-                    aria-hidden="true"
-                >
-                    <div
-                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
-                    ></div>
-                    <div
-                        class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
-                    ></div>
-                    <div
-                        class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
-                    ></div>
-                </div>
-
-                <div
-                    data-scroll-section="good-governance-hero"
-                    :class="revealClasses('good-governance-hero')"
-                    class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-                >
-                    <h3
-                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                        >
-                            Good Governance and Public Accountability Resources
-                        </h3>
-
-                    <nav
-                        aria-label="Breadcrumb"
-                        class="mt-8 text-sm font-semibold"
-                    >
-                        <ol class="flex flex-wrap items-center gap-2">
-                            <li>
-                                <Link
-                                    :href="home()"
-                                    class="text-white/80 transition hover:text-[#f2b705]"
-                                >
-                                    Home
-                                </Link>
-                            </li>
-                            <li class="text-white/45" aria-hidden="true">/</li>
-                            <li class="text-white/80">Administration</li>
-                            <li class="text-white/45" aria-hidden="true">/</li>
-                            <li class="text-[#f2b705]" aria-current="page">
-                                Good Governance
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-            </section>
+            <PageHero
+                title="Good Governance and Public Accountability Resources"
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'Administration' },
+                    { title: 'Good Governance' }
+                ]"
+                :backgroundImage="heroBackgroundImage"
+            />
 
             <section
                 id="good-governance"
@@ -253,21 +196,7 @@ onBeforeUnmount(() => {
                             "
                             class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
                         >
-                            <span
-                                class="inline-flex size-11 items-center justify-center rounded-xl bg-[#e7f3fb] text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
-                            >
-                                <ShieldCheck
-                                    v-if="index === 0"
-                                    class="size-5"
-                                    aria-hidden="true"
-                                />
-                                <BadgeCheck
-                                    v-else
-                                    class="size-5"
-                                    aria-hidden="true"
-                                />
-                            </span>
-                            <h4 class="mt-4 text-xl font-semibold">
+                            <h4 class="text-xl font-semibold">
                                 {{ item.title }}
                             </h4>
                             <p

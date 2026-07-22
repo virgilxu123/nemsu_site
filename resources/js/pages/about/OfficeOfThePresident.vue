@@ -2,10 +2,10 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowRight, CalendarDays, Newspaper, User } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { home } from '@/routes';
 import { index as newsIndex, show as newsShow } from '@/routes/news';
-import type { BreadcrumbItem } from '@/types';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -29,12 +29,7 @@ defineProps<{
     pressReleases: NewsItem[];
 }>();
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', href: '/' },
-    { title: 'About Us', href: '/about/university' },
-    { title: 'Office of the President', href: '/about/office-of-the-president' },
-];
-
+const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
 const presidentPhoto = '/storage/images/governance/university-president/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
 
 const presidentGallery: GalleryPhoto[] = [
@@ -146,10 +141,16 @@ onBeforeUnmount(() => {
     <PublicSiteLayout>
         <Head title="Office of the President" />
 
-        <div class="font-sans bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
-            </div>
+        <main class="font-sans bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
+            <PageHero
+                title="Office of the President"
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'About NEMSU' },
+                    { title: 'Office of the President' }
+                ]"
+                :backgroundImage="heroBackgroundImage"
+            />
 
             <!-- SECTION 1: President Portrait & Message Layout (Top Alignment Rule) -->
             <section
@@ -434,6 +435,6 @@ onBeforeUnmount(() => {
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     </PublicSiteLayout>
 </template>

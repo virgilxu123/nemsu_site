@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
-import type { BreadcrumbItem } from '@/types';
+import { home } from '@/routes';
 
 type BoardMember = {
     name: string;
@@ -12,13 +12,8 @@ type BoardMember = {
     photoUrl?: string | null;
 };
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', href: '/' },
-    { title: 'Administration', href: '/administration' },
-    { title: 'Board of Regents', href: '/about/board-of-regents' },
-];
-
 const failedImages = ref<Set<string>>(new Set());
+const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
 
 const markImageAsFailed = (name: string): void => {
     failedImages.value = new Set([...failedImages.value, name]);
@@ -128,50 +123,29 @@ const boardMembers: BoardMember[] = [
         <main
             class="bg-white font-sans text-slate-900 dark:bg-slate-950 dark:text-white"
         >
-            <div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
-            </div>
+            <PageHero
+                title="Board of Regents"
+                description="The highest governing body of North Eastern Mindanao State University is the Board of Regents. Its members are drawn from the University, government agencies, and the private and public sectors."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'About NEMSU' },
+                    { title: 'Board of Regents' }
+                ]"
+                :backgroundImage="heroBackgroundImage"
+            />
 
-            <section class="pb-14 pt-8 sm:pb-16 sm:pt-10">
+            <section class="py-14 sm:py-16">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-5xl">
-                        <header
-                            class="border-b border-slate-200 pb-4 dark:border-white/10"
-                        >
-                            <h1
-                                class="text-[28px] font-normal leading-tight tracking-tight text-slate-900 sm:text-[32px] dark:text-white"
-                            >
-                                Board of Regents
-                            </h1>
-                        </header>
-
-                        <div class="max-w-3xl py-7">
-                            <p
-                                class="text-[15px] leading-7 text-slate-700 dark:text-slate-300"
-                            >
-                                The highest governing body of North Eastern
-                                Mindanao State University is the Board of
-                                Regents. Its members are drawn from the
-                                University, government agencies, and the private
-                                and public sectors.
-                            </p>
-
-                            <p
-                                class="mt-4 text-[15px] leading-7 text-slate-700 dark:text-slate-300"
-                            >
-                                The current Board of Regents is composed of:
-                            </p>
-                        </div>
-
+                    <div>
                         <div
-                            class="divide-y divide-slate-200 border-t border-slate-200 dark:divide-white/10 dark:border-white/10"
+                            class="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 dark:border-white/10"
                         >
                             <article
                                 v-for="member in boardMembers"
                                 :key="`${member.name}-${member.designation}`"
-                                class="grid gap-4 py-5 sm:grid-cols-[4.75rem_1fr] sm:items-center"
+                                class="flex min-h-[19rem] flex-col rounded-lg border border-slate-200 bg-white p-4 text-center shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
                             >
-                                <div class="flex sm:justify-center">
+                                <div class="flex justify-center">
                                     <img
                                         v-if="
                                             member.photoUrl &&
@@ -179,35 +153,35 @@ const boardMembers: BoardMember[] = [
                                         "
                                         :src="member.photoUrl"
                                         :alt="member.name"
-                                        class="size-14 rounded-full object-cover ring-1 ring-slate-200 dark:ring-white/10"
+                                        class="size-24 rounded-full object-cover ring-1 ring-slate-200 dark:ring-white/10"
                                         loading="lazy"
                                         @error="markImageAsFailed(member.name)"
                                     />
 
                                     <div
                                         v-else
-                                        class="flex size-14 items-center justify-center rounded-full bg-slate-100 text-[11px] font-medium text-slate-500 ring-1 ring-slate-200 dark:bg-white/10 dark:text-slate-300 dark:ring-white/10"
+                                        class="flex size-24 items-center justify-center rounded-full bg-slate-100 text-base font-semibold text-slate-500 ring-1 ring-slate-200 dark:bg-white/10 dark:text-slate-300 dark:ring-white/10"
                                         aria-hidden="true"
                                     >
                                         {{ initialsOf(member.name) }}
                                     </div>
                                 </div>
 
-                                <div class="min-w-0">
+                                <div class="mt-4 flex grow flex-col">
                                     <p
-                                        class="text-[15px] font-medium leading-6 tracking-normal text-slate-900 dark:text-white"
+                                        class="text-sm leading-5 font-semibold break-words text-slate-900 dark:text-white"
                                     >
                                         {{ member.name }}
                                     </p>
 
                                     <p
-                                        class="mt-0.5 text-sm leading-6 text-slate-700 dark:text-slate-300"
+                                        class="mt-3 text-xs leading-5 break-words text-slate-700 dark:text-slate-300"
                                     >
                                         {{ member.designation }}
                                     </p>
 
                                     <p
-                                        class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400"
+                                        class="mt-auto pt-4 text-xs leading-5 font-medium text-[#0b3d91] dark:text-sky-200"
                                     >
                                         {{ member.boardRole }}
                                     </p>

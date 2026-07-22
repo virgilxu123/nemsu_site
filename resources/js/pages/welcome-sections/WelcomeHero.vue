@@ -5,6 +5,7 @@ import {
     ChevronRight,
     Sparkles,
 } from 'lucide-vue-next';
+import { ref, watch } from 'vue';
 
 type BannerItem = {
     id: number | string;
@@ -15,7 +16,7 @@ type BannerItem = {
 };
 type Metric = { label: string; value: string; note: string };
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         heroSlides: BannerItem[];
         activeHeroIndex: number | null;
@@ -28,8 +29,33 @@ withDefaults(
         selectHeroSlide: (index: number) => void;
         showNextHeroSlideManually: () => void;
         showPreviousHeroSlideManually: () => void;
+        handleVideoEnded?: () => void;
     }>(),
     {},
+);
+
+const videoRefs = ref<Record<number, HTMLVideoElement>>({});
+
+const setVideoRef = (el: any, index: number) => {
+    if (el) {
+        videoRefs.value[index] = el as HTMLVideoElement;
+    }
+};
+
+watch(
+    () => props.activeHeroIndex,
+    (newIndex) => {
+        Object.entries(videoRefs.value).forEach(([key, video]) => {
+            const index = Number(key);
+            if (index === newIndex) {
+                video.currentTime = 0;
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        });
+    },
+    { immediate: true }
 );
 </script>
 
@@ -38,21 +64,40 @@ withDefaults(
         data-scroll-section="hero"
         class="relative min-h-[calc(100svh-7.5rem)] overflow-hidden bg-slate-950 text-white"
     >
-        <img
-            v-for="(slide, index) in heroSlides"
-            :key="slide.id"
-            :src="slide.imageUrl"
-            :alt="slide.title || 'NEMSU banner'"
-            class="absolute inset-0 h-full w-full bg-slate-950 transition-all duration-1000 ease-out motion-reduce:transition-none"
-            :class="[
-                slide.id === fallbackHeroSlide.id
-                    ? 'object-cover object-center'
-                    : 'object-contain object-center',
-                index === activeHeroIndex
-                    ? 'scale-100 opacity-100'
-                    : 'scale-[1.015] opacity-0',
-            ]"
-        />
+        <template v-for="(slide, index) in heroSlides" :key="slide.id">
+            <video
+                v-if="slide.imageUrl.toLowerCase().endsWith('.mp4')"
+                :ref="(el) => setVideoRef(el, index)"
+                :src="slide.imageUrl"
+                autoplay
+                muted
+                playsinline
+                @ended="handleVideoEnded ? handleVideoEnded() : showNextHeroSlideManually()"
+                class="absolute inset-0 h-full w-full bg-slate-950 transition-all duration-1000 ease-out motion-reduce:transition-none"
+                :class="[
+                    slide.id === fallbackHeroSlide.id
+                        ? 'object-cover object-center'
+                        : 'object-contain object-center',
+                    index === activeHeroIndex
+                        ? 'scale-100 opacity-100'
+                        : 'scale-[1.015] opacity-0',
+                ]"
+            ></video>
+            <img
+                v-else
+                :src="slide.imageUrl"
+                :alt="slide.title || 'NEMSU banner'"
+                class="absolute inset-0 h-full w-full bg-slate-950 transition-all duration-1000 ease-out motion-reduce:transition-none"
+                :class="[
+                    slide.id === fallbackHeroSlide.id
+                        ? 'object-cover object-center'
+                        : 'object-contain object-center',
+                    index === activeHeroIndex
+                        ? 'scale-100 opacity-100'
+                        : 'scale-[1.015] opacity-0',
+                ]"
+            />
+        </template>
         <div
             class="absolute inset-0 transition duration-700"
             :class="
@@ -71,12 +116,12 @@ withDefaults(
             class="relative mx-auto grid min-h-[calc(100svh-7.5rem)] max-w-7xl content-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8"
         >
             <div class="max-w-3xl">
-                <p
+                <!-- <p
                     class="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-sky-100 uppercase"
                 >
                     <Sparkles class="size-4" aria-hidden="true" />
                     Research University for Sustainable Development
-                </p>
+                </p> -->
                 <h2
                     class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
                 >

@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import type { BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/vue3';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { home } from '@/routes';
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', href: '/' },
-    { title: 'About Us', href: '/about/university' },
-    { title: 'INNOVATE Agenda', href: '/about/innovate-agenda' },
-];
+const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
+import {
+    Landmark,
+    ChevronDown,
+    Image as ImageIcon,
+} from 'lucide-vue-next';
 
 type AgendaItem = {
     number: string;
@@ -18,15 +19,12 @@ type AgendaItem = {
     actions: string[];
 };
 
-const pageIntro =
-    "Prof. Loayon's administration proposes transformative strategies aligned with the strengths of the NEMSU Academic and Administrative community and anchored on the needs and demands of the country.";
-
 const agendaItems: AgendaItem[] = [
     {
         number: '01',
-        title: 'Industry and commercially-driven research and innovation',
+        title: 'Industry- and Commercially-Driven Research and Innovation',
         summary:
-            'Position research around regional industries, food systems, climate resilience, and poverty alleviation.',
+            'Advance research and innovation in regional industries, food systems, climate resilience, public health, and poverty reduction.',
         goals: [
             'Generate research and innovations focused on disaster resilience, crisis-oriented, and climate-adaptive industries in Fishery, Agri-forestry, Mining, Eco-Tourism, FAME, health services, food security, and poverty alleviation.',
             'Produce branches of artistic and scientific knowledge, intellectual property, or technological invention to hone the ecology of innovation among governance, human capital, natural resources, techno-scientific infrastructures, and environmental management standards.',
@@ -41,9 +39,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '02',
-        title: 'Transformative education and excellence in teaching and learning',
+        title: 'Transformative Education and Excellence in Teaching and Learning',
         summary:
-            'Educate students through innovation, research, extension, and future-ready academic programs.',
+            'Develop innovative, research-oriented, and future-ready academic programs that prepare learners for employment and enterprise.',
         goals: [
             'Educate and train students to sharpen innovative mindset, systematic thinking, collective attitude as researchers, adaptors, agents, and enablers of innovative start-ups and business incubation projects.',
             'Train students to become research-skilled and future-ready graduates whose psychosocial characters do not search for employment opportunities but create livelihood and business opportunities.',
@@ -59,9 +57,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '03',
-        title: 'Innovative Technology and entrepreneurial driven-production',
+        title: 'Technology- and Entrepreneurship-Driven Production',
         summary:
-            'Use land assets, industry partnerships, and technology incubation to generate products and services.',
+            'Transform university assets, industry partnerships, technology incubation, and research outputs into sustainable products and services.',
         goals: [
             'Maximize land areas of the University as potential for joint and feasible revenue-generating and livelihood multiplying enterprises under Public Private Partnership developers and innovators engagement.',
             'Establish FAME enterprise competitiveness policy and research centers to mark all research-based and knowledge-driven products and services.',
@@ -75,9 +73,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '04',
-        title: 'Market-oriented extension and inclusive public service',
+        title: 'Market-Oriented Extension and Inclusive Public Service',
         summary:
-            'Mobilize selected faculty, research and extension staff, and students for public project modeling.',
+            'Deliver responsive extension programs through research application, technology transfer, entrepreneurship, and community partnership.',
         goals: [
             'Organize, train, and mobilize selected faculty fellows, research and extension staff, and students to serve as social technocrats in the conduct of the University extension services to its partner institutions and beneficiaries.',
             'Forge partnerships with communities as strategic growth poles for pilot project modeling.',
@@ -92,9 +90,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '05',
-        title: 'Vibrant and equitable Faculty and Staff development programs',
+        title: 'Vibrant and Equitable Faculty and Staff Development',
         summary:
-            'Create a globally engaged and impactful faculty and staff development program.',
+            'Build a capable, supported, globally engaged, and future-ready academic and administrative workforce.',
         goals: [
             'Institutionalized and globally-engaged an impactful faculty and staff development program.',
         ],
@@ -105,9 +103,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '06',
-        title: 'Accessible and client-focused student services',
+        title: 'Accessible and Client-Focused Student Services',
         summary:
-            'Strengthen holistic student services and essential student support facilities.',
+            'Provide inclusive, responsive, and holistic services that promote student well-being, development, and success.',
         goals: [
             'Comprehensive student services that propel the holistic development of the learners.',
         ],
@@ -118,9 +116,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '07',
-        title: 'Client-centered, transparent, and efficient governance',
+        title: 'Client-Centered, Transparent, and Efficient Governance',
         summary:
-            'Modernize governance through smart systems, disaster resilience, and digital transformation.',
+            'Strengthen institutional governance through digital transformation, responsive systems, fiscal sustainability, and resilient infrastructure.',
         goals: [
             'Establish NEMSU as a Smart University with digitalized disaster-resilient infrastructure, facilities, and governance technology-enabled governance.',
         ],
@@ -132,9 +130,9 @@ const agendaItems: AgendaItem[] = [
     },
     {
         number: '08',
-        title: 'Knowledge-sharing and skills-driven internationalization programs',
+        title: 'Knowledge-Sharing and Skills-Driven Internationalization',
         summary:
-            'Prepare globally competitive graduates through international mobility and quality assurance.',
+            'Expand international learning, mobility, collaboration, and quality assurance to prepare globally competitive graduates and personnel.',
         goals: ['Produce globally competitive graduates.'],
         actions: [
             'International curriculum and quality assurance for globally competitive education.',
@@ -146,204 +144,149 @@ const agendaItems: AgendaItem[] = [
 
 <template>
     <PublicSiteLayout>
-        <Head title="INNOVATE Agenda" />
+        <Head title="Strategic Development Agenda" />
 
         <main class="bg-white font-sans text-slate-950 dark:bg-slate-950 dark:text-white">
-            <div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
-            </div>
+            <PageHero
+                title="Strategic Development Agenda"
+                kicker=""
+                description="The Eight-Point INNOVATE Agenda provides the strategic framework for strengthening NEMSU's academic excellence, research impact, public service, institutional governance, and global engagement."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'About NEMSU' },
+                    { title: 'Strategic Development Agenda' }
+                ]"
+                :backgroundImage="heroBackgroundImage"
+            />
 
-            <!-- Page Header -->
+            <!-- Transforming NEMSU -->
             <section class="border-b border-slate-200 dark:border-white/10">
-                <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-                    <div class="max-w-4xl">
-                        <h1
-                            class="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl dark:text-white"
-                        >
-                            INNOVATE Agenda
-                        </h1>
-
-                        <p
-                            class="mt-5 max-w-3xl text-lg font-medium leading-8 text-slate-800 sm:text-xl dark:text-slate-100"
-                        >
-                            Strategic Development Agenda of North Eastern
-                            Mindanao State University
-                        </p>
-
-                        <p
-                            class="mt-6 max-w-3xl text-base leading-8 text-slate-600 dark:text-slate-300"
-                        >
-                            {{ pageIntro }}
-                        </p>
+                <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+                    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white">
+                                Transforming NEMSU through the INNOVATE Agenda
+                            </h2>
+                            <p class="mt-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                                Under the leadership of University President Prof. Nemesio G. Loayon, NEMSU advances a transformative development agenda that builds on the strengths of its academic and administrative community.
+                            </p>
+                            <p class="mt-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                                The agenda responds to national and regional priorities through research and innovation, quality education, enterprise development, inclusive public service, employee development, student support, responsive governance, and international engagement.
+                            </p>
+                        </div>
+                        <div class="aspect-[16/9] w-full rounded-md bg-slate-100 flex items-center justify-center border border-slate-200 dark:bg-slate-800 dark:border-white/10">
+                            <ImageIcon class="h-16 w-16 text-slate-300 dark:text-slate-600" />
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Agenda Index -->
-            <section class="border-b border-slate-200 dark:border-white/10">
-                <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl">
-                        <h2
-                            class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white"
-                        >
+            <!-- Agenda Grid -->
+            <section class="bg-slate-50 dark:bg-slate-900/30">
+                <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+                    <div class="text-center max-w-3xl mx-auto">
+                        <h2 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white">
                             Eight-Point INNOVATE Agenda
                         </h2>
-
-                        <p
-                            class="mt-4 text-base leading-8 text-slate-600 dark:text-slate-300"
-                        >
-                            The agenda sets the University’s institutional
-                            direction through eight areas of development,
-                            covering research, instruction, enterprise,
-                            extension, faculty and staff development, student
-                            services, governance, and internationalization.
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            The Eight-Point INNOVATE Agenda defines the University's strategic direction and guides the alignment of its academic, research, extension, administrative, and internationalization initiatives.
+                        </p>
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            It is organized around eight interconnected development priorities designed to strengthen institutional performance and increase NEMSU's contribution to regional and national development.
                         </p>
                     </div>
 
-                    <ol class="mt-10 divide-y divide-slate-200 border-y border-slate-200 dark:divide-white/10 dark:border-white/10">
-                        <li
-                            v-for="item in agendaItems"
-                            :key="item.number"
-                            class="group"
-                        >
-                            <a
-                                :href="`#agenda-${item.number}`"
-                                class="grid gap-4 py-6 transition hover:bg-slate-50 sm:grid-cols-[6rem_1fr] sm:px-4 dark:hover:bg-white/[0.03]"
-                                :aria-label="`Go to agenda ${item.number}: ${item.title}`"
-                            >
-                                <div
-                                    class="text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400"
-                                >
-                                    {{ item.number }}
-                                </div>
-
-                                <div>
-                                    <h3
-                                        class="text-lg font-semibold leading-snug text-slate-950 dark:text-white"
-                                    >
-                                        {{ item.title }}
-                                    </h3>
-
-                                    <p
-                                        class="mt-2 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-400"
-                                    >
-                                        {{ item.summary }}
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                    </ol>
+                    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <div v-for="item in agendaItems" :key="item.number" class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col dark:border-white/10 dark:bg-slate-900">
+                            <div class="flex items-center gap-4">
+                                <span class="text-2xl font-bold text-slate-900 dark:text-white">{{ item.number }}</span>
+                            </div>
+                            <h3 class="mt-6 text-sm font-bold leading-snug text-slate-950 dark:text-white">
+                                {{ item.title }}
+                            </h3>
+                            <p class="mt-3 text-xs leading-relaxed text-slate-600 dark:text-slate-400 flex-grow">
+                                {{ item.summary }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Agenda Details -->
-            <section class="py-12 sm:py-16">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl">
-                        <h2
-                            class="text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl dark:text-white"
-                        >
-                            Strategic Goals and Implementation Actions
+            <!-- Strategic Goals Accordion -->
+            <section class="border-t border-slate-200 dark:border-white/10">
+                <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+                    <div class="text-center mb-12">
+                        <h2 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white">
+                            Strategic Goals and Priority Actions
                         </h2>
-
-                        <p
-                            class="mt-4 text-base leading-8 text-slate-600 dark:text-slate-300"
-                        >
-                            The following sections present the strategic goals
-                            and corresponding implementation actions for each
-                            agenda item.
+                        <p class="mt-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            The following sections present the strategic goals and corresponding implementation actions for each agenda item.
                         </p>
                     </div>
 
-                    <div class="mt-10 space-y-14">
-                        <article
-                            v-for="item in agendaItems"
-                            :id="`agenda-${item.number}`"
-                            :key="item.number"
-                            class="scroll-mt-28 border-t border-slate-300 pt-10 dark:border-white/15"
-                        >
-                            <header class="max-w-4xl">
-                                <p
-                                    class="text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400"
-                                >
-                                    Agenda {{ item.number }}
-                                </p>
-
-                                <h3
-                                    class="mt-2 text-2xl font-semibold leading-tight tracking-tight text-slate-950 sm:text-3xl dark:text-white"
-                                >
-                                    {{ item.title }}
-                                </h3>
-
-                                <p
-                                    class="mt-4 max-w-3xl text-base leading-8 text-slate-600 dark:text-slate-300"
-                                >
-                                    {{ item.summary }}
-                                </p>
-                            </header>
-
-                            <div
-                                class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
-                            >
-                                <section
-                                    :aria-labelledby="`goals-heading-${item.number}`"
-                                >
-                                    <h4
-                                        :id="`goals-heading-${item.number}`"
-                                        class="border-b border-slate-200 pb-3 text-base font-semibold text-slate-950 dark:border-white/10 dark:text-white"
-                                    >
-                                        Strategic Goals
-                                    </h4>
-
-                                    <ol class="mt-5 space-y-4">
-                                        <li
-                                            v-for="(goal, index) in item.goals"
-                                            :key="index"
-                                            class="grid grid-cols-[2rem_1fr] gap-3 text-sm leading-7 text-slate-700 dark:text-slate-300"
-                                        >
-                                            <span
-                                                class="font-semibold text-slate-400 dark:text-slate-500"
-                                            >
-                                                {{ index + 1 }}.
-                                            </span>
-
-                                            <span>
-                                                {{ goal }}
-                                            </span>
-                                        </li>
-                                    </ol>
-                                </section>
-
-                                <section
-                                    :aria-labelledby="`actions-heading-${item.number}`"
-                                >
-                                    <h4
-                                        :id="`actions-heading-${item.number}`"
-                                        class="border-b border-slate-200 pb-3 text-base font-semibold text-slate-950 dark:border-white/10 dark:text-white"
-                                    >
-                                        Implementation Actions
-                                    </h4>
-
-                                    <ol class="mt-5 space-y-4">
-                                        <li
-                                            v-for="(action, index) in item.actions"
-                                            :key="index"
-                                            class="grid grid-cols-[2rem_1fr] gap-3 text-sm leading-7 text-slate-700 dark:text-slate-300"
-                                        >
-                                            <span
-                                                class="font-semibold text-slate-400 dark:text-slate-500"
-                                            >
-                                                {{ index + 1 }}.
-                                            </span>
-
-                                            <span>
-                                                {{ action }}
-                                            </span>
-                                        </li>
-                                    </ol>
-                                </section>
+                    <div class="space-y-3">
+                        <details v-for="item in agendaItems" :key="`accordion-${item.number}`" class="group rounded-lg border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900 [&_summary::-webkit-details-marker]:hidden">
+                            <summary class="flex cursor-pointer items-center justify-between gap-4 p-4 text-slate-950 dark:text-white hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors rounded-lg">
+                                <div class="flex items-center gap-4 sm:gap-6 flex-1">
+                                    <span class="text-lg font-bold text-slate-900 dark:text-white w-6 text-center">{{ item.number }}</span>
+                                    <div class="flex flex-col flex-1 min-w-0">
+                                        <span class="text-sm font-bold truncate">{{ item.title }}</span>
+                                        <span class="text-xs text-slate-500 dark:text-slate-400 truncate hidden sm:block mt-0.5">{{ item.summary }}</span>
+                                    </div>
+                                </div>
+                                <span class="transition-transform duration-200 group-open:rotate-180 shrink-0">
+                                    <ChevronDown class="h-5 w-5 text-slate-400" />
+                                </span>
+                            </summary>
+                            <div class="border-t border-slate-200 p-6 dark:border-white/10">
+                                <div class="grid gap-8 sm:grid-cols-2">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Strategic Goals</h4>
+                                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                                            <li v-for="(goal, idx) in item.goals" :key="idx" class="flex gap-2">
+                                                <span class="font-bold text-slate-400 shrink-0 mt-0.5">{{ idx + 1 }}.</span>
+                                                <span class="leading-relaxed">{{ goal }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-4">Implementation Actions</h4>
+                                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                                            <li v-for="(action, idx) in item.actions" :key="idx" class="flex gap-2">
+                                                <span class="font-bold text-slate-400 shrink-0 mt-0.5">{{ idx + 1 }}.</span>
+                                                <span class="leading-relaxed">{{ action }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </article>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Commitment Footer -->
+            <section class="border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-slate-900/30">
+                <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+                    <div class="rounded-xl border border-slate-200 bg-white p-8 sm:p-10 shadow-sm dark:border-white/10 dark:bg-slate-900">
+                        <div class="grid gap-10 sm:grid-cols-2 sm:items-center">
+                            <div class="flex flex-col gap-6">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-800">
+                                    <Landmark class="h-6 w-6 text-slate-700 dark:text-slate-300" />
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold tracking-tight text-slate-950 dark:text-white">
+                                        Our Commitment
+                                    </h2>
+                                    <p class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                                        Through the INNOVATE Agenda, NEMSU reaffirms its commitment to academic excellence, institutional integrity, inclusive development, and national and global competitiveness.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="aspect-[4/3] w-full rounded-md bg-slate-100 flex items-center justify-center border border-slate-200 dark:bg-slate-800 dark:border-white/10">
+                                <ImageIcon class="h-16 w-16 text-slate-300 dark:text-slate-600" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
