@@ -2,10 +2,10 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft, Mail, Phone } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { show as officeShow } from '@/actions/App/Http/Controllers/OvpaaOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
-import { show as officeShow } from '@/actions/App/Http/Controllers/OvpafOfficeController';
 import { home } from '@/routes';
-import { vpaf } from '@/routes/administration';
+import { academicAffairs } from '@/routes/academics';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -14,6 +14,7 @@ type Office = {
     title: string;
     acronym: string | null;
     description: string;
+    headTitle: string;
     head: string;
     email: string | null;
     phone: string | null;
@@ -30,8 +31,7 @@ const props = defineProps<{
     offices: OfficeLink[];
 }>();
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -158,11 +158,11 @@ onBeforeUnmount(() => {
                     :class="revealClasses('office-hero')"
                     class="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-12"
                 >
-                    <h3
+                    <h1
                         class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
                     >
                         {{ props.office.title }}
-                    </h3>
+                    </h1>
 
                     <nav
                         aria-label="Breadcrumb"
@@ -180,10 +180,10 @@ onBeforeUnmount(() => {
                             <li class="text-white/45" aria-hidden="true">/</li>
                             <li>
                                 <Link
-                                    :href="vpaf()"
+                                    :href="academicAffairs()"
                                     class="text-white/80 transition hover:text-[#f2b705]"
                                 >
-                                    Administration
+                                    Academic Affairs
                                 </Link>
                             </li>
                             <li class="text-white/45" aria-hidden="true">/</li>
@@ -209,10 +209,10 @@ onBeforeUnmount(() => {
                         <p
                             class="text-sm font-light tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
-                            Other OVPAF Offices
+                            Other OVPAA Offices
                         </p>
                         <nav
-                            aria-label="Other OVPAF offices"
+                            aria-label="Other OVPAA offices"
                             class="mt-7 grid gap-0"
                         >
                             <Link
@@ -241,23 +241,23 @@ onBeforeUnmount(() => {
                         >
                             Overview
                         </p>
-                        <h4
+                        <h2
                             class="mt-3 text-3xl font-semibold tracking-normal sm:text-4xl"
                         >
                             {{ props.office.title }}
-                        </h4>
+                        </h2>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-xl/8 text-slate-600 dark:text-slate-300"
                         >
                             {{ props.office.description }}
                         </p>
 
                         <Link
-                            :href="vpaf().url + '#ovpaf-offices'"
+                            :href="academicAffairs().url + '#ovpaa-offices'"
                             class="mt-8 inline-flex items-center gap-2 rounded-md bg-[#1711d4] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#f2b705] hover:text-slate-950"
                         >
                             <ArrowLeft class="size-4" aria-hidden="true" />
-                            Back to OVPAF offices
+                            Back to OVPAA offices
                         </Link>
                     </article>
 
@@ -300,13 +300,13 @@ onBeforeUnmount(() => {
                             <p
                                 class="text-xs font-bold tracking-[0.22em] text-[#f2b705] uppercase"
                             >
-                                Office Head
+                                {{ props.office.headTitle }}
                             </p>
-                            <h4
+                            <h3
                                 class="mt-2 text-2xl leading-tight font-semibold text-slate-950 dark:text-white"
                             >
                                 {{ props.office.head }}
-                            </h4>
+                            </h3>
                             <div
                                 class="mt-4 grid gap-3 border-t border-slate-200 pt-4 text-sm dark:border-white/10"
                             >

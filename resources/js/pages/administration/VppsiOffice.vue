@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ArrowLeft, Mail, Phone } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { show as officeShow } from '@/actions/App/Http/Controllers/VppsiOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { vppsi } from '@/routes/administration';
@@ -194,10 +195,42 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
-            <section class="relative z-20 pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-0">
+            <section
+                class="relative z-20 pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-0"
+            >
                 <div
-                    class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start lg:gap-12 lg:px-8"
+                    class="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-4 sm:px-6 md:grid-cols-[10rem_minmax(0,1fr)_18rem] md:items-start lg:gap-12 lg:px-8 xl:grid-cols-[12rem_minmax(0,1fr)_24rem]"
                 >
+                    <aside
+                        data-scroll-section="office-navigation"
+                        :class="revealClasses('office-navigation', 'right')"
+                        class="border-t border-slate-200 pt-8 md:sticky md:top-24 md:pt-20 dark:border-white/10"
+                    >
+                        <p
+                            class="text-sm font-light tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            Other OVPPSI Offices
+                        </p>
+                        <nav
+                            aria-label="Other OVPPSI offices"
+                            class="mt-7 grid gap-0"
+                        >
+                            <Link
+                                v-for="officeLink in props.offices"
+                                :key="officeLink.slug"
+                                :href="officeShow.url(officeLink.slug)"
+                                class="border-b border-slate-200 py-3 text-sm leading-none font-light text-slate-700 transition hover:text-[#0b6680] dark:border-white/10 dark:text-slate-300 dark:hover:text-sky-200"
+                                :class="
+                                    officeLink.slug === props.office.slug
+                                        ? 'font-semibold text-[#9b1c31] dark:text-rose-200'
+                                        : ''
+                                "
+                            >
+                                {{ officeLink.title }}
+                            </Link>
+                        </nav>
+                    </aside>
+
                     <article
                         data-scroll-section="office-overview"
                         :class="revealClasses('office-overview', 'right')"
@@ -214,7 +247,7 @@ onBeforeUnmount(() => {
                             {{ props.office.title }}
                         </h4>
                         <p
-                            class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             {{ props.office.description }}
                         </p>
@@ -231,7 +264,7 @@ onBeforeUnmount(() => {
                     <aside
                         data-scroll-section="office-profile"
                         :class="revealClasses('office-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 md:order-none md:sticky md:top-24 md:mt-[-8.5rem] md:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img
@@ -250,6 +283,11 @@ onBeforeUnmount(() => {
                                     >
                                         {{ headInitials || 'OV' }}
                                     </span>
+                                    <p
+                                        class="mt-4 text-sm font-semibold text-white/70"
+                                    >
+                                        Head photo pending
+                                    </p>
                                 </div>
                             </div>
                             <div

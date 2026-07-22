@@ -32,8 +32,13 @@ test('ovpaf office page uses the reusable office layout', function () {
 
     expect($page)
         ->toContain('data-scroll-section="office-hero"')
+        ->toContain('data-scroll-section="office-navigation"')
         ->toContain('data-scroll-section="office-overview"')
         ->toContain('data-scroll-section="office-profile"')
+        ->toContain('md:grid-cols-[10rem_minmax(0,1fr)_18rem]')
+        ->toContain('xl:grid-cols-[12rem_minmax(0,1fr)_24rem]')
+        ->toContain('Other OVPAF Offices')
+        ->toContain('font-semibold text-[#9b1c31] dark:text-rose-200')
         ->toContain('headImage')
         ->toContain('Head photo pending')
         ->toContain('Back to OVPAF offices')

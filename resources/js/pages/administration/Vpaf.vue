@@ -254,7 +254,7 @@ onBeforeUnmount(() => {
                             Stewarding Administrative and Financial Excellence
                         </h4>
                         <p
-                            class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             This section will contain the official profile of
                             the Office of the Vice President for Administration
@@ -263,7 +263,7 @@ onBeforeUnmount(() => {
                             service overview are being prepared.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
                             coordinated operational support across campuses.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -279,7 +279,7 @@ onBeforeUnmount(() => {
                             coordinated operational support across campuses.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -287,7 +287,7 @@ onBeforeUnmount(() => {
                             coordinated operational support across campuses.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -295,7 +295,7 @@ onBeforeUnmount(() => {
                             coordinated operational support across campuses.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -303,7 +303,7 @@ onBeforeUnmount(() => {
                             coordinated operational support across campuses.
                         </p>
                         <p
-                            class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The OVPAF supports the University through responsive
                             administrative systems, sound financial stewardship,
@@ -374,7 +374,7 @@ onBeforeUnmount(() => {
                             v-for="office in listedOffices"
                             :key="office.name"
                             :href="office.href"
-                            class="group inline-flex items-center justify-center gap-2 text-base font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] sm:text-sm lg:text-base"
+                            class="group inline-flex items-center justify-center gap-2 text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
                         >
                             <span>{{ office.name }}</span>
                             <span
