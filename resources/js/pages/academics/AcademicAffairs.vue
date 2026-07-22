@@ -1,26 +1,30 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
-import {
-    BadgeCheck,
-    BookOpenText,
-    Building2,
-    CalendarDays,
-    GraduationCap,
-    Mail,
-    MapPin,
-    Phone,
-    ScrollText,
-    Sparkles,
-    Target,
-} from 'lucide-vue-next';
+import { Head, Link } from '@inertiajs/vue3';
+import { Mail, MapPin, Phone } from 'lucide-vue-next';
+import { show as studyShow } from '@/actions/App/Http/Controllers/GraduateProfessionalStudyController';
+import { show as officeShow } from '@/actions/App/Http/Controllers/OvpaaOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { home } from '@/routes';
+import { show as collegeShow } from '@/routes/academics/academic-affairs/colleges';
 
 type Office = {
+    slug: string;
     name: string;
+    headTitle: string;
     head: string;
-    email: string;
-    contact: string;
+    email: string | null;
+    contact: string | null;
     description: string;
+};
+
+type CollegeLink = {
+    slug: string;
+    title: string;
+};
+
+type GraduateProfessionalStudyLink = {
+    slug: string;
+    title: string;
 };
 
 type ProgramUpdate = {
@@ -50,30 +54,39 @@ type AcademicAffairs = {
         title: string;
         subtitle: string;
         summary: string;
+        description: string[];
         unitHead: string;
         role: string;
+        biography: string[];
         email: string;
         phone: string;
         office: string;
+        heroImage: string;
         image: string;
         priorities: string[];
     };
     offices: Office[];
+    colleges: CollegeLink[];
+    graduateProfessionalStudies: GraduateProfessionalStudyLink[];
     programGroups: ProgramGroup[];
 };
 
-const props = defineProps<{
+const academicProgramSections = [
+    {
+        slug: 'undergraduate-programs',
+        title: 'Undergraduate Programs',
+        items: [],
+    },
+    {
+        slug: 'graduate-and-professional-studies',
+        title: 'Graduate and Professional Studies',
+        items: [],
+    },
+];
+
+defineProps<{
     academicAffairs: AcademicAffairs;
 }>();
-
-const pageAnchors = [
-    { label: 'OVPAA Profile', href: '#ovpaa-profile' },
-    { label: 'Offices under OVPAA', href: '#ovpaa-offices' },
-    ...props.academicAffairs.programGroups.map((group) => ({
-        label: group.title,
-        href: `#${group.slug}`,
-    })),
-];
 </script>
 
 <template>
@@ -81,111 +94,157 @@ const pageAnchors = [
         <Head title="Academic Affairs" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section class="relative isolate overflow-hidden bg-slate-950 text-white">
-                <img
-                    :src="academicAffairs.profile.image"
-                    alt=""
-                    class="absolute inset-0 -z-20 h-full w-full object-cover"
+            <section
+                class="relative isolate z-10 overflow-visible bg-slate-950 text-white"
+            >
+                <div
+                    class="pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-fixed bg-no-repeat opacity-60 select-none"
+                    :style="{
+                        backgroundImage: `url('${academicAffairs.profile.heroImage}')`,
+                    }"
                     aria-hidden="true"
-                />
-                <div
-                    class="absolute inset-0 -z-10 bg-linear-to-r from-[#061b49] via-[#1711d4]/85 to-[#9b1c31]/70"
                 ></div>
-
                 <div
-                    class="mx-auto grid min-h-[34rem] max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_24rem] lg:px-8 lg:py-20"
+                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
+                    aria-hidden="true"
+                ></div>
+                <div
+                    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                    aria-hidden="true"
                 >
-                    <div class="flex flex-col justify-end">
-                        <p
-                            class="inline-flex w-fit rounded bg-white/10 px-3 py-1.5 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                        >
-                            {{ academicAffairs.profile.subtitle }}
-                        </p>
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
+                    ></div>
+                    <div
+                        class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
+                    ></div>
+                    <div
+                        class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
+                    ></div>
+                </div>
+                <div
+                    class="relative z-10 mx-auto grid min-h-[34rem] max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_24rem] lg:px-8 lg:py-20"
+                >
+                    <div class="flex flex-col justify-center">
                         <h1
                             class="mt-5 max-w-4xl text-4xl leading-tight font-semibold tracking-normal sm:text-6xl"
                         >
                             {{ academicAffairs.profile.title }}
                         </h1>
-                        <p class="mt-6 max-w-2xl text-base leading-8 text-sky-50">
-                            {{ academicAffairs.profile.summary }}
-                        </p>
-                    </div>
 
-                    <nav
-                        class="self-end rounded-md border border-white/15 bg-white/10 p-3 backdrop-blur"
-                        aria-label="Academic affairs sections"
-                    >
-                        <a
-                            v-for="anchor in pageAnchors"
-                            :key="anchor.href"
-                            :href="anchor.href"
-                            class="flex min-h-11 items-center rounded-md px-4 text-sm font-semibold text-white/90 transition hover:bg-white hover:text-[#1711d4]"
+                        <nav
+                            aria-label="Breadcrumb"
+                            class="mt-8 text-sm font-semibold"
                         >
-                            {{ anchor.label }}
-                        </a>
-                    </nav>
+                            <ol class="flex flex-wrap items-center gap-2">
+                                <li>
+                                    <Link
+                                        :href="home()"
+                                        class="text-white/80 transition hover:text-[#f2b705]"
+                                    >
+                                        Home
+                                    </Link>
+                                </li>
+                                <li class="text-white/45" aria-hidden="true">
+                                    /
+                                </li>
+                                <li class="text-[#f2b705]" aria-current="page">
+                                    Academic Affairs
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
             </section>
 
             <section
                 id="ovpaa-profile"
-                class="scroll-mt-28 border-b border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
+                class="relative z-20 scroll-mt-28 border-b border-slate-200 bg-[#f7f8f5] pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-0 dark:border-white/10 dark:bg-slate-950"
             >
                 <div
-                    class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8"
+                    class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start lg:gap-12 lg:px-8"
                 >
-                    <div>
+                    <div class="max-w-3xl pt-8 lg:pt-20">
                         <p
                             class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
-                            OVPAA Profile
+                            Overview
                         </p>
                         <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
                         >
-                            Academic leadership and coordination
+                            Leading Academic Excellence Across NEMSU
                         </h2>
-                        <p class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                        <p
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                        >
                             {{ academicAffairs.profile.summary }}
                         </p>
-                    </div>
-
-                    <div class="grid gap-4 sm:grid-cols-2">
-                        <article
-                            class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                        <p
+                            v-for="paragraph in academicAffairs.profile.description"
+                            :key="paragraph"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
                         >
-                            <span
-                                class="inline-flex size-12 items-center justify-center rounded-md bg-[#e7f3fb] text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200"
-                            >
-                                <GraduationCap class="size-5" aria-hidden="true" />
-                            </span>
+                            {{ paragraph }}
+                        </p>
+
+
+                        <div class="mt-10">
                             <p
-                                class="mt-5 text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
                             >
-                                Unit Head
+                                Vice President for Academic Affairs
                             </p>
-                            <h3 class="mt-2 text-lg font-semibold text-slate-950 dark:text-white">
+                            <h3
+                                class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            >
                                 {{ academicAffairs.profile.unitHead }}
                             </h3>
-                            <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                            <p
+                                v-for="paragraph in academicAffairs.profile.biography"
+                                :key="paragraph"
+                                class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                            >
+                                {{ paragraph }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <article
+                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                    >
+                        <div class="relative overflow-hidden">
+                            <img
+                                :src="academicAffairs.profile.image"
+                                alt="Maria Lady Sol A. Suazo, Ph.D."
+                                class="h-96 w-full object-cover object-top [filter:contrast(.96)_saturate(.96)_blur(.2px)]"
+                            />
+                            <div
+                                class="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/45 to-transparent"
+                                aria-hidden="true"
+                            ></div>
+                        </div>
+
+                        <div class="px-4 pt-5 pb-4 sm:px-5 sm:pb-5">
+                            <p
+                                class="text-xs font-bold tracking-[0.22em] text-[#f2b705] uppercase"
+                            >
+                                Vice President
+                            </p>
+                            <h3
+                                class="mt-2 text-2xl leading-tight font-semibold text-slate-950 dark:text-white"
+                            >
+                                {{ academicAffairs.profile.unitHead }}
+                            </h3>
+                            <p
+                                class="mt-3 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-600 dark:border-white/10 dark:text-sky-100"
+                            >
                                 {{ academicAffairs.profile.role }}
                             </p>
-                        </article>
 
-                        <article
-                            class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
-                        >
-                            <span
-                                class="inline-flex size-12 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
+                            <div
+                                class="mt-5 grid gap-3 border-t border-slate-200 pt-4 text-sm text-slate-600 dark:border-white/10 dark:text-slate-300"
                             >
-                                <MapPin class="size-5" aria-hidden="true" />
-                            </span>
-                            <p
-                                class="mt-5 text-xs font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                            >
-                                Contact Details
-                            </p>
-                            <div class="mt-3 grid gap-2 text-sm text-slate-600 dark:text-slate-300">
                                 <a
                                     :href="`mailto:${academicAffairs.profile.email}`"
                                     class="inline-flex items-center gap-2 hover:text-[#1711d4] dark:hover:text-sky-200"
@@ -200,215 +259,98 @@ const pageAnchors = [
                                     <Phone class="size-4" aria-hidden="true" />
                                     {{ academicAffairs.profile.phone }}
                                 </a>
-                                <span>{{ academicAffairs.profile.office }}</span>
+                                <span class="inline-flex items-start gap-2">
+                                    <MapPin
+                                        class="mt-0.5 size-4 shrink-0"
+                                        aria-hidden="true"
+                                    />
+                                    {{ academicAffairs.profile.office }}
+                                </span>
                             </div>
-                        </article>
-                    </div>
-                </div>
-
-                <div class="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                        <div
-                            v-for="priority in academicAffairs.profile.priorities"
-                            :key="priority"
-                            class="flex gap-3 rounded-md border border-slate-200 bg-white p-4 text-sm font-medium text-slate-700 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-200"
-                        >
-                            <BadgeCheck
-                                class="mt-0.5 size-4 shrink-0 text-[#0b6680] dark:text-sky-300"
-                                aria-hidden="true"
-                            />
-                            {{ priority }}
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="ovpaa-offices" class="scroll-mt-28 bg-white py-14 sm:py-16 dark:bg-slate-900">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl">
-                        <p
-                            class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                        >
-                            Offices under OVPAA
-                        </p>
-                        <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                        >
-                            Academic service offices
-                        </h2>
-                    </div>
-
-                    <div class="mt-8 grid gap-4 md:grid-cols-3">
-                        <article
-                            v-for="office in academicAffairs.offices"
-                            :key="office.name"
-                            class="rounded-md border border-slate-200 bg-[#f7f8f5] p-6 dark:border-white/10 dark:bg-white/[0.04]"
-                        >
-                            <Building2 class="size-7 text-[#1711d4] dark:text-sky-200" aria-hidden="true" />
-                            <h3 class="mt-5 font-semibold text-slate-950 dark:text-white">
-                                {{ office.name }}
-                            </h3>
-                            <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                                {{ office.description }}
-                            </p>
-                            <div class="mt-5 grid gap-2 text-sm text-slate-600 dark:text-slate-300">
-                                <p class="font-semibold text-slate-900 dark:text-white">
-                                    {{ office.head }}
-                                </p>
-                                <a :href="`mailto:${office.email}`" class="hover:text-[#1711d4] dark:hover:text-sky-200">
-                                    {{ office.email }}
-                                </a>
-                                <a :href="`tel:${office.contact}`" class="hover:text-[#1711d4] dark:hover:text-sky-200">
-                                    {{ office.contact }}
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-[#061b49] py-14 text-white sm:py-16">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl">
-                        <p class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
-                            Program Offerings
-                        </p>
-                        <h2 class="mt-3 text-3xl font-semibold tracking-normal text-white">
-                            Prospectus, objectives, learning outcomes, and college updates
-                        </h2>
-                    </div>
+                    </article>
                 </div>
             </section>
 
             <section
-                v-for="group in academicAffairs.programGroups"
-                :id="group.slug"
-                :key="group.slug"
-                class="scroll-mt-28 border-b border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
+                id="ovpaa-offices"
+                class="scroll-mt-28 bg-[#1f007c] py-14 text-white sm:py-16"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-6 lg:grid-cols-[18rem_1fr]">
-                        <aside>
-                            <p
-                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                    <p
+                        class="text-sm font-semibold tracking-wide text-[#ffbf00] uppercase"
+                    >
+                        Offices under OVPAA
+                    </p>
+                    <nav
+                        aria-label="Offices under OVPAA"
+                        class="mt-10 grid gap-x-12 gap-y-7 text-center sm:grid-cols-2 lg:grid-cols-3"
+                    >
+                        <Link
+                            v-for="office in academicAffairs.offices"
+                            :key="office.name"
+                            :href="officeShow.url(office.slug)"
+                            class="group inline-flex items-center justify-center gap-2 text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
+                        >
+                            <span>{{ office.name }}</span>
+                            <span
+                                class="text-[#f2b705] transition group-hover:translate-x-1"
+                                aria-hidden="true"
                             >
-                                {{ group.category }}
-                            </p>
-                            <h2
-                                class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                &gt;
+                            </span>
+                        </Link>
+                    </nav>
+                </div>
+            </section>
+
+            <section
+                v-for="programSection in academicProgramSections"
+                :id="programSection.slug"
+                :key="programSection.slug"
+                class="scroll-mt-28 bg-white py-14 sm:py-16 dark:bg-slate-950"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <h2
+                        class="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                    >
+                        {{ programSection.title }}
+                    </h2>
+                    <ul
+                        v-if="programSection.slug === 'undergraduate-programs'"
+                        class="mt-7 grid gap-3 border-t border-slate-200 pt-5 text-uni-body text-slate-700 sm:grid-cols-2 dark:border-white/10 dark:text-slate-300"
+                    >
+                        <li
+                            v-for="college in academicAffairs.colleges"
+                            :key="college.slug"
+                        >
+                            <Link
+                                :href="collegeShow.url(college.slug)"
+                                class="font-semibold text-[#0b6680] transition hover:text-[#9b1c31] dark:text-sky-200 dark:hover:text-rose-200"
                             >
-                                {{ group.title }}
-                            </h2>
-                            <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                                {{ group.overview }}
-                            </p>
-                        </aside>
-
-                        <div class="grid gap-5">
-                            <article
-                                v-for="college in group.colleges"
-                                :key="college.name"
-                                class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                                {{ college.title }}
+                            </Link>
+                        </li>
+                    </ul>
+                    <ul
+                        v-else-if="
+                            programSection.slug ===
+                            'graduate-and-professional-studies'
+                        "
+                        class="mt-7 grid gap-3 border-t border-slate-200 pt-5 text-uni-body text-slate-700 sm:grid-cols-2 dark:border-white/10 dark:text-slate-300"
+                    >
+                        <li
+                            v-for="study in academicAffairs.graduateProfessionalStudies"
+                            :key="study.slug"
+                        >
+                            <Link
+                                :href="studyShow.url(study.slug)"
+                                class="font-semibold text-[#0b6680] transition hover:text-[#9b1c31] dark:text-sky-200 dark:hover:text-rose-200"
                             >
-                                <div
-                                    class="flex flex-col justify-between gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-start dark:border-white/10"
-                                >
-                                    <div>
-                                        <h3 class="text-xl font-semibold text-slate-950 dark:text-white">
-                                            {{ college.name }}
-                                        </h3>
-                                        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                                            News and Updates of the College
-                                        </p>
-                                    </div>
-                                    <span
-                                        class="inline-flex w-fit items-center gap-2 rounded bg-white px-3 py-2 text-xs font-semibold text-[#1711d4] ring-1 ring-slate-200 dark:bg-white/10 dark:text-sky-200 dark:ring-white/10"
-                                    >
-                                        <Sparkles class="size-3.5" aria-hidden="true" />
-                                        Dummy data
-                                    </span>
-                                </div>
-
-                                <div class="mt-6 grid gap-5 xl:grid-cols-2">
-                                    <section class="rounded-md bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-950/40 dark:ring-white/10">
-                                        <div class="flex items-center gap-3">
-                                            <ScrollText class="size-5 text-[#0b6680] dark:text-sky-300" aria-hidden="true" />
-                                            <h4 class="font-semibold text-slate-950 dark:text-white">
-                                                Prospectus
-                                            </h4>
-                                        </div>
-                                        <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                                            {{ college.prospectus }}
-                                        </p>
-                                    </section>
-
-                                    <section class="rounded-md bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-950/40 dark:ring-white/10">
-                                        <div class="flex items-center gap-3">
-                                            <Target class="size-5 text-[#9b1c31] dark:text-rose-300" aria-hidden="true" />
-                                            <h4 class="font-semibold text-slate-950 dark:text-white">
-                                                Program Objectives
-                                            </h4>
-                                        </div>
-                                        <ul class="mt-3 grid gap-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                                            <li
-                                                v-for="objective in college.objectives"
-                                                :key="objective"
-                                                class="flex gap-3"
-                                            >
-                                                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#9b1c31]"></span>
-                                                {{ objective }}
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <section class="rounded-md bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-950/40 dark:ring-white/10">
-                                        <div class="flex items-center gap-3">
-                                            <BookOpenText class="size-5 text-[#1711d4] dark:text-sky-200" aria-hidden="true" />
-                                            <h4 class="font-semibold text-slate-950 dark:text-white">
-                                                Program Learning Outcomes
-                                            </h4>
-                                        </div>
-                                        <ul class="mt-3 grid gap-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                                            <li
-                                                v-for="outcome in college.learningOutcomes"
-                                                :key="outcome"
-                                                class="flex gap-3"
-                                            >
-                                                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#1711d4]"></span>
-                                                {{ outcome }}
-                                            </li>
-                                        </ul>
-                                    </section>
-
-                                    <section class="rounded-md bg-white p-4 ring-1 ring-slate-200 dark:bg-slate-950/40 dark:ring-white/10">
-                                        <div class="flex items-center gap-3">
-                                            <CalendarDays class="size-5 text-[#795200] dark:text-[#f2b705]" aria-hidden="true" />
-                                            <h4 class="font-semibold text-slate-950 dark:text-white">
-                                                News and Updates of the College
-                                            </h4>
-                                        </div>
-                                        <div class="mt-3 grid gap-3">
-                                            <article
-                                                v-for="update in college.updates"
-                                                :key="update.title"
-                                                class="border-l-2 border-[#f2b705] pl-3"
-                                            >
-                                                <p class="text-xs font-semibold text-[#0b6680] dark:text-sky-300">
-                                                    {{ update.date }}
-                                                </p>
-                                                <h5 class="mt-1 text-sm font-semibold text-slate-950 dark:text-white">
-                                                    {{ update.title }}
-                                                </h5>
-                                                <p class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-300">
-                                                    {{ update.summary }}
-                                                </p>
-                                            </article>
-                                        </div>
-                                    </section>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
+                                {{ study.title }}
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             </section>
         </div>

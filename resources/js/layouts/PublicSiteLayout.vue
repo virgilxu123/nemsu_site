@@ -35,6 +35,7 @@ import { index as servicesIndex } from '@/routes/services';
 type NavGroup = {
     label: string;
     shortLabel?: string;
+    href?: string;
     columns: {
         heading?: string;
         links: {
@@ -203,45 +204,8 @@ const navGroups: NavGroup[] = [
     },
     {
         label: 'Academics',
-        columns: [
-            {
-                heading: 'Academic Affairs',
-                links: [
-                    {
-                        label: 'OVPAA Profile',
-                        href: `${academicAffairs().url}#ovpaa-profile`,
-                    },
-                    {
-                        label: 'Offices under OVPAA',
-                        href: `${academicAffairs().url}#ovpaa-offices`,
-                    },
-                    // { label: 'Unit Head', href: '#academics' },
-                    // { label: 'Email', href: '#academics' },
-                    // { label: 'Contact Details', href: '#academics' },
-                ],
-            },
-            {
-                heading: 'Program Offerings',
-                links: [
-                    {
-                        label: 'Undergraduate Programs',
-                        href: `${academicAffairs().url}#undergraduate-programs`,
-                    },
-                    {
-                        label: 'Graduate School Programs',
-                        href: `${academicAffairs().url}#graduate-school-programs`,
-                    },
-                    {
-                        label: 'College of Law',
-                        href: `${academicAffairs().url}#college-of-law`,
-                    },
-                    {
-                        label: 'College of Medicine',
-                        href: `${academicAffairs().url}#college-of-medicine`,
-                    },
-                ],
-            },
-        ],
+        href: academicAffairs().url,
+        columns: [],
     },
     {
         label: 'Research, Innovation, and Extension',
@@ -501,7 +465,16 @@ const currentYear = new Date().getFullYear();
                         :key="group.label"
                         class="group relative"
                     >
+                        <Link
+                            v-if="group.href"
+                            :href="group.href"
+                            class="inline-flex h-10 items-center rounded-md px-3 text-sm font-medium whitespace-nowrap text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+                            :title="group.label"
+                        >
+                            {{ group.shortLabel ?? group.label }}
+                        </Link>
                         <button
+                            v-else
                             type="button"
                             class="inline-flex h-10 items-center gap-1 rounded-md px-3 text-sm font-medium whitespace-nowrap text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
                             :title="group.label"
@@ -510,6 +483,7 @@ const currentYear = new Date().getFullYear();
                             <ChevronDown class="size-4" aria-hidden="true" />
                         </button>
                         <div
+                            v-if="!group.href"
                             class="invisible absolute top-full left-0 translate-y-2 rounded-md border border-slate-200 bg-white p-4 opacity-0 shadow-xl shadow-slate-900/10 transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-slate-900"
                             :class="
                                 group.columns.length === 1 ? 'w-72' : 'w-136'
@@ -585,39 +559,48 @@ const currentYear = new Date().getFullYear();
                 class="border-t border-slate-200 bg-white px-4 py-4 xl:hidden dark:border-white/10 dark:bg-slate-950"
             >
                 <nav class="mx-auto grid max-w-7xl gap-3">
-                    <details
-                        v-for="group in navGroups"
-                        :key="group.label"
-                        class="rounded-md border border-slate-200 p-3 dark:border-white/10"
-                    >
-                        <summary
-                            class="cursor-pointer text-sm font-semibold text-slate-900 dark:text-white"
+                    <template v-for="group in navGroups" :key="group.label">
+                        <Link
+                            v-if="group.href"
+                            :href="group.href"
+                            class="rounded-md border border-slate-200 p-3 text-sm font-semibold text-slate-900 dark:border-white/10 dark:text-white"
+                            @click="mobileOpen = false"
                         >
                             {{ group.label }}
-                        </summary>
-                        <div class="mt-3 grid gap-3 sm:grid-cols-2">
-                            <div
-                                v-for="column in group.columns"
-                                :key="column.heading || column.links[0]?.label"
+                        </Link>
+                        <details
+                            v-else
+                            class="rounded-md border border-slate-200 p-3 dark:border-white/10"
+                        >
+                            <summary
+                                class="cursor-pointer text-sm font-semibold text-slate-900 dark:text-white"
                             >
-                                <p
-                                    v-if="column.heading"
-                                    class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                {{ group.label }}
+                            </summary>
+                            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                                <div
+                                    v-for="column in group.columns"
+                                    :key="column.heading || column.links[0]?.label"
                                 >
-                                    {{ column.heading }}
-                                </p>
-                                <a
-                                    v-for="item in column.links"
-                                    :key="item.label"
-                                    :href="item.href"
-                                    class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
-                                    @click="mobileOpen = false"
-                                >
-                                    {{ item.label }}
-                                </a>
+                                    <p
+                                        v-if="column.heading"
+                                        class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                    >
+                                        {{ column.heading }}
+                                    </p>
+                                    <a
+                                        v-for="item in column.links"
+                                        :key="item.label"
+                                        :href="item.href"
+                                        class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
+                                        @click="mobileOpen = false"
+                                    >
+                                        {{ item.label }}
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </details>
+                        </details>
+                    </template>
                 </nav>
             </div>
         </header>
