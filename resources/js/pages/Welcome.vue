@@ -981,7 +981,7 @@ const governanceLinks: Feature[] = [
             :reveal-classes="revealClasses"
         />
 
-        <section
+        <!-- <section
             id="governance"
             data-scroll-section="governance"
             class="bg-white py-16 dark:bg-slate-900"
@@ -1087,6 +1087,6 @@ const governanceLinks: Feature[] = [
                     </a>
                 </div>
             </div>
-        </section>
+        </section> -->
     </PublicSiteLayout>
 </template>

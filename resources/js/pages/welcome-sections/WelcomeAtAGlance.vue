@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import {
+    Accessibility,
     ArrowRight,
+    Award,
+    BookOpen,
     Building2,
+    CalendarDays,
+    GraduationCap,
     Landmark,
+    MapPin,
+    Users,
 } from 'lucide-vue-next';
 import type { CSSProperties } from 'vue';
 
@@ -14,6 +21,7 @@ type GlanceStat = {
     value: string;
     scope: string;
     description: string;
+    icon?: 'accessibility' | 'graduates' | 'map' | 'personnel' | 'programs' | 'students';
 };
 
 type MapHighlight = {
@@ -30,7 +38,27 @@ defineProps<{
     staggerDelay: (section: string, index: number) => CSSProperties;
     revealClasses: (section: string, direction?: RevealDirection) => string;
 }>();
+
+const getStatIcon = (iconKey?: string) => {
+    switch (iconKey) {
+        case 'students':
+            return GraduationCap;
+        case 'personnel':
+            return Users;
+        case 'programs':
+            return BookOpen;
+        case 'accessibility':
+            return Accessibility;
+        case 'graduates':
+            return Award;
+        case 'map':
+            return MapPin;
+        default:
+            return Building2;
+    }
+};
 </script>
+
 
 <template>
     <section
@@ -39,74 +67,75 @@ defineProps<{
         class="relative isolate overflow-hidden bg-[#f7f8f5] py-16 dark:bg-slate-950"
     >
         <div
-            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.20),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(11,102,128,0.18),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.92),rgba(230,243,245,0.74))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.10),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.12),transparent_30%),linear-gradient(135deg,rgba(2,6,23,1),rgba(15,23,42,0.94))]"
+            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.15),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(11,102,128,0.12),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.92),rgba(230,243,245,0.74))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.08),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.08),transparent_30%),linear-gradient(135deg,rgba(2,6,23,1),rgba(15,23,42,0.94))]"
         ></div>
 
         <div
             :class="revealClasses('at-a-glance', 'up')"
             class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         >
-            <div
-                class="flex flex-col justify-between gap-6 md:flex-row md:items-end"
-            >
-                <div class="max-w-3xl">
-                    <p
-                        class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                    >
-                        NEMSU at a Glance
-                    </p>
-                    <h3
-                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
-                    >
-                        A quick system-wide snapshot for students, personnel,
-                        graduates, and campus locations
-                    </h3>
-                    <p
-                        class="mt-4 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300"
-                    >
-                        Official figures from the NEMSU enrollment, HRMO, and
-                        campus SNAP survey reports, with each card labeled by
-                        its reporting period.
-                    </p>
-                </div>
-
-                <a
-                    href="#campuses"
-                    class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#0b6680]/20 bg-white/80 px-5 text-sm font-semibold text-[#1711d4] shadow-sm shadow-slate-900/5 backdrop-blur transition hover:-translate-y-0.5 hover:border-[#0b6680]/45 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-sky-100 dark:hover:bg-white/[0.08]"
-                >
-                    View campuses
-                    <ArrowRight class="size-4" aria-hidden="true" />
-                </a>
+            <!-- Header (Centered to match News & Announcements) -->
+            <div class="mb-10 flex flex-col items-center text-center">
+                <h2 class="text-3xl font-bold tracking-normal text-[#080565] dark:text-white sm:text-4xl">
+                    NEMSU at a Glance
+                </h2>
+                <div class="mt-3 h-1 w-12 rounded-full bg-[#f2b705]"></div>
+                <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    Official figures and snapshots from the NEMSU enrollment, HRMO, and campus SNAP survey reports.
+                </p>
             </div>
 
             <div class="mt-10 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+                <!-- Stats Grid -->
                 <div class="grid gap-4 sm:grid-cols-2">
                     <article
                         v-for="(stat, index) in stats"
                         :key="stat.key"
                         :style="staggerDelay('at-a-glance', index)"
-                        class="group relative isolate overflow-hidden rounded-md border border-slate-200 bg-white/88 p-6 shadow-sm shadow-slate-900/5 backdrop-blur transition hover:-translate-y-1 hover:border-[#0b6680]/45 hover:shadow-xl hover:shadow-slate-900/10 dark:border-white/10 dark:bg-slate-950/70 dark:hover:border-sky-300/45"
+                        class="group relative isolate overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#1711d4]/30 hover:shadow-md dark:border-white/10 dark:bg-slate-900 dark:hover:border-sky-300/30"
                     >
+                        <!-- Top Row: Icon Badge & Scope -->
+                        <div class="flex items-center justify-between mb-5">
+                            <span
+                                class="inline-flex size-10 items-center justify-center rounded-lg bg-[#e6f3f5] text-[#0b6680] transition-colors duration-300 group-hover:bg-[#1711d4]/10 group-hover:text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-300 dark:group-hover:bg-sky-400/20"
+                            >
+                                <component
+                                    :is="getStatIcon(stat.icon)"
+                                    class="size-5 transition-transform duration-300 group-hover:scale-110"
+                                    aria-hidden="true"
+                                />
+                            </span>
+                            <span
+                                v-if="stat.scope"
+                                class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400"
+                            >
+                                <CalendarDays class="size-3.5 text-[#f2b705]" aria-hidden="true" />
+                                {{ stat.scope }}
+                            </span>
+                        </div>
+
+                        <!-- Stat Value & Label -->
                         <p
-                            class="text-4xl font-semibold tracking-tight text-slate-950 dark:text-white"
+                            class="text-4xl font-bold tracking-tight text-slate-950 transition-colors duration-300 group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300 sm:text-5xl"
                         >
                             {{ stat.value }}
                         </p>
                         <h4
-                            class="mt-3 text-base font-semibold text-slate-950 dark:text-white"
+                            class="mt-2 text-base font-bold text-slate-900 dark:text-slate-100"
                         >
                             {{ stat.label }}
                         </h4>
                         <p
-                            class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                            class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400"
                         >
                             {{ stat.description }}
                         </p>
                     </article>
                 </div>
 
+                <!-- Location Map Card -->
                 <article
-                    class="relative isolate overflow-hidden rounded-md border border-slate-200 bg-[#061b49] p-5 text-white shadow-xl shadow-slate-900/15 dark:border-white/10"
+                    class="relative isolate overflow-hidden rounded-xl border border-slate-200 bg-[#061b49] p-5 text-white shadow-xl shadow-slate-900/15 dark:border-white/10"
                 >
                     <div
                         class="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgba(6,27,73,0.98),rgba(11,102,128,0.78)),radial-gradient(circle_at_70%_20%,rgba(242,183,5,0.24),transparent_28%)]"
@@ -123,8 +152,7 @@ defineProps<{
                                 Campus footprint preview
                             </h4>
                             <p class="mt-3 text-sm leading-7 text-sky-100">
-                                Seven campuses serving communities across
-                                Surigao del Sur.
+                                Seven campuses serving communities across Surigao del Sur.
                             </p>
                         </div>
                         <span
@@ -343,7 +371,7 @@ defineProps<{
                                 :class="[
                                     highlight.description === 'Main campus'
                                         ? 'bg-[#f2b705] text-[#061b49] ring-[#f2b705]/35'
-                                        : 'bg-[#9b1c31] text-white ring-[#9b1c31]/25',
+                                        : 'bg-[#1711d4] text-white ring-[#1711d4]/25',
                                 ]"
                                 class="relative flex size-7 items-center justify-center rounded-full border-2 border-white shadow-lg ring-4 shadow-slate-950/30 transition duration-200 group-hover:scale-110"
                             >
@@ -358,7 +386,7 @@ defineProps<{
                                         ? 'right-full mr-4'
                                         : 'left-full ml-4'
                                 "
-                                class="pointer-events-none absolute top-1/2 -translate-y-1/2 rounded border border-slate-200/90 bg-white/95 px-2.5 py-1.5 text-[0.58rem] leading-none whitespace-nowrap text-slate-700 shadow-md shadow-black/15 backdrop-blur transition duration-200 group-hover:border-[#9b1c31]/35 group-hover:shadow-lg sm:text-[0.65rem]"
+                                class="pointer-events-none absolute top-1/2 -translate-y-1/2 rounded border border-slate-200/90 bg-white/95 px-2.5 py-1.5 text-[0.58rem] leading-none whitespace-nowrap text-slate-700 shadow-md shadow-black/15 backdrop-blur transition duration-200 group-hover:border-[#1711d4]/35 group-hover:shadow-lg sm:text-[0.65rem]"
                             >
                                 <span
                                     :class="
@@ -366,7 +394,7 @@ defineProps<{
                                             ? 'left-full'
                                             : 'right-full'
                                     "
-                                    class="absolute top-1/2 h-px w-4 -translate-y-1/2 bg-[#9b1c31]/55"
+                                    class="absolute top-1/2 h-px w-4 -translate-y-1/2 bg-[#1711d4]/55"
                                 ></span>
                                 <p class="font-semibold text-slate-950">
                                     {{ highlight.label }}
@@ -389,13 +417,25 @@ defineProps<{
                             class="absolute right-3 bottom-3 flex items-center gap-2 rounded border border-[#0b6680]/15 bg-white/90 px-2.5 py-2 text-[0.6rem] font-semibold tracking-wide text-[#0b6680] uppercase shadow-sm backdrop-blur"
                         >
                             <span
-                                class="size-2 rounded-full bg-[#9b1c31]"
+                                class="size-2 rounded-full bg-[#f2b705]"
                             ></span>
                             7 campuses
                         </div>
                     </div>
                 </article>
             </div>
+
+            <!-- Footer (Centered View Campuses Action matching News & Announcements style) -->
+            <div class="mt-12 flex justify-center">
+                <a
+                    href="#campuses"
+                    class="inline-flex items-center gap-2 rounded-md bg-[#1711d4] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#080565] dark:bg-sky-600 dark:hover:bg-sky-700"
+                >
+                    View Campuses
+                    <ArrowRight class="size-4" aria-hidden="true" />
+                </a>
+            </div>
         </div>
     </section>
 </template>
+

@@ -1,31 +1,35 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import PageHero from '@/components/PageHero.vue';
+import { home } from '@/routes';
+
+const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
 
 const services = [
     {
         name: 'Student Information System (SIS)',
         description: 'Access student records, grades, and enrollment details.',
         url: 'http://sis.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=SIS',
+        image: '/storage/images/online-services/sis.png',
     },
     {
         name: 'Digital Library',
         description: 'Browse online academic resources and e-books.',
         url: 'https://nemsu.odilo.us/',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=Library',
+        image: '/storage/images/online-services/digital-library-ms.png',
     },
     {
         name: 'Learning Management System (LMS)',
         description: 'Online classes, assignments, and course materials.',
         url: 'http://lms.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=LMS',
+        image: '/storage/images/online-services/lms.png',
     },
     {
         name: 'Employee Record Management System (ERMS)',
         description: 'Manage faculty and staff profiles and records.',
         url: 'http://erms.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=ERMS',
+        image: '/storage/images/online-services/erms.png',
     },
     {
         name: 'Daily Time Record (DTR)',
@@ -37,31 +41,31 @@ const services = [
         name: 'Leave Management System',
         description: 'Apply and track employee leave requests.',
         url: 'http://leave.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=Leave+System',
+        image: '/storage/images/online-services/leave-ms.png',
     },
     {
         name: 'Payroll System',
         description: 'View payslips and compensation details.',
         url: 'http://payroll.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=Payroll',
+        image: '/storage/images/online-services/payroll-ms.png',
     },
     {
         name: 'Customer Satisfaction Measurement System (CSMS)',
         description: 'Provide feedback and rate university services.',
         url: 'http://csms.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=CSMS',
+        image: '/storage/images/online-services/csms.png',
     },
     {
         name: 'Itinero',
         description: 'Travel order and vehicle dispatch management.',
         url: 'http://itinero.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=Itinero',
+        image: '/storage/images/online-services/itinero-ms.png',
     },
     {
         name: 'Electronic Pass Slip Epass',
         description: 'Request and track employee pass slips.',
         url: 'http://epass.nemsu.edu.ph',
-        image: 'https://placehold.co/600x400/1711d4/ffffff?text=Epass',
+        image: '/storage/images/online-services/epass-ms.png',
     },
     {
         name: 'Document Tracking System (DTS)',
@@ -88,16 +92,16 @@ const services = [
     <PublicSiteLayout>
         <Head title="Online Services - NEMSU" />
         
-        <div class="bg-[#1711d4] py-16 text-center text-white sm:py-24">
-            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-                <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
-                    Online Services
-                </h1>
-                <p class="mt-4 text-lg text-indigo-100">
-                    Access North Eastern Mindanao State University's digital platforms for students, faculty, and staff.
-                </p>
-            </div>
-        </div>
+        <main class="bg-white font-sans text-slate-900 dark:bg-slate-950 dark:text-white">
+            <PageHero
+                title="Online Services"
+                description="Access North Eastern Mindanao State University's digital platforms for students, faculty, and staff."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'Online Services' }
+                ]"
+                :backgroundImage="heroBackgroundImage"
+            />
 
         <div class="py-16 sm:py-24">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -154,5 +158,6 @@ const services = [
                 </div>
             </div>
         </div>
+        </main>
     </PublicSiteLayout>
 </template>
