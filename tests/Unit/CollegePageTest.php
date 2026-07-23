@@ -35,5 +35,9 @@ test('college page renders overview campuses and courses', function () {
         ->toContain('campus.courses')
         ->toContain('Undergraduate Colleges')
         ->toContain('collegeShow.url')
+        ->not->toContain('BookOpenText')
+        ->not->toContain('MapPin')
+        ->not->toContain('>Campus<')
+        ->not->toContain('>Courses<')
         ->not->toContain('Back to Undergraduate Programs');
 });

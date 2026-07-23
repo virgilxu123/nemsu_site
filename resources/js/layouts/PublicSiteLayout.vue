@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     ChevronDown,
+    ChevronRight,
     Facebook,
     Mail,
     Menu,
@@ -20,6 +21,8 @@ import {
     university,
 } from '@/routes/about';
 import { academicAffairs } from '@/routes/academics';
+import { show as collegeShow } from '@/routes/academics/academic-affairs/colleges';
+import { show as graduateProfessionalStudyShow } from '@/routes/academics/academic-affairs/graduate-professional-studies';
 import {
     goodGovernance,
     transparencySeal,
@@ -32,16 +35,19 @@ import { show as newsShow } from '@/routes/news';
 import { rie } from '@/routes/research';
 import { index as servicesIndex } from '@/routes/services';
 
+type NavLink = {
+    label: string;
+    href?: string;
+    links?: NavLink[];
+};
+
 type NavGroup = {
     label: string;
     shortLabel?: string;
     href?: string;
     columns: {
         heading?: string;
-        links: {
-            label: string;
-            href: string;
-        }[];
+        links: NavLink[];
     }[];
 };
 
@@ -101,6 +107,52 @@ const currentTickerHref = computed(() =>
 );
 
 const headerSealImage = '/storage/images/branding/logos/nemsu-logo.png';
+
+const undergraduateCollegeLinks = [
+    {
+        label: 'College of Agriculture and Forestry',
+        href: collegeShow.url('college-of-agriculture-and-forestry'),
+    },
+    {
+        label: 'College of Arts and Sciences',
+        href: collegeShow.url('college-of-arts-and-sciences'),
+    },
+    {
+        label: 'College of Business and Management',
+        href: collegeShow.url('college-of-business-and-management'),
+    },
+    {
+        label: 'College of Criminal Justice Education',
+        href: collegeShow.url('college-of-criminal-justice-education'),
+    },
+    {
+        label: 'College of Engineering and Technology',
+        href: collegeShow.url('college-of-engineering-and-technology'),
+    },
+    {
+        label: 'College of Fisheries and Aquatic Sciences',
+        href: collegeShow.url('college-of-fisheries-and-aquatic-sciences'),
+    },
+    {
+        label: 'College of Information Technology Education',
+        href: collegeShow.url('college-of-information-technology-education'),
+    },
+    {
+        label: 'College of Teacher Education',
+        href: collegeShow.url('college-of-teacher-education'),
+    },
+];
+
+const professionalStudyLinks = [
+    {
+        label: 'College of Law',
+        href: graduateProfessionalStudyShow.url('college-of-law'),
+    },
+    {
+        label: 'Graduate School',
+        href: graduateProfessionalStudyShow.url('graduate-school'),
+    },
+];
 
 const stopTicker = (): void => {
     if (tickerInterval === null) {
@@ -204,54 +256,46 @@ const navGroups: NavGroup[] = [
     },
     {
         label: 'Academics',
-        href: academicAffairs().url,
-        columns: [],
-    },
-    {
-        label: 'Research, Innovation, and Extension',
-        shortLabel: 'RIE',
         columns: [
             {
-                heading: 'OVPRIE',
                 links: [
-                    { label: 'Profile', href: `${rie().url}#ovprie-profile` },
-                    { label: 'RIE Manual', href: `${rie().url}#rie-manual` },
                     {
-                        label: 'Offices under OVPRIE',
-                        href: `${rie().url}#ovprie-offices`,
+                        label: 'Academic Affairs',
+                        href: academicAffairs().url,
                     },
                     {
-                        label: 'Research Office',
-                        href: `${rie().url}#research`,
+                        label: 'Undergraduate',
+                        links: undergraduateCollegeLinks,
                     },
                     {
-                        label: 'Innovation Office',
-                        href: `${rie().url}#innovation`,
-                    },
-                    {
-                        label: 'Extension Office',
-                        href: `${rie().url}#extension`,
+                        label: 'Professional',
+                        links: professionalStudyLinks,
                     },
                 ],
             },
+        ],
+    },
+    {
+        label: 'Research, Innovation, and Extension (RIE)',
+        shortLabel: 'RIE',
+        columns: [
             {
-                heading: 'Research, Innovation, Extension',
                 links: [
+                    {
+                        label: 'Research, Innovation, and Extension (RIE)',
+                        href: rie().url,
+                    },
                     {
                         label: 'Research Centers',
                         href: `${rie().url}#research-centers`,
                     },
                     {
-                        label: 'Publication',
+                        label: 'Published Articles',
                         href: `${rie().url}#publication`,
                     },
                     {
-                        label: 'Patents, UI, Copyrights and Trademarks',
+                        label: 'Patents',
                         href: `${rie().url}#intellectual-property`,
-                    },
-                    {
-                        label: 'News and Updates',
-                        href: `${rie().url}#rie-news`,
                     },
                 ],
             },
@@ -263,19 +307,13 @@ const navGroups: NavGroup[] = [
             {
                 heading: 'NEMSU System',
                 links: [
-                    { label: 'Tandag', href: campusShow('tandag').url },
-                    { label: 'Cantilan', href: campusShow('cantilan').url },
-                    { label: 'San Miguel', href: campusShow('san-miguel').url },
-                    { label: 'Cagwait', href: campusShow('cagwait').url },
-                ],
-            },
-            {
-                heading: 'More Campuses',
-                links: [
-                    { label: 'Lianga', href: campusShow('lianga').url },
-                    { label: 'Tagbina', href: campusShow('tagbina').url },
-                    { label: 'Bislig', href: campusShow('bislig').url },
-                    { label: 'Campus Life', href: campusShow('tandag').url },
+                    { label: 'Tandag Campus', href: campusShow('tandag').url },
+                    { label: 'Cantilan Campus', href: campusShow('cantilan').url },
+                    { label: 'San Miguel Campus', href: campusShow('san-miguel').url },
+                    { label: 'Cagwait Campus', href: campusShow('cagwait').url },
+                    { label: 'Lianga Campus', href: campusShow('lianga').url },
+                    { label: 'Tagbina Campus', href: campusShow('tagbina').url },
+                    { label: 'Bislig Campus', href: campusShow('bislig').url },
                 ],
             },
         ],
@@ -484,9 +522,9 @@ const currentYear = new Date().getFullYear();
                         </button>
                         <div
                             v-if="!group.href"
-                            class="invisible absolute top-full left-0 translate-y-2 rounded-md border border-slate-200 bg-white p-4 opacity-0 shadow-xl shadow-slate-900/10 transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 dark:border-white/10 dark:bg-slate-900"
+                            class="invisible absolute top-full left-0 translate-y-2 rounded-md border border-slate-200 bg-white p-4 opacity-0 shadow-xl shadow-slate-900/10 transition delay-0 duration-200 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100 group-focus-within:delay-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-hover:delay-150 motion-reduce:delay-0 dark:border-white/10 dark:bg-slate-900"
                             :class="
-                                group.columns.length === 1 ? 'w-72' : 'w-136'
+                                group.columns.length === 1 ? 'w-80' : 'w-136'
                             "
                         >
                             <div
@@ -510,14 +548,87 @@ const currentYear = new Date().getFullYear();
                                     >
                                         {{ column.heading }}
                                     </h2>
-                                    <a
+                                    <template
                                         v-for="item in column.links"
                                         :key="item.label"
-                                        :href="item.href"
-                                        class="block rounded-md px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
                                     >
-                                        {{ item.label }}
-                                    </a>
+                                        <a
+                                            v-if="item.href && !item.links"
+                                            :href="item.href"
+                                            class="block rounded-md px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                        >
+                                            {{ item.label }}
+                                        </a>
+                                        <div
+                                            v-else
+                                            class="group/subnav relative"
+                                        >
+                                            <button
+                                                type="button"
+                                                class="flex w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                            >
+                                                <span>{{ item.label }}</span>
+                                                <ChevronRight
+                                                    class="size-4 shrink-0"
+                                                    aria-hidden="true"
+                                                />
+                                            </button>
+                                            <div
+                                                class="invisible absolute top-0 left-full z-50 w-80 rounded-md border border-slate-200 bg-white p-2 opacity-0 shadow-xl shadow-slate-900/10 transition delay-0 duration-200 group-focus-within/subnav:visible group-focus-within/subnav:opacity-100 group-focus-within/subnav:delay-150 group-hover/subnav:visible group-hover/subnav:opacity-100 group-hover/subnav:delay-150 motion-reduce:delay-0 dark:border-white/10 dark:bg-slate-900"
+                                            >
+                                                <template
+                                                    v-for="child in item.links"
+                                                    :key="child.label"
+                                                >
+                                                    <a
+                                                        v-if="
+                                                            child.href &&
+                                                            !child.links
+                                                        "
+                                                        :href="child.href"
+                                                        class="block rounded-md px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                                    >
+                                                        {{ child.label }}
+                                                    </a>
+                                                    <div
+                                                        v-else
+                                                        class="group/flyout relative"
+                                                    >
+                                                        <button
+                                                            type="button"
+                                                            class="flex w-full items-center justify-between gap-3 rounded-md px-3 py-2 text-left text-sm font-semibold text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                                        >
+                                                            <span>{{
+                                                                child.label
+                                                            }}</span>
+                                                            <ChevronRight
+                                                                class="size-4 shrink-0"
+                                                                aria-hidden="true"
+                                                            />
+                                                        </button>
+                                                        <div
+                                                            class="invisible absolute top-0 left-full z-50 max-h-[70vh] w-96 overflow-y-auto rounded-md border border-slate-200 bg-white p-2 opacity-0 shadow-xl shadow-slate-900/10 transition delay-0 duration-200 group-focus-within/flyout:visible group-focus-within/flyout:opacity-100 group-focus-within/flyout:delay-150 group-hover/flyout:visible group-hover/flyout:opacity-100 group-hover/flyout:delay-150 motion-reduce:delay-0 dark:border-white/10 dark:bg-slate-900"
+                                                        >
+                                                            <a
+                                                                v-for="grandchild in child.links"
+                                                                :key="
+                                                                    grandchild.label
+                                                                "
+                                                                :href="
+                                                                    grandchild.href
+                                                                "
+                                                                class="block rounded-md px-3 py-2 text-sm text-slate-700 transition hover:bg-slate-100 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white"
+                                                            >
+                                                                {{
+                                                                    grandchild.label
+                                                                }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </section>
                             </div>
                         </div>
@@ -588,15 +699,80 @@ const currentYear = new Date().getFullYear();
                                     >
                                         {{ column.heading }}
                                     </p>
-                                    <a
+                                    <template
                                         v-for="item in column.links"
                                         :key="item.label"
-                                        :href="item.href"
-                                        class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
-                                        @click="mobileOpen = false"
                                     >
-                                        {{ item.label }}
-                                    </a>
+                                        <a
+                                            v-if="item.href && !item.links"
+                                            :href="item.href"
+                                            class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
+                                            @click="mobileOpen = false"
+                                        >
+                                            {{ item.label }}
+                                        </a>
+                                        <details
+                                            v-else
+                                            class="rounded-md py-1"
+                                        >
+                                            <summary
+                                                class="cursor-pointer py-2 text-sm font-semibold text-slate-800 dark:text-slate-100"
+                                            >
+                                                {{ item.label }}
+                                            </summary>
+                                            <div class="ml-4 grid gap-1">
+                                                <template
+                                                    v-for="child in item.links"
+                                                    :key="child.label"
+                                                >
+                                                    <a
+                                                        v-if="
+                                                            child.href &&
+                                                            !child.links
+                                                        "
+                                                        :href="child.href"
+                                                        class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
+                                                        @click="
+                                                            mobileOpen = false
+                                                        "
+                                                    >
+                                                        {{ child.label }}
+                                                    </a>
+                                                    <details
+                                                        v-else
+                                                        class="rounded-md py-1"
+                                                    >
+                                                        <summary
+                                                            class="cursor-pointer py-2 text-sm font-semibold text-slate-700 dark:text-slate-200"
+                                                        >
+                                                            {{ child.label }}
+                                                        </summary>
+                                                        <div
+                                                            class="ml-4 grid gap-1"
+                                                        >
+                                                            <a
+                                                                v-for="grandchild in child.links"
+                                                                :key="
+                                                                    grandchild.label
+                                                                "
+                                                                :href="
+                                                                    grandchild.href
+                                                                "
+                                                                class="block rounded-md py-2 text-sm text-slate-600 dark:text-slate-300"
+                                                                @click="
+                                                                    mobileOpen = false
+                                                                "
+                                                            >
+                                                                {{
+                                                                    grandchild.label
+                                                                }}
+                                                            </a>
+                                                        </div>
+                                                    </details>
+                                                </template>
+                                            </div>
+                                        </details>
+                                    </template>
                                 </div>
                             </div>
                         </details>

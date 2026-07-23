@@ -41,6 +41,8 @@ test('vpaf page contains the supplied office directory', function () {
         ->toContain('Income-Generating Project and Auxiliary Services Office')
         ->toContain('Disaster Risk Management Office')
         ->toContain('Energy Efficiency and Conservation Office')
+        ->toContain('class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"')
+        ->toContain('items-center justify-start gap-2 text-left')
         ->toContain('officeShow.url')
         ->not->toContain('id="freedom-of-information"')
         ->not->toContain('freedomOfInformationResources');

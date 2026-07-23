@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpenText, MapPin } from 'lucide-vue-next';
 import { show as studyShow } from '@/actions/App/Http/Controllers/GraduateProfessionalStudyController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
@@ -153,34 +152,16 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                                     class="grid gap-5 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-10"
                                 >
                                     <div>
-                                        <p
-                                            class="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                                        >
-                                            <MapPin
-                                                class="size-4"
-                                                aria-hidden="true"
-                                            />
-                                            Campus
-                                        </p>
                                         <h3
-                                            class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                            class="text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
                                         >
                                             {{ campus.name }}
                                         </h3>
                                     </div>
 
                                     <div>
-                                        <p
-                                            class="inline-flex items-center gap-2 text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                                        >
-                                            <BookOpenText
-                                                class="size-4"
-                                                aria-hidden="true"
-                                            />
-                                            Courses
-                                        </p>
                                         <ul
-                                            class="mt-4 grid gap-3 text-uni-body text-slate-700 dark:text-slate-300"
+                                            class="grid gap-3 text-uni-body text-slate-700 dark:text-slate-300"
                                         >
                                             <li
                                                 v-for="course in campus.courses"

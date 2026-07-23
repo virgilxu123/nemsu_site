@@ -1,25 +1,19 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import type { Component } from 'vue';
 import {
     ArrowRight,
     ArrowUpRight,
     BookOpenText,
     Building2,
     Download,
-    ExternalLink,
     FileText,
-    FlaskConical,
-    Handshake,
-    Lightbulb,
     Mail,
-    MapPin,
     Newspaper,
     ScrollText,
     ShieldCheck,
-    UserRound,
 } from 'lucide-vue-next';
+import { show as officeShow } from '@/actions/App/Http/Controllers/OvprieOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 
@@ -33,15 +27,14 @@ type Leader = {
 };
 
 type OfficeItem = {
+    slug: string;
     name: string;
-    description: string;
 };
 
 type OfficeGroup = {
     id: string;
     title: string;
     director: Leader;
-    icon: Component;
     offices: OfficeItem[];
 };
 
@@ -77,11 +70,11 @@ type FeaturedInnovation = {
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
-const address =
-    'North Eastern Mindanao State University, Rosario, Tandag City, 8300, Surigao del Sur, Philippines';
-
 const manualUrl =
     'https://drive.google.com/file/d/1N_PgfkGK7-k68JBKqrNCW4BuOzhmHsXv/view?usp=sharing';
+
+const heroBackgroundImage =
+    '/images/administration/ovpaf/6I3A7029(1).jpg';
 
 const vicePresident: Leader = {
     name: 'Rolly G. Salvaleon, PhD',
@@ -128,27 +121,22 @@ const officeGroups: OfficeGroup[] = [
         id: 'research',
         title: 'University Research and Innovation Office',
         director: researchDirector,
-        icon: FlaskConical,
         offices: [
             {
+                slug: 'research-centers',
                 name: 'Research Centers',
-                description:
-                    'Research Centers manage activities, resources, and personnel in alignment with institutional priorities while fostering interdisciplinary collaboration, grant proposals, ethical compliance, and research performance tracking.',
             },
             {
+                slug: 'research-operation-office',
                 name: 'Research Operation Office',
-                description:
-                    'The Research Operation Office coordinates and monitors research initiatives, provides technical and administrative support, and ensures research programs align with University goals, community needs, and national priorities.',
             },
             {
+                slug: 'creative-works-management-office',
                 name: 'Creative Works Management Office',
-                description:
-                    'The Creative Works Management Office oversees creative outputs from students, faculty, and staff through production support, exhibitions, intellectual property guidance, marketing, and external partnership opportunities.',
             },
             {
+                slug: 'publication-and-printing-office',
                 name: 'Publication and Printing Office',
-                description:
-                    'The Publication and Printing Office manages University research journals from manuscript submission to publication, including editorial workflows, peer review, copy-editing, design, online platforms, indexing, and partnerships.',
             },
         ],
     },
@@ -156,22 +144,18 @@ const officeGroups: OfficeGroup[] = [
         id: 'innovation',
         title: 'Knowledge and Technology Transfer Office',
         director: kttoDirector,
-        icon: Lightbulb,
         offices: [
             {
+                slug: 'innovation-and-technology-support-office',
                 name: 'Innovation and Technology Support Office',
-                description:
-                    'ITSO manages intellectual property assets, IP audits, filings for patents, trademarks, and copyrights, IP databases, policies, awareness activities, inquiries, and dispute support.',
             },
             {
+                slug: 'intellectual-property-and-technology-business-management-office',
                 name: 'Intellectual Property and Technology Business Management Office',
-                description:
-                    'This office assesses University technologies for investment readiness, develops technology transfer strategies, negotiates licensing agreements, markets technologies, and supports licensees and spin-off companies.',
             },
             {
+                slug: 'technology-business-incubation-office',
                 name: 'Technology Business Incubation Office',
-                description:
-                    'The Technology Business Incubation Office supports startups through incubatee selection, mentorship, business planning, market validation, minimum viable product development, investor connections, and incubator operations.',
             },
         ],
     },
@@ -179,21 +163,20 @@ const officeGroups: OfficeGroup[] = [
         id: 'extension',
         title: 'Extension Services and Linkages Office',
         director: extensionDirector,
-        icon: Handshake,
         offices: [
             {
+                slug: 'extension-planning-and-implementation-office',
                 name: 'Extension Planning and Implementation Office',
-                description:
-                    'EPIO designs and implements community-based programs, conducts needs assessments, develops training materials, evaluates effectiveness, supports logistics, and builds partnerships with agencies, industries, NGOs, and communities.',
             },
             {
+                slug: 'monitoring-and-impact-assessment-office',
                 name: 'Monitoring and Impact Assessment Office',
-                description:
-                    'The Monitoring and Impact Assessment Office conducts field visits, reviews, stakeholder consultations, and third-party impact assessments to strengthen accountability and guide future extension improvements.',
             },
         ],
     },
 ];
+
+const officeLinks = officeGroups.flatMap((group) => group.offices);
 
 const innovationRegistryDocuments: RegistryDocument[] = [
     {
@@ -359,17 +342,6 @@ const researchHighlights = [
     { title: 'Completed Research Projects', icon: ShieldCheck },
 ];
 
-const pageAnchors = [
-    { label: 'Profile', href: '#ovprie-profile' },
-    { label: 'RIE Manual', href: '#rie-manual' },
-    { label: 'Offices', href: '#ovprie-offices' },
-    { label: 'Research', href: '#research' },
-    { label: 'Innovation', href: '#innovation' },
-    { label: 'Portfolio', href: '#innovation-portfolio' },
-    { label: 'Extension', href: '#extension' },
-    { label: 'News', href: '#rie-news' },
-];
-
 const newsUpdates: NewsUpdate[] = [
     {
         tag: '#NEMSURICallForResearchProposals',
@@ -491,322 +463,160 @@ onBeforeUnmount(() => {
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
             <section
-                class="relative isolate overflow-hidden bg-[#061b49] text-white"
+                class="relative isolate z-10 overflow-visible bg-slate-950 py-16 text-white sm:py-20"
             >
+                <img
+                    :src="heroBackgroundImage"
+                    alt=""
+                    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-60 select-none"
+                    aria-hidden="true"
+                />
                 <div
-                    class="absolute inset-0 -z-10 bg-linear-to-br from-[#061b49] via-[#1711d4] to-[#9b1c31]"
+                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
+                    aria-hidden="true"
                 ></div>
-
+                <div
+                    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                    aria-hidden="true"
+                >
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
+                    ></div>
+                    <div
+                        class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
+                    ></div>
+                    <div
+                        class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
+                    ></div>
+                </div>
                 <div
                     data-scroll-section="rie-hero"
                     :class="revealClasses('rie-hero')"
-                    class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_22rem] lg:px-8 lg:py-20 xl:grid-cols-[1fr_24rem]"
+                    class="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-24 sm:px-6 sm:pb-28 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:pb-12"
                 >
-                    <div class="flex flex-col justify-center">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <p
-                                class="inline-flex w-fit rounded bg-white/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                            >
-                                OVPRIE
-                            </p>
-                            <p
-                                class="inline-flex w-fit rounded bg-white/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-50 uppercase ring-1 ring-white/15"
-                            >
-                                Research, Innovation, and Extension
-                            </p>
-                        </div>
+                    <div>
+                        <p
+                            class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
+                        >
+                            Research, Innovation, and Extension
+                        </p>
                         <h1
-                            class="mt-5 max-w-5xl text-4xl leading-tight font-semibold tracking-normal sm:text-5xl xl:text-6xl"
+                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
                         >
                             Office of the Vice President for Research,
                             Innovation, and Extension
                         </h1>
-                        <p
-                            class="mt-6 max-w-3xl text-base leading-8 text-sky-50"
+
+                        <nav
+                            aria-label="Breadcrumb"
+                            class="mt-8 text-sm font-semibold"
                         >
-                            OVPRIE advances knowledge generation, technology
-                            transfer, and meaningful community engagement across
-                            the NEMSU system.
-                        </p>
-                        <div class="mt-8 flex flex-wrap gap-3">
-                            <a
-                                href="#ovprie-offices"
-                                class="inline-flex items-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-[#1711d4] shadow-sm transition hover:bg-[#f2b705] hover:text-slate-950"
-                            >
-                                Explore offices
-                                <ArrowRight class="size-4" aria-hidden="true" />
-                            </a>
-                            <a
-                                :href="manualUrl"
-                                target="_blank"
-                                rel="noreferrer"
-                                class="inline-flex items-center gap-2 rounded-md bg-[#f2b705] px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-white hover:text-[#1711d4]"
-                            >
-                                RIE Manual
-                                <ExternalLink
-                                    class="size-4"
-                                    aria-hidden="true"
-                                />
-                            </a>
-                        </div>
-                        <div
-                            class="mt-8 flex flex-wrap gap-2 text-xs font-semibold tracking-wide text-sky-50 uppercase"
-                        >
-                            <span
-                                class="rounded bg-white/10 px-3 py-2 ring-1 ring-white/15"
-                            >
-                                Research
-                            </span>
-                            <span
-                                class="rounded bg-white/10 px-3 py-2 ring-1 ring-white/15"
-                            >
-                                Innovation
-                            </span>
-                            <span
-                                class="rounded bg-white/10 px-3 py-2 ring-1 ring-white/15"
-                            >
-                                Extension
-                            </span>
-                        </div>
+                            <ol class="flex flex-wrap items-center gap-2">
+                                <li>
+                                    <Link
+                                        :href="home()"
+                                        class="text-white/80 transition hover:text-[#f2b705]"
+                                    >
+                                        Home
+                                    </Link>
+                                </li>
+                                <li class="text-white/45" aria-hidden="true">
+                                    /
+                                </li>
+                                <li class="text-[#f2b705]" aria-current="page">
+                                    Research, Innovation, and Extension
+                                </li>
+                            </ol>
+                        </nav>
                     </div>
 
-                    <nav
-                        class="self-center rounded-md border border-white/15 bg-white p-4 text-slate-950 shadow-2xl shadow-slate-950/25 dark:bg-slate-950 dark:text-white"
-                        aria-label="RIE page sections"
-                    >
-                        <p
-                            class="px-2 text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                        >
-                            In This Section
-                        </p>
-                        <p
-                            class="mt-2 px-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
-                        >
-                            Jump to the profile, offices, resources, and latest
-                            RIE updates.
-                        </p>
-                        <div class="mt-4 grid gap-1">
-                            <a
-                                v-for="(anchor, index) in pageAnchors"
-                                :key="anchor.href"
-                                :href="anchor.href"
-                                class="flex min-h-11 items-center gap-3 rounded-md px-3 text-sm font-semibold text-slate-700 transition hover:bg-[#e7f3fb] hover:text-[#1711d4] dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-sky-200"
-                            >
-                                <span
-                                    class="inline-flex size-6 shrink-0 items-center justify-center rounded bg-slate-100 text-xs text-slate-500 dark:bg-white/10 dark:text-slate-300"
-                                >
-                                    {{ index + 1 }}
-                                </span>
-                                {{ anchor.label }}
-                            </a>
-                        </div>
-                    </nav>
+                    <div aria-hidden="true" class="hidden lg:block"></div>
                 </div>
             </section>
 
             <section
                 id="ovprie-profile"
-                class="scroll-mt-28 border-b border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
+                class="relative z-20 scroll-mt-28 pt-10 pb-14 sm:pt-12 sm:pb-16 lg:pt-0"
             >
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start lg:gap-12 lg:px-8"
+                >
                     <div
                         data-scroll-section="ovprie-profile-panel"
-                        :class="revealClasses('ovprie-profile-panel')"
-                        class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 lg:grid lg:grid-cols-[20rem_1fr] dark:border-white/10 dark:bg-white/[0.04]"
+                        :class="revealClasses('ovprie-profile-panel', 'right')"
+                        class="max-w-3xl pt-8 lg:pt-20"
                     >
-                        <aside class="bg-slate-950 text-white">
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            OVPRIE Profile
+                        </p>
+                        <h2
+                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                        >
+                            University-wide RIE leadership
+                        </h2>
+                        <p
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                        >
+                            The Office of the Vice President for Research,
+                            Innovation, and Extension formulates and implements
+                            strategic policies, oversees research, innovation,
+                            and extension programs, facilitates collaborations,
+                            manages grants and funding, and ensures compliance
+                            with regulatory requirements.
+                        </p>
+                        <p
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                        >
+                            OVPRIE advances knowledge generation, technology
+                            transfer, and meaningful community engagement across
+                            the NEMSU system in alignment with national
+                            development priorities.
+                        </p>
+                    </div>
+
+                    <article
+                        data-scroll-section="ovprie-profile-card"
+                        :class="revealClasses('ovprie-profile-card', 'left')"
+                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                    >
+                        <div class="relative overflow-hidden">
                             <img
                                 :src="vicePresident.image"
                                 :alt="vicePresident.alt"
-                                class="aspect-[4/5] w-full object-cover"
+                                class="h-96 w-full object-cover object-top [filter:contrast(.96)_saturate(.96)_blur(.2px)]"
                             />
-                            <div class="border-t border-white/10 p-5">
-                                <p
-                                    class="text-xs font-semibold tracking-wide text-[#f2b705] uppercase"
-                                >
-                                    Vice President
-                                </p>
-                                <h3 class="mt-2 text-xl font-semibold">
-                                    {{ vicePresident.name }}
-                                </h3>
-                                <p class="mt-2 text-sm leading-6 text-sky-100">
-                                    {{ vicePresident.role }}
-                                </p>
-                            </div>
-                        </aside>
-
-                        <div class="p-6 sm:p-8 lg:p-10">
-                            <div class="max-w-3xl">
-                                <p
-                                    class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                                >
-                                    OVPRIE Profile
-                                </p>
-                                <h2
-                                    class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
-                                >
-                                    University-wide RIE leadership
-                                </h2>
-                                <p
-                                    class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                >
-                                    The Office of the Vice President for
-                                    Research, Innovation, and Extension
-                                    formulates and implements strategic
-                                    policies, oversees research, innovation, and
-                                    extension programs, facilitates
-                                    collaborations, manages grants and funding,
-                                    and ensures compliance with regulatory
-                                    requirements.
-                                </p>
-                            </div>
-
-                            <div class="mt-8 grid gap-4 md:grid-cols-2">
-                                <article
-                                    class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-slate-950/50"
-                                >
-                                    <div class="flex items-start gap-4">
-                                        <span
-                                            class="inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-[#e7f3fb] text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200"
-                                        >
-                                            <UserRound
-                                                class="size-5"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <div>
-                                            <p
-                                                class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                                            >
-                                                Office Focus
-                                            </p>
-                                            <h3
-                                                class="mt-1 text-lg font-semibold text-slate-950 dark:text-white"
-                                            >
-                                                RIE Administration
-                                            </h3>
-                                            <p
-                                                class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300"
-                                            >
-                                                Research management, technology
-                                                transfer, and extension linkages
-                                                across the NEMSU system.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </article>
-
-                                <article
-                                    class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-slate-950/50"
-                                >
-                                    <div class="flex items-start gap-4">
-                                        <span
-                                            class="inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                                        >
-                                            <MapPin
-                                                class="size-5"
-                                                aria-hidden="true"
-                                            />
-                                        </span>
-                                        <div class="min-w-0">
-                                            <p
-                                                class="text-xs font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                                            >
-                                                Contact Details
-                                            </p>
-                                            <div
-                                                class="mt-2 grid gap-2 text-sm text-slate-600 dark:text-slate-300"
-                                            >
-                                                <a
-                                                    :href="`mailto:${vicePresident.email}`"
-                                                    class="inline-flex min-w-0 items-center gap-2 hover:text-[#1711d4] dark:hover:text-sky-200"
-                                                >
-                                                    <Mail
-                                                        class="size-4 shrink-0"
-                                                        aria-hidden="true"
-                                                    />
-                                                    <span class="break-all">{{
-                                                        vicePresident.email
-                                                    }}</span>
-                                                </a>
-                                                <span
-                                                    class="inline-flex items-start gap-2"
-                                                >
-                                                    <MapPin
-                                                        class="mt-0.5 size-4 shrink-0"
-                                                        aria-hidden="true"
-                                                    />
-                                                    <span>{{ address }}</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-
                             <div
-                                class="mt-6 flex flex-wrap gap-2 border-t border-slate-200 pt-5 dark:border-white/10"
-                            >
-                                <span
-                                    class="rounded bg-[#e7f3fb] px-3 py-2 text-xs font-semibold tracking-wide text-[#0b3d91] uppercase dark:bg-sky-400/10 dark:text-sky-200"
-                                >
-                                    Research
-                                </span>
-                                <span
-                                    class="rounded bg-[#fff4cc] px-3 py-2 text-xs font-semibold tracking-wide text-[#795200] uppercase dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                                >
-                                    Innovation
-                                </span>
-                                <span
-                                    class="rounded bg-emerald-50 px-3 py-2 text-xs font-semibold tracking-wide text-emerald-700 uppercase dark:bg-emerald-400/10 dark:text-emerald-200"
-                                >
-                                    Extension
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="rie-manual" class="scroll-mt-28 py-14 sm:py-16">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        data-scroll-section="rie-manual-card"
-                        :class="revealClasses('rie-manual-card')"
-                        class="grid gap-6 rounded-md border border-slate-200 bg-[#061b49] p-6 text-white shadow-sm shadow-slate-900/10 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center dark:border-white/10"
-                    >
-                        <div>
-                            <FileText
-                                class="size-8 text-[#f2b705]"
+                                class="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/45 to-transparent"
                                 aria-hidden="true"
-                            />
-                            <h2 class="mt-4 text-3xl font-semibold">
-                                RIE Manual
-                            </h2>
+                            ></div>
+                        </div>
+
+                        <div class="px-4 pt-5 pb-4 sm:px-5 sm:pb-5">
                             <p
-                                class="mt-3 max-w-3xl text-sm leading-7 text-sky-50"
+                                class="text-xs font-bold tracking-[0.22em] text-[#f2b705] uppercase"
                             >
-                                Access the official Research, Innovation, and
-                                Extension manual for policies, processes, and
-                                guidance used across OVPRIE programs.
+                                Vice President
+                            </p>
+                            <h3
+                                class="mt-2 text-2xl leading-tight font-semibold text-slate-950 dark:text-white"
+                            >
+                                {{ vicePresident.name }}
+                            </h3>
+                            <p
+                                class="mt-3 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-600 dark:border-white/10 dark:text-sky-100"
+                            >
+                                {{ vicePresident.role }}
                             </p>
                         </div>
-                        <a
-                            :href="manualUrl"
-                            target="_blank"
-                            rel="noreferrer"
-                            class="inline-flex items-center justify-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-[#1711d4] transition hover:bg-[#f2b705] hover:text-slate-950"
-                        >
-                            Open manual
-                            <ArrowUpRight class="size-4" aria-hidden="true" />
-                        </a>
-                    </div>
+                    </article>
                 </div>
             </section>
 
             <section
                 id="ovprie-offices"
-                class="scroll-mt-28 border-y border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-900"
+                class="scroll-mt-28 bg-[#1f007c] py-14 text-white sm:py-16"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div
@@ -815,60 +625,31 @@ onBeforeUnmount(() => {
                         class="max-w-3xl"
                     >
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-sm font-semibold tracking-wide text-[#ffbf00] uppercase"
                         >
                             Offices under OVPRIE
                         </p>
-                        <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
-                        >
-                            Research, innovation, and extension service
-                            directory
-                        </h2>
                     </div>
 
-                    <div class="mt-10 grid gap-5 lg:grid-cols-3">
-                        <article
-                            v-for="(group, index) in officeGroups"
-                            :key="group.id"
-                            :data-scroll-section="`ovprie-office-card-${group.id}`"
-                            :class="
-                                revealClasses(
-                                    `ovprie-office-card-${group.id}`,
-                                    index % 2 === 0 ? 'right' : 'up',
-                                )
-                            "
-                            class="rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                    <nav
+                        aria-label="Offices under OVPRIE"
+                        class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"
+                    >
+                        <Link
+                            v-for="office in officeLinks"
+                            :key="office.slug"
+                            :href="officeShow.url(office.slug)"
+                            class="group inline-flex items-center justify-start gap-2 text-left text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
                         >
-                            <component
-                                :is="group.icon"
-                                class="size-8 text-[#1711d4] dark:text-sky-200"
+                            <span>{{ office.name }}</span>
+                            <span
+                                class="text-[#f2b705] transition group-hover:translate-x-1"
                                 aria-hidden="true"
-                            />
-                            <h3
-                                class="mt-5 text-xl font-semibold text-slate-950 dark:text-white"
                             >
-                                {{ group.title }}
-                            </h3>
-                            <p
-                                class="mt-2 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
-                            >
-                                {{ group.director.name }}
-                            </p>
-                            <p
-                                class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                            >
-                                {{ group.director.summary }}
-                            </p>
-                            <a
-                                :href="`#${group.id}`"
-                                class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
-                            >
-                                View offices
-                                <ArrowRight class="size-4" aria-hidden="true" />
-                            </a>
-                        </article>
-                    </div>
+                                &gt;
+                            </span>
+                        </Link>
+                    </nav>
                 </div>
             </section>
 
@@ -926,54 +707,13 @@ onBeforeUnmount(() => {
                             <h3
                                 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                Office overview
+                                Service overview
                             </h3>
                             <p
                                 class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
                             >
                                 {{ group.director.summary }}
                             </p>
-
-                            <div class="mt-8 grid gap-4 md:grid-cols-2">
-                                <article
-                                    v-for="office in group.offices"
-                                    :id="
-                                        office.name === 'Research Centers'
-                                            ? 'research-centers'
-                                            : office.name ===
-                                                'Publication and Printing Office'
-                                              ? 'publication'
-                                              : office.name ===
-                                                  'Intellectual Property and Technology Business Management Office'
-                                                ? 'intellectual-property'
-                                                : undefined
-                                    "
-                                    :key="office.name"
-                                    :data-scroll-section="`${group.id}-${office.name}`"
-                                    :class="
-                                        revealClasses(
-                                            `${group.id}-${office.name}`,
-                                            'up',
-                                        )
-                                    "
-                                    class="scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
-                                >
-                                    <Building2
-                                        class="size-6 text-[#1711d4] dark:text-sky-200"
-                                        aria-hidden="true"
-                                    />
-                                    <h4
-                                        class="mt-4 text-lg font-semibold text-slate-950 dark:text-white"
-                                    >
-                                        {{ office.name }}
-                                    </h4>
-                                    <p
-                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                    >
-                                        {{ office.description }}
-                                    </p>
-                                </article>
-                            </div>
 
                             <div
                                 v-if="group.id === 'research'"

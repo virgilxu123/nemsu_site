@@ -20,6 +20,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\OfficeOfThePresidentController;
 use App\Http\Controllers\OvpaaOfficeController;
 use App\Http\Controllers\OvpafOfficeController;
+use App\Http\Controllers\OvprieOfficeController;
 use App\Http\Controllers\VppsiController;
 use App\Http\Controllers\VppsiOfficeController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +43,7 @@ Route::get('/administration/vppsi/offices/{office}', [VppsiOfficeController::cla
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');
+Route::get('/research-innovation-extension/offices/{office}', [OvprieOfficeController::class, 'show'])->name('research.rie.offices.show');
 Route::inertia('/services', 'services/Index')->name('services.index');
 Route::get('/directory', DirectoryController::class)->name('directory');
 Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
