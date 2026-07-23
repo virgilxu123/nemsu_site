@@ -33,6 +33,8 @@ test('academic affairs page links offices to office detail routes', function () 
         ->toContain('OvpaaOfficeController')
         ->toContain('officeShow.url(office.slug)')
         ->toContain('Offices under OVPAA')
+        ->toContain('class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"')
+        ->toContain('items-center justify-start gap-2 text-left')
         ->not->toContain('office.email || office.contact');
 });
 

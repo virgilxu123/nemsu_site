@@ -46,3 +46,19 @@ test('public layout links to the good governance route helper', function () {
         ->toContain('goodGovernance')
         ->toContain('href: goodGovernance().url');
 });
+
+test('public layout campus menu uses a single campus column', function () {
+    $layout = file_get_contents(resource_path('js/layouts/PublicSiteLayout.vue'));
+
+    expect($layout)
+        ->toContain("label: 'Campuses'")
+        ->toContain("heading: 'NEMSU System'")
+        ->toContain("campusShow('tandag').url")
+        ->toContain("campusShow('cantilan').url")
+        ->toContain("campusShow('san-miguel').url")
+        ->toContain("campusShow('cagwait').url")
+        ->toContain("campusShow('lianga').url")
+        ->toContain("campusShow('tagbina').url")
+        ->toContain("campusShow('bislig').url")
+        ->not->toContain("heading: 'More Campuses'");
+});

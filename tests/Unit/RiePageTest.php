@@ -14,12 +14,12 @@ test('rie page contains the supplied ovprie directory and assets', function () {
     expect($page)
         ->not->toContain('absolute inset-0 -z-20 h-full w-full object-cover')
         ->not->toContain('absolute inset-x-0 bottom-0 -z-10 h-24')
-        ->toContain('In This Section')
+        ->toContain('Office of the Vice President for Research,')
         ->toContain('const visibleSections = ref<Set<string>>')
         ->toContain('const revealClasses = (')
         ->toContain('data-scroll-section="rie-hero"')
         ->toContain('data-scroll-section="ovprie-profile-panel"')
-        ->toContain('class="aspect-[4/5] w-full object-cover"');
+        ->toContain('officeShow.url(office.slug)');
 
     expect($page)
         ->toContain('Rolly G. Salvaleon, PhD')
@@ -33,6 +33,9 @@ test('rie page contains the supplied ovprie directory and assets', function () {
         ->toContain('Research Centers')
         ->toContain('Technology Business Incubation Office')
         ->toContain('Monitoring and Impact Assessment Office')
+        ->toContain('Service overview')
+        ->not->toContain('View office')
+        ->not->toContain('Office overview')
         ->toContain('id="rie-news"');
 
     expect($page)

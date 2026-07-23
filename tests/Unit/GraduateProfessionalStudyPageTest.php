@@ -50,5 +50,9 @@ test('graduate professional study page renders overview campuses and courses', f
         ->toContain('props.study.campuses')
         ->toContain('campus.courses')
         ->toContain('Graduate and Professional Studies')
-        ->toContain('studyShow.url');
+        ->toContain('studyShow.url')
+        ->not->toContain('BookOpenText')
+        ->not->toContain('MapPin')
+        ->not->toContain('>Campus<')
+        ->not->toContain('>Courses<');
 });

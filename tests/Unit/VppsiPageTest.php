@@ -23,6 +23,8 @@ test('vppsi page contains the supplied planning and strategy directory', functio
         ->toContain('General Services Office')
         ->toContain('mrsacevedo@nemsu.edu.ph')
         ->toContain('planning@nemsu.edu.ph')
+        ->toContain('class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"')
+        ->toContain('items-center justify-start gap-2 text-left')
         ->toContain('id="bac-matters"')
         ->toContain('data-scroll-section="bac-matters"')
         ->toContain('preserve-state');

@@ -368,13 +368,13 @@ onBeforeUnmount(() => {
                     </p>
                     <nav
                         aria-label="Offices under OVPAF"
-                        class="mt-10 grid gap-x-12 gap-y-7 text-center sm:grid-cols-2 lg:grid-cols-3"
+                        class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"
                     >
                         <Link
                             v-for="office in listedOffices"
                             :key="office.name"
                             :href="office.href"
-                            class="group inline-flex items-center justify-center gap-2 text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
+                            class="group inline-flex items-center justify-start gap-2 text-left text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
                         >
                             <span>{{ office.name }}</span>
                             <span
