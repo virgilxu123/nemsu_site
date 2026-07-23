@@ -1,144 +1,85 @@
 <script setup lang="ts">
-import {
-    Accessibility,
-    ArrowRight,
-    Award,
-    BookOpen,
-    Building2,
-    CalendarDays,
-    GraduationCap,
-    Landmark,
-    MapPin,
-    Users,
-} from 'lucide-vue-next';
-import type { CSSProperties } from 'vue';
+import { ArrowRight, Landmark } from 'lucide-vue-next';
 
-type RevealDirection = 'down' | 'left' | 'right' | 'up';
-
-type GlanceStat = {
-    key: string;
-    label: string;
-    value: string;
-    scope: string;
-    description: string;
-    icon?: 'accessibility' | 'graduates' | 'map' | 'personnel' | 'programs' | 'students';
-};
-
-type MapHighlight = {
-    label: string;
-    description: string;
-    top: string;
-    left: string;
-    labelPosition: 'left' | 'right';
-};
+import type {
+    GlanceStat,
+    MapHighlight,
+    RevealClasses,
+    StaggerDelay,
+} from '@/types';
 
 defineProps<{
     stats: GlanceStat[];
     mapHighlights: MapHighlight[];
-    staggerDelay: (section: string, index: number) => CSSProperties;
-    revealClasses: (section: string, direction?: RevealDirection) => string;
+    staggerDelay: StaggerDelay;
+    revealClasses: RevealClasses;
 }>();
-
-const getStatIcon = (iconKey?: string) => {
-    switch (iconKey) {
-        case 'students':
-            return GraduationCap;
-        case 'personnel':
-            return Users;
-        case 'programs':
-            return BookOpen;
-        case 'accessibility':
-            return Accessibility;
-        case 'graduates':
-            return Award;
-        case 'map':
-            return MapPin;
-        default:
-            return Building2;
-    }
-};
 </script>
-
 
 <template>
     <section
         id="at-a-glance"
         data-scroll-section="at-a-glance"
-        class="relative isolate overflow-hidden bg-[#f7f8f5] py-16 dark:bg-slate-950"
+        class="bg-white py-16 lg:py-20 dark:bg-slate-950"
     >
-        <div
-            class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.15),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(11,102,128,0.12),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.92),rgba(230,243,245,0.74))] dark:bg-[radial-gradient(circle_at_15%_20%,rgba(242,183,5,0.08),transparent_28%),radial-gradient(circle_at_85%_10%,rgba(56,189,248,0.08),transparent_30%),linear-gradient(135deg,rgba(2,6,23,1),rgba(15,23,42,0.94))]"
-        ></div>
-
         <div
             :class="revealClasses('at-a-glance', 'up')"
             class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         >
-            <!-- Header (Centered to match News & Announcements) -->
-            <div class="mb-10 flex flex-col items-center text-center">
-                <h2 class="text-3xl font-bold tracking-normal text-[#080565] dark:text-white sm:text-4xl">
+            <header class="mb-9 text-center">
+                <h2
+                    class="font-serif text-3xl font-semibold tracking-tight text-[#1A2340] sm:text-4xl dark:text-white"
+                >
                     NEMSU at a Glance
                 </h2>
-                <div class="mt-3 h-1 w-12 rounded-full bg-[#f2b705]"></div>
-                <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                    Official figures and snapshots from the NEMSU enrollment, HRMO, and campus SNAP survey reports.
-                </p>
-            </div>
+                <span
+                    class="mx-auto mt-3 block h-1 w-16 rounded-full bg-[#F2B900]"
+                    aria-hidden="true"
+                ></span>
+                <!-- <p
+                    class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#4B5563] dark:text-slate-300"
+                >
+                    Official figures from the NEMSU enrollment, HRMO, and campus
+                    SNAP survey reports.
+                </p> -->
+            </header>
 
-            <div class="mt-10 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-                <!-- Stats Grid -->
+            <div class="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
                 <div class="grid gap-4 sm:grid-cols-2">
                     <article
                         v-for="(stat, index) in stats"
                         :key="stat.key"
                         :style="staggerDelay('at-a-glance', index)"
-                        class="group relative isolate overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#1711d4]/30 hover:shadow-md dark:border-white/10 dark:bg-slate-900 dark:hover:border-sky-300/30"
+                        class="flex min-h-44 flex-col rounded-lg border border-[#D8DEE8] bg-white p-5 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900"
                     >
-                        <!-- Top Row: Icon Badge & Scope -->
-                        <div class="flex items-center justify-between mb-5">
-                            <span
-                                class="inline-flex size-10 items-center justify-center rounded-lg bg-[#e6f3f5] text-[#0b6680] transition-colors duration-300 group-hover:bg-[#1711d4]/10 group-hover:text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-300 dark:group-hover:bg-sky-400/20"
-                            >
-                                <component
-                                    :is="getStatIcon(stat.icon)"
-                                    class="size-5 transition-transform duration-300 group-hover:scale-110"
-                                    aria-hidden="true"
-                                />
-                            </span>
-                            <span
-                                v-if="stat.scope"
-                                class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400"
-                            >
-                                <CalendarDays class="size-3.5 text-[#f2b705]" aria-hidden="true" />
-                                {{ stat.scope }}
-                            </span>
-                        </div>
-
-                        <!-- Stat Value & Label -->
+                        <span
+                            class="block h-1 w-10 rounded-full bg-[#F2B900]"
+                            aria-hidden="true"
+                        ></span>
                         <p
-                            class="text-4xl font-bold tracking-tight text-slate-950 transition-colors duration-300 group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300 sm:text-5xl"
+                            class="mt-5 font-serif text-4xl font-semibold tracking-tight sm:text-5xl dark:text-sky-300"
                         >
                             {{ stat.value }}
                         </p>
                         <h4
-                            class="mt-2 text-base font-bold text-slate-900 dark:text-slate-100"
+                            class="mt-2 font-serif text-base font-semibold text-[#1A2340] dark:text-white"
                         >
                             {{ stat.label }}
                         </h4>
                         <p
-                            class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400"
+                            v-if="stat.scope"
+                            class="mt-auto pt-5 text-xs leading-5 font-medium text-[#6B7280] dark:text-slate-400"
                         >
-                            {{ stat.description }}
+                            {{ stat.scope }}
                         </p>
                     </article>
                 </div>
 
-                <!-- Location Map Card -->
                 <article
-                    class="relative isolate overflow-hidden rounded-xl border border-slate-200 bg-[#061b49] p-5 text-white shadow-xl shadow-slate-900/15 dark:border-white/10"
+                    class="relative isolate overflow-hidden rounded-lg border border-[#D8DEE8] bg-[#1c0ed7] p-5 text-white shadow-sm shadow-slate-900/5 dark:border-white/10"
                 >
                     <div
-                        class="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgba(6,27,73,0.98),rgba(11,102,128,0.78)),radial-gradient(circle_at_70%_20%,rgba(242,183,5,0.24),transparent_28%)]"
+                        class="absolute inset-0 -z-10 bg-[linear-gradient(135deg,rgba(28,14,215,0.98),rgba(28,14,215,0.82)),radial-gradient(circle_at_70%_20%,rgba(242,185,0,0.24),transparent_28%)]"
                     ></div>
 
                     <div class="flex items-start justify-between gap-4">
@@ -152,14 +93,15 @@ const getStatIcon = (iconKey?: string) => {
                                 Campus footprint preview
                             </h4>
                             <p class="mt-3 text-sm leading-7 text-sky-100">
-                                Seven campuses serving communities across Surigao del Sur.
+                                Seven campuses serving communities across
+                                Surigao del Sur.
                             </p>
                         </div>
-                        <span
+                        <!-- <span
                             class="hidden size-12 shrink-0 items-center justify-center rounded-md border border-white/15 bg-white/10 text-[#f2b705] sm:inline-flex"
                         >
                             <Building2 class="size-6" aria-hidden="true" />
-                        </span>
+                        </span> -->
                     </div>
 
                     <div
@@ -425,17 +367,15 @@ const getStatIcon = (iconKey?: string) => {
                 </article>
             </div>
 
-            <!-- Footer (Centered View Campuses Action matching News & Announcements style) -->
             <div class="mt-12 flex justify-center">
-                <a
+                <!-- <a
                     href="#campuses"
-                    class="inline-flex items-center gap-2 rounded-md bg-[#1711d4] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#080565] dark:bg-sky-600 dark:hover:bg-sky-700"
+                    class="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#1C0ED7] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1C0ED7]"
                 >
                     View Campuses
                     <ArrowRight class="size-4" aria-hidden="true" />
-                </a>
+                </a> -->
             </div>
         </div>
     </section>
 </template>
-

@@ -26,8 +26,34 @@ test('the at a glance section identifies its official data sources', function ()
     );
 
     expect($atAGlanceSection)
-        ->toContain('Official figures from the NEMSU enrollment, HRMO, and')
+        ->toContain(
+            'Official figures from the NEMSU enrollment, HRMO, and campus',
+        )
         ->not->toContain('Dummy figures');
+});
+
+test('the at a glance statistics use the welcome card system without icons', function () {
+    $atAGlanceSection = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeAtAGlance.vue',
+    );
+
+    expect($atAGlanceSection)
+        ->toContain('class="bg-white py-16 lg:py-20 dark:bg-slate-950"')
+        ->toContain('rounded-lg border border-[#D8DEE8] bg-white p-5')
+        ->toContain('bg-[#F2B900]')
+        ->toContain('text-[#1C0ED7]')
+        ->toContain('bg-[#1c0ed7] p-5 text-white')
+        ->toContain(
+            'linear-gradient(135deg,rgba(28,14,215,0.98),rgba(28,14,215,0.82))',
+        )
+        ->toContain("import type {\n    GlanceStat,")
+        ->not->toContain('getStatIcon')
+        ->not->toContain('stat.icon')
+        ->not->toContain('stat.description')
+        ->not->toContain('CalendarDays')
+        ->not->toContain('bg-[#061b49] p-5 text-white')
+        ->not->toContain('radial-gradient(circle_at_15%_20%');
 });
 
 test('the campus map uses the official map asset and data-driven callouts', function () {
