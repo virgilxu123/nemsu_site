@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\FormatsNewsForPublicDisplay;
+use App\Models\BacMatter;
 use App\Models\Banner;
+use App\Models\JobOpportunity;
 use App\Models\News;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -47,7 +49,112 @@ class HomeController extends Controller
                 ->limit(3)
                 ->get()
                 ->map(fn (News $news): array => $this->newsListData($news)),
+            'jobOpportunities' => $this->jobOpportunities(),
+            'bacDocuments' => $this->bacDocuments(),
         ]);
+    }
+
+    /**
+     * @return list<array{id: string, position: string, details: string|null, postedAt: string|null, isHiring: bool}>
+     */
+    private function jobOpportunities(): array
+    {
+        return JobOpportunity::query()
+            ->select(['id', 'name', 'content', 'date', 'is_hiring'])
+            ->where('is_published', true)
+            ->where('is_hiring', true)
+            ->latest('date')
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get()
+            ->map(function (JobOpportunity $jobOpportunity): array {
+                $details = Str::limit(
+                    $this->normalizeDisplayText($jobOpportunity->content) ?? '',
+                    240,
+                );
+
+                return [
+                    'id' => $jobOpportunity->id,
+                    'position' => $this->normalizeDisplayText($jobOpportunity->name) ?? '',
+                    'details' => $details !== '' ? $details : null,
+                    'postedAt' => $jobOpportunity->date?->format('M j, Y'),
+                    'isHiring' => (bool) $jobOpportunity->is_hiring,
+                ];
+            })
+            ->all();
+    }
+
+    /**
+     * @return list<array{id: int, title: string, type: string, postedAt: string|null, destinationUrl: string|null}>
+     */
+    private function bacDocuments(): array
+    {
+        return BacMatter::query()
+            ->select(['id', 'name', 'file', 'link', 'type', 'date'])
+            ->where('is_published', true)
+            ->latest('date')
+            ->latest('id')
+            ->limit(5)
+            ->get()
+            ->map(fn (BacMatter $bacMatter): array => [
+                'id' => $bacMatter->id,
+                'title' => $this->normalizeDisplayText($bacMatter->name) ?? '',
+                'type' => $this->bacTypeLabel($bacMatter->type),
+                'postedAt' => $bacMatter->date?->format('M j, Y'),
+                'destinationUrl' => $this->bacDestinationUrl($bacMatter),
+            ])
+            ->all();
+    }
+
+    private function bacTypeLabel(?string $type): string
+    {
+        return match ($type) {
+            'RFQ' => 'Request for Quotation',
+            'ITB' => 'Invitation to Bid',
+            'NOA' => 'Notice of Award',
+            'NTP' => 'Notice to Proceed',
+            'Bid Bulletin', 'Bid Bulletin 2' => 'Bid Bulletin',
+            default => 'BAC Notice',
+        };
+    }
+
+    private function bacDestinationUrl(BacMatter $bacMatter): ?string
+    {
+        if (filled($bacMatter->file)) {
+            if (Str::of($bacMatter->file)->startsWith('bac-matters/')) {
+                return Storage::disk('public')->url($bacMatter->file);
+            }
+
+            return $this->bacLegacyUrl($bacMatter->file);
+        }
+
+        return $this->bacLegacyUrl($bacMatter->link);
+    }
+
+    private function bacLegacyUrl(?string $url): ?string
+    {
+        if (! filled($url)) {
+            return null;
+        }
+
+        $url = Str::of(html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8'))
+            ->stripTags()
+            ->squish()
+            ->toString();
+
+        if ($url === '') {
+            return null;
+        }
+
+        if (Str::of($url)->startsWith(['http://', 'https://'])) {
+            return $url;
+        }
+
+        if (Str::of($url)->startsWith('/')) {
+            return 'https://nemsu.edu.ph'.$url;
+        }
+
+        return 'https://nemsu.edu.ph/files/BAC/'.rawurlencode($url);
     }
 
     /**

@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'vue';
-
 import { academicAffairs } from '@/routes/academics';
 import { index as servicesIndex } from '@/routes/services';
 import type {
@@ -39,7 +37,7 @@ export const quickActions: QuickAction[] = [
 ];
 
 export const sdgDescription =
-    'NEMSU supports the United Nations Sustainable Development Goals through instruction, research, extension, innovation, and institutional partnerships.';
+    'NEMSU advances the United Nations Sustainable Development Goals through quality education, research, innovation, and community engagement. Guided by its C.A.R.E.S. core values and I.N.N.O.V.A.T.E. strategic agenda, the University promotes inclusive opportunities, resilient infrastructure, industry-responsive solutions, and meaningful partnerships. These efforts support SDGs 4, 9, 10, and 17 while helping build equitable and sustainable communities across the region.';
 
 export const sdgLearnMoreUrl = 'https://sdg.nemsu.edu.ph/';
 
@@ -239,8 +237,3 @@ export const metrics: Metric[] = [
         note: 'Strategic university direction',
     },
 ];
-
-export const campusBackgroundStyle: CSSProperties = {
-    backgroundImage:
-        'linear-gradient(100deg, rgba(6,43,73,.96), rgba(6,43,73,.82) 58%, rgba(6,43,73,.58)), url("https://nemsu.edu.ph/files/News/REA-00.jpg")',
-};

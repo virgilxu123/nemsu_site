@@ -6,7 +6,6 @@ import { useHeroCarousel } from '@/composables/useHeroCarousel';
 import { useSectionReveal } from '@/composables/useSectionReveal';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import {
-    campusBackgroundStyle,
     campuses,
     fallbackAtAGlanceMapHighlights,
     fallbackAtAGlanceStats,
@@ -14,12 +13,13 @@ import {
     fallbackSdgArticles,
     metrics,
     quickActions,
-    sdgDescription,
-    sdgLearnMoreUrl,
+    sdgDescription as fallbackSdgDescription,
+    sdgLearnMoreUrl as fallbackSdgLearnMoreUrl,
 } from '@/pages/welcome-sections/welcome-content';
 import WelcomeAtAGlance from '@/pages/welcome-sections/WelcomeAtAGlance.vue';
 import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue';
 import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
+import WelcomeJobsAndBAC from '@/pages/welcome-sections/WelcomeJobsAndBAC.vue';
 import WelcomeNews from '@/pages/welcome-sections/WelcomeNews.vue';
 import WelcomeQuickActions from '@/pages/welcome-sections/WelcomeQuickActions.vue';
 import WelcomeSustainableDevelopment from '@/pages/welcome-sections/WelcomeSustainableDevelopment.vue';
@@ -39,6 +39,8 @@ const props = withDefaults(defineProps<WelcomePageProps>(), {
     sdgArticles: () => [],
     sdgDescription: '',
     sdgLearnMoreUrl: '',
+    jobOpportunities: () => [],
+    bacDocuments: () => [],
     atAGlanceStats: () => [],
     atAGlanceMapHighlights: () => [],
 });
@@ -124,20 +126,19 @@ const sustainableDevelopmentArticles = computed<SdgArticle[]>(() =>
             :reveal-classes="revealClasses"
         />
 
-        <WelcomeCampuses
-            :campuses="campuses"
-            :background-style="campusBackgroundStyle"
-            :stagger-delay="staggerDelay"
-            :reveal-classes="revealClasses"
-        />
+        <WelcomeCampuses :campuses="campuses" :reveal-classes="revealClasses" />
 
         <WelcomeSustainableDevelopment
             :articles="sustainableDevelopmentArticles"
-            :description="props.sdgDescription || sdgDescription"
-            :learn-more-url="props.sdgLearnMoreUrl || sdgLearnMoreUrl"
+            :description="props.sdgDescription || fallbackSdgDescription"
+            :learn-more-url="props.sdgLearnMoreUrl || fallbackSdgLearnMoreUrl"
             :reveal-classes="revealClasses"
         />
 
-        <!-- Job and Opportunities | BAC Matters -->
+        <WelcomeJobsAndBAC
+            :job-opportunities="props.jobOpportunities"
+            :bac-documents="props.bacDocuments"
+            :reveal-classes="revealClasses"
+        />
     </PublicSiteLayout>
 </template>

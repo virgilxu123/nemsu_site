@@ -1,275 +1,257 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { ArrowRight, Building2, MapPin, Navigation } from 'lucide-vue-next';
-import { ref, onMounted, onUnmounted } from 'vue';
-import type { CSSProperties } from 'vue';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
+
 import { show as campusShow } from '@/routes/campuses';
+import type { Campus, RevealClasses } from '@/types';
 
-type Campus = {
-    slug: string;
-    name: string;
-    focus: string;
-    detail: string;
-    location: string;
-};
-type CampusPhoto = { primary: string; secondary: string };
-type RevealDirection = 'down' | 'left' | 'right' | 'up';
+const props = defineProps<{
+    campuses: Campus[];
+    revealClasses: RevealClasses;
+}>();
 
-const props = withDefaults(
-    defineProps<{
-        campuses: Campus[];
-        backgroundStyle: CSSProperties;
-        staggerDelay: (section: string, index: number) => CSSProperties;
-        revealClasses: (section: string, direction?: RevealDirection) => string;
-    }>(),
-    {},
-);
-
-const stats = ref({
-    population: 0,
-    faculty: 0,
-    graduates: 0,
-    campuses: 0,
-});
-
-const campusPhotos: CampusPhoto[] = [
-    {
-        primary: 'https://nemsu.edu.ph/files/News/cm-00.jpg',
-        secondary:
-            'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
-    },
-    {
-        primary: 'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
-        secondary: 'https://nemsu.edu.ph/files/News/REA-00.jpg',
-    },
-    {
-        primary: 'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
-        secondary: 'https://nemsu.edu.ph/files/News/cm-00.jpg',
-    },
-    {
-        primary:
-            'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
-        secondary: 'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
-    },
+const campusPhotos = [
+    '/storage/images/campuses/tandag/6I3A5798.JPG',
+    'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
+    'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
+    'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
 ];
 
-const photoForCampus = (index: number): CampusPhoto =>
+const photoForCampus = (index: number): string =>
     campusPhotos[index % campusPhotos.length];
 
-const statsRef = ref<HTMLElement | null>(null);
-let observer: IntersectionObserver | null = null;
+const carouselRef = ref<HTMLElement | null>(null);
+const activePage = ref(0);
+const pageCount = ref(1);
+const itemsPerPage = ref(1);
 
-const animateValue = (target: number, key: keyof typeof stats.value, duration: number) => {
-    const startTime = performance.now();
+let carouselItemStep = 0;
+let prefersReducedMotion = false;
+let resizeObserver: ResizeObserver | null = null;
 
-    const update = (currentTime: number) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeOut = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-        stats.value[key] = Math.floor(easeOut * target);
+const syncActivePage = (): void => {
+    const carousel = carouselRef.value;
 
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            stats.value[key] = target;
-        }
-    };
-    requestAnimationFrame(update);
+    if (!carousel || carouselItemStep === 0) {
+        activePage.value = 0;
+
+        return;
+    }
+
+    const pageWidth = carouselItemStep * itemsPerPage.value;
+    const page = Math.round(carousel.scrollLeft / pageWidth);
+
+    activePage.value = Math.min(Math.max(page, 0), pageCount.value - 1);
+};
+
+const updateCarouselMetrics = (): void => {
+    const carousel = carouselRef.value;
+    const firstCard =
+        carousel?.querySelector<HTMLElement>('[data-campus-card]');
+
+    if (!carousel || !firstCard || carousel.clientWidth === 0) {
+        return;
+    }
+
+    const styles = window.getComputedStyle(carousel);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+
+    carouselItemStep = firstCard.offsetWidth + gap;
+    itemsPerPage.value = Math.max(
+        1,
+        Math.round((carousel.clientWidth + gap) / carouselItemStep),
+    );
+    pageCount.value = Math.max(
+        1,
+        Math.ceil(props.campuses.length / itemsPerPage.value),
+    );
+
+    syncActivePage();
+};
+
+const scrollToPage = (page: number): void => {
+    const carousel = carouselRef.value;
+
+    if (!carousel || carouselItemStep === 0) {
+        return;
+    }
+
+    const targetPage = Math.min(Math.max(page, 0), pageCount.value - 1);
+    const targetItem = targetPage * itemsPerPage.value;
+    const maximumScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+    const targetLeft = Math.min(
+        targetItem * carouselItemStep,
+        maximumScrollLeft,
+    );
+
+    carousel.scrollTo({
+        left: targetLeft,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+};
+
+const showPreviousPage = (): void => {
+    scrollToPage(activePage.value - 1);
+};
+
+const showNextPage = (): void => {
+    scrollToPage(activePage.value + 1);
 };
 
 onMounted(() => {
-    observer = new IntersectionObserver(
-        (entries) => {
-            if (entries[0].isIntersecting) {
-                // Dummy values for demonstration
-                animateValue(32768, 'population', 2500);
-                animateValue(850, 'faculty', 2500);
-                animateValue(3200, 'graduates', 2500);
-                animateValue(props.campuses.length, 'campuses', 2500);
-            } else {
-                // Reset stats when out of view so it animates again on next reveal
-                stats.value.population = 0;
-                stats.value.faculty = 0;
-                stats.value.graduates = 0;
-                stats.value.campuses = 0;
-            }
-        },
-        { threshold: 0.1 }
-    );
+    prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+    resizeObserver = new ResizeObserver(updateCarouselMetrics);
 
-    if (statsRef.value) {
-        observer.observe(statsRef.value);
+    if (carouselRef.value) {
+        resizeObserver.observe(carouselRef.value);
     }
+
+    updateCarouselMetrics();
 });
 
-onUnmounted(() => {
-    if (observer) {
-        observer.disconnect();
-    }
+onBeforeUnmount(() => {
+    resizeObserver?.disconnect();
 });
 </script>
 
 <template>
     <section
         id="campuses"
-        data-scroll-section="campuses"
-        class="bg-[#1711d4] bg-cover bg-center bg-no-repeat text-white lg:bg-fixed"
-        :style="backgroundStyle"
+        tabindex="-1"
+        class="bg-[#1C0ED7] bg-[linear-gradient(90deg,#0B075F_0%,#160BB2_48%,#1C0ED7_100%)] py-16 text-white lg:py-20"
     >
         <div
-            :class="revealClasses('campuses', 'left')"
-            class="mx-auto grid w-[80%] gap-8 px-4 py-16 sm:px-6 lg:grid-cols-[30%_minmax(0,1fr)] lg:gap-10 lg:px-0 lg:py-0"
+            data-scroll-section="campuses"
+            :class="revealClasses('campuses', 'up')"
+            class="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8"
         >
-            <div
-                class="relative isolate overflow-hidden rounded-md border border-white/15 bg-[#061b49]/70 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:sticky lg:top-[7.5rem] lg:flex lg:h-[80svh] lg:flex-col lg:justify-between lg:rounded-none lg:border-y-0 lg:border-l-0"
-            >
-                <div
-                    class="absolute inset-0 -z-10 bg-linear-to-b from-[#061b49]/95 via-[#061b49]/82 to-[#061b49]/70"
-                ></div>
-
-                <div>
-                    <span
-                        class="inline-flex size-14 items-center justify-center rounded-md border border-white/20 bg-white/10 text-[#f2b705] backdrop-blur"
-                    >
-                        <Building2 class="size-7" aria-hidden="true" />
-                    </span>
-                    <p
-                        class="mt-8 text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
-                    >
-                        Campuses
-                    </p>
-                    <h3
-                        class="mt-3 max-w-xl text-3xl font-semibold tracking-normal"
-                    >
-                        One NEMSU system, distinct campus strengths
-                    </h3>Campus footprint preview
-                    <p class="mt-5 max-w-md text-sm leading-7 text-sky-100">
-                        A quick system view for the campus pages: population,
-                        faculty and staff profile, graduates, and location map.
-                    </p>
-                </div>
-
-                <div ref="statsRef" class="mt-8 grid grid-cols-2 gap-4">
-                    <div class="border-t border-white/20 pt-4">
-                        <p class="text-2xl font-semibold">{{ stats.population.toLocaleString() }}</p>
-                        <p class="mt-1 text-sm text-sky-100">Student Population</p>
-                    </div>
-                    <div class="border-t border-white/20 pt-4">
-                        <p class="text-2xl font-semibold">{{ stats.faculty.toLocaleString() }}</p>
-                        <p class="mt-1 text-sm text-sky-100">Faculty and Staff</p>
-                    </div>
-                    <div class="border-t border-white/20 pt-4">
-                        <p class="text-2xl font-semibold">{{ stats.graduates.toLocaleString() }}</p>
-                        <p class="mt-1 text-sm text-sky-100">Graduates</p>
-                    </div>
-                    <div class="border-t border-white/20 pt-4">
-                        <p class="text-2xl font-semibold">
-                            {{ stats.campuses }}
-                        </p>
-                        <p class="mt-1 text-sm text-sky-100">Campuses</p>
-                    </div>
-                </div>
-
-                <Link
-                    :href="campusShow('tandag')"
-                    class="mt-8 inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white transition hover:bg-white/[0.16]"
+            <header class="mb-9 text-center">
+                <h2
+                    class="font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl"
                 >
-                    View main campus
-                    <ArrowRight class="size-4" aria-hidden="true" />
+                    Campuses
+                </h2>
+                <span
+                    class="mx-auto mt-3 block h-1 w-16 rounded-full bg-[#F2B900]"
+                    aria-hidden="true"
+                ></span>
+                <p
+                    class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base"
+                >
+                    Discover NEMSU's seven campuses, each advancing accessible
+                    education, innovation, and community service across Surigao
+                    del Sur.
+                </p>
+            </header>
+
+            <div
+                id="campus-carousel"
+                ref="carouselRef"
+                role="region"
+                aria-label="NEMSU campuses carousel"
+                class="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden"
+                @scroll.passive="syncActivePage"
+            >
+                <Link
+                    v-for="(campus, index) in campuses"
+                    :key="campus.slug"
+                    data-campus-card
+                    :href="campusShow(campus.slug)"
+                    :aria-label="`Explore ${campus.name} Campus`"
+                    class="group relative isolate aspect-5/4 w-full shrink-0 snap-start overflow-hidden ring-1 ring-white/15 ring-inset focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#F2B900] sm:w-1/2 lg:w-1/4"
+                >
+                    <img
+                        :src="photoForCampus(index)"
+                        :alt="`${campus.name} Campus`"
+                        class="absolute inset-0 -z-20 size-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                        loading="lazy"
+                        draggable="false"
+                    />
+                    <span
+                        class="absolute inset-0 -z-10 bg-linear-to-t from-black/55 via-[#0B075F]/18 to-transparent"
+                        aria-hidden="true"
+                    ></span>
+
+                    <div
+                        class="absolute inset-0 flex flex-col justify-end p-5 text-shadow-black/50 text-shadow-sm sm:p-6"
+                    >
+                        <h3
+                            class="font-serif text-2xl leading-tight font-semibold text-white"
+                        >
+                            {{ campus.name }} Campus
+                        </h3>
+                        <p class="mt-0.5 text-sm leading-6 text-white/80">
+                            {{ campus.focus }}
+                        </p>
+                        <span
+                            class="inline-flex items-center gap-2 pt-2 text-sm font-semibold text-[#F2B900] transition-colors group-hover:text-yellow-300"
+                        >
+                            Explore campus
+                            <ArrowRight class="size-4" aria-hidden="true" />
+                        </span>
+                    </div>
                 </Link>
             </div>
 
             <div
-                class="grid gap-4 lg:py-16 lg:pr-8"
-                aria-label="NEMSU campuses"
+                v-if="pageCount > 1"
+                role="group"
+                class="mt-7 flex items-center justify-center gap-3"
+                aria-label="Campus carousel controls"
             >
-                <Link
-                    v-for="(campus, index) in campuses"
-                    :key="campus.name"
-                    :href="campusShow(campus.slug)"
-                    :data-scroll-section="`campus-row-${index}`"
-                    :class="[
-                        'group grid min-h-64 gap-6 rounded-md border border-white/15 bg-white/[0.08] p-5 backdrop-blur hover:border-[#f2b705]/45 hover:bg-white/[0.12] sm:p-6 xl:grid-cols-[minmax(19rem,0.9fr)_1fr]',
-                        revealClasses(`campus-row-${index}`, 'up')
-                    ]"
+                <button
+                    type="button"
+                    class="inline-flex size-11 items-center justify-center rounded-md border border-white/25 bg-white/10 text-white transition-colors hover:border-white/45 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900] disabled:cursor-not-allowed disabled:opacity-40"
+                    :disabled="activePage === 0"
+                    aria-label="Previous campuses"
+                    aria-controls="campus-carousel"
+                    @click="showPreviousPage"
                 >
-                    <div
-                        class="relative isolate min-h-[19rem] overflow-hidden rounded bg-white/[0.08] sm:min-h-[21rem]"
+                    <ChevronLeft class="size-5" aria-hidden="true" />
+                </button>
+
+                <div
+                    role="group"
+                    class="flex items-center gap-1"
+                    aria-label="Campus pages"
+                >
+                    <button
+                        v-for="page in pageCount"
+                        :key="page"
+                        type="button"
+                        class="inline-flex size-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900]"
+                        :aria-label="`Show campus page ${page} of ${pageCount}`"
+                        :aria-current="
+                            page - 1 === activePage ? 'page' : undefined
+                        "
+                        aria-controls="campus-carousel"
+                        @click="scrollToPage(page - 1)"
                     >
-                        <div
-                            class="absolute top-0 right-0 h-[72%] w-[88%] overflow-hidden rounded bg-slate-900 shadow-2xl shadow-black/25"
-                        >
-                            <img
-                                :src="photoForCampus(index).primary"
-                                :alt="`${campus.name} campus photo`"
-                                class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
-                            />
-                            <div
-                                class="absolute inset-0 bg-linear-to-t from-slate-950/40 via-transparent to-transparent"
-                            ></div>
-                        </div>
+                        <span
+                            :class="
+                                page - 1 === activePage
+                                    ? 'w-7 bg-[#F2B900]'
+                                    : 'w-2.5 bg-white/40'
+                            "
+                            class="h-2.5 rounded-full transition-all"
+                            aria-hidden="true"
+                        ></span>
+                    </button>
+                </div>
 
-                        <div
-                            class="absolute bottom-0 left-0 h-[55%] w-[62%] overflow-hidden rounded border-4 border-[#061b49] bg-slate-900 shadow-2xl shadow-black/30"
-                        >
-                            <img
-                                :src="photoForCampus(index).secondary"
-                                :alt="`${campus.name} campus life photo`"
-                                class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.05]"
-                            />
-                        </div>
-
-                        <div
-                            class="absolute right-4 bottom-4 rounded bg-[#061b49]/90 px-3 py-2 text-white shadow-lg shadow-black/25 backdrop-blur"
-                        >
-                            <p class="text-xs font-semibold uppercase">
-                                Campus {{ String(index + 1).padStart(2, '0') }}
-                            </p>
-                            <p class="mt-0.5 text-sm font-semibold">
-                                {{ campus.name }}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="flex min-w-0 flex-col justify-between gap-6">
-                        <div>
-                            <div class="flex flex-wrap items-center gap-2">
-                                <span
-                                    class="inline-flex items-center gap-1.5 rounded bg-white/10 px-2.5 py-1 text-xs font-semibold text-[#f2b705]"
-                                >
-                                    <MapPin
-                                        class="size-3.5"
-                                        aria-hidden="true"
-                                    />
-                                    {{ campus.location }}
-                                </span>
-                                <span
-                                    class="inline-flex items-center gap-1.5 rounded bg-white/10 px-2.5 py-1 text-xs font-semibold text-white/80"
-                                >
-                                    <Navigation
-                                        class="size-3.5"
-                                        aria-hidden="true"
-                                    />
-                                    NEMSU System
-                                </span>
-                            </div>
-                            <h4 class="mt-4 font-semibold text-white">
-                                {{ campus.focus }}
-                            </h4>
-                            <p class="mt-3 text-sm leading-7 text-sky-100">
-                                {{ campus.detail }}
-                            </p>
-                        </div>
-
-                        <div
-                            class="grid gap-3 border-t border-white/10 pt-4 text-sm text-sky-100 sm:grid-cols-3"
-                        >
-                            <span>Population</span>
-                            <span>Personnel</span>
-                            <span>Graduates</span>
-                        </div>
-                    </div>
-                </Link>
+                <button
+                    type="button"
+                    class="inline-flex size-11 items-center justify-center rounded-md border border-white/25 bg-white/10 text-white transition-colors hover:border-white/45 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900] disabled:cursor-not-allowed disabled:opacity-40"
+                    :disabled="activePage === pageCount - 1"
+                    aria-label="Next campuses"
+                    aria-controls="campus-carousel"
+                    @click="showNextPage"
+                >
+                    <ChevronRight class="size-5" aria-hidden="true" />
+                </button>
             </div>
         </div>
     </section>

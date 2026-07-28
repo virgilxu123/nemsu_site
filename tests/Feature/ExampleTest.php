@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\BacMatter;
 use App\Models\Banner;
+use App\Models\JobOpportunity;
 use App\Models\News;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -14,7 +17,155 @@ function newsContentImageUrl(string $filename): string
 test('returns a successful response', function () {
     $response = $this->get(route('home'));
 
-    $response->assertOk();
+    $response
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('jobOpportunities', 0)
+            ->has('bacDocuments', 0)
+        );
+});
+
+test('home page includes the five latest published active job opportunities', function () {
+    $publishedAt = Carbon::parse('2026-06-01 09:00:00');
+
+    $eligibleJobs = collect(range(0, 5))->map(
+        fn (int $index): JobOpportunity => JobOpportunity::factory()
+            ->published()
+            ->hiring()
+            ->create([
+                'name' => $index === 0
+                    ? '<strong>Registrar&nbsp;Assistant</strong>'
+                    : "Job Opportunity {$index}",
+                'content' => $index === 0
+                    ? '<p>Submit&nbsp;<strong>now</strong>.</p>'
+                    : "<p>Details {$index}</p>",
+                'date' => $publishedAt->copy()->subDays($index),
+            ]),
+    );
+
+    JobOpportunity::factory()->hiring()->create([
+        'name' => 'Newer Draft Opportunity',
+        'date' => $publishedAt->copy()->addDays(2),
+    ]);
+
+    JobOpportunity::factory()->published()->create([
+        'name' => 'Newer Closed Opportunity',
+        'date' => $publishedAt->copy()->addDay(),
+    ]);
+
+    $response = $this->get(route('home'))->assertOk();
+    $jobs = $response->inertiaProps('jobOpportunities');
+
+    expect($jobs)
+        ->toHaveCount(5)
+        ->and(collect($jobs)->pluck('id')->all())
+        ->toBe($eligibleJobs->take(5)->pluck('id')->all())
+        ->and($jobs[0])
+        ->toBe([
+            'id' => $eligibleJobs[0]->id,
+            'position' => 'Registrar Assistant',
+            'details' => 'Submit now.',
+            'postedAt' => 'Jun 1, 2026',
+            'isHiring' => true,
+        ])
+        ->and(collect($jobs)->pluck('position')->all())
+        ->not->toContain('Newer Draft Opportunity', 'Newer Closed Opportunity');
+});
+
+test('home page includes the five latest published BAC documents', function () {
+    $publishedAt = Carbon::parse('2026-05-25 14:30:00');
+
+    $localDocument = BacMatter::factory()->published()->create([
+        'name' => '<strong>Digital&nbsp;Printing Equipment</strong>',
+        'file' => 'bac-matters/digital-printing.pdf',
+        'link' => 'https://example.com/ignored-link',
+        'type' => 'ITB',
+        'date' => $publishedAt,
+    ]);
+
+    $absoluteDocument = BacMatter::factory()->published()->create([
+        'name' => 'Medical Equipment',
+        'file' => null,
+        'link' => 'https://drive.google.com/document/example',
+        'type' => 'RFQ',
+        'date' => $publishedAt->copy()->subDay(),
+    ]);
+
+    $rootRelativeDocument = BacMatter::factory()->published()->create([
+        'name' => 'Campus Repairs',
+        'file' => null,
+        'link' => '/files/BAC/campus-repairs.pdf',
+        'type' => 'NOA',
+        'date' => $publishedAt->copy()->subDays(2),
+    ]);
+
+    $legacyDocument = BacMatter::factory()->published()->create([
+        'name' => 'Legacy Bid File',
+        'file' => null,
+        'link' => 'legacy bid.pdf',
+        'type' => 'Bid Bulletin 2',
+        'date' => $publishedAt->copy()->subDays(3),
+    ]);
+
+    $documentWithoutDestination = BacMatter::factory()->published()->create([
+        'name' => 'Procurement Notice',
+        'file' => null,
+        'link' => null,
+        'type' => null,
+        'date' => $publishedAt->copy()->subDays(4),
+    ]);
+
+    BacMatter::factory()->published()->create([
+        'name' => 'Older Published Document',
+        'date' => $publishedAt->copy()->subDays(5),
+    ]);
+
+    BacMatter::factory()->create([
+        'name' => 'Newer Draft Document',
+        'date' => $publishedAt->copy()->addDay(),
+    ]);
+
+    $response = $this->get(route('home'))->assertOk();
+    $documents = $response->inertiaProps('bacDocuments');
+
+    expect($documents)
+        ->toHaveCount(5)
+        ->and(collect($documents)->pluck('id')->all())
+        ->toBe([
+            $localDocument->id,
+            $absoluteDocument->id,
+            $rootRelativeDocument->id,
+            $legacyDocument->id,
+            $documentWithoutDestination->id,
+        ])
+        ->and($documents[0])
+        ->toBe([
+            'id' => $localDocument->id,
+            'title' => 'Digital Printing Equipment',
+            'type' => 'Invitation to Bid',
+            'postedAt' => 'May 25, 2026',
+            'destinationUrl' => Storage::disk('public')->url(
+                'bac-matters/digital-printing.pdf',
+            ),
+        ])
+        ->and($documents[1]['destinationUrl'])
+        ->toBe('https://drive.google.com/document/example')
+        ->and($documents[1]['type'])
+        ->toBe('Request for Quotation')
+        ->and($documents[2]['destinationUrl'])
+        ->toBe('https://nemsu.edu.ph/files/BAC/campus-repairs.pdf')
+        ->and($documents[2]['type'])
+        ->toBe('Notice of Award')
+        ->and($documents[3]['destinationUrl'])
+        ->toBe('https://nemsu.edu.ph/files/BAC/legacy%20bid.pdf')
+        ->and($documents[3]['type'])
+        ->toBe('Bid Bulletin')
+        ->and($documents[4]['destinationUrl'])
+        ->toBeNull()
+        ->and($documents[4]['type'])
+        ->toBe('BAC Notice')
+        ->and(collect($documents)->pluck('title')->all())
+        ->not->toContain('Older Published Document', 'Newer Draft Document');
 });
 
 test('home page includes latest published press releases', function () {

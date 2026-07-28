@@ -23,6 +23,7 @@ export type SdgArticle = {
     id: string;
     title: string;
     date: string | null;
+    category?: string | null;
     photoUrl?: string | null;
     slug?: string;
     href?: string;

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ArrowRight, ExternalLink } from 'lucide-vue-next';
+import { computed } from 'vue';
 
 import { vppsi } from '@/routes/administration';
 import { index as servicesIndex } from '@/routes/services';
 import type { BacDocument, JobOpportunity, RevealClasses } from '@/types';
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         jobOpportunities?: JobOpportunity[];
         bacDocuments?: BacDocument[];
@@ -17,68 +18,120 @@ withDefaults(
         bacDocuments: () => [],
     },
 );
+
+const displayedJobOpportunities = computed(() =>
+    props.jobOpportunities.slice(0, 5),
+);
+
+const displayedBacDocuments = computed(() => props.bacDocuments.slice(0, 5));
 </script>
 
 <template>
     <section
         id="jobs-and-bac"
         data-scroll-section="jobs-and-bac"
-        class="bg-white py-20 sm:py-24 dark:bg-slate-950"
+        class="bg-white py-16 lg:py-20 dark:bg-slate-900"
     >
         <div
             :class="revealClasses('jobs-and-bac', 'up')"
             class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         >
-            <div class="max-w-2xl">
-                <p
-                    class="text-xs font-semibold tracking-[0.16em] text-[#1C0ED7] uppercase dark:text-sky-300"
-                >
-                    University notices
-                </p>
+            <header class="mb-9 text-center">
                 <h2
-                    class="mt-3 font-serif text-3xl font-bold tracking-tight text-[#1A2340] sm:text-4xl dark:text-white"
+                    class="font-serif text-3xl font-semibold tracking-tight text-[#1A2340] sm:text-4xl dark:text-white"
                 >
                     Opportunities and Procurement
                 </h2>
-                <div
-                    class="mt-5 h-0.5 w-14 bg-[#F2B900]"
+                <span
+                    class="mx-auto mt-3 block h-1 w-16 rounded-full bg-[#F2B900]"
                     aria-hidden="true"
-                ></div>
-            </div>
+                ></span>
+                <p
+                    class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#4B5563] sm:text-base dark:text-slate-300"
+                >
+                    Explore current employment opportunities and the latest
+                    public bidding and procurement notices from NEMSU.
+                </p>
+            </header>
 
-            <div class="mt-9 grid gap-12 xl:grid-cols-2 xl:gap-0">
-                <article class="min-w-0 xl:pr-10">
+            <div class="grid gap-6 xl:grid-cols-2">
+                <article
+                    class="min-w-0 overflow-hidden rounded-lg border border-[#D8DEE8] bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-slate-950"
+                    aria-labelledby="jobs-heading"
+                >
                     <div
-                        class="flex flex-wrap items-center justify-between gap-3 border-b border-[#D8DEE8] pb-4 dark:border-white/10"
+                        class="flex min-h-20 flex-wrap items-center justify-between gap-3 border-b border-[#D8DEE8] px-5 py-4 dark:border-white/10"
                     >
-                        <h2
-                            class="font-serif text-2xl font-bold text-[#1A2340] dark:text-white"
+                        <h3
+                            id="jobs-heading"
+                            class="font-serif text-2xl font-semibold text-[#1A2340] dark:text-white"
                         >
                             Jobs and Opportunities
-                        </h2>
+                        </h3>
                         <Link
                             :href="servicesIndex()"
-                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300"
+                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1C0ED7] transition-colors hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300 dark:hover:text-sky-200"
                         >
-                            View Opportunities
+                            View opportunities
                             <ArrowRight class="size-4" aria-hidden="true" />
                         </Link>
                     </div>
 
-                    <div
-                        class="overflow-x-auto border-b border-[#D8DEE8] dark:border-white/10"
+                    <ul
+                        v-if="displayedJobOpportunities.length"
+                        class="divide-y divide-[#E5E7EB] md:hidden dark:divide-white/10"
                     >
-                        <table
-                            class="w-full min-w-[42rem] border-collapse text-left text-sm"
+                        <li
+                            v-for="job in displayedJobOpportunities"
+                            :key="job.id"
+                            class="grid gap-3 p-5"
                         >
+                            <div
+                                class="flex flex-wrap items-start justify-between gap-3"
+                            >
+                                <h4
+                                    class="max-w-md font-serif text-lg leading-snug font-semibold text-[#1A2340] dark:text-white"
+                                >
+                                    {{ job.position }}
+                                </h4>
+                                <span
+                                    class="rounded-sm bg-[#FFF7D6] px-2.5 py-1 text-xs font-semibold text-[#7A5B00] dark:bg-[#F2B900]/15 dark:text-yellow-200"
+                                >
+                                    {{ job.isHiring ? 'Hiring' : 'Closed' }}
+                                </span>
+                            </div>
+                            <p
+                                class="text-xs font-medium text-[#6B7280] dark:text-slate-400"
+                            >
+                                Posted
+                                {{ job.postedAt || 'date not specified' }}
+                            </p>
+                            <p
+                                v-if="job.details"
+                                class="line-clamp-3 text-sm leading-6 text-[#4B5563] dark:text-slate-300"
+                            >
+                                {{ job.details }}
+                            </p>
+                        </li>
+                    </ul>
+
+                    <p
+                        v-else
+                        class="px-5 py-10 text-center text-sm leading-6 text-[#6B7280] md:hidden dark:text-slate-400"
+                    >
+                        No published job opportunities are currently available.
+                    </p>
+
+                    <div class="hidden md:block">
+                        <table class="w-full border-collapse text-left text-sm">
+                            <caption class="sr-only">
+                                Current NEMSU job opportunities
+                            </caption>
                             <thead
                                 class="bg-[#F8FAFC] text-xs font-semibold text-[#334155] dark:bg-white/5 dark:text-slate-300"
                             >
                                 <tr>
-                                    <th class="w-12 px-4 py-3" scope="col">
-                                        #
-                                    </th>
-                                    <th class="px-4 py-3" scope="col">
+                                    <th class="px-5 py-3" scope="col">
                                         Position
                                     </th>
                                     <th class="px-4 py-3" scope="col">
@@ -88,10 +141,10 @@ withDefaults(
                                         Status
                                     </th>
                                     <th
-                                        class="px-4 py-3 text-right"
+                                        class="px-5 py-3 text-right"
                                         scope="col"
                                     >
-                                        Action
+                                        Details
                                     </th>
                                 </tr>
                             </thead>
@@ -99,28 +152,15 @@ withDefaults(
                                 class="divide-y divide-[#E5E7EB] dark:divide-white/10"
                             >
                                 <tr
-                                    v-for="(
-                                        job, index
-                                    ) in jobOpportunities.slice(0, 10)"
+                                    v-for="job in displayedJobOpportunities"
                                     :key="job.id"
-                                    class="align-top transition hover:bg-[#EEF2FF] dark:hover:bg-white/5"
+                                    class="align-top transition-colors hover:bg-[#EEF2FF] dark:hover:bg-white/5"
                                 >
-                                    <td
-                                        class="px-4 py-4 font-medium text-[#6B7280] dark:text-slate-400"
-                                    >
-                                        {{ index + 1 }}
-                                    </td>
-                                    <td class="max-w-xs px-4 py-4">
+                                    <td class="max-w-xs px-5 py-4">
                                         <p
                                             class="font-semibold text-[#1F2937] dark:text-white"
                                         >
                                             {{ job.position }}
-                                        </p>
-                                        <p
-                                            v-if="job.campus"
-                                            class="mt-1 text-xs text-[#6B7280] dark:text-slate-400"
-                                        >
-                                            {{ job.campus }}
                                         </p>
                                     </td>
                                     <td
@@ -130,113 +170,49 @@ withDefaults(
                                     </td>
                                     <td class="px-4 py-4">
                                         <span
-                                            class="border-l-2 border-[#F2B900] pl-2 text-xs font-semibold text-[#334155] dark:text-slate-300"
-                                            >Hiring</span
+                                            class="inline-flex rounded-sm bg-[#FFF7D6] px-2.5 py-1 text-xs font-semibold text-[#7A5B00] dark:bg-[#F2B900]/15 dark:text-yellow-200"
                                         >
+                                            {{
+                                                job.isHiring
+                                                    ? 'Hiring'
+                                                    : 'Closed'
+                                            }}
+                                        </span>
                                     </td>
-                                    <td class="px-4 py-4 text-right">
+                                    <td class="px-5 py-4 text-right">
                                         <details
-                                            class="group/details text-left"
+                                            v-if="job.details"
+                                            class="group/details inline-block text-left"
                                         >
                                             <summary
-                                                class="inline-flex min-h-11 cursor-pointer list-none items-center gap-1 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300"
+                                                class="inline-flex min-h-11 cursor-pointer list-none items-center gap-1 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300 dark:hover:text-sky-200"
                                             >
-                                                Details
+                                                Read
                                                 <ArrowRight
-                                                    class="size-3.5 transition group-open/details:rotate-90"
+                                                    class="size-3.5 transition-transform group-open/details:rotate-90"
                                                     aria-hidden="true"
                                                 />
                                             </summary>
-                                            <div
-                                                class="mt-2 w-64 rounded-[2px] border border-[#D8DEE8] bg-white p-3 text-xs leading-5 text-[#4B5563] shadow-[0_1px_2px_rgba(15,23,42,0.06)] dark:border-white/10 dark:bg-slate-950 dark:text-slate-300"
+                                            <p
+                                                class="mt-2 max-w-xs text-sm leading-6 text-[#4B5563] dark:text-slate-300"
                                             >
-                                                <dl
-                                                    class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1"
-                                                >
-                                                    <template
-                                                        v-if="job.deadline"
-                                                        ><dt
-                                                            class="font-semibold"
-                                                        >
-                                                            Deadline
-                                                        </dt>
-                                                        <dd>
-                                                            {{ job.deadline }}
-                                                        </dd></template
-                                                    >
-                                                    <template
-                                                        v-if="job.salaryGrade"
-                                                        ><dt
-                                                            class="font-semibold"
-                                                        >
-                                                            Salary grade
-                                                        </dt>
-                                                        <dd>
-                                                            {{
-                                                                job.salaryGrade
-                                                            }}
-                                                        </dd></template
-                                                    >
-                                                    <template
-                                                        v-if="job.monthlySalary"
-                                                        ><dt
-                                                            class="font-semibold"
-                                                        >
-                                                            Salary
-                                                        </dt>
-                                                        <dd>
-                                                            {{
-                                                                job.monthlySalary
-                                                            }}
-                                                        </dd></template
-                                                    >
-                                                    <template
-                                                        v-if="
-                                                            job.employmentType
-                                                        "
-                                                        ><dt
-                                                            class="font-semibold"
-                                                        >
-                                                            Type
-                                                        </dt>
-                                                        <dd>
-                                                            {{
-                                                                job.employmentType
-                                                            }}
-                                                        </dd></template
-                                                    >
-                                                    <template
-                                                        v-if="job.experience"
-                                                        ><dt
-                                                            class="font-semibold"
-                                                        >
-                                                            Experience
-                                                        </dt>
-                                                        <dd>
-                                                            {{ job.experience }}
-                                                        </dd></template
-                                                    >
-                                                </dl>
-                                                <p
-                                                    v-if="job.details"
-                                                    class="mt-2"
-                                                >
-                                                    {{ job.details }}
-                                                </p>
-                                                <p
-                                                    v-else
-                                                    class="mt-2 text-[#6B7280] dark:text-slate-400"
-                                                >
-                                                    Additional details will be
-                                                    posted when available.
-                                                </p>
-                                            </div>
+                                                {{ job.details }}
+                                            </p>
                                         </details>
+                                        <span
+                                            v-else
+                                            class="text-[#94A3B8] dark:text-slate-500"
+                                            >—</span
+                                        >
                                     </td>
                                 </tr>
-                                <tr v-if="jobOpportunities.length === 0">
+                                <tr
+                                    v-if="
+                                        displayedJobOpportunities.length === 0
+                                    "
+                                >
                                     <td
-                                        colspan="5"
+                                        colspan="4"
                                         class="px-5 py-10 text-center text-sm text-[#6B7280] dark:text-slate-400"
                                     >
                                         No published job opportunities are
@@ -249,47 +225,104 @@ withDefaults(
                 </article>
 
                 <article
-                    class="min-w-0 border-[#D8DEE8] xl:border-l xl:pl-10 dark:border-white/10"
+                    class="min-w-0 overflow-hidden rounded-lg border border-[#D8DEE8] bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-slate-950"
+                    aria-labelledby="bac-heading"
                 >
                     <div
-                        class="flex flex-wrap items-center justify-between gap-3 border-b border-[#D8DEE8] pb-4 dark:border-white/10"
+                        class="flex min-h-20 flex-wrap items-center justify-between gap-3 border-b border-[#D8DEE8] px-5 py-4 dark:border-white/10"
                     >
-                        <h2
-                            class="font-serif text-2xl font-bold text-[#1A2340] dark:text-white"
+                        <h3
+                            id="bac-heading"
+                            class="font-serif text-2xl font-semibold text-[#1A2340] dark:text-white"
                         >
                             BAC Matters
-                        </h2>
+                        </h3>
                         <Link
                             :href="`${vppsi.url()}#bac-matters`"
-                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300"
+                            class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1C0ED7] transition-colors hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300 dark:hover:text-sky-200"
                         >
-                            View BAC Matters
+                            View BAC matters
                             <ArrowRight class="size-4" aria-hidden="true" />
                         </Link>
                     </div>
 
-                    <div
-                        class="overflow-x-auto border-b border-[#D8DEE8] dark:border-white/10"
+                    <ul
+                        v-if="displayedBacDocuments.length"
+                        class="divide-y divide-[#E5E7EB] md:hidden dark:divide-white/10"
                     >
-                        <table
-                            class="w-full min-w-[38rem] border-collapse text-left text-sm"
+                        <li
+                            v-for="document in displayedBacDocuments"
+                            :key="document.id"
+                            class="grid gap-3 p-5"
                         >
+                            <div
+                                class="flex flex-wrap items-start justify-between gap-3"
+                            >
+                                <h4
+                                    class="max-w-md font-serif text-lg leading-snug font-semibold text-[#1A2340] dark:text-white"
+                                >
+                                    {{ document.title }}
+                                </h4>
+                                <span
+                                    class="rounded-sm bg-[#EEF2FF] px-2.5 py-1 text-xs font-semibold text-[#1C0ED7] dark:bg-sky-300/10 dark:text-sky-300"
+                                >
+                                    {{ document.type }}
+                                </span>
+                            </div>
+                            <div
+                                class="flex flex-wrap items-center justify-between gap-3"
+                            >
+                                <p
+                                    class="text-xs font-medium text-[#6B7280] dark:text-slate-400"
+                                >
+                                    Posted
+                                    {{
+                                        document.postedAt ||
+                                        'date not specified'
+                                    }}
+                                </p>
+                                <a
+                                    v-if="document.destinationUrl"
+                                    :href="document.destinationUrl"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300 dark:hover:text-sky-200"
+                                >
+                                    Open document
+                                    <ExternalLink
+                                        class="size-3.5"
+                                        aria-hidden="true"
+                                    />
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <p
+                        v-else
+                        class="px-5 py-10 text-center text-sm leading-6 text-[#6B7280] md:hidden dark:text-slate-400"
+                    >
+                        No published BAC documents are currently available.
+                    </p>
+
+                    <div class="hidden md:block">
+                        <table class="w-full border-collapse text-left text-sm">
+                            <caption class="sr-only">
+                                Latest NEMSU BAC documents
+                            </caption>
                             <thead
                                 class="bg-[#F8FAFC] text-xs font-semibold text-[#334155] dark:bg-white/5 dark:text-slate-300"
                             >
                                 <tr>
-                                    <th class="w-12 px-4 py-3" scope="col">
-                                        #
-                                    </th>
-                                    <th class="px-4 py-3" scope="col">
-                                        Document Title
+                                    <th class="px-5 py-3" scope="col">
+                                        Document
                                     </th>
                                     <th class="px-4 py-3" scope="col">Type</th>
                                     <th class="px-4 py-3" scope="col">
-                                        Posted On
+                                        Posted
                                     </th>
                                     <th
-                                        class="px-4 py-3 text-right"
+                                        class="px-5 py-3 text-right"
                                         scope="col"
                                     >
                                         Action
@@ -300,26 +333,21 @@ withDefaults(
                                 class="divide-y divide-[#E5E7EB] dark:divide-white/10"
                             >
                                 <tr
-                                    v-for="(
-                                        document, index
-                                    ) in bacDocuments.slice(0, 10)"
+                                    v-for="document in displayedBacDocuments"
                                     :key="document.id"
-                                    class="transition hover:bg-[#EEF2FF] dark:hover:bg-white/5"
+                                    class="align-top transition-colors hover:bg-[#EEF2FF] dark:hover:bg-white/5"
                                 >
                                     <td
-                                        class="px-4 py-4 font-medium text-[#6B7280] dark:text-slate-400"
-                                    >
-                                        {{ index + 1 }}
-                                    </td>
-                                    <td
-                                        class="max-w-xs px-4 py-4 font-semibold text-[#1F2937] dark:text-white"
+                                        class="max-w-xs px-5 py-4 font-semibold text-[#1F2937] dark:text-white"
                                     >
                                         {{ document.title }}
                                     </td>
-                                    <td
-                                        class="px-4 py-4 text-[#4B5563] dark:text-slate-300"
-                                    >
-                                        {{ document.type }}
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="inline-flex rounded-sm bg-[#EEF2FF] px-2.5 py-1 text-xs font-semibold text-[#1C0ED7] dark:bg-sky-300/10 dark:text-sky-300"
+                                        >
+                                            {{ document.type }}
+                                        </span>
                                     </td>
                                     <td
                                         class="px-4 py-4 whitespace-nowrap text-[#4B5563] dark:text-slate-300"
@@ -328,13 +356,13 @@ withDefaults(
                                             document.postedAt || 'Not specified'
                                         }}
                                     </td>
-                                    <td class="px-4 py-4 text-right">
+                                    <td class="px-5 py-4 text-right">
                                         <a
                                             v-if="document.destinationUrl"
                                             :href="document.destinationUrl"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300"
+                                            class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C0ED7] dark:text-sky-300 dark:hover:text-sky-200"
                                         >
                                             Open
                                             <ExternalLink
@@ -342,14 +370,16 @@ withDefaults(
                                                 aria-hidden="true"
                                             />
                                         </a>
-                                        <span v-else class="text-[#94A3B8]"
+                                        <span
+                                            v-else
+                                            class="text-[#94A3B8] dark:text-slate-500"
                                             >—</span
                                         >
                                     </td>
                                 </tr>
-                                <tr v-if="bacDocuments.length === 0">
+                                <tr v-if="displayedBacDocuments.length === 0">
                                     <td
-                                        colspan="5"
+                                        colspan="4"
                                         class="px-5 py-10 text-center text-sm text-[#6B7280] dark:text-slate-400"
                                     >
                                         No published BAC documents are currently

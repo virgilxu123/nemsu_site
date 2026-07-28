@@ -84,6 +84,28 @@ test('the welcome news section owns typed routes and empty states', function () 
         ->toContain($announcementTileClasses);
 });
 
+test('the welcome jobs and BAC section matches the responsive welcome design', function () {
+    $section = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeJobsAndBAC.vue',
+    );
+
+    expect($section)
+        ->toContain("import { vppsi } from '@/routes/administration'")
+        ->toContain("import { index as servicesIndex } from '@/routes/services'")
+        ->toContain('props.jobOpportunities.slice(0, 5)')
+        ->toContain('props.bacDocuments.slice(0, 5)')
+        ->toContain('bg-white py-16 lg:py-20 dark:bg-slate-900')
+        ->toContain('class="mb-9 text-center"')
+        ->toContain('bg-[#F2B900]')
+        ->toContain('xl:grid-cols-2')
+        ->toContain('md:hidden')
+        ->toContain('class="hidden md:block"')
+        ->toContain('<caption class="sr-only">')
+        ->toContain('No published job opportunities are currently available.')
+        ->toContain('No published BAC documents are currently available.');
+});
+
 test('the welcome quick action cards use the brand colors and low-fi layout', function () {
     $quickActionsSection = file_get_contents(
         dirname(__DIR__, 2).
