@@ -4,8 +4,6 @@ import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import PageHero from '@/components/PageHero.vue';
 import { home } from '@/routes';
 
-const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
-
 const services = [
     {
         name: 'Student Information System (SIS)',
@@ -100,7 +98,6 @@ const services = [
                     { title: 'Home', href: home().url },
                     { title: 'Online Services' }
                 ]"
-                :backgroundImage="heroBackgroundImage"
             />
 
         <div class="py-16 sm:py-24">

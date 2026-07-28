@@ -25,12 +25,52 @@ type GalleryPhoto = {
     caption: string;
 };
 
+type StrategicAgendaItem = {
+    initial: string;
+    direction: string;
+};
+
 defineProps<{
     pressReleases: NewsItem[];
 }>();
 
-const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
-const presidentPhoto = '/storage/images/governance/university-president/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
+const presidentPhoto =
+    '/storage/images/governance/university-president/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
+
+const strategicAgendaItems: StrategicAgendaItem[] = [
+    {
+        initial: 'I',
+        direction: 'Industry-driven research & innovation',
+    },
+    {
+        initial: 'N',
+        direction: 'Nurturing & transformative education',
+    },
+    {
+        initial: 'N',
+        direction: 'New technologies & entrepreneurial production',
+    },
+    {
+        initial: 'O',
+        direction: 'Outreach through market-oriented extension',
+    },
+    {
+        initial: 'V',
+        direction: 'Vibrant faculty & staff development',
+    },
+    {
+        initial: 'A',
+        direction: 'Accessible student services',
+    },
+    {
+        initial: 'T',
+        direction: 'Transparent governance & resilient infrastructure',
+    },
+    {
+        initial: 'E',
+        direction: 'Expansive knowledge-sharing through internationalization',
+    },
+];
 
 const presidentGallery: GalleryPhoto[] = [
     {
@@ -141,15 +181,16 @@ onBeforeUnmount(() => {
     <PublicSiteLayout>
         <Head title="Office of the President" />
 
-        <main class="font-sans bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
+        <main
+            class="bg-white font-sans text-slate-950 dark:bg-slate-950 dark:text-white"
+        >
             <PageHero
                 title="Office of the President"
                 :breadcrumbs="[
                     { title: 'Home', href: home().url },
                     { title: 'About NEMSU' },
-                    { title: 'Office of the President' }
+                    { title: 'Office of the President' },
                 ]"
-                :backgroundImage="heroBackgroundImage"
             />
 
             <!-- SECTION 1: President Portrait & Message Layout (Top Alignment Rule) -->
@@ -164,9 +205,7 @@ onBeforeUnmount(() => {
                 >
                     <!-- Left Column: Portrait Box & Action Links Panel -->
                     <div class="flex flex-col items-center lg:items-start">
-                        <div
-                            class="w-full max-w-[260px] overflow-hidden"
-                        >
+                        <div class="w-full max-w-[260px] overflow-hidden">
                             <img
                                 :src="presidentPhoto"
                                 alt="Dr. Nemesio G. Loayon"
@@ -177,7 +216,7 @@ onBeforeUnmount(() => {
 
                     <!-- Right Column: Text Layout Flow -->
                     <div
-                        class="prose font-sans prose-slate dark:prose-invert max-w-none text-justify"
+                        class="prose prose-slate dark:prose-invert max-w-none text-justify font-sans"
                     >
                         <p
                             class="text-sm font-semibold text-slate-700 italic dark:text-slate-300"
@@ -270,16 +309,20 @@ onBeforeUnmount(() => {
                 <div
                     data-scroll-section="executive-corner-heading"
                     :class="revealClasses('executive-corner-heading')"
-                    class="flex items-center justify-between border-b border-slate-200 pb-4 dark:border-white/5"
+                    class="relative flex flex-col items-center gap-4 border-b border-slate-200 pb-6 text-center sm:min-h-14 sm:justify-center dark:border-white/5"
                 >
                     <h2
-                        class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white"
+                        class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white"
                     >
                         Executives' Corner
                     </h2>
+                    <span
+                        aria-hidden="true"
+                        class="block h-1 w-12 rounded-full bg-[#f2b705]"
+                    ></span>
                     <Link
                         :href="newsIndex()"
-                        class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-white/10 dark:bg-slate-900 dark:text-slate-300"
+                        class="inline-flex items-center gap-1.5 rounded border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 sm:absolute sm:top-1/2 sm:right-0 sm:-translate-y-1/2 dark:border-white/10 dark:bg-slate-900 dark:text-slate-300"
                     >
                         see all news releases
                         <ArrowRight class="size-3.5 text-slate-400" />
@@ -318,12 +361,12 @@ onBeforeUnmount(() => {
 
                         <div class="flex flex-1 flex-col pt-4">
                             <span
-                                class="inline-block text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400"
+                                class="inline-block text-[11px] font-semibold tracking-wider text-slate-500 uppercase dark:text-slate-400"
                             >
                                 Executives' Corner
                             </span>
                             <h3
-                                class="mt-2 capitalize line-clamp-2 text-base sm:text-lg font-bold leading-snug text-slate-900 dark:text-white"
+                                class="mt-2 line-clamp-2 text-base leading-snug font-bold text-slate-900 capitalize sm:text-lg dark:text-white"
                             >
                                 {{ release.title.toLowerCase() }}
                             </h3>
@@ -367,6 +410,59 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
+            <section
+                id="strategic-directional-agenda"
+                class="border-y border-slate-200 bg-slate-50 py-12 lg:py-16 dark:border-white/10 dark:bg-slate-900/40"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div
+                        data-scroll-section="strategic-agenda-heading"
+                        :class="revealClasses('strategic-agenda-heading')"
+                        class="mx-auto max-w-3xl text-center"
+                    >
+                        <p
+                            class="text-sm font-semibold tracking-widest text-[#1711d4] uppercase dark:text-[#f2b705]"
+                        >
+                            Strategic Direction
+                        </p>
+                        <h2
+                            class="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl dark:text-white"
+                        >
+                            NEMSU 8-POINT STRATEGIC DIRECTIONAL AGENDA
+                        </h2>
+                        <span
+                            aria-hidden="true"
+                            class="mx-auto mt-4 block h-1 w-12 rounded-full bg-[#f2b705]"
+                        ></span>
+                    </div>
+
+                    <div class="mx-auto mt-10 max-w-5xl space-y-3">
+                        <article
+                            v-for="(item, index) in strategicAgendaItems"
+                            :key="`${item.initial}-${item.direction}`"
+                            :data-scroll-section="`strategic-agenda-${index}`"
+                            :class="revealClasses(`strategic-agenda-${index}`)"
+                            class="group flex items-center gap-4 rounded-lg border border-slate-200 bg-white px-4 py-4 shadow-sm transition hover:border-[#f2b705]/70 hover:shadow-md sm:gap-6 sm:px-6 dark:border-white/10 dark:bg-slate-900"
+                        >
+                            <span
+                                class="inline-flex size-12 shrink-0 items-center justify-center rounded bg-[#1711d4] text-2xl font-bold text-white shadow-sm transition group-hover:bg-[#0b3d91]"
+                            >
+                                {{ item.initial }}
+                            </span>
+                            <!-- <span
+                                aria-hidden="true"
+                                class="hidden h-px min-w-8 flex-1 border-t border-dashed border-[#1711d4]/30 sm:block dark:border-[#f2b705]/40"
+                            ></span> -->
+                            <p
+                                class="min-w-0 flex-[2] text-sm leading-6 font-semibold text-slate-700 sm:text-base dark:text-slate-200"
+                            >
+                                {{ item.direction }}
+                            </p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
             <!-- SECTION 7: President's Gallery (Bottom Placement Rule) -->
             <section
                 id="presidents-gallery"
@@ -379,10 +475,14 @@ onBeforeUnmount(() => {
                         class="text-center"
                     >
                         <h2
-                            class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white"
+                            class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white"
                         >
                             President's Gallery
                         </h2>
+                        <span
+                            aria-hidden="true"
+                            class="mx-auto mt-4 block h-1 w-12 rounded-full bg-[#f2b705]"
+                        ></span>
                     </div>
 
                     <!-- Layout Carousel Grid System -->

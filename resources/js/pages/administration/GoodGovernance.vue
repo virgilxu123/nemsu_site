@@ -9,8 +9,6 @@ import { citizensCharter, transparencySeal } from '@/routes/administration';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -165,7 +163,6 @@ onBeforeUnmount(() => {
                     { title: 'Administration' },
                     { title: 'Good Governance' }
                 ]"
-                :backgroundImage="heroBackgroundImage"
             />
 
             <section

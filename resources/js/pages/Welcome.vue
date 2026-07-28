@@ -11,18 +11,23 @@ import {
     fallbackAtAGlanceMapHighlights,
     fallbackAtAGlanceStats,
     fallbackHeroSlide,
+    fallbackSdgArticles,
     metrics,
     quickActions,
+    sdgDescription,
+    sdgLearnMoreUrl,
 } from '@/pages/welcome-sections/welcome-content';
 import WelcomeAtAGlance from '@/pages/welcome-sections/WelcomeAtAGlance.vue';
 import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue';
 import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
 import WelcomeNews from '@/pages/welcome-sections/WelcomeNews.vue';
 import WelcomeQuickActions from '@/pages/welcome-sections/WelcomeQuickActions.vue';
+import WelcomeSustainableDevelopment from '@/pages/welcome-sections/WelcomeSustainableDevelopment.vue';
 import type {
     BannerItem,
     GlanceStat,
     MapHighlight,
+    SdgArticle,
     WelcomePageProps,
 } from '@/types';
 
@@ -31,6 +36,9 @@ const props = withDefaults(defineProps<WelcomePageProps>(), {
     featuredNews: null,
     pressReleases: () => [],
     announcements: () => [],
+    sdgArticles: () => [],
+    sdgDescription: '',
+    sdgLearnMoreUrl: '',
     atAGlanceStats: () => [],
     atAGlanceMapHighlights: () => [],
 });
@@ -68,6 +76,10 @@ const atAGlanceMapHighlights = computed<MapHighlight[]>(() =>
     props.atAGlanceMapHighlights.length > 0
         ? props.atAGlanceMapHighlights
         : fallbackAtAGlanceMapHighlights,
+);
+
+const sustainableDevelopmentArticles = computed<SdgArticle[]>(() =>
+    props.sdgArticles.length > 0 ? props.sdgArticles : fallbackSdgArticles,
 );
 </script>
 
@@ -119,7 +131,12 @@ const atAGlanceMapHighlights = computed<MapHighlight[]>(() =>
             :reveal-classes="revealClasses"
         />
 
-        <!-- Sustainable Development Goal -->
+        <WelcomeSustainableDevelopment
+            :articles="sustainableDevelopmentArticles"
+            :description="props.sdgDescription || sdgDescription"
+            :learn-more-url="props.sdgLearnMoreUrl || sdgLearnMoreUrl"
+            :reveal-classes="revealClasses"
+        />
 
         <!-- Job and Opportunities | BAC Matters -->
     </PublicSiteLayout>

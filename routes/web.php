@@ -34,7 +34,7 @@ Route::get('/campuses/{campus}', [CampusController::class, 'show'])->name('campu
 Route::inertia('/about/university', 'about/University')->name('about.university');
 Route::inertia('/about/board-of-regents', 'about/BoardOfRegents')->name('about.board-of-regents');
 Route::get('/about/office-of-the-president', OfficeOfThePresidentController::class)->name('about.office-of-the-president');
-Route::inertia('/about/innovate-agenda', 'about/InnovateAgenda')->name('about.innovate-agenda');
+Route::permanentRedirect('/about/innovate-agenda', '/about/office-of-the-president#strategic-directional-agenda');
 Route::inertia('/administration/vpaf', 'administration/Vpaf')->name('administration.vpaf');
 Route::get('/administration/vpaf/offices/{office}', [OvpafOfficeController::class, 'show'])->name('administration.vpaf.offices.show');
 Route::inertia('/administration/good-governance', 'administration/GoodGovernance')->name('administration.good-governance');

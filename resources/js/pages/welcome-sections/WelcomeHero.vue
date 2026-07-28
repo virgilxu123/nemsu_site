@@ -138,7 +138,7 @@ watch(
                         'We drive sustainable development through quality instruction, innovative research, community collaboration, and technological advancement.'
                     }}
                 </p>
-                <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                         href="#academics"
                         class="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white transition hover:bg-white/[0.18]"
@@ -170,7 +170,7 @@ watch(
                             {{ metric.note }}
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

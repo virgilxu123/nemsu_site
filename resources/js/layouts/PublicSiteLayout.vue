@@ -16,7 +16,6 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { dashboard, directory, home } from '@/routes';
 import {
     boardOfRegents,
-    innovateAgenda,
     officeOfThePresident,
     university,
 } from '@/routes/about';
@@ -204,10 +203,6 @@ const navGroups: NavGroup[] = [
                         label: 'Office of the President',
                         href: officeOfThePresident().url,
                     },
-                    {
-                        label: 'INNOVATE Agenda',
-                        href: innovateAgenda().url,
-                    },
                 ],
             },
         ],
@@ -251,7 +246,6 @@ const navGroups: NavGroup[] = [
                     // { label: 'Contact Details', href: '#governance' },
                 ],
             },
-            
         ],
     },
     {

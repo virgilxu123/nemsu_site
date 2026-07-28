@@ -13,7 +13,6 @@ type BoardMember = {
 };
 
 const failedImages = ref<Set<string>>(new Set());
-const heroBackgroundImage = '/storage/images/hero/6I3A5797.JPG';
 
 const markImageAsFailed = (name: string): void => {
     failedImages.value = new Set([...failedImages.value, name]);
@@ -128,10 +127,9 @@ const boardMembers: BoardMember[] = [
                 description="The highest governing body of North Eastern Mindanao State University is the Board of Regents. Its members are drawn from the University, government agencies, and the private and public sectors."
                 :breadcrumbs="[
                     { title: 'Home', href: home().url },
-                    { title: 'About NEMSU' },
+                    { title: 'About Us' },
                     { title: 'Board of Regents' }
                 ]"
-                :backgroundImage="heroBackgroundImage"
             />
 
             <section class="py-14 sm:py-16">
