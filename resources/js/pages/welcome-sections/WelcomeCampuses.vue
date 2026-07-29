@@ -168,7 +168,7 @@ onBeforeUnmount(() => {
                     aria-hidden="true"
                 ></span>
                 <p
-                    class="mt-4 text-sm leading-6 text-white/90 sm:text-base sm:leading-7"
+                    class="mt-4 leading-6 text-white/90 sm:text-base sm:leading-7"
                 >
                     Discover NEMSU's seven campuses, each advancing accessible
                     education, innovation, and community service across Surigao

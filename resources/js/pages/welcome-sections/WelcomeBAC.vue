@@ -71,7 +71,7 @@ const displayedBacDocuments = computed(() => props.bacDocuments.slice(0, 5));
                     aria-hidden="true"
                 ></span>
                 <p
-                    class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#4D5D91] sm:text-base dark:text-slate-300"
+                    class="mx-auto mt-4 max-w-2xl leading-7 text-[#4D5D91] sm:text-base dark:text-slate-300"
                 >
                     View the latest public bidding and procurement notices from
                     NEMSU.

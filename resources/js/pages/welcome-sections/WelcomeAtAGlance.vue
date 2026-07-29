@@ -25,10 +25,8 @@ defineProps<{
             aria-hidden="true"
         >
             <p
-                class="w-full text-center font-serif text-[28vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
-            >
-                NEMSU
-            </p>
+                class="w-full text-center font-serif text-[27.5vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
+            >NEMSU</p>
         </div>
 
         <div
@@ -62,7 +60,7 @@ defineProps<{
                                     at a
                                 </span>
                                 <span
-                                    class="ml-2 font-allura font-normal italic"
+                                    class="ml-2 font-allura font-normal italic text-[3.5rem]"
                                 >
                                     Glance
                                 </span>
@@ -72,7 +70,7 @@ defineProps<{
                                 aria-hidden="true"
                             ></span>
                             <p
-                                class="mt-4 max-w-sm text-sm leading-5 text-[#252063] dark:text-slate-300"
+                                class="mt-4 max-w-sm leading-5 text-[#252063] dark:text-slate-300"
                             >
                                 Seven campuses serving communities across
                                 Surigao del Sur
@@ -99,7 +97,7 @@ defineProps<{
                                 {{ stat.value }}
                             </p>
                             <h3
-                                class="mt-2 text-xs leading-4 font-medium text-[#252063] dark:text-slate-200"
+                                class="mt-2 text-sm leading-4 font-medium text-[#252063] dark:text-slate-200"
                             >
                                 {{ stat.label }}
                             </h3>

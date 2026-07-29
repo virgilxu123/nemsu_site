@@ -86,13 +86,13 @@ const articleUrl = (article: SdgArticle): string =>
                         aria-hidden="true"
                     ></div>
 
-                    <h3
-                        class="mt-5 max-w-sm text-sm leading-5 font-bold text-[#08045F] dark:text-slate-100"
+                    <h4
+                        class="mt-5 max-w-sm leading-5 font-bold text-[#08045F] dark:text-slate-100"
                     >
                         University Contributions to Sustainable Development
-                    </h3>
+                    </h4>
                     <p
-                        class="mt-5 max-w-xl text-base leading-7 text-[#4D5D91] dark:text-slate-300"
+                        class="mt-5 max-w-xl leading-7 text-[#4D5D91] dark:text-slate-300"
                     >
                         {{ description }}
                     </p>
