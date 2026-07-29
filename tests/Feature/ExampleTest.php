@@ -25,10 +25,10 @@ test('returns a successful response', function () {
         );
 });
 
-test('home page includes the five latest published active job opportunities', function () {
+test('home page includes the six latest published active job opportunities', function () {
     $publishedAt = Carbon::parse('2026-06-01 09:00:00');
 
-    $eligibleJobs = collect(range(0, 5))->map(
+    $eligibleJobs = collect(range(0, 6))->map(
         fn (int $index): JobOpportunity => JobOpportunity::factory()
             ->published()
             ->hiring()
@@ -57,9 +57,9 @@ test('home page includes the five latest published active job opportunities', fu
     $jobs = $response->inertiaProps('jobOpportunities');
 
     expect($jobs)
-        ->toHaveCount(5)
+        ->toHaveCount(6)
         ->and(collect($jobs)->pluck('id')->all())
-        ->toBe($eligibleJobs->take(5)->pluck('id')->all())
+        ->toBe($eligibleJobs->take(6)->pluck('id')->all())
         ->and($jobs[0])
         ->toBe([
             'id' => $eligibleJobs[0]->id,
@@ -69,7 +69,11 @@ test('home page includes the five latest published active job opportunities', fu
             'isHiring' => true,
         ])
         ->and(collect($jobs)->pluck('position')->all())
-        ->not->toContain('Newer Draft Opportunity', 'Newer Closed Opportunity');
+        ->not->toContain(
+            'Job Opportunity 6',
+            'Newer Draft Opportunity',
+            'Newer Closed Opportunity',
+        );
 });
 
 test('home page includes the five latest published BAC documents', function () {
@@ -233,7 +237,7 @@ test('home page includes published banners for the hero carousel', function () {
         );
 });
 
-test('home page keeps latest news preview focused', function () {
+test('home page keeps latest news preview focused on five records', function () {
     $publishedAt = now();
 
     foreach (range(1, 7) as $index) {
@@ -254,13 +258,13 @@ test('home page keeps latest news preview focused', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('Welcome')
-            ->has('pressReleases', 3)
+            ->has('pressReleases', 5)
             ->where('pressReleases.0.title', 'Published update 1')
-            ->where('pressReleases.2.title', 'Published update 3')
+            ->where('pressReleases.4.title', 'Published update 5')
         );
 
     expect(collect($response->inertiaProps('pressReleases'))->pluck('title')->all())
-        ->not->toContain('Published update 4');
+        ->not->toContain('Published update 6');
 });
 
 test('home page includes latest published announcements separately from press releases', function () {

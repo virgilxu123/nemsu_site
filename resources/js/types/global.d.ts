@@ -1,12 +1,5 @@
 import type { Auth } from '@/types/auth';
-
-type PublicNewsTickerItem = {
-    id: string;
-    type: 'Announcement' | 'Press Release';
-    title: string;
-    slug: string;
-    date: string | null;
-};
+import type { PublicNewsTickerItem } from '@/types/public-site';
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {

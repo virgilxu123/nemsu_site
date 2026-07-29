@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
                 title="Office of the President"
                 :breadcrumbs="[
                     { title: 'Home', href: home().url },
-                    { title: 'About NEMSU' },
+                    { title: 'About Us' },
                     { title: 'Office of the President' },
                 ]"
             />

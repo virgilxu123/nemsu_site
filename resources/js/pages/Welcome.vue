@@ -17,9 +17,10 @@ import {
     sdgLearnMoreUrl as fallbackSdgLearnMoreUrl,
 } from '@/pages/welcome-sections/welcome-content';
 import WelcomeAtAGlance from '@/pages/welcome-sections/WelcomeAtAGlance.vue';
+import WelcomeBAC from '@/pages/welcome-sections/WelcomeBAC.vue';
 import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue';
 import WelcomeHero from '@/pages/welcome-sections/WelcomeHero.vue';
-import WelcomeJobsAndBAC from '@/pages/welcome-sections/WelcomeJobsAndBAC.vue';
+import WelcomeJobs from '@/pages/welcome-sections/WelcomeJobs.vue';
 import WelcomeNews from '@/pages/welcome-sections/WelcomeNews.vue';
 import WelcomeQuickActions from '@/pages/welcome-sections/WelcomeQuickActions.vue';
 import WelcomeSustainableDevelopment from '@/pages/welcome-sections/WelcomeSustainableDevelopment.vue';
@@ -135,8 +136,12 @@ const sustainableDevelopmentArticles = computed<SdgArticle[]>(() =>
             :reveal-classes="revealClasses"
         />
 
-        <WelcomeJobsAndBAC
+        <WelcomeJobs
             :job-opportunities="props.jobOpportunities"
+            :reveal-classes="revealClasses"
+        />
+
+        <WelcomeBAC
             :bac-documents="props.bacDocuments"
             :reveal-classes="revealClasses"
         />

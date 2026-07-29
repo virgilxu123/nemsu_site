@@ -121,14 +121,43 @@ onBeforeUnmount(() => {
     <section
         id="campuses"
         tabindex="-1"
-        class="bg-[#1C0ED7] bg-[linear-gradient(90deg,#0B075F_0%,#160BB2_48%,#1C0ED7_100%)] py-16 text-white lg:py-20"
+        class="relative isolate overflow-hidden bg-[#1C0ED7] py-16 text-white lg:py-20"
     >
+        <div
+            class="pointer-events-none absolute top-11 left-[12%] hidden size-20 sm:block"
+            aria-hidden="true"
+        >
+            <span class="absolute top-0 left-0 size-16 rounded-full bg-white">
+            </span>
+            <div
+                data-campus-dots="top"
+                class="absolute top-7 left-7 grid grid-cols-4 gap-2"
+            >
+                <span
+                    v-for="dot in 12"
+                    :key="`top-dot-${dot}`"
+                    class="size-1.5 rounded-full bg-[#F2B900]"
+                ></span>
+            </div>
+        </div>
+        <div
+            data-campus-dots="bottom"
+            class="pointer-events-none absolute right-[8%] bottom-10 hidden grid-cols-3 gap-2 sm:grid"
+            aria-hidden="true"
+        >
+            <span
+                v-for="dot in 12"
+                :key="`bottom-dot-${dot}`"
+                class="size-1.5 rounded-full bg-[#F2B900]"
+            ></span>
+        </div>
+
         <div
             data-scroll-section="campuses"
             :class="revealClasses('campuses', 'up')"
-            class="mx-auto max-w-[90rem] px-4 sm:px-6 lg:px-8"
+            class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         >
-            <header class="mb-9 text-center">
+            <header class="mx-auto mb-10 max-w-2xl text-center">
                 <h2
                     class="font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl"
                 >
@@ -139,7 +168,7 @@ onBeforeUnmount(() => {
                     aria-hidden="true"
                 ></span>
                 <p
-                    class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/80 sm:text-base"
+                    class="mt-4 text-sm leading-6 text-white/90 sm:text-base sm:leading-7"
                 >
                     Discover NEMSU's seven campuses, each advancing accessible
                     education, innovation, and community service across Surigao
@@ -152,7 +181,7 @@ onBeforeUnmount(() => {
                 ref="carouselRef"
                 role="region"
                 aria-label="NEMSU campuses carousel"
-                class="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto overscroll-x-contain [&::-webkit-scrollbar]:hidden"
+                class="flex snap-x snap-mandatory [scrollbar-width:none] items-start gap-4 overflow-x-auto overscroll-x-contain pb-2 lg:overflow-visible lg:pb-8 [&::-webkit-scrollbar]:hidden"
                 @scroll.passive="syncActivePage"
             >
                 <Link
@@ -161,36 +190,39 @@ onBeforeUnmount(() => {
                     data-campus-card
                     :href="campusShow(campus.slug)"
                     :aria-label="`Explore ${campus.name} Campus`"
-                    class="group relative isolate aspect-5/4 w-full shrink-0 snap-start overflow-hidden ring-1 ring-white/15 ring-inset focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#F2B900] sm:w-1/2 lg:w-1/4"
+                    :class="index % 2 === 1 ? 'lg:translate-y-8' : ''"
+                    class="group relative isolate aspect-[4/5] w-[72%] max-w-[18rem] shrink-0 snap-start overflow-hidden rounded-sm bg-[#08045F] shadow-[0_1rem_1.5rem_rgba(3,2,44,0.35)] ring-1 ring-white/10 transition-transform duration-300 ring-inset focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F2B900] sm:w-[42%] md:w-[30%] lg:aspect-[4/9] lg:w-auto lg:max-w-none lg:min-w-0 lg:grow lg:basis-0"
                 >
                     <img
                         :src="photoForCampus(index)"
                         :alt="`${campus.name} Campus`"
-                        class="absolute inset-0 -z-20 size-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                        class="absolute inset-x-0 top-0 -z-20 h-[68%] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                         loading="lazy"
                         draggable="false"
                     />
                     <span
-                        class="absolute inset-0 -z-10 bg-linear-to-t from-black/55 via-[#0B075F]/18 to-transparent"
+                        class="absolute inset-0 -z-10 bg-[linear-gradient(to_bottom,transparent_28%,rgba(8,4,95,0.35)_54%,#08045F_72%)]"
                         aria-hidden="true"
                     ></span>
 
                     <div
-                        class="absolute inset-0 flex flex-col justify-end p-5 text-shadow-black/50 text-shadow-sm sm:p-6"
+                        class="absolute inset-0 flex flex-col justify-end p-4 text-shadow-black/50 text-shadow-sm lg:p-3 xl:p-4"
                     >
                         <h3
-                            class="font-serif text-2xl leading-tight font-semibold text-white"
+                            class="font-serif text-base leading-tight font-semibold text-white xl:text-lg"
                         >
                             {{ campus.name }} Campus
                         </h3>
-                        <p class="mt-0.5 text-sm leading-6 text-white/80">
+                        <p
+                            class="mt-1 text-[0.65rem] leading-4 text-white/70 xl:text-xs"
+                        >
                             {{ campus.focus }}
                         </p>
                         <span
-                            class="inline-flex items-center gap-2 pt-2 text-sm font-semibold text-[#F2B900] transition-colors group-hover:text-yellow-300"
+                            class="mt-3 inline-flex min-h-8 w-fit items-center gap-2 rounded-md bg-white/10 px-3 py-1.5 text-[0.65rem] font-medium text-white ring-1 ring-white/10 transition-colors group-hover:bg-white/15 group-hover:text-[#F2B900]"
                         >
-                            Explore campus
-                            <ArrowRight class="size-4" aria-hidden="true" />
+                            Explore
+                            <ArrowRight class="size-3" aria-hidden="true" />
                         </span>
                     </div>
                 </Link>

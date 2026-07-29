@@ -10,8 +10,9 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->toContain("import WelcomeQuickActions from '@/pages/welcome-sections/WelcomeQuickActions.vue'")
         ->toContain("import WelcomeNews from '@/pages/welcome-sections/WelcomeNews.vue'")
         ->toContain("import WelcomeAtAGlance from '@/pages/welcome-sections/WelcomeAtAGlance.vue'")
+        ->toContain("import WelcomeBAC from '@/pages/welcome-sections/WelcomeBAC.vue'")
         ->toContain("import WelcomeCampuses from '@/pages/welcome-sections/WelcomeCampuses.vue'")
-        ->toContain("import WelcomeJobsAndBAC from '@/pages/welcome-sections/WelcomeJobsAndBAC.vue'")
+        ->toContain("import WelcomeJobs from '@/pages/welcome-sections/WelcomeJobs.vue'")
         ->toContain("import WelcomeSustainableDevelopment from '@/pages/welcome-sections/WelcomeSustainableDevelopment.vue'")
         ->toContain('<WelcomeHero')
         ->toContain('<WelcomeQuickActions')
@@ -19,7 +20,8 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->toContain('<WelcomeAtAGlance')
         ->toContain('<WelcomeCampuses')
         ->toContain('<WelcomeSustainableDevelopment')
-        ->toContain('<WelcomeJobsAndBAC')
+        ->toContain('<WelcomeJobs')
+        ->toContain('<WelcomeBAC')
         ->not->toContain('<section')
         ->not->toContain('IntersectionObserver')
         ->not->toContain('setTimeout')
@@ -35,10 +37,12 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->and(strpos($welcomePage, '<WelcomeCampuses'))
         ->toBeLessThan(strpos($welcomePage, '<WelcomeSustainableDevelopment'))
         ->and(strpos($welcomePage, '<WelcomeSustainableDevelopment'))
-        ->toBeLessThan(strpos($welcomePage, '<WelcomeJobsAndBAC'));
+        ->toBeLessThan(strpos($welcomePage, '<WelcomeJobs'))
+        ->and(strpos($welcomePage, '<WelcomeJobs'))
+        ->toBeLessThan(strpos($welcomePage, '<WelcomeBAC'));
 });
 
-test('the welcome news section owns typed routes and empty states', function () {
+test('the welcome news section matches the high fidelity layout and retains announcements', function () {
     $newsSection = file_get_contents(
         dirname(__DIR__, 2).
             '/resources/js/pages/welcome-sections/WelcomeNews.vue',
@@ -46,80 +50,62 @@ test('the welcome news section owns typed routes and empty states', function () 
 
     expect($newsSection)
         ->toContain("import { index as announcementsIndex } from '@/routes/announcements'")
-        ->toContain("import { index as newsIndex, show as newsShow } from '@/routes/news'")
+        ->toContain("import { show as newsShow } from '@/routes/news'")
+        ->not->toContain('index as newsIndex')
         ->toContain(':href="newsShow(props.featuredNews.slug)"')
         ->toContain(':href="newsShow(item.slug)"')
-        ->toContain(':href="newsIndex()"')
         ->toContain(':href="announcementsIndex()"')
-        ->toContain('bg-[#F8FAFC]')
-        ->toContain('py-16 lg:py-20')
+        ->not->toContain(':href="newsIndex()"')
+        ->toContain('bg-white py-16 lg:py-20')
+        ->toContain('class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"')
         ->toContain('class="mb-9 text-center"')
         ->toContain('bg-[#F2B900]')
-        ->toContain('lg:grid-cols-2')
-        ->toContain('lg:grid-rows-[1fr_auto]')
+        ->toContain('text-[#08045F]')
+        ->toContain('text-[#4C4B8F]')
+        ->toContain('lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1fr)]')
         ->toContain('aspect-video')
+        ->toContain('absolute top-3 left-3')
+        ->toContain('line-clamp-4')
+        ->toContain('mask-b-from-35%')
+        ->toContain('mask-b-to-95%')
+        ->toContain('props.pressReleases.slice(0, 5)')
+        ->toContain('aria-label="Latest news"')
+        ->toContain('grid-cols-[7.5rem_minmax(0,1fr)]')
+        ->toContain('item.excerpt || item.office')
+        ->not->toContain('View all news')
+        ->toContain('class="mt-6 rounded-lg border border-[#D8DEE8] bg-white')
         ->toContain('sm:grid-cols-3')
         ->toContain('Featured news will appear here after a published news')
         ->toContain('Press releases will appear here after published')
         ->toContain('Announcements will appear here after published');
 
-    $cardClasses = 'rounded-lg border border-[#D8DEE8] bg-white';
-    $cardHeaderRowClasses =
-        'class="flex min-h-11 items-center justify-between gap-4"';
-    $featuredHeadingClasses =
-        'text-sm font-bold tracking-wide text-[#334155] uppercase dark:text-slate-300';
-    $secondaryHeadingClasses =
-        'text-sm font-bold tracking-wide text-[#1A2340] uppercase dark:text-white';
     $announcementTileClasses = 'rounded-lg border border-[#D8DEE8]';
 
-    expect(substr_count($newsSection, $cardClasses))
-        ->toBe(3)
-        ->and(substr_count($newsSection, $cardHeaderRowClasses))
-        ->toBe(3)
-        ->and(substr_count($newsSection, $featuredHeadingClasses))
-        ->toBe(1)
-        ->and(substr_count($newsSection, $secondaryHeadingClasses))
-        ->toBe(2)
-        ->and($newsSection)
-        ->toContain($announcementTileClasses);
+    expect($newsSection)
+        ->toContain($announcementTileClasses)
+        ->and(strpos($newsSection, 'aria-labelledby="announcements-heading"'))
+        ->toBeGreaterThan(strpos($newsSection, 'data-scroll-section="news-top"'));
 });
 
-test('the welcome jobs and BAC section matches the responsive welcome design', function () {
-    $section = file_get_contents(
-        dirname(__DIR__, 2).
-            '/resources/js/pages/welcome-sections/WelcomeJobsAndBAC.vue',
-    );
-
-    expect($section)
-        ->toContain("import { vppsi } from '@/routes/administration'")
-        ->toContain("import { index as servicesIndex } from '@/routes/services'")
-        ->toContain('props.jobOpportunities.slice(0, 5)')
-        ->toContain('props.bacDocuments.slice(0, 5)')
-        ->toContain('bg-white py-16 lg:py-20 dark:bg-slate-900')
-        ->toContain('class="mb-9 text-center"')
-        ->toContain('bg-[#F2B900]')
-        ->toContain('xl:grid-cols-2')
-        ->toContain('md:hidden')
-        ->toContain('class="hidden md:block"')
-        ->toContain('<caption class="sr-only">')
-        ->toContain('No published job opportunities are currently available.')
-        ->toContain('No published BAC documents are currently available.');
-});
-
-test('the welcome quick action cards use the brand colors and low-fi layout', function () {
+test('the welcome quick action cards match the high fidelity layout', function () {
     $quickActionsSection = file_get_contents(
         dirname(__DIR__, 2).
             '/resources/js/pages/welcome-sections/WelcomeQuickActions.vue',
     );
 
     expect($quickActionsSection)
-        ->toContain('bg-[#1c0ed7]')
-        ->toContain('hover:bg-[#160BB2]')
-        ->toContain('py-6')
-        ->toContain('gap-4')
+        ->toContain('bg-[#EEF2FF]')
+        ->toContain('max-w-[53rem]')
+        ->toContain('py-9')
+        ->toContain('gap-7')
         ->toContain('md:grid-cols-3')
-        ->toContain('md:flex-row')
-        ->not->toContain('border-b');
+        ->toContain('min-h-38')
+        ->toContain('bg-linear-to-br')
+        ->toContain('from-[#2214C9]')
+        ->toContain('from-[#2617E6]')
+        ->toContain('rounded-full bg-white/12')
+        ->toContain('text-[#F2B900]')
+        ->toContain('View Details');
 });
 
 test('the welcome page types are exported from the type barrel', function () {

@@ -38,7 +38,7 @@ class HomeController extends Controller
                 ->where('type', 'news')
                 ->where('featured', false)
                 ->latest('date')
-                ->limit(3)
+                ->limit(4)
                 ->get()
                 ->map(fn (News $news): array => $this->newsListData($news)),
             'announcements' => News::query()
@@ -65,7 +65,7 @@ class HomeController extends Controller
             ->where('is_hiring', true)
             ->latest('date')
             ->orderByDesc('id')
-            ->limit(5)
+            ->limit(6)
             ->get()
             ->map(function (JobOpportunity $jobOpportunity): array {
                 $details = Str::limit(

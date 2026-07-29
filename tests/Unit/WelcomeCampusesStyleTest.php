@@ -1,6 +1,6 @@
 <?php
 
-test('the campuses section uses a responsive primary-gradient tile carousel', function () {
+test('the campuses section uses the high fidelity staggered campus carousel', function () {
     $campusesSection = file_get_contents(
         dirname(__DIR__, 2).
             '/resources/js/pages/welcome-sections/WelcomeCampuses.vue',
@@ -8,36 +8,47 @@ test('the campuses section uses a responsive primary-gradient tile carousel', fu
 
     expect($campusesSection)
         ->toContain('bg-[#1C0ED7]')
-        ->toContain(
-            'bg-[linear-gradient(90deg,#0B075F_0%,#160BB2_48%,#1C0ED7_100%)]',
-        )
+        ->not->toContain('linear-gradient(90deg,#0B075F')
+        ->toContain('rounded-full bg-white')
+        ->toContain('data-campus-dots="top"')
+        ->toContain('grid grid-cols-4 gap-2')
+        ->toContain('data-campus-dots="bottom"')
+        ->toContain('grid-cols-3 gap-2 sm:grid')
+        ->toContain('v-for="dot in 12"')
         ->toContain('font-serif text-3xl')
         ->toContain('bg-[#F2B900]')
         ->toContain(
             "Discover NEMSU's seven campuses, each advancing accessible",
         )
-        ->toContain('max-w-2xl text-sm leading-7 text-white/80')
-        ->toContain('max-w-[90rem]')
+        ->toContain('max-w-7xl')
         ->toContain('snap-x snap-mandatory')
         ->toContain('overflow-x-auto')
         ->toContain('snap-start')
-        ->toContain('aspect-5/4')
-        ->toContain('sm:w-1/2')
-        ->toContain('lg:w-1/4')
+        ->toContain('aspect-[4/5]')
+        ->toContain('lg:aspect-[4/9]')
+        ->toContain('w-[72%]')
+        ->toContain('sm:w-[42%]')
+        ->toContain('md:w-[30%]')
+        ->toContain('lg:basis-0')
+        ->toContain('lg:grow')
+        ->toContain("index % 2 === 1 ? 'lg:translate-y-8' : ''")
         ->toContain(
-            'bg-linear-to-t from-black/55 via-[#0B075F]/18 to-transparent',
+            'linear-gradient(to_bottom,transparent_28%,rgba(8,4,95,0.35)_54%,#08045F_72%)',
         )
         ->toContain('absolute inset-0 flex flex-col justify-end')
         ->toContain('text-shadow-sm')
         ->toContain('text-shadow-black/50')
-        ->toContain('mt-0.5 text-sm leading-6')
+        ->toContain('{{ campus.name }} Campus')
+        ->toContain('{{ campus.focus }}')
         ->toContain(':href="campusShow(campus.slug)"')
-        ->toContain('Explore campus')
-        ->not->toContain('gap-4 overflow-x-auto')
+        ->toContain('bg-white/10')
+        ->toContain('Explore')
         ->not->toContain('rounded-lg border border-[#D8DEE8] bg-white')
         ->not->toContain('campus.location')
         ->not->toContain('<MapPin')
         ->not->toContain('from-[#080529]/95');
+
+    expect(substr_count($campusesSection, 'v-for="dot in 12"'))->toBe(2);
 });
 
 test('the campuses carousel exposes accessible synchronized controls', function () {
