@@ -17,7 +17,7 @@ Beyond academics, the campus is recognized for its strong culture of community e
 Overall, NEMSU-Tandag Campus stands as a dynamic and service-oriented institution that nurtures competent, socially responsible, and globally competitive graduates. It is a learning environment that values excellence, inclusivity, and community transformation, making it a vital contributor to the educational and socio-economic progress of Surigao del Sur and the Caraga Region.
 TEXT,
     'highlights' => ['Central administration', 'Graduate studies', 'Medicine and allied programs'],
-    'director' => 'Dr. Florecito D. Calub',
+    'director' => 'Dr. Floresito D. Calub',
     'directorPhoto' => '/images/campuses/tandag/cd.png',
     'focus' => 'Student services modernization',
     'studentGovernmentActivities' => [
