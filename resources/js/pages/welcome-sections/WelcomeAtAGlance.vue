@@ -25,7 +25,7 @@ defineProps<{
             aria-hidden="true"
         >
             <p
-                class="w-full text-center text-[28vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
+                class="w-full text-center font-serif text-[28vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
             >
                 NEMSU
             </p>
@@ -51,25 +51,18 @@ defineProps<{
 
                         <div class="relative pl-10 sm:pl-14">
                             <h2
-                                class="flex flex-wrap items-baseline text-[#08045F] dark:text-white"
+                                class="flex flex-wrap items-baseline text-3xl leading-[1.08] text-[#08045F] sm:text-4xl dark:text-white"
                             >
                                 <span
-                                    class="font-serif text-3xl font-bold tracking-tight sm:text-4xl"
+                                    class="font-serif font-bold tracking-tight"
                                 >
                                     NEMSU
                                 </span>
-                                <span
-                                    class="ml-1 font-serif text-2xl font-normal sm:text-3xl"
-                                >
+                                <span class="ml-1 font-serif font-normal">
                                     at a
                                 </span>
                                 <span
-                                    class="ml-2 text-4xl leading-none font-normal italic sm:text-5xl"
-                                    style="
-                                        font-family:
-                                            'Brush Script MT', 'Segoe Script',
-                                            cursive;
-                                    "
+                                    class="ml-2 font-allura font-normal italic"
                                 >
                                     Glance
                                 </span>

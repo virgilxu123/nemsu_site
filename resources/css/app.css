@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -13,6 +15,7 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
     --font-academic: Georgia, Merriweather, ui-serif, serif;
+    --font-allura: Allura, cursive;
 
     --text-uni-micro: 0.875rem;
     --text-uni-micro--line-height: 1.4;
