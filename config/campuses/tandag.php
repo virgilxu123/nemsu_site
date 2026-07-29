@@ -5,6 +5,7 @@ return [
     'name' => 'Tandag Campus',
     'label' => 'Main Campus',
     'location' => 'Tandag City, Surigao del Sur',
+    'heroImage' => '/images/campuses/tandag/tandag-maingate.JPG',
     'headline' => 'NEMSU-Tandag Campus is committed to quality education, research, and community service.',
     'overview' => <<<'TEXT'
 The North Eastern Mindanao State University (NEMSU) - Tandag Campus serves as the flagship and administrative center of the university system in Surigao del Sur. It is a public institution of higher learning committed to providing accessible, affordable, and quality education to students from Tandag City and neighboring provinces. Established through a series of institutional transformations, the campus has grown from a modest external studies unit into a full-fledged university hub that leads academic direction, governance, and development across all NEMSU campuses.
@@ -17,6 +18,7 @@ Overall, NEMSU-Tandag Campus stands as a dynamic and service-oriented institutio
 TEXT,
     'highlights' => ['Central administration', 'Graduate studies', 'Medicine and allied programs'],
     'director' => 'Dr. Florecito D. Calub',
+    'directorPhoto' => '/images/campuses/tandag/cd.png',
     'focus' => 'Student services modernization',
     'studentGovernmentActivities' => [
         [

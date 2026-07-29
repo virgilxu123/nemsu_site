@@ -254,7 +254,7 @@ onBeforeUnmount(() => {
                             Stewarding Administrative and Financial Excellence
                         </h4>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300"
                         >
                             This section will contain the official profile of
                             the Office of the Vice President for Administration
