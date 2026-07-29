@@ -4,17 +4,24 @@ import {
     ArrowRight,
     BadgeCheck,
     CalendarDays,
+    ChevronDown,
     ExternalLink,
     FileText,
-    GraduationCap,
     HeartHandshake,
     Mail,
     MapPin,
     Phone,
     ShieldCheck,
     Sparkles,
-    UsersRound,
 } from 'lucide-vue-next';
+import {
+    computed,
+    onBeforeUnmount,
+    onMounted,
+    ref,
+    watch,
+    type CSSProperties,
+} from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { show as campusShow } from '@/routes/campuses';
@@ -29,6 +36,8 @@ type ProgramGroup = {
     college: string;
     offerings: string[];
 };
+
+type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
 type FacilityGalleryItem = {
     image: string;
@@ -107,111 +116,272 @@ type Campus = {
     }[];
 };
 
-defineProps<{
+const props = defineProps<{
     campus: Campus;
     campuses: Campus[];
 }>();
+
+const heroBackgroundStyle = computed<CSSProperties>(() => ({
+    backgroundImage: `url("${props.campus.heroImage}")`,
+}));
+
+const revealOffset: Record<RevealDirection, string> = {
+    down: '-translate-y-8',
+    left: 'translate-x-8',
+    right: '-translate-x-8',
+    up: 'translate-y-8',
+};
+
+const collegeAnchorId = (college: string): string =>
+    `college-${college
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')}`;
+
+const collegePanelId = (college: string): string =>
+    `${collegeAnchorId(college)}-programs`;
+
+const activeCollegeAnchorId = ref('');
+const openCollegeAnchorId = ref(
+    props.campus.programs[0]?.college
+        ? collegeAnchorId(props.campus.programs[0].college)
+        : '',
+);
+const visibleSections = ref<Set<string>>(new Set(['campus-hero', 'campus-stats']));
+let collegeMenuScrollFrame: number | null = null;
+let revealObserver: IntersectionObserver | null = null;
+
+const collegeProgramSections = (): HTMLElement[] =>
+    Array.from(document.querySelectorAll<HTMLElement>('[data-college-program]'));
+
+const updateActiveCollegeAnchor = (): void => {
+    const sections = collegeProgramSections();
+
+    if (sections.length === 0) {
+        return;
+    }
+
+    const activationOffset = Math.min(window.innerHeight * 0.34, 260);
+    let activeSectionId = sections[0].id;
+
+    sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= activationOffset) {
+            activeSectionId = section.id;
+        }
+    });
+
+    activeCollegeAnchorId.value = activeSectionId;
+};
+
+const queueActiveCollegeUpdate = (): void => {
+    if (collegeMenuScrollFrame !== null) {
+        return;
+    }
+
+    collegeMenuScrollFrame = window.requestAnimationFrame(() => {
+        collegeMenuScrollFrame = null;
+        updateActiveCollegeAnchor();
+    });
+};
+
+const setSectionVisibility = (section: string, isVisible: boolean): void => {
+    const nextVisibleSections = new Set(visibleSections.value);
+
+    if (isVisible) {
+        nextVisibleSections.add(section);
+    } else {
+        nextVisibleSections.delete(section);
+    }
+
+    visibleSections.value = nextVisibleSections;
+};
+
+const isSectionVisible = (section: string): boolean =>
+    visibleSections.value.has(section);
+
+const revealClasses = (
+    section: string,
+    direction: RevealDirection = 'up',
+): string =>
+    [
+        'transition-all duration-700 ease-out will-change-transform motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none',
+        isSectionVisible(section)
+            ? 'translate-x-0 translate-y-0 opacity-100 blur-0'
+            : `${revealOffset[direction]} opacity-0 blur-[2px]`,
+    ].join(' ');
+
+const staggerDelay = (section: string, index: number): CSSProperties => ({
+    transitionDelay: isSectionVisible(section) ? `${index * 80}ms` : '0ms',
+});
+
+const isCollegeOpen = (college: string): boolean =>
+    openCollegeAnchorId.value === collegeAnchorId(college);
+
+const openCollege = (college: string): void => {
+    const anchorId = collegeAnchorId(college);
+
+    openCollegeAnchorId.value = anchorId;
+    activeCollegeAnchorId.value = anchorId;
+};
+
+const toggleCollege = (college: string): void => {
+    const anchorId = collegeAnchorId(college);
+
+    activeCollegeAnchorId.value = anchorId;
+    openCollegeAnchorId.value =
+        openCollegeAnchorId.value === anchorId ? '' : anchorId;
+};
+
+watch(
+    () => props.campus.slug,
+    () => {
+        openCollegeAnchorId.value = props.campus.programs[0]?.college
+            ? collegeAnchorId(props.campus.programs[0].college)
+            : '';
+        activeCollegeAnchorId.value = openCollegeAnchorId.value;
+    },
+);
+
+onMounted(() => {
+    const animatedSections =
+        document.querySelectorAll<HTMLElement>('[data-scroll-section]');
+    const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+    ).matches;
+
+    if (prefersReducedMotion) {
+        visibleSections.value = new Set(
+            Array.from(animatedSections)
+                .map((section) => section.dataset.scrollSection)
+                .filter(Boolean) as string[],
+        );
+    } else {
+        revealObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const section = entry.target.getAttribute(
+                        'data-scroll-section',
+                    );
+
+                    if (section) {
+                        setSectionVisibility(section, entry.isIntersecting);
+                    }
+                });
+            },
+            {
+                rootMargin: '0px',
+                threshold: 0.12,
+            },
+        );
+
+        animatedSections.forEach((section) => {
+            revealObserver?.observe(section);
+        });
+    }
+
+    updateActiveCollegeAnchor();
+    window.addEventListener('scroll', queueActiveCollegeUpdate, {
+        passive: true,
+    });
+    window.addEventListener('resize', queueActiveCollegeUpdate);
+});
+
+onBeforeUnmount(() => {
+    revealObserver?.disconnect();
+    window.removeEventListener('scroll', queueActiveCollegeUpdate);
+    window.removeEventListener('resize', queueActiveCollegeUpdate);
+
+    if (collegeMenuScrollFrame !== null) {
+        window.cancelAnimationFrame(collegeMenuScrollFrame);
+    }
+});
 </script>
 
 <template>
     <PublicSiteLayout>
         <Head :title="campus.name" />
 
-        <section
-            class="relative isolate overflow-hidden bg-slate-950 text-white"
-        >
-            <img
-                :src="campus.heroImage"
-                :alt="campus.name"
-                class="absolute inset-0 -z-20 h-full w-full object-cover"
-            />
+        <section class="relative isolate bg-[#f7f8f5] pb-28 dark:bg-slate-950 sm:pb-5 lg:pb-5">
             <div
-                class="absolute inset-0 -z-10 bg-linear-to-r from-slate-950 via-[#061b49]/90 to-[#1711d4]/55"
-            ></div>
-
-            <div
-                class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_26rem] lg:px-8 lg:py-20"
+                class="relative flex h-[87svh] items-center overflow-hidden bg-slate-950 text-white"
             >
-                <div class="flex min-h-[30rem] flex-col justify-end">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <Link
-                            :href="home()"
-                            class="rounded bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 transition hover:bg-white/15 hover:text-white"
-                        >
-                            NEMSU
-                        </Link>
-                        <span
-                            class="inline-flex items-center gap-1.5 rounded bg-[#f2b705] px-3 py-1.5 text-xs font-semibold text-[#2f2400]"
-                        >
-                            <MapPin class="size-3.5" aria-hidden="true" />
-                            {{ campus.location }}
-                        </span>
-                    </div>
+                <div
+                    role="img"
+                    :aria-label="campus.name"
+                    :style="heroBackgroundStyle"
+                    class="campus-hero-image pointer-events-none absolute inset-0 z-0 h-full w-full bg-cover bg-center bg-no-repeat opacity-80 select-none md:bg-fixed"
+                ></div>
+                <div
+                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/40 mix-blend-multiply select-none"
+                    aria-hidden="true"
+                ></div>
 
-                    <p
-                        class="mt-8 text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
-                    >
-                        {{ campus.label }}
-                    </p>
-                    <h1
-                        class="mt-3 max-w-4xl text-4xl leading-tight font-semibold tracking-normal sm:text-6xl"
-                    >
-                        {{ campus.name }}
-                    </h1>
-                    <p class="mt-5 max-w-2xl text-base leading-8 text-sky-100">
-                        {{ campus.profile.headline }}
-                    </p>
-                </div>
-
-                <aside
-                    class="self-end rounded-md border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/25 backdrop-blur-md"
+                <div
+                    class="relative z-10 mx-auto grid w-full max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_26rem] lg:px-8"
                 >
-                    <div class="overflow-hidden rounded bg-slate-900">
-                        <img
-                            :src="campus.secondaryImage"
-                            :alt="`${campus.name} campus view`"
-                            class="aspect-[4/3] w-full object-cover"
-                        />
-                    </div>
-                    <div class="mt-5 grid gap-3">
-                        <div
-                            v-for="highlight in campus.profile.highlights"
-                            :key="highlight"
-                            class="flex items-center gap-3 rounded bg-white/10 p-3 text-sm text-sky-50"
-                        >
-                            <BadgeCheck
-                                class="size-4 shrink-0 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            {{ highlight }}
+                    <div
+                        class="flex flex-col items-start justify-center gap-3"
+                        data-scroll-section="campus-hero"
+                        :class="revealClasses('campus-hero')"
+                    >
+                        <div class="flex flex-wrap items-center gap-2">
+                            <Link
+                                :href="home()"
+                                class="rounded bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 text-shadow-[0_2px_8px_rgb(0_0_0_/_0.9)] transition hover:bg-white/15 hover:text-white"
+                            >
+                                NEMSU
+                            </Link>
+                            <span
+                                class="inline-flex items-center gap-1.5 rounded bg-[#f2b705] px-3 py-1.5 text-xs font-semibold text-[#2f2400]"
+                            >
+                                <MapPin class="size-3.5" aria-hidden="true" />
+                                {{ campus.location }}
+                            </span>
                         </div>
-                    </div>
-                </aside>
-            </div>
-        </section>
 
-        <section
-            class="border-b border-slate-200 bg-white dark:border-white/10 dark:bg-slate-950"
-        >
+                        <h1
+                            class="mt-3 max-w-4xl font-serif text-4xl leading-tight font-semibold tracking-tight text-white text-shadow-[0_4px_18px_rgb(0_0_0_/_0.95)] sm:text-6xl"
+                        >
+                            {{ campus.name }}
+                        </h1>
+                        <p
+                            class="text-sm font-semibold tracking-wide text-[#f2b705] text-shadow-[0_2px_10px_rgb(0_0_0_/_0.95)] uppercase"
+                        >
+                            {{ campus.label }}
+                        </p>
+                        <!-- <p class="mt-5 max-w-2xl text-base leading-8 text-sky-100">
+                            {{ campus.profile.headline }}
+                        </p> -->
+                    </div>
+                </div>
+            </div>
+
             <div
-                class="mx-auto grid max-w-7xl gap-4 px-4 py-6 sm:px-6 md:grid-cols-4 lg:px-8"
+                class="lg:absolute inset-x-0 top-[80svh] z-20 mx-auto grid w-full max-w-[100rem] lg:-translate-y-1/2 grid-cols-2 gap-3 px-4 py-4 sm:px-6 md:grid-cols-4 lg:gap-2 lg:px-8"
             >
                 <article
-                    v-for="stat in campus.stats"
+                    v-for="(stat, index) in campus.stats"
                     :key="stat.label"
-                    class="rounded-md border border-slate-200 p-5 dark:border-white/10"
+                    :data-scroll-section="`campus-stat-${index}`"
+                    class="rounded-md bg-[#08047d]/70 p-4 text-center text-yellow-300 shadow-sm shadow-slate-900/10 transition-opacity duration-1000 ease-out motion-reduce:opacity-100 motion-reduce:transition-none sm:p-5 dark:bg-[#0b3d91] lg:-translate-y-1/4"
+                    :class="
+                        isSectionVisible(`campus-stat-${index}`)
+                            ? 'opacity-100'
+                            : 'opacity-0'
+                    "
+                    :style="staggerDelay(`campus-stat-${index}`, index)"
                 >
                     <p
-                        class="text-3xl font-semibold text-[#1711d4] dark:text-sky-200"
+                        class="font-serif text-3xl leading-none font-light text-yellow-500 sm:text-5xl lg:py-2 lg:text-6xl"
                     >
                         {{ stat.value }}
                     </p>
-                    <h2
-                        class="mt-2 text-sm font-semibold text-slate-950 dark:text-white"
+                    <h5
+                        class="mt-3 text-sm font-semibold text-white"
                     >
                         {{ stat.label }}
-                    </h2>
-                    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    </h5>
+                    <p class="mt-1 text-sm text-sky-100">
                         {{ stat.note }}
                     </p>
                 </article>
@@ -222,78 +392,64 @@ defineProps<{
             <div
                 class="mx-auto grid max-w-7xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_24rem] lg:px-8"
             >
-                <article class="max-w-4xl">
+                <article
+                    class="max-w-4xl"
+                    data-scroll-section="campus-about"
+                    :class="revealClasses('campus-about', 'right')"
+                >
                     <p
                         class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                     >
                         About the Campus
                     </p>
-                    <h2
-                        class="mt-3 max-w-3xl text-3xl leading-tight font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                    <h4
+                        class="mt-3 max-w-3xl font-serif text-3xl leading-tight font-semibold tracking-tight text-slate-950 sm:text-4xl dark:text-white"
                     >
                         {{ campus.profile.headline }}
-                    </h2>
+                    </h4>
                     <p
-                        class="mt-6 text-base leading-8 whitespace-pre-line text-slate-600 dark:text-slate-300"
+                        class="mt-6 text-lg leading-8 whitespace-pre-line text-slate-600 dark:text-slate-300"
                     >
                         {{ campus.profile.overview }}
                     </p>
                 </article>
 
-                <aside class="grid gap-4 lg:sticky lg:top-24">
+                <aside
+                    class="grid gap-4 lg:sticky lg:top-24"
+                    data-scroll-section="campus-contact"
+                    :class="revealClasses('campus-contact', 'left')"
+                >
                     <article
-                        class="relative overflow-hidden rounded-md border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
+                        class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
                     >
-                        <div
-                            class="absolute inset-x-0 top-0 h-1 bg-[#1711d4]"
-                        ></div>
-                        <div class="flex items-center gap-4">
-                            <span
-                                class="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-[#e6f3f5] text-[#0b6680] dark:bg-sky-400/10 dark:text-sky-200"
+                        <div class="aspect-square bg-slate-100 dark:bg-white/10">
+                            <img
+                                :src="campus.director.photo"
+                                :alt="`${campus.director.name} portrait`"
+                                class="h-full w-full object-cover object-top"
+                            />
+                        </div>
+
+                        <div class="p-6">
+                            <p
+                                class="text-xs font-semibold tracking-[0.2em] text-[#f2b705] uppercase"
                             >
-                                <UsersRound class="size-5" aria-hidden="true" />
-                            </span>
-                            <div>
+                                {{ campus.director.role }}
+                            </p>
+                            <h3
+                                class="mt-3 font-serif text-2xl leading-tight font-semibold tracking-tight text-slate-950 dark:text-white"
+                            >
+                                {{ campus.director.name }}
+                            </h3>
+                            <div
+                                class="mt-5 border-t border-slate-200 pt-5 dark:border-white/10"
+                            >
                                 <p
-                                    class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                                >
-                                    Campus Director
-                                </p>
-                                <h3
-                                    class="mt-2 font-semibold text-slate-950 dark:text-white"
-                                >
-                                    {{ campus.director.name }}
-                                </h3>
-                                <p
-                                    class="mt-1 text-sm text-slate-500 dark:text-slate-400"
+                                    class="text-sm leading-6 text-slate-600 dark:text-slate-300"
                                 >
                                     {{ campus.director.office }}
                                 </p>
                             </div>
-                        </div>
-                        <div
-                            class="mt-6 grid gap-2 border-t border-slate-200 pt-5 text-sm text-slate-600 dark:border-white/10 dark:text-slate-300"
-                        >
-                            <a
-                                :href="`mailto:${campus.director.email}`"
-                                class="inline-flex min-h-10 items-center gap-3 rounded-md px-3 transition hover:bg-[#e6f3f5] hover:text-[#1711d4] dark:hover:bg-white/10 dark:hover:text-sky-200"
-                            >
-                                <Mail
-                                    class="size-4 shrink-0"
-                                    aria-hidden="true"
-                                />
-                                {{ campus.director.email }}
-                            </a>
-                            <a
-                                :href="`tel:${campus.director.phone}`"
-                                class="inline-flex min-h-10 items-center gap-3 rounded-md px-3 transition hover:bg-[#e6f3f5] hover:text-[#1711d4] dark:hover:bg-white/10 dark:hover:text-sky-200"
-                            >
-                                <Phone
-                                    class="size-4 shrink-0"
-                                    aria-hidden="true"
-                                />
-                                {{ campus.director.phone }}
-                            </a>
                         </div>
                     </article>
 
@@ -304,11 +460,7 @@ defineProps<{
                             class="absolute inset-x-0 top-0 h-1 bg-[#f2b705]"
                         ></div>
                         <div class="flex items-center gap-4">
-                            <span
-                                class="inline-flex size-12 shrink-0 items-center justify-center rounded-md bg-[#fff4cc] text-[#795200] dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                            >
-                                <MapPin class="size-5" aria-hidden="true" />
-                            </span>
+                            
                             <div>
                                 <p
                                     class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
@@ -364,21 +516,176 @@ defineProps<{
                 </aside>
             </div>
         </section>
+        <section
+            class="bg-[linear-gradient(145deg,#f7f8f5_0%,#ffffff_55%,#edf7f8_100%)] py-16 dark:bg-slate-950"
+        >
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div
+                    class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"
+                    data-scroll-section="campus-programs-heading"
+                    :class="revealClasses('campus-programs-heading')"
+                >
+                    <div class="max-w-2xl">
+                        <h4
+                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            Program Offerings
+                        </h4>
+                    </div>
+                </div>
 
+                <div class="mt-10 gap-6 lg:items-start">
+                    <div class="grid gap-5">
+                        <article
+                            v-for="(group, index) in campus.programs"
+                            :id="collegeAnchorId(group.college)"
+                            :key="group.college"
+                            :data-college-program="collegeAnchorId(group.college)"
+                            :data-scroll-section="`campus-program-${index}`"
+                            class="relative scroll-mt-24 overflow-hidden rounded-md bg-white/90 shadow-sm shadow-slate-900/5 dark:bg-white/5"
+                            :class="[
+                                group.offerings.length > 10
+                                    ? 'bg-white dark:bg-white/[0.07]'
+                                    : '',
+                                revealClasses(`campus-program-${index}`, 'up'),
+                            ]"
+                            :style="staggerDelay(`campus-program-${index}`, index)"
+                        >
+                            <div
+                                class="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-[#1711d4] via-[#0b6680] to-[#f2b705]"
+                            ></div>
+                            <button
+                                type="button"
+                                class="group/college flex w-full items-start justify-between gap-4 px-6 pt-6 pb-4 text-left transition hover:bg-white/60 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#1711d4] dark:hover:bg-white/[0.04]"
+                                :aria-expanded="isCollegeOpen(group.college)"
+                                :aria-controls="collegePanelId(group.college)"
+                                @click="toggleCollege(group.college)"
+                            >
+                                <span class="flex min-w-0 items-start gap-3">
+                                    <span>
+                                        <span
+                                            class="mt-1 block text-lg leading-6 font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            {{ group.college }}
+                                        </span>
+                                    </span>
+                                </span>
+                                <span
+                                    class="flex shrink-0 items-center gap-2"
+                                >
+                                    <span
+                                        class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-white/10 dark:text-slate-300"
+                                    >
+                                        {{ group.offerings.length }}
+                                        {{
+                                            group.offerings.length === 1
+                                                ? 'program'
+                                                : 'programs'
+                                        }}
+                                    </span>
+                                    <ChevronDown
+                                        class="mt-1 size-5 text-slate-400 transition-transform duration-200 group-hover/college:text-[#0b6680] dark:text-slate-500 dark:group-hover/college:text-sky-200"
+                                        :class="
+                                            isCollegeOpen(group.college)
+                                                ? 'rotate-180'
+                                                : ''
+                                        "
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            </button>
+                            <Transition
+                                enter-active-class="motion-safe:transition motion-safe:duration-200 motion-safe:ease-out motion-reduce:transition-none"
+                                enter-from-class="motion-safe:-translate-y-1 motion-safe:opacity-0"
+                                enter-to-class="motion-safe:translate-y-0 motion-safe:opacity-100"
+                                leave-active-class="motion-safe:transition motion-safe:duration-150 motion-safe:ease-in motion-reduce:transition-none"
+                                leave-from-class="motion-safe:translate-y-0 motion-safe:opacity-100"
+                                leave-to-class="motion-safe:-translate-y-1 motion-safe:opacity-0"
+                            >
+                                <div
+                                    v-show="isCollegeOpen(group.college)"
+                                    :id="collegePanelId(group.college)"
+                                    class="border-t border-slate-100 dark:border-white/10"
+                                >
+                                    <ul
+                                        class="grid gap-3 p-4 text-base leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        <li
+                                            v-for="offering in group.offerings"
+                                            :key="offering"
+                                            class="group/offering"
+                                        >
+                                            <a
+                                                v-if="
+                                                    campus.prospectuses[
+                                                        offering
+                                                    ]
+                                                "
+                                                :href="
+                                                    campus.prospectuses[
+                                                        offering
+                                                    ]
+                                                "
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="flex min-w-0 items-center gap-3 rounded-md bg-white/70 px-4 py-3 font-medium text-slate-800 transition-colors duration-150 hover:bg-[#e6f3f5] hover:text-[#0b6680] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:bg-white/[0.04] dark:text-sky-100 dark:hover:bg-white/10"
+                                                :aria-label="`View ${offering} prospectus in a new tab`"
+                                            >
+                                                <span class="min-w-0 flex-1">{{
+                                                    offering
+                                                }}</span>
+                                                <span
+                                                    class="hidden shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[0.6rem] font-semibold tracking-wide text-[#9b1c31] uppercase transition-colors group-hover/offering:bg-[#9b1c31] group-hover/offering:text-white sm:inline-flex dark:bg-white/10 dark:text-rose-200"
+                                                >
+                                                    Prospectus PDF
+                                                    <ExternalLink
+                                                        class="size-3"
+                                                        aria-hidden="true"
+                                                    />
+                                                </span>
+                                                <ExternalLink
+                                                    class="size-3.5 shrink-0 text-[#9b1c31] sm:hidden dark:text-rose-300"
+                                                    aria-hidden="true"
+                                                />
+                                            </a>
+                                            <span
+                                                v-else
+                                                class="flex min-w-0 items-center gap-3 rounded-md bg-white/70 px-4 py-3 font-medium text-slate-700 dark:bg-white/[0.04] dark:text-slate-300"
+                                            >
+                                                <span class="min-w-0 flex-1">{{
+                                                    offering
+                                                }}</span>
+                                                <span
+                                                    class="hidden shrink-0 items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-[0.6rem] font-semibold tracking-wide text-slate-500 uppercase sm:inline-flex dark:bg-white/10 dark:text-slate-300"
+                                                >
+                                                    Prospectus pending
+                                                    <FileText
+                                                        class="size-3"
+                                                        aria-hidden="true"
+                                                    />
+                                                </span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </Transition>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="bg-white py-16 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex items-end justify-between gap-4">
-                    <div>
-                        <p
+                    <div
+                        data-scroll-section="campus-facilities-heading"
+                        :class="revealClasses('campus-facilities-heading', 'right')"
+                    >
+                        <h4
                             class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             Facilities
-                        </p>
-                        <h3
-                            class="mt-2 text-xl font-semibold text-slate-950 dark:text-white"
-                        >
-                            Spaces across the campus
-                        </h3>
+                        </h4>
                     </div>
                     <span
                         class="shrink-0 text-sm font-medium text-slate-500 dark:text-slate-400"
@@ -392,8 +699,9 @@ defineProps<{
                     class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-flow-dense lg:auto-rows-[15rem] lg:grid-cols-6"
                 >
                     <figure
-                        v-for="facility in campus.facilityGallery"
+                        v-for="(facility, index) in campus.facilityGallery"
                         :key="facility.image"
+                        :data-scroll-section="`campus-facility-${index}`"
                         class="group relative min-h-64 overflow-hidden rounded-md border border-slate-200 bg-slate-100 shadow-sm shadow-slate-900/5 lg:min-h-0 dark:border-white/10 dark:bg-slate-800"
                         :class="[
                             facility.featured
@@ -401,7 +709,9 @@ defineProps<{
                                 : facility.wide
                                   ? 'sm:col-span-2 lg:col-span-2 lg:row-span-2'
                                   : 'lg:col-span-2',
+                            revealClasses(`campus-facility-${index}`, 'up'),
                         ]"
+                        :style="staggerDelay(`campus-facility-${index}`, index)"
                     >
                         <img
                             :src="facility.image"
@@ -441,158 +751,25 @@ defineProps<{
                 </div>
                 <div
                     v-else
+                    data-scroll-section="campus-facilities-empty"
                     class="mt-6 rounded-md border border-dashed border-slate-300 px-6 py-12 text-center text-sm text-slate-500 dark:border-white/15 dark:text-slate-400"
+                    :class="revealClasses('campus-facilities-empty')"
                 >
                     Facility photos will be added soon.
                 </div>
             </div>
         </section>
 
-        <section
-            class="bg-[linear-gradient(145deg,#f7f8f5_0%,#ffffff_55%,#edf7f8_100%)] py-16 dark:bg-slate-950"
-        >
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div
-                    class="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"
-                >
-                    <div class="max-w-2xl">
-                        <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
-                        >
-                            Program Offerings
-                        </p>
-                        <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                        >
-                            Academic pathways available at the campus
-                        </h2>
-                        <p
-                            class="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300"
-                        >
-                            Select a program with an available prospectus to
-                            review its curriculum in a new tab.
-                        </p>
-                    </div>
-                    <div
-                        class="inline-flex w-fit items-center gap-2 rounded-md border border-[#0b6680]/15 bg-white/80 px-3 py-2 text-xs font-semibold text-[#0b6680] shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-sky-200"
-                    >
-                        <FileText class="size-4" aria-hidden="true" />
-                        Prospectus available
-                    </div>
-                </div>
-
-                <div class="mt-10 columns-1 gap-5 md:columns-2">
-                    <article
-                        v-for="group in campus.programs"
-                        :key="group.college"
-                        class="relative mb-5 break-inside-avoid-column overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
-                        :class="
-                            group.offerings.length > 10
-                                ? 'border-[#1711d4]/25 ring-1 ring-[#1711d4]/10 dark:border-sky-300/20 dark:ring-sky-300/10'
-                                : ''
-                        "
-                    >
-                        <div
-                            class="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-[#1711d4] via-[#0b6680] to-[#f2b705]"
-                        ></div>
-                        <div
-                            class="flex items-start justify-between gap-4 border-b border-slate-100 px-6 pt-6 pb-5 dark:border-white/10"
-                        >
-                            <div class="flex min-w-0 items-start gap-3">
-                                <span
-                                    class="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-[#e6f3f5] text-[#1711d4] ring-1 ring-[#0b6680]/10 dark:bg-sky-400/10 dark:text-sky-200 dark:ring-white/10"
-                                >
-                                    <GraduationCap
-                                        class="size-5"
-                                        aria-hidden="true"
-                                    />
-                                </span>
-                                <div>
-                                    <p
-                                        class="text-[0.65rem] font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
-                                    >
-                                        Academic Unit
-                                    </p>
-                                    <h3
-                                        class="mt-1 text-base leading-6 font-semibold text-slate-950 dark:text-white"
-                                    >
-                                        {{ group.college }}
-                                    </h3>
-                                </div>
-                            </div>
-                            <span
-                                class="shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-white/10 dark:text-slate-300"
-                            >
-                                {{ group.offerings.length }}
-                                {{
-                                    group.offerings.length === 1
-                                        ? 'program'
-                                        : 'programs'
-                                }}
-                            </span>
-                        </div>
-                        <ul
-                            class="grid gap-2 p-4 text-sm leading-6 text-slate-600 dark:text-slate-300"
-                        >
-                            <li
-                                v-for="offering in group.offerings"
-                                :key="offering"
-                                class="group/offering"
-                            >
-                                <a
-                                    v-if="campus.prospectuses[offering]"
-                                    :href="campus.prospectuses[offering]"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="flex min-w-0 items-center gap-3 rounded-md border border-[#0b6680]/10 bg-[#f4fafb] px-3 py-2.5 font-medium text-slate-800 transition duration-200 hover:-translate-y-0.5 hover:border-[#0b6680]/30 hover:bg-[#e6f3f5] hover:text-[#0b6680] hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:border-white/10 dark:bg-white/[0.04] dark:text-sky-100 dark:hover:border-sky-300/30 dark:hover:bg-white/10"
-                                    :aria-label="`View ${offering} prospectus in a new tab`"
-                                >
-                                    <span
-                                        class="inline-flex size-8 shrink-0 items-center justify-center rounded bg-white text-[#0b6680] shadow-sm ring-1 ring-[#0b6680]/10 dark:bg-white/10 dark:text-sky-200 dark:ring-white/10"
-                                    >
-                                        <FileText
-                                            class="size-4"
-                                            aria-hidden="true"
-                                        />
-                                    </span>
-                                    <span class="min-w-0 flex-1">{{
-                                        offering
-                                    }}</span>
-                                    <span
-                                        class="hidden shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[0.6rem] font-semibold tracking-wide text-[#9b1c31] uppercase shadow-sm ring-1 ring-[#9b1c31]/10 transition group-hover/offering:bg-[#9b1c31] group-hover/offering:text-white sm:inline-flex dark:bg-white/10 dark:text-rose-200 dark:ring-white/10"
-                                    >
-                                        Prospectus PDF
-                                        <ExternalLink
-                                            class="size-3"
-                                            aria-hidden="true"
-                                        />
-                                    </span>
-                                    <ExternalLink
-                                        class="size-3.5 shrink-0 text-[#9b1c31] sm:hidden dark:text-rose-300"
-                                        aria-hidden="true"
-                                    />
-                                </a>
-                                <span
-                                    v-else
-                                    class="flex items-start gap-3 rounded-md px-3 py-2 text-slate-600 dark:text-slate-300"
-                                >
-                                    <span
-                                        class="mt-2.5 size-1.5 shrink-0 rounded-full bg-[#9b1c31]/70"
-                                    ></span>
-                                    <span>{{ offering }}</span>
-                                </span>
-                            </li>
-                        </ul>
-                    </article>
-                </div>
-            </div>
-        </section>
+        
 
         <section class="bg-white py-16 dark:bg-slate-900">
             <div
                 class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
             >
-                <div>
+                <div
+                    data-scroll-section="campus-life-heading"
+                    :class="revealClasses('campus-life-heading', 'right')"
+                >
                     <HeartHandshake
                         class="size-7 text-[#9b1c31] dark:text-rose-300"
                         aria-hidden="true"
@@ -603,7 +780,7 @@ defineProps<{
                         Campus Life
                     </p>
                     <h2
-                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                     >
                         Student experiences beyond the classroom
                     </h2>
@@ -611,9 +788,12 @@ defineProps<{
 
                 <ul class="grid gap-3 sm:grid-cols-2">
                     <li
-                        v-for="item in campus.campusLife"
+                        v-for="(item, index) in campus.campusLife"
                         :key="item"
+                        :data-scroll-section="`campus-life-${index}`"
                         class="flex gap-3 rounded-md border border-slate-200 p-5 text-sm leading-6 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                        :class="revealClasses(`campus-life-${index}`, 'up')"
+                        :style="staggerDelay(`campus-life-${index}`, index)"
                     >
                         <BadgeCheck
                             class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300"
@@ -627,7 +807,11 @@ defineProps<{
 
         <section class="bg-[#061b49] py-16 text-white">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="max-w-2xl">
+                <div
+                    class="max-w-2xl"
+                    data-scroll-section="campus-services-heading"
+                    :class="revealClasses('campus-services-heading', 'right')"
+                >
                     <ShieldCheck
                         class="size-7 text-emerald-300"
                         aria-hidden="true"
@@ -637,7 +821,7 @@ defineProps<{
                     >
                         Services
                     </p>
-                    <h2 class="mt-3 text-3xl font-semibold tracking-normal">
+                    <h2 class="mt-3 font-serif text-3xl font-semibold tracking-tight">
                         Campus support and student service points
                     </h2>
                 </div>
@@ -647,9 +831,22 @@ defineProps<{
                     class="mt-8 grid gap-5 md:grid-cols-2"
                 >
                     <article
-                        v-for="service in campus.serviceHighlights ?? []"
+                        v-for="(service, index) in campus.serviceHighlights ?? []"
                         :key="service.title"
+                        :data-scroll-section="`campus-service-highlight-${index}`"
                         class="overflow-hidden rounded-lg border border-white/10 bg-white/[0.07] shadow-lg shadow-black/10"
+                        :class="
+                            revealClasses(
+                                `campus-service-highlight-${index}`,
+                                'up',
+                            )
+                        "
+                        :style="
+                            staggerDelay(
+                                `campus-service-highlight-${index}`,
+                                index,
+                            )
+                        "
                     >
                         <div
                             class="grid h-56 grid-cols-[minmax(0,1.55fr)_minmax(5rem,0.7fr)] gap-1 bg-slate-950/40"
@@ -695,9 +892,12 @@ defineProps<{
                     class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
                 >
                     <li
-                        v-for="service in campus.services"
+                        v-for="(service, index) in campus.services"
                         :key="service"
+                        :data-scroll-section="`campus-service-${index}`"
                         class="flex gap-3 rounded-md border border-white/10 bg-white/[0.06] p-5 text-sm leading-6 text-sky-100"
+                        :class="revealClasses(`campus-service-${index}`, 'up')"
+                        :style="staggerDelay(`campus-service-${index}`, index)"
                     >
                         <ShieldCheck
                             class="mt-1 size-4 shrink-0 text-emerald-300"
@@ -712,7 +912,10 @@ defineProps<{
         <section class="bg-white py-16 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-                    <div>
+                    <div
+                        data-scroll-section="campus-government-heading"
+                        :class="revealClasses('campus-government-heading', 'right')"
+                    >
                         <Sparkles
                             class="size-7 text-[#1711d4] dark:text-sky-200"
                             aria-hidden="true"
@@ -723,7 +926,7 @@ defineProps<{
                             University Student Government
                         </p>
                         <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
                             {{ campus.studentGovernment.name }}
                         </h2>
@@ -736,10 +939,24 @@ defineProps<{
 
                     <ul class="grid gap-3">
                         <li
-                            v-for="initiative in campus.studentGovernment
-                                .initiatives"
+                            v-for="(
+                                initiative, index
+                            ) in campus.studentGovernment.initiatives"
                             :key="initiative"
+                            :data-scroll-section="`campus-government-initiative-${index}`"
                             class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            :class="
+                                revealClasses(
+                                    `campus-government-initiative-${index}`,
+                                    'up',
+                                )
+                            "
+                            :style="
+                                staggerDelay(
+                                    `campus-government-initiative-${index}`,
+                                    index,
+                                )
+                            "
                         >
                             <Sparkles
                                 class="size-4 shrink-0 text-[#f2b705]"
@@ -755,9 +972,22 @@ defineProps<{
                     class="mt-12 grid gap-6 lg:grid-cols-2"
                 >
                     <article
-                        v-for="activity in campus.studentGovernment.activities"
+                        v-for="(activity, index) in campus.studentGovernment.activities"
                         :key="activity.title"
+                        :data-scroll-section="`campus-government-activity-${index}`"
                         class="overflow-hidden rounded-lg border border-slate-200 bg-[#f7f8f5] dark:border-white/10 dark:bg-white/5"
+                        :class="
+                            revealClasses(
+                                `campus-government-activity-${index}`,
+                                'up',
+                            )
+                        "
+                        :style="
+                            staggerDelay(
+                                `campus-government-activity-${index}`,
+                                index,
+                            )
+                        "
                     >
                         <div
                             v-if="activity.images.length"
@@ -806,7 +1036,7 @@ defineProps<{
                             Updates
                         </p>
                         <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
                             Latest campus notices
                         </h2>
@@ -869,3 +1099,29 @@ defineProps<{
         </section>
     </PublicSiteLayout>
 </template>
+
+<style scoped>
+.campus-hero-image {
+    animation: campus-hero-zoom 15s ease-in-out infinite alternate;
+    transform: scale(1.03);
+    transform-origin: center;
+    will-change: transform;
+}
+
+@keyframes campus-hero-zoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.12);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .campus-hero-image {
+        animation: none;
+        transform: scale(1.03);
+    }
+}
+</style>
