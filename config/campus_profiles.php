@@ -76,6 +76,8 @@ foreach ($definitions as $definition) {
         'programs' => $definition['programs'],
         'prospectuses' => $definition['prospectuses'] ?? [],
         'campusLife' => $definition['campusLife'] ?? $sharedCampusLife,
+        'campusLifeOverview' => $definition['campusLifeOverview'] ?? null,
+        'campusLifeHighlights' => $definition['campusLifeHighlights'] ?? [],
         'services' => $definition['services'] ?? $sharedServices,
         'serviceHighlights' => $definition['serviceHighlights'] ?? [],
         'studentGovernment' => [
