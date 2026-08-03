@@ -64,14 +64,14 @@ const closeMobileMenu = (): void => {
                 />
                 <span class="min-w-0">
                     <span
-                        class="block text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-200"
+                        class="block text-2xl leading-none font-bold tracking-wide text-[#1711d4] uppercase dark:text-sky-200"
                     >
                         NEMSU
                     </span>
                     <span
-                        class="block truncate text-xs text-slate-600 dark:text-slate-300"
+                        class="block truncate text-xs text-slate-600 dark:text-slate-300 font-bold"
                     >
-                        North Eastern Mindanao State University
+                        Walk a journey of Excellence and Success
                     </span>
                 </span>
             </PublicSiteLink>

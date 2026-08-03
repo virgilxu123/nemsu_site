@@ -11,6 +11,18 @@ class CollegeController extends Controller
      * @var array<string, array{title: string, overview: string, campuses: array<int, array{name: string, courses: array<int, string>}>}>
      */
     public const COLLEGES = [
+        'college-of-accountancy' => [
+            'title' => 'College of Accountancy',
+            'overview' => 'The College of Accountancy prepares students for professional practice in accounting, auditing, taxation, financial reporting, and related fields. It develops technically competent, ethical, and service-oriented graduates equipped to meet professional standards and contribute to responsible financial management.',
+            'campuses' => [
+                [
+                    'name' => 'Tandag Campus',
+                    'courses' => [
+                        'Bachelor of Science in Accountancy',
+                    ],
+                ],
+            ],
+        ],
         'college-of-agriculture-and-forestry' => [
             'title' => 'College of Agriculture and Forestry',
             'overview' => 'The College of Agriculture and Forestry promotes sustainable agriculture, forestry, environmental stewardship, and natural resource management through instruction, research, and extension services. It prepares graduates to contribute to food security, climate resilience, ecological sustainability, and rural development.',
@@ -271,6 +283,7 @@ class CollegeController extends Controller
                         'Bachelor of Secondary Education major in Mathematics',
                         'Bachelor of Secondary Education major in Science',
                         'Bachelor of Physical Education',
+                        'Bachelor of Secondary Education Major in Social Studies',
                     ],
                 ],
             ],

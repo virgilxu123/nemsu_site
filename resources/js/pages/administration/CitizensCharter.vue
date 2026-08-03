@@ -9,9 +9,10 @@ import {
     Scale,
 } from 'lucide-vue-next';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
-import { goodGovernance, vpaf } from '@/routes/administration';
 import { home } from '@/routes';
+import { goodGovernance } from '@/routes/administration';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -21,10 +22,6 @@ type CampusCharter = {
     href?: string;
 };
 
-const heroLeftImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
-const heroRightImage =
-    '/images/campuses/tandag/facilities/gallery/administrative-building.jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -85,6 +82,7 @@ const selectedCampusPreviewUrl = computed(() =>
     selectedCampus.value.href?.replace(/\/view(?:\?.*)?$/, '/preview'),
 );
 
+const showCharterHighlights = false;
 const charterHighlights = [
     {
         title: 'Service requirements',
@@ -183,89 +181,20 @@ onBeforeUnmount(() => {
         <Head title="Citizen's Charter" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section class="relative isolate overflow-hidden bg-[#07113f] py-4 text-slate-950 sm:py-6 lg:py-8 dark:bg-slate-950 dark:text-white">
-                <div class="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/45 to-slate-950/80" aria-hidden="true"></div>
+            <PageHero
+                title="Citizen's Charter"
+                description="Review NEMSU's published service standards, requirements, processing commitments, and campus-specific charter documents."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    {
+                        title: 'Good Governance',
+                        href: goodGovernance().url,
+                    },
+                    { title: 'Citizen\'s Charter' },
+                ]"
+            />
 
-                <div class="relative z-10 w-full">
-                    <div class="relative flex w-full flex-col items-center py-4 lg:h-[18rem] lg:py-0">
-                        <div
-                            class="pointer-events-none absolute top-1/2 left-1/2 z-0 hidden h-[18rem] w-[49rem] -translate-x-1/2 -translate-y-1/2 lg:block"
-                            aria-hidden="true"
-                        >
-                            <div class="absolute top-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(100%_0,100%_100%,0_100%)]"></div>
-                            <div class="absolute top-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_100%,0_100%)]"></div>
-                            <div class="absolute bottom-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,100%_100%)]"></div>
-                            <div class="absolute bottom-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
-                        </div>
-
-                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:left-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
-                            <img
-                                :src="heroLeftImage"
-                                alt="NEMSU administration building facade"
-                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
-                            />
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
-                        </div>
-
-                        <div class="relative z-20 -my-5 min-h-44 w-[90%] max-w-4xl text-center text-white sm:min-h-48 lg:absolute lg:top-1/2 lg:left-1/2 lg:m-0 lg:h-[18rem] lg:w-[49rem] lg:-translate-x-1/2 lg:-translate-y-1/2">
-                            <div class="relative z-10 flex min-h-44 w-full flex-col items-center justify-center overflow-hidden bg-[#073b73] px-8 py-6 text-center sm:min-h-48 sm:px-12 lg:h-full lg:px-16">
-                                <img
-                                    src="/images/administration/ovpaf/pattern.png"
-                                    alt=""
-                                    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-screen"
-                                    aria-hidden="true"
-                                />
-                                <h3 class="relative z-10 text-3xl font-semibold whitespace-nowrap tracking-normal text-[#7dd3fc] sm:text-5xl lg:text-[3.35rem]">
-                                    CITIZEN'S CHARTER
-                                </h3>
-                                <nav
-                                    class="relative z-10 mt-5 text-sm text-white/80"
-                                    aria-label="Breadcrumb"
-                                >
-                                    <ol class="flex flex-wrap items-center justify-center gap-2">
-                                        <li>
-                                            <Link
-                                                :href="home()"
-                                                class="transition hover:text-[#f2b705]"
-                                            >
-                                                Home
-                                            </Link>
-                                        </li>
-                                        <li class="text-white/80" aria-hidden="true">
-                                            /
-                                        </li>
-                                        <li>
-                                            <Link
-                                                :href="goodGovernance()"
-                                                class="transition hover:text-[#f2b705]"
-                                            >
-                                                Good Governance
-                                            </Link>
-                                        </li>
-                                        <li class="text-white/80" aria-hidden="true">
-                                            /
-                                        </li>
-                                        <li class="text-[#f2b705]" aria-current="page">
-                                            Citizen's Charter
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-
-                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:right-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
-                            <img
-                                :src="heroRightImage"
-                                alt="NEMSU campus administrative building"
-                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
-                            />
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="py-12">
+            <section v-if="showCharterHighlights" class="py-12">
                 <div
                     class="mx-auto grid max-w-7xl gap-5 px-4 sm:px-6 md:grid-cols-3 lg:px-8"
                 >
@@ -285,7 +214,9 @@ onBeforeUnmount(() => {
                                 aria-hidden="true"
                             />
                         </span>
-                        <h4 class="mt-4 text-xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                        <h4
+                            class="mt-4 text-xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                        >
                             {{ highlight.title }}
                         </h4>
                         <p
@@ -299,31 +230,91 @@ onBeforeUnmount(() => {
 
             <section
                 id="charter-documents"
-                class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
+                class="border-y border-slate-200 bg-[#f7f8f5] py-16 sm:py-20 dark:border-white/10 dark:bg-slate-900"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div
                         data-scroll-section="charter-documents-heading"
-                        class="max-w-3xl"
-                        :class="revealClasses('charter-documents-heading', 'right')"
+                        class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+                        :class="
+                            revealClasses('charter-documents-heading', 'right')
+                        "
                     >
+                        <div class="max-w-3xl">
+                            <p
+                                class="text-sm font-semibold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                Charter documents
+                            </p>
+                            <h2
+                                class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                            >
+                                Select a campus charter
+                            </h2>
+                            <p
+                                class="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300"
+                            >
+                                Choose a campus to preview its current Citizen's
+                                Charter, or open the official document in a new
+                                tab.
+                            </p>
+                        </div>
+
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="inline-flex w-fit items-center rounded-full border border-[#1711d4]/15 bg-white px-4 py-2 text-sm font-semibold text-[#0b3d91] shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-sky-200"
                         >
-                            Charter documents
+                            {{ campusCharters.length }} campus documents
                         </p>
-                        <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                            Campus charter viewer
-                        </h4>
                     </div>
 
                     <div
-                        class="mt-8 grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)]"
+                        class="mt-8 grid items-start gap-6 lg:grid-cols-[19rem_minmax(0,1fr)]"
                     >
+                        <div
+                            data-scroll-section="campus-charter-mobile-selector"
+                            class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5 lg:hidden dark:border-white/10 dark:bg-white/4"
+                            :class="
+                                revealClasses(
+                                    'campus-charter-mobile-selector',
+                                    'right',
+                                )
+                            "
+                        >
+                            <label
+                                for="campus-charter-select"
+                                class="block text-sm font-semibold text-slate-950 dark:text-white"
+                            >
+                                Campus
+                            </label>
+                            <p
+                                id="campus-charter-select-hint"
+                                class="mt-1 text-sm text-slate-500 dark:text-slate-400"
+                            >
+                                Select a campus to update the document preview.
+                            </p>
+                            <select
+                                id="campus-charter-select"
+                                v-model="selectedCampusName"
+                                aria-describedby="campus-charter-select-hint"
+                                class="mt-4 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-900 shadow-sm outline-none focus:border-[#1711d4] focus:ring-2 focus:ring-[#1711d4]/20 dark:border-white/15 dark:bg-slate-900 dark:text-white dark:focus:border-sky-300 dark:focus:ring-sky-300/20"
+                            >
+                                <option
+                                    v-for="campus in campusCharters"
+                                    :key="`select-${campus.name}`"
+                                    :value="campus.name"
+                                >
+                                    {{ campus.name }}
+                                </option>
+                            </select>
+                        </div>
+
                         <aside
                             data-scroll-section="campus-charter-list"
-                            class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
-                            :class="revealClasses('campus-charter-list', 'right')"
+                            class="sticky top-28 hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 lg:block dark:border-white/10 dark:bg-white/4"
+                            :class="
+                                revealClasses('campus-charter-list', 'right')
+                            "
+                            aria-label="Campus charter navigation"
                         >
                             <div
                                 class="border-b border-[#0f0ab8] bg-[#1711d4] px-5 py-4 text-white dark:border-white/10"
@@ -333,28 +324,45 @@ onBeforeUnmount(() => {
                                 >
                                     Campuses
                                 </p>
+                                <p class="mt-1 text-sm text-white/75">
+                                    Choose a document to preview
+                                </p>
                             </div>
                             <div
-                                class="grid grid-cols-2 gap-px bg-slate-200 sm:grid-cols-3 lg:grid-cols-1 dark:bg-white/10"
+                                class="grid gap-px bg-slate-200 dark:bg-white/10"
                             >
                                 <button
                                     v-for="campus in campusCharters"
                                     :key="campus.name"
                                     type="button"
-                                    class="min-h-12 bg-white px-5 py-3 text-left text-sm font-medium transition dark:bg-slate-900"
+                                    :aria-pressed="
+                                        selectedCampus.name === campus.name
+                                    "
+                                    aria-controls="campus-charter-document"
+                                    class="group flex min-h-14 items-center justify-between gap-3 bg-white px-5 py-3 text-left text-sm font-medium transition focus-visible:z-20 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[#1711d4] dark:bg-slate-900 dark:focus-visible:outline-sky-300"
                                     :class="
                                         selectedCampus.name === campus.name
-                                            ? 'relative z-10 bg-[#e7f3fb] text-[#1711d4] ring-2 ring-[#1711d4] ring-inset dark:bg-sky-400/10 dark:text-sky-200 dark:ring-sky-300'
+                                            ? 'relative z-10 bg-[#e7f3fb] text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200'
                                             : 'text-slate-700 hover:bg-slate-50 hover:text-[#1711d4] dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white'
                                     "
                                     @click="selectedCampusName = campus.name"
                                 >
-                                    {{ campus.name }}
+                                    <span>{{ campus.name }}</span>
+                                    <ArrowRight
+                                        class="size-4 shrink-0 transition"
+                                        :class="
+                                            selectedCampus.name === campus.name
+                                                ? 'translate-x-0 opacity-100'
+                                                : '-translate-x-1 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'
+                                        "
+                                        aria-hidden="true"
+                                    />
                                 </button>
                             </div>
                         </aside>
 
                         <div
+                            id="campus-charter-document"
                             data-scroll-section="campus-charter-viewer"
                             class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
                             :class="revealClasses('campus-charter-viewer')"
@@ -362,15 +370,18 @@ onBeforeUnmount(() => {
                             <div
                                 class="flex flex-col gap-3 border-b border-[#0f0ab8] bg-[#1711d4] px-5 py-4 text-white sm:flex-row sm:items-center sm:justify-between dark:border-white/10"
                             >
-                                <div>
+                                <div aria-live="polite">
                                     <p
-                                        class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
+                                        class="text-xs font-semibold tracking-widest text-[#f2b705] uppercase"
+                                    >
+                                        Selected campus
+                                    </p>
+                                    <h3
+                                        class="mt-1 text-xl font-semibold text-white"
                                     >
                                         {{ selectedCampus.name }}
-                                    </p>
-                                    <p
-                                        class="mt-1 text-sm text-white/85"
-                                    >
+                                    </h3>
+                                    <p class="mt-1 text-sm text-white/75">
                                         {{ selectedCampus.edition }}
                                     </p>
                                 </div>
@@ -379,9 +390,10 @@ onBeforeUnmount(() => {
                                     :href="selectedCampus.href"
                                     target="_blank"
                                     rel="noreferrer"
-                                    class="inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#f2b705]"
+                                    :aria-label="`Open ${selectedCampus.name} Citizen's Charter in a new tab`"
+                                    class="inline-flex w-fit items-center gap-2 rounded-md bg-[#f2b705] px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-[#d9a404] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                 >
-                                    Open document
+                                    Open full document
                                     <ExternalLink
                                         class="size-4"
                                         aria-hidden="true"
@@ -394,7 +406,8 @@ onBeforeUnmount(() => {
                                 :key="selectedCampusPreviewUrl"
                                 :src="selectedCampusPreviewUrl"
                                 :title="`${selectedCampus.name} Citizen's Charter`"
-                                class="h-[70vh] min-h-128 w-full bg-slate-100 dark:bg-slate-950"
+                                class="h-[65vh] min-h-128 w-full bg-slate-100 sm:h-[70vh] dark:bg-slate-950"
+                                loading="lazy"
                             ></iframe>
                             <div
                                 v-else
@@ -408,7 +421,9 @@ onBeforeUnmount(() => {
                                         aria-hidden="true"
                                     />
                                 </span>
-                                <h4 class="mt-5 text-xl font-semibold tracking-normal text-slate-950 dark:text-white">
+                                <h4
+                                    class="mt-5 text-xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                >
                                     Document not yet available
                                 </h4>
                                 <p
@@ -424,22 +439,39 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
-            <section class="py-12">
+            <section class="py-14 sm:py-16">
                 <div
                     data-scroll-section="charter-return-link"
                     class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
                     :class="revealClasses('charter-return-link')"
                 >
-                    <Link
-                        :href="vpaf()"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
+                    <div
+                        class="flex flex-col gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 sm:flex-row sm:items-center sm:justify-between sm:p-8 dark:border-white/10 dark:bg-white/4"
                     >
-                        <ArrowRight
-                            class="size-4 rotate-180"
-                            aria-hidden="true"
-                        />
-                        Return to Administration and Finance
-                    </Link>
+                        <div>
+                            <p
+                                class="text-sm font-semibold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                More public resources
+                            </p>
+                            <h2
+                                class="mt-2 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                            >
+                                Continue exploring Good Governance
+                            </h2>
+                        </div>
+
+                        <Link
+                            :href="goodGovernance().url"
+                            class="group inline-flex w-fit items-center justify-center gap-2 rounded-md bg-[#1711d4] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0f0ab8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1711d4]"
+                        >
+                            View all resources
+                            <ArrowRight
+                                class="size-4 transition group-hover:translate-x-1"
+                                aria-hidden="true"
+                            />
+                        </Link>
+                    </div>
                 </div>
             </section>
         </div>

@@ -13,8 +13,7 @@ import type {
 export const fallbackHeroSlide: BannerItem = {
     id: 'nemsu-hero',
     title: 'North Eastern Mindanao State University',
-    summary:
-        'We drive sustainable development through quality instruction, innovative research, community collaboration, and technological advancement.',
+    summary: 'Walk a journey of Excellence and Success',
     imageUrl: '/storage/images/banners/home/default.MP4',
 };
 
@@ -55,7 +54,7 @@ export const fallbackSdgArticles: SdgArticle[] = [
         title: 'NEMSU strengthens SDG integration in instruction and extension',
         date: 'Instruction and extension',
         photoUrl:
-            '/images/campuses/tandag/facilities/gallery/college-of-teacher-education.jpg',
+            '/images/campuses/tandag/facilities/gallery/college-of-teacher-education.webp',
         href: sdgLearnMoreUrl,
     },
     {
@@ -63,7 +62,7 @@ export const fallbackSdgArticles: SdgArticle[] = [
         title: 'University research supports regional sustainability priorities',
         date: 'Research initiative',
         photoUrl:
-            '/images/campuses/tandag/facilities/gallery/research-and-development-office.jpg',
+            '/images/campuses/tandag/facilities/gallery/research-and-development-office.webp',
         href: sdgLearnMoreUrl,
     },
 ];

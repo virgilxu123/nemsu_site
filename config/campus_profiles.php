@@ -49,17 +49,21 @@ foreach ($definitions as $definition) {
         ],
         'director' => [
             'name' => $definition['director'],
-            'role' => 'Campus Director',
+            'role' => $definition['directorRole'] ?? 'Campus Director',
             'office' => 'Office of the Campus Director',
-            'email' => $definition['directorEmail'] ?? $slug.'@nemsu.edu.ph',
-            'phone' => $definition['phone'] ?? '(086) 214-0000',
+            'email' => $definition['directorEmail'] ?? null,
+            'phone' => $definition['directorPhone'] ?? $definition['phone'] ?? '(086) 214-0000',
             'photo' => $definition['directorPhoto'] ?? 'https://nemsu.edu.ph/assets/images/NEMSU.png',
         ],
         'contact' => [
             'address' => $definition['location'],
             'email' => $definition['email'] ?? $slug.'@nemsu.edu.ph',
-            'phone' => $definition['phone'] ?? '(086) 214-0000',
-            'officeHours' => $definition['officeHours'] ?? 'Monday to Friday, 8:00 AM - 5:00 PM',
+            'phone' => array_key_exists('phone', $definition)
+                ? $definition['phone']
+                : '(086) 214-0000',
+            'officeHours' => array_key_exists('officeHours', $definition)
+                ? $definition['officeHours']
+                : 'Monday to Friday, 8:00 AM - 5:00 PM',
         ],
         'stats' => $definition['stats'] ?? [
             ['label' => 'Student Population', 'value' => '4,280', 'note' => 'Sample enrollment'],
@@ -76,7 +80,7 @@ foreach ($definitions as $definition) {
         'serviceHighlights' => $definition['serviceHighlights'] ?? [],
         'studentGovernment' => [
             'name' => 'University Student Government - '.$name,
-            'adviser' => 'Student Affairs and Services Office',
+            'adviser' => $definition['studentGovernmentAdviser'] ?? 'Student Affairs and Services Office',
             'focus' => $definition['focus'],
             'initiatives' => $definition['initiatives'] ?? [
                 'Student consultation and representation',

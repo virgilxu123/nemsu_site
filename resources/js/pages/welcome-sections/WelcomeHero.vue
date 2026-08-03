@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import {
-    ArrowRight,
-    ChevronLeft,
-    ChevronRight,
-    Sparkles,
-} from 'lucide-vue-next';
+import { Link } from '@inertiajs/vue3';
+import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
 import { ref, watch } from 'vue';
+import { home } from '@/routes';
 
 type BannerItem = {
     id: number | string;
@@ -47,6 +44,7 @@ watch(
     (newIndex) => {
         Object.entries(videoRefs.value).forEach(([key, video]) => {
             const index = Number(key);
+
             if (index === newIndex) {
                 video.currentTime = 0;
                 video.play().catch(() => {});
@@ -55,7 +53,7 @@ watch(
             }
         });
     },
-    { immediate: true }
+    { immediate: true },
 );
 </script>
 
@@ -72,7 +70,11 @@ watch(
                 autoplay
                 muted
                 playsinline
-                @ended="handleVideoEnded ? handleVideoEnded() : showNextHeroSlideManually()"
+                @ended="
+                    handleVideoEnded
+                        ? handleVideoEnded()
+                        : showNextHeroSlideManually()
+                "
                 class="absolute inset-0 h-full w-full bg-slate-950 transition-all duration-1000 ease-out motion-reduce:transition-none"
                 :class="[
                     slide.id === fallbackHeroSlide.id
@@ -130,14 +132,15 @@ watch(
                         'North Eastern Mindanao State University'
                     }}
                 </h2>
-                <p
-                    class="mt-6 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
+                <Link
+                    :href="home()"
+                    class="mt-6 block max-w-2xl text-base leading-8 font-bold text-sky-50 transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-lg"
                 >
                     {{
                         fallbackHeroSlide.summary ||
-                        'We drive sustainable development through quality instruction, innovative research, community collaboration, and technological advancement.'
+                        'Walk a journey of Excellence and Success'
                     }}
-                </p>
+                </Link>
                 <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                         href="#academics"

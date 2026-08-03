@@ -21,6 +21,10 @@ export const publicSiteDashboard = dashboard;
 
 const undergraduateCollegeLinks: PublicSiteLinkItem[] = [
     {
+        label: 'College of Accountancy',
+        href: collegeShow.url('college-of-accountancy'),
+    },
+    {
         label: 'College of Agriculture and Forestry',
         href: collegeShow.url('college-of-agriculture-and-forestry'),
     },

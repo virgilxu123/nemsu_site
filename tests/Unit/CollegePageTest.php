@@ -17,7 +17,20 @@ test('college page can be viewed', function () {
             ->where('college.campuses.0.name', 'Bislig Campus')
             ->where('college.campuses.0.courses.0', 'Bachelor of Secondary Education major in English')
             ->where('college.campuses.5.name', 'Tandag Campus')
-            ->has('colleges', 8)
+            ->has('colleges', 9)
+        );
+});
+
+test('college of accountancy page can be viewed', function () {
+    $this->withoutMiddleware(HandleInertiaRequests::class);
+
+    $this->get(route('academics.academic-affairs.colleges.show', 'college-of-accountancy'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('academics/College')
+            ->where('college.title', 'College of Accountancy')
+            ->where('college.campuses.0.name', 'Tandag Campus')
+            ->where('college.campuses.0.courses.0', 'Bachelor of Science in Accountancy')
         );
 });
 

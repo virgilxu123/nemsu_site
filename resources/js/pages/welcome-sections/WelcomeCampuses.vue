@@ -11,15 +11,18 @@ const props = defineProps<{
     revealClasses: RevealClasses;
 }>();
 
-const campusPhotos = [
-    '/storage/images/campuses/tandag/6I3A5798.JPG',
-    'https://www.nemsu.edu.ph/files/Banner/RM-Top-3-banner.jpg',
-    'https://www.nemsu.edu.ph/files/Banner/BannerCOL-Passer.jpg',
-    'https://www.nemsu.edu.ph/files/News/reaffirmation-commitment-to-innovation-and-sustainable-development-01.jpg',
-];
+const campusPhotos: Record<string, string> = {
+    tandag: '/storage/images/campuses/tandag/6I3A5798.JPG',
+    tagbina: '/storage/images/campuses/tagbina/Tagbina.jpg',
+    lianga: '/storage/images/campuses/lianga/Lianga.jpg',
+    cagwait: '/storage/images/campuses/cagwait/Cagwait.jpg',
+    bislig: '/storage/images/campuses/bislig/Bislig.jpg',
+    cantilan: '/storage/images/campuses/cantilan/Cantilan.jpg',
+    'san-miguel': '/storage/images/campuses/san-miguel/San Miguel.jpg',
+};
 
-const photoForCampus = (index: number): string =>
-    campusPhotos[index % campusPhotos.length];
+const photoForCampus = (campus: Campus): string =>
+    campusPhotos[campus.slug] ?? campusPhotos.tandag;
 
 const carouselRef = ref<HTMLElement | null>(null);
 const activePage = ref(0);
@@ -194,7 +197,7 @@ onBeforeUnmount(() => {
                     class="group relative isolate aspect-[4/5] w-[72%] max-w-[18rem] shrink-0 snap-start overflow-hidden rounded-sm bg-[#08045F] shadow-[0_1rem_1.5rem_rgba(3,2,44,0.35)] ring-1 ring-white/10 transition-transform duration-300 ring-inset focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F2B900] sm:w-[42%] md:w-[30%] lg:aspect-[4/9] lg:w-auto lg:max-w-none lg:min-w-0 lg:grow lg:basis-0"
                 >
                     <img
-                        :src="photoForCampus(index)"
+                        :src="photoForCampus(campus)"
                         :alt="`${campus.name} Campus`"
                         class="absolute inset-x-0 top-0 -z-20 h-[68%] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                         loading="lazy"

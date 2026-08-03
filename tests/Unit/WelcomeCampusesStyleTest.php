@@ -41,6 +41,7 @@ test('the campuses section uses the high fidelity staggered campus carousel', fu
         ->toContain('{{ campus.name }} Campus')
         ->toContain('{{ campus.focus }}')
         ->toContain(':href="campusShow(campus.slug)"')
+        ->toContain(':src="photoForCampus(campus)"')
         ->toContain('bg-white/10')
         ->toContain('Explore')
         ->not->toContain('rounded-lg border border-[#D8DEE8] bg-white')
@@ -50,6 +51,42 @@ test('the campuses section uses the high fidelity staggered campus carousel', fu
 
     expect(substr_count($campusesSection, 'v-for="dot in 12"'))->toBe(2);
 });
+
+test('the campus cards use their corresponding local campus photos', function (
+    string $slug,
+    string $photo,
+) {
+    $campusesSection = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeCampuses.vue',
+    );
+
+    expect($campusesSection)->toContain(
+        "'{$slug}': '/storage/images/campuses/{$slug}/{$photo}'",
+    );
+})->with([
+    'san miguel' => ['san-miguel', 'San Miguel.jpg'],
+]);
+
+test('the single-word campus slugs use their corresponding local photos', function (
+    string $campus,
+) {
+    $campusesSection = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeCampuses.vue',
+    );
+
+    expect($campusesSection)->toContain(
+        "{$campus}: '/storage/images/campuses/{$campus}/".
+            ucfirst($campus).".jpg'",
+    );
+})->with([
+    'tagbina',
+    'lianga',
+    'cagwait',
+    'bislig',
+    'cantilan',
+]);
 
 test('the campuses carousel exposes accessible synchronized controls', function () {
     $campusesSection = file_get_contents(

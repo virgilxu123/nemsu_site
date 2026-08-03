@@ -42,6 +42,29 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->toBeLessThan(strpos($welcomePage, '<WelcomeBAC'));
 });
 
+test('the default welcome hero links its bold tagline to the home route', function () {
+    $heroSection = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeHero.vue',
+    );
+    $welcomeContent = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/welcome-content.ts',
+    );
+    $heroSource = $heroSection.$welcomeContent;
+
+    expect($heroSection)
+        ->toContain("import { Link } from '@inertiajs/vue3'")
+        ->toContain("import { home } from '@/routes'")
+        ->toContain(':href="home()"')
+        ->toContain('font-bold')
+        ->and($heroSource)
+        ->toContain('Walk a journey of Excellence and Success')
+        ->not->toContain(
+            'We drive sustainable development through quality instruction',
+        );
+});
+
 test('the welcome news section matches the high fidelity layout and retains announcements', function () {
     $newsSection = file_get_contents(
         dirname(__DIR__, 2).

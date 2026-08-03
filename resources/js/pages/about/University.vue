@@ -50,7 +50,7 @@ const historySlides: HistorySlide[] = [
         title: 'The Tandag story begins',
         description:
             'A 153-student extension center planted the roots of today’s multi-campus University.',
-        image: '/images/campuses/tandag/facilities/gallery/academic-building.jpg',
+        image: '/images/campuses/tandag/facilities/gallery/academic-building.webp',
         imageAlt: 'Academic building at NEMSU Tandag Campus',
     },
     {
@@ -58,7 +58,7 @@ const historySlides: HistorySlide[] = [
         title: 'One growing academic system',
         description:
             'Campuses in Tandag, Cagwait, Tagbina, Lianga, and San Miguel came together under SSPC.',
-        image: '/images/campuses/tandag/facilities/gallery/main-academic-complex.jpg',
+        image: '/images/campuses/tandag/facilities/gallery/main-academic-complex.webp',
         imageAlt: 'Main academic complex at NEMSU Tandag Campus',
     },
     {
@@ -66,7 +66,7 @@ const historySlides: HistorySlide[] = [
         title: 'A state university is born',
         description:
             'Republic Act No. 9998 converted the institution into Surigao del Sur State University.',
-        image: '/images/campuses/tandag/facilities/gallery/administrative-building.jpg',
+        image: '/images/campuses/tandag/facilities/gallery/administrative-building.webp',
         imageAlt: 'Administrative building at NEMSU Tandag Campus',
     },
     {
@@ -74,7 +74,7 @@ const historySlides: HistorySlide[] = [
         title: 'NEMSU takes its name',
         description:
             'Republic Act No. 11584 established the name North Eastern Mindanao State University.',
-        image: '/images/campuses/tandag/facilities/gallery/university-gymnasium.jpg',
+        image: '/images/campuses/tandag/facilities/gallery/university-gymnasium.webp',
         imageAlt: 'University gymnasium at NEMSU Tandag Campus',
     },
 ];

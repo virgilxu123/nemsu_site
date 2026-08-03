@@ -2,17 +2,13 @@
 import { Head, Link } from '@inertiajs/vue3';
 import {
     ArrowUpRight,
-    BadgeCheck,
-    Building2,
     CalendarRange,
-    FileText,
-    ShieldCheck,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import type { Component } from 'vue';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
-import { goodGovernance } from '@/routes/administration';
 import { home } from '@/routes';
+import { goodGovernance } from '@/routes/administration';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -44,16 +40,6 @@ type TransparencyYear = {
     quarters: QuarterArchive[];
 };
 
-type PillarCard = {
-    title: string;
-    description: string;
-    icon: Component;
-};
-
-const heroLeftImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
-const heroRightImage =
-    '/images/campuses/tandag/facilities/gallery/administrative-building.jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -76,27 +62,6 @@ const quarter = (
     label,
     documents,
 });
-
-const transparencyPillars: PillarCard[] = [
-    {
-        title: 'Agency mandate and official directory',
-        description:
-            'The seal makes the University’s public mandate, leadership, and service contact points easier to find for students, partners, and citizens.',
-        icon: ShieldCheck,
-    },
-    {
-        title: 'Annual financial reports',
-        description:
-            'Budget accountability reports and FAR documents are grouped by year and quarter so the current archive is easy to scan.',
-        icon: FileText,
-    },
-    {
-        title: 'Public accountability at a glance',
-        description:
-            'The design keeps the seal, summary notes, and report links in a single readable flow that works on desktop and mobile.',
-        icon: BadgeCheck,
-    },
-];
 
 const transparencyYears: TransparencyYear[] = [
     {
@@ -564,87 +529,18 @@ onBeforeUnmount(() => {
         <Head title="Transparency Seal" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section class="relative isolate overflow-hidden bg-[#07113f] py-4 text-slate-950 sm:py-6 lg:py-8 dark:bg-slate-950 dark:text-white">
-                <div class="pointer-events-none absolute inset-0 z-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/45 to-slate-950/80" aria-hidden="true"></div>
+            <PageHero
+                title="Transparency Seal"
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    {
+                        title: 'Good Governance',
+                        href: goodGovernance().url,
+                    },
+                    { title: 'Transparency Seal' },
+                ]"
+            />
 
-                <div class="relative z-10 w-full">
-                    <div class="relative flex w-full flex-col items-center py-4 lg:h-[18rem] lg:py-0">
-                        <div
-                            class="pointer-events-none absolute top-1/2 left-1/2 z-0 hidden h-[18rem] w-[49rem] -translate-x-1/2 -translate-y-1/2 lg:block"
-                            aria-hidden="true"
-                        >
-                            <div class="absolute top-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(100%_0,100%_100%,0_100%)]"></div>
-                            <div class="absolute top-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_100%,0_100%)]"></div>
-                            <div class="absolute bottom-0 -left-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,100%_100%)]"></div>
-                            <div class="absolute bottom-0 -right-16 size-16 bg-[#4661ff] [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
-                        </div>
-
-                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:left-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
-                            <img
-                                :src="heroLeftImage"
-                                alt="NEMSU administration building facade"
-                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
-                            />
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
-                        </div>
-
-                        <div class="relative z-20 -my-5 min-h-44 w-[90%] max-w-4xl text-center text-white sm:min-h-48 lg:absolute lg:top-1/2 lg:left-1/2 lg:m-0 lg:h-[18rem] lg:w-[49rem] lg:-translate-x-1/2 lg:-translate-y-1/2">
-                            <div class="relative z-10 flex min-h-44 w-full flex-col items-center justify-center overflow-hidden bg-[#073b73] px-8 py-6 text-center sm:min-h-48 sm:px-12 lg:h-full lg:px-16">
-                                <img
-                                    src="/images/administration/ovpaf/pattern.png"
-                                    alt=""
-                                    class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20 mix-blend-screen"
-                                    aria-hidden="true"
-                                />
-                                <h3 class="relative z-10 text-4xl font-semibold whitespace-nowrap tracking-normal text-[#7dd3fc] sm:text-5xl lg:text-[3.35rem]">
-                                    TRANSPARENCY SEAL
-                                </h3>
-                                <nav
-                                    class="relative z-10 mt-5 text-sm  text-white/80"
-                                    aria-label="Breadcrumb"
-                                >
-                                    <ol class="flex flex-wrap items-center justify-center gap-2">
-                                        <li>
-                                            <Link
-                                                :href="home()"
-                                                class="transition hover:text-[#f2b705]"
-                                            >
-                                                Home
-                                            </Link>
-                                        </li>
-                                        <li class="text-white/80" aria-hidden="true">
-                                            /
-                                        </li>
-                                        <li>
-                                            <Link
-                                                :href="goodGovernance()"
-                                                class="transition hover:text-[#f2b705]"
-                                            >
-                                                Good Governance
-                                            </Link>
-                                        </li>
-                                        <li class="text-white/80" aria-hidden="true">
-                                            /
-                                        </li>
-                                        <li class="text-[#f2b705]" aria-current="page">
-                                            Transparency Seal
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-
-                        <div class="relative z-10 w-full overflow-hidden bg-slate-200 lg:absolute lg:top-1/2 lg:right-0 lg:h-[15rem] lg:w-[48%] lg:-translate-y-1/2 dark:bg-slate-800">
-                            <img
-                                :src="heroRightImage"
-                                alt="NEMSU campus administrative building"
-                                class="h-40 w-full object-cover object-center sm:h-48 lg:h-full"
-                            />
-                            <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#1711d4]/70 via-[#1711d4]/55 to-slate-950/65 mix-blend-multiply" aria-hidden="true"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section
                 id="annual-reports"
                 class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
