@@ -762,7 +762,7 @@ onBeforeUnmount(() => {
 
         
 
-        <section class="bg-white py-16 dark:bg-slate-900">
+        <!-- <section class="bg-white py-16 dark:bg-slate-900">
             <div
                 class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
             >
@@ -803,9 +803,9 @@ onBeforeUnmount(() => {
                     </li>
                 </ul>
             </div>
-        </section>
+        </section> -->
 
-        <section class="bg-[#061b49] py-16 text-white">
+        <section class="bg-[#1f007c] py-16 text-white">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     class="max-w-2xl"
@@ -909,7 +909,7 @@ onBeforeUnmount(() => {
             </div>
         </section>
 
-        <section class="bg-white py-16 dark:bg-slate-900">
+        <section class="bg-[#f7f8f5] py-16 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
                     <div
@@ -921,7 +921,7 @@ onBeforeUnmount(() => {
                             aria-hidden="true"
                         />
                         <p
-                            class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="mt-5 text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             University Student Government
                         </p>
@@ -931,7 +931,7 @@ onBeforeUnmount(() => {
                             {{ campus.studentGovernment.name }}
                         </h2>
                         <p
-                            class="mt-4 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
+                            class="mt-4 text-lg font-semibold text-[#0b6680] dark:text-sky-300"
                         >
                             {{ campus.studentGovernment.focus }}
                         </p>
@@ -944,7 +944,7 @@ onBeforeUnmount(() => {
                             ) in campus.studentGovernment.initiatives"
                             :key="initiative"
                             :data-scroll-section="`campus-government-initiative-${index}`"
-                            class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            class="flex items-center gap-4 rounded-md bg-white p-5 text-lg font-medium text-slate-700 shadow-sm shadow-[#1711d4]/10 dark:bg-white/5 dark:text-slate-200 dark:shadow-black/20"
                             :class="
                                 revealClasses(
                                     `campus-government-initiative-${index}`,
@@ -975,7 +975,7 @@ onBeforeUnmount(() => {
                         v-for="(activity, index) in campus.studentGovernment.activities"
                         :key="activity.title"
                         :data-scroll-section="`campus-government-activity-${index}`"
-                        class="overflow-hidden rounded-lg border border-slate-200 bg-[#f7f8f5] dark:border-white/10 dark:bg-white/5"
+                        class="overflow-hidden rounded-lg bg-white shadow-md shadow-[#1711d4]/10 dark:bg-white/5 dark:shadow-black/20"
                         :class="
                             revealClasses(
                                 `campus-government-activity-${index}`,
@@ -1004,7 +1004,7 @@ onBeforeUnmount(() => {
                         </div>
                         <div class="p-6">
                             <p
-                                class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                             >
                                 {{ activity.date }}
                             </p>
@@ -1014,7 +1014,7 @@ onBeforeUnmount(() => {
                                 {{ activity.title }}
                             </h3>
                             <p
-                                class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                                class="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-300"
                             >
                                 {{ activity.description }}
                             </p>
