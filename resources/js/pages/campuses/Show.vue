@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
-    ArrowRight,
-    BadgeCheck,
-    CalendarDays,
     ChevronDown,
+    ChevronLeft,
+    ChevronRight,
     ExternalLink,
     FileText,
-    HeartHandshake,
     Mail,
     MapPin,
     Phone,
-    ShieldCheck,
-    Sparkles,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
-import { show as campusShow } from '@/routes/campuses';
 
 type Stat = {
     label: string;
@@ -45,6 +40,15 @@ type FacilityGalleryItem = {
 };
 
 type ServiceHighlight = {
+    title: string;
+    description: string;
+    images: {
+        image: string;
+        alt: string;
+    }[];
+};
+
+type CampusLifeHighlight = {
     title: string;
     description: string;
     images: {
@@ -95,6 +99,8 @@ type Campus = {
     programs: ProgramGroup[];
     prospectuses: Record<string, string>;
     campusLife: string[];
+    campusLifeOverview: string | null;
+    campusLifeHighlights: CampusLifeHighlight[];
     services: string[];
     serviceHighlights?: ServiceHighlight[];
     studentGovernment: {
@@ -117,7 +123,6 @@ type Campus = {
 
 const props = defineProps<{
     campus: Campus;
-    campuses: Campus[];
 }>();
 
 const revealOffset: Record<RevealDirection, string> = {
@@ -145,6 +150,10 @@ const openCollegeAnchorId = ref(
 const visibleSections = ref<Set<string>>(
     new Set(['campus-hero', 'campus-stats']),
 );
+const activeCampusLifePhoto = ref<Record<number, number>>({});
+const activeServiceHighlightPhoto = ref<Record<number, number>>({});
+const activeGovernmentActivityPhoto = ref<Record<number, number>>({});
+const activeUpdatePhoto = ref<Record<number, number>>({});
 let collegeMenuScrollFrame: number | null = null;
 let revealObserver: IntersectionObserver | null = null;
 
@@ -183,11 +192,17 @@ const queueActiveCollegeUpdate = (): void => {
     });
 };
 
+const isFacilitiesRevealSection = (section: string): boolean =>
+    section.startsWith('campus-facility') ||
+    section.startsWith('campus-facilities');
+
 const setSectionVisibility = (section: string, isVisible: boolean): void => {
     const nextVisibleSections = new Set(visibleSections.value);
 
     if (isVisible) {
         nextVisibleSections.add(section);
+    } else if (isFacilitiesRevealSection(section)) {
+        return;
     } else {
         nextVisibleSections.delete(section);
     }
@@ -203,15 +218,220 @@ const revealClasses = (
     direction: RevealDirection = 'up',
 ): string =>
     [
-        'transition-all duration-700 ease-out will-change-transform motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none',
+        [
+            'transition-all ease-out will-change-transform motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:blur-0 motion-reduce:transition-none',
+            isFacilitiesRevealSection(section)
+                ? 'duration-300'
+                : 'duration-700',
+        ].join(' '),
         isSectionVisible(section)
             ? 'translate-x-0 translate-y-0 opacity-100 blur-0'
             : `${revealOffset[direction]} opacity-0 blur-[2px]`,
     ].join(' ');
 
+const revealDelay = (section: string, index: number): number =>
+    isFacilitiesRevealSection(section) ? Math.min(index * 30, 150) : index * 80;
+
 const staggerDelay = (section: string, index: number): CSSProperties => ({
-    transitionDelay: isSectionVisible(section) ? `${index * 80}ms` : '0ms',
+    transitionDelay: isSectionVisible(section)
+        ? `${revealDelay(section, index)}ms`
+        : '0ms',
 });
+
+const setCampusLifePhoto = (highlightIndex: number, event: Event): void => {
+    const slider = event.currentTarget as HTMLElement;
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const photoIndex = Math.round(slider.scrollLeft / slideWidth);
+
+    activeCampusLifePhoto.value = {
+        ...activeCampusLifePhoto.value,
+        [highlightIndex]: photoIndex,
+    };
+};
+
+const scrollCampusLifePhoto = (
+    highlightIndex: number,
+    event: MouseEvent,
+    direction: -1 | 1,
+): void => {
+    const sliderFrame = (event.currentTarget as HTMLElement).closest(
+        '[data-campus-life-photo-frame]',
+    );
+    const slider = sliderFrame?.querySelector<HTMLElement>(
+        '[data-campus-life-photo-slider]',
+    );
+    const photoCount =
+        props.campus.campusLifeHighlights[highlightIndex]?.images.length ?? 0;
+
+    if (!slider || photoCount === 0) {
+        return;
+    }
+
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const currentIndex =
+        activeCampusLifePhoto.value[highlightIndex] ??
+        Math.round(slider.scrollLeft / slideWidth);
+    const nextIndex = Math.min(
+        Math.max(currentIndex + direction, 0),
+        photoCount - 1,
+    );
+
+    activeCampusLifePhoto.value = {
+        ...activeCampusLifePhoto.value,
+        [highlightIndex]: nextIndex,
+    };
+    slider.scrollTo({
+        left: slideWidth * nextIndex,
+        behavior: 'smooth',
+    });
+};
+
+const setServiceHighlightPhoto = (serviceIndex: number, event: Event): void => {
+    const slider = event.currentTarget as HTMLElement;
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const photoIndex = Math.round(slider.scrollLeft / slideWidth);
+
+    activeServiceHighlightPhoto.value = {
+        ...activeServiceHighlightPhoto.value,
+        [serviceIndex]: photoIndex,
+    };
+};
+
+const scrollServiceHighlightPhoto = (
+    serviceIndex: number,
+    event: MouseEvent,
+    direction: -1 | 1,
+): void => {
+    const sliderFrame = (event.currentTarget as HTMLElement).closest(
+        '[data-service-photo-frame]',
+    );
+    const slider = sliderFrame?.querySelector<HTMLElement>(
+        '[data-service-photo-slider]',
+    );
+    const photoCount =
+        props.campus.serviceHighlights?.[serviceIndex]?.images.length ?? 0;
+
+    if (!slider || photoCount === 0) {
+        return;
+    }
+
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const currentIndex =
+        activeServiceHighlightPhoto.value[serviceIndex] ??
+        Math.round(slider.scrollLeft / slideWidth);
+    const nextIndex = Math.min(
+        Math.max(currentIndex + direction, 0),
+        photoCount - 1,
+    );
+
+    activeServiceHighlightPhoto.value = {
+        ...activeServiceHighlightPhoto.value,
+        [serviceIndex]: nextIndex,
+    };
+    slider.scrollTo({
+        left: slideWidth * nextIndex,
+        behavior: 'smooth',
+    });
+};
+
+const setGovernmentActivityPhoto = (
+    activityIndex: number,
+    event: Event,
+): void => {
+    const slider = event.currentTarget as HTMLElement;
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const photoIndex = Math.round(slider.scrollLeft / slideWidth);
+
+    activeGovernmentActivityPhoto.value = {
+        ...activeGovernmentActivityPhoto.value,
+        [activityIndex]: photoIndex,
+    };
+};
+
+const scrollGovernmentActivityPhoto = (
+    activityIndex: number,
+    event: MouseEvent,
+    direction: -1 | 1,
+): void => {
+    const sliderFrame = (event.currentTarget as HTMLElement).closest(
+        '[data-usg-photo-frame]',
+    );
+    const slider = sliderFrame?.querySelector<HTMLElement>(
+        '[data-usg-photo-slider]',
+    );
+    const photoCount =
+        props.campus.studentGovernment.activities[activityIndex]?.images
+            .length ?? 0;
+
+    if (!slider || photoCount === 0) {
+        return;
+    }
+
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const currentIndex =
+        activeGovernmentActivityPhoto.value[activityIndex] ??
+        Math.round(slider.scrollLeft / slideWidth);
+    const nextIndex = Math.min(
+        Math.max(currentIndex + direction, 0),
+        photoCount - 1,
+    );
+
+    activeGovernmentActivityPhoto.value = {
+        ...activeGovernmentActivityPhoto.value,
+        [activityIndex]: nextIndex,
+    };
+    slider.scrollTo({
+        left: slideWidth * nextIndex,
+        behavior: 'smooth',
+    });
+};
+
+const setUpdatePhoto = (updateIndex: number, event: Event): void => {
+    const slider = event.currentTarget as HTMLElement;
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const photoIndex = Math.round(slider.scrollLeft / slideWidth);
+
+    activeUpdatePhoto.value = {
+        ...activeUpdatePhoto.value,
+        [updateIndex]: photoIndex,
+    };
+};
+
+const scrollUpdatePhoto = (
+    updateIndex: number,
+    event: MouseEvent,
+    direction: -1 | 1,
+): void => {
+    const sliderFrame = (event.currentTarget as HTMLElement).closest(
+        '[data-update-photo-frame]',
+    );
+    const slider = sliderFrame?.querySelector<HTMLElement>(
+        '[data-update-photo-slider]',
+    );
+    const photoCount = props.campus.updates[updateIndex]?.images?.length ?? 0;
+
+    if (!slider || photoCount === 0) {
+        return;
+    }
+
+    const slideWidth = Math.max(slider.clientWidth, 1);
+    const currentIndex =
+        activeUpdatePhoto.value[updateIndex] ??
+        Math.round(slider.scrollLeft / slideWidth);
+    const nextIndex = Math.min(
+        Math.max(currentIndex + direction, 0),
+        photoCount - 1,
+    );
+
+    activeUpdatePhoto.value = {
+        ...activeUpdatePhoto.value,
+        [updateIndex]: nextIndex,
+    };
+    slider.scrollTo({
+        left: slideWidth * nextIndex,
+        behavior: 'smooth',
+    });
+};
 
 const isCollegeOpen = (college: string): boolean =>
     openCollegeAnchorId.value === collegeAnchorId(college);
@@ -227,6 +447,10 @@ const toggleCollege = (college: string): void => {
 watch(
     () => props.campus.slug,
     () => {
+        activeCampusLifePhoto.value = {};
+        activeServiceHighlightPhoto.value = {};
+        activeGovernmentActivityPhoto.value = {};
+        activeUpdatePhoto.value = {};
         openCollegeAnchorId.value = props.campus.programs[0]?.college
             ? collegeAnchorId(props.campus.programs[0].college)
             : '';
@@ -791,62 +1015,165 @@ onBeforeUnmount(() => {
             </div>
         </section>
 
-        <section class="bg-white py-16 dark:bg-slate-900">
-            <div
-                class="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8"
-            >
+        <section
+            v-if="campus.campusLifeHighlights.length"
+            class="bg-[#f7f8f5] py-20 dark:bg-slate-950"
+        >
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
+                    class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"
                     data-scroll-section="campus-life-heading"
                     :class="revealClasses('campus-life-heading', 'right')"
                 >
-                    <HeartHandshake
-                        class="size-7 text-[#9b1c31] dark:text-rose-300"
-                        aria-hidden="true"
-                    />
+                    <div>
+                        <p
+                            class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        >
+                            Campus Life
+                        </p>
+                        <h2
+                            class="mt-3 max-w-xl font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
+                        >
+                            Student experiences beyond the classroom
+                        </h2>
+                    </div>
                     <p
-                        class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                        v-if="campus.campusLifeOverview"
+                        class="max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300"
                     >
-                        Campus Life
+                        {{ campus.campusLifeOverview }}
                     </p>
-                    <h2
-                        class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
-                    >
-                        Student experiences beyond the classroom
-                    </h2>
                 </div>
 
-                <ul class="grid gap-3 sm:grid-cols-2">
-                    <li
-                        v-for="(item, index) in campus.campusLife"
-                        :key="item"
+                <div class="mt-14 grid gap-16 lg:gap-20">
+                    <article
+                        v-for="(
+                            highlight, index
+                        ) in campus.campusLifeHighlights"
+                        :key="highlight.title"
                         :data-scroll-section="`campus-life-${index}`"
-                        class="flex gap-3 rounded-md border border-slate-200 p-5 text-sm leading-6 text-slate-700 dark:border-white/10 dark:text-slate-200"
+                        class="grid gap-7 lg:grid-cols-12 lg:items-center"
                         :class="revealClasses(`campus-life-${index}`, 'up')"
                         :style="staggerDelay(`campus-life-${index}`, index)"
                     >
-                        <BadgeCheck
-                            class="mt-1 size-4 shrink-0 text-[#0b6680] dark:text-sky-300"
-                            aria-hidden="true"
-                        />
-                        {{ item }}
-                    </li>
-                </ul>
+                        <div
+                            class="group/campus-life-slider relative isolate aspect-[16/10] overflow-hidden bg-[#160a45] lg:col-span-7"
+                            :class="index % 2 === 1 ? 'lg:order-2' : ''"
+                            data-campus-life-photo-frame
+                        >
+                            <div
+                                class="campus-life-photo-slider flex size-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
+                                :aria-label="`${highlight.title} photo slider`"
+                                data-campus-life-photo-slider
+                                tabindex="0"
+                                @scroll.passive="
+                                    setCampusLifePhoto(index, $event)
+                                "
+                            >
+                                <img
+                                    v-for="image in highlight.images"
+                                    :key="image.image"
+                                    :src="image.image"
+                                    :alt="image.alt"
+                                    class="size-full shrink-0 snap-center object-contain"
+                                    loading="lazy"
+                                />
+                            </div>
+
+                            <div
+                                class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#160a45]/75 to-transparent"
+                                aria-hidden="true"
+                            ></div>
+
+                            <template v-if="highlight.images.length > 1">
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 left-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                    :aria-label="`Show previous photo for ${highlight.title}`"
+                                    @click="
+                                        scrollCampusLifePhoto(index, $event, -1)
+                                    "
+                                >
+                                    <ChevronLeft
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 right-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                    :aria-label="`Show next photo for ${highlight.title}`"
+                                    @click="
+                                        scrollCampusLifePhoto(index, $event, 1)
+                                    "
+                                >
+                                    <ChevronRight
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+
+                                <div
+                                    class="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5"
+                                    aria-hidden="true"
+                                >
+                                    <span
+                                        v-for="(
+                                            image, imageIndex
+                                        ) in highlight.images"
+                                        :key="`${image.image}-indicator`"
+                                        class="size-1.5 rounded-full transition"
+                                        :class="
+                                            (activeCampusLifePhoto[index] ??
+                                                0) === imageIndex
+                                                ? 'bg-white'
+                                                : 'bg-white/45'
+                                        "
+                                    ></span>
+                                </div>
+
+                                <span
+                                    class="pointer-events-none absolute top-3 right-3 rounded bg-[#160a45]/65 px-2 py-1 text-[11px] leading-none font-medium text-white/85 backdrop-blur-sm"
+                                >
+                                    {{ highlight.images.length }} photos
+                                </span>
+                            </template>
+                        </div>
+
+                        <div
+                            class="lg:col-span-5"
+                            :class="index % 2 === 1 ? 'lg:order-1' : ''"
+                        >
+                            <p
+                                class="text-sm font-semibold tracking-[0.18em] text-[#0b6680] uppercase dark:text-sky-300"
+                            >
+                                Student organization 0{{ index + 1 }}
+                            </p>
+                            <h3
+                                class="mt-3 font-serif text-3xl leading-tight font-semibold text-slate-950 dark:text-white"
+                            >
+                                {{ highlight.title }}
+                            </h3>
+                            <p
+                                class="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                            >
+                                {{ highlight.description }}
+                            </p>
+                        </div>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="bg-[#061b49] py-16 text-white">
+        <section class="bg-[#1f007c] py-16 text-white">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     class="max-w-2xl"
                     data-scroll-section="campus-services-heading"
                     :class="revealClasses('campus-services-heading', 'right')"
                 >
-                    <ShieldCheck
-                        class="size-7 text-emerald-300"
-                        aria-hidden="true"
-                    />
                     <p
-                        class="mt-5 text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
+                        class="text-lg font-semibold tracking-wide text-[#f2b705] uppercase"
                     >
                         Services
                     </p>
@@ -859,14 +1186,14 @@ onBeforeUnmount(() => {
 
                 <div
                     v-if="campus.serviceHighlights?.length"
-                    class="mt-8 grid gap-5 md:grid-cols-2"
+                    class="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2"
                 >
                     <article
                         v-for="(service, index) in campus.serviceHighlights ??
                         []"
                         :key="service.title"
                         :data-scroll-section="`campus-service-highlight-${index}`"
-                        class="overflow-hidden rounded-lg border border-white/10 bg-white/[0.07] shadow-lg shadow-black/10"
+                        class="group"
                         :class="
                             revealClasses(
                                 `campus-service-highlight-${index}`,
@@ -881,46 +1208,115 @@ onBeforeUnmount(() => {
                         "
                     >
                         <div
-                            class="grid h-56 gap-1 bg-slate-950/40"
-                            :class="
-                                service.images.length === 1
-                                    ? 'grid-cols-1'
-                                    : 'grid-cols-[minmax(0,1.55fr)_minmax(5rem,0.7fr)]'
-                            "
+                            class="group/service-slider relative isolate aspect-[16/10] overflow-hidden bg-slate-950/40"
+                            data-service-photo-frame
                         >
-                            <img
-                                :src="service.images[0].image"
-                                :alt="service.images[0].alt"
-                                class="h-full w-full object-cover"
-                            />
                             <div
-                                v-if="service.images.length > 1"
-                                class="grid min-h-0 gap-1"
+                                class="service-photo-slider flex size-full snap-x snap-mandatory scrollbar-none overflow-x-auto scroll-smooth"
+                                :aria-label="`${service.title} photo slider`"
+                                data-service-photo-slider
+                                @scroll.passive="
+                                    setServiceHighlightPhoto(index, $event)
+                                "
+                                tabindex="0"
                             >
                                 <img
-                                    v-for="image in service.images.slice(1)"
+                                    v-for="image in service.images"
                                     :key="image.image"
                                     :src="image.image"
                                     :alt="image.alt"
-                                    class="h-full min-h-0 w-full object-cover"
+                                    class="size-full shrink-0 snap-center object-cover transition duration-500 group-hover/service-slider:scale-[1.025]"
                                 />
                             </div>
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="grid size-9 shrink-0 place-items-center rounded-md bg-emerald-300/15 text-emerald-300"
+                            <div
+                                class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-[#1f007c]/75 to-transparent"
+                                aria-hidden="true"
+                            ></div>
+                            <template v-if="service.images.length > 1">
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
+                                    :disabled="
+                                        (activeServiceHighlightPhoto[index] ??
+                                            0) === 0
+                                    "
+                                    :aria-label="`Previous ${service.title} photo`"
+                                    @click="
+                                        scrollServiceHighlightPhoto(
+                                            index,
+                                            $event,
+                                            -1,
+                                        )
+                                    "
                                 >
-                                    <ShieldCheck
-                                        class="size-5"
+                                    <ChevronLeft
+                                        class="size-4"
                                         aria-hidden="true"
                                     />
+                                </button>
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
+                                    :disabled="
+                                        (activeServiceHighlightPhoto[index] ??
+                                            0) ===
+                                        service.images.length - 1
+                                    "
+                                    :aria-label="`Next ${service.title} photo`"
+                                    @click="
+                                        scrollServiceHighlightPhoto(
+                                            index,
+                                            $event,
+                                            1,
+                                        )
+                                    "
+                                >
+                                    <ChevronRight
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                                <div
+                                    class="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-slate-950/20 px-2 py-1 backdrop-blur-sm"
+                                    aria-hidden="true"
+                                >
+                                    <span
+                                        v-for="(
+                                            _, imageIndex
+                                        ) in service.images"
+                                        :key="imageIndex"
+                                        class="h-1.5 transition-all"
+                                        :class="
+                                            (activeServiceHighlightPhoto[
+                                                index
+                                            ] ?? 0) === imageIndex
+                                                ? 'w-5 bg-[#f2b705]/90'
+                                                : 'w-1.5 bg-white/45'
+                                        "
+                                    ></span>
+                                </div>
+                                <span
+                                    class="absolute right-4 bottom-4 rounded-full bg-white/65 px-2.5 py-1 text-xs font-semibold text-[#08047d]/70 backdrop-blur-sm"
+                                >
+                                    {{ service.images.length }}
+                                    {{
+                                        service.images.length === 1
+                                            ? 'photo'
+                                            : 'photos'
+                                    }}
                                 </span>
-                                <h3 class="text-lg font-semibold">
-                                    {{ service.title }}
-                                </h3>
-                            </div>
-                            <p class="mt-3 text-sm leading-6 text-sky-100">
+                            </template>
+                        </div>
+                        <div class="mt-5 grid gap-3">
+                            <p
+                                class="text-sm font-semibold tracking-[0.18em] text-[#f2b705] uppercase"
+                            >
+                                Service point {{ index + 1 }}
+                            </p>
+                            <h3 class="text-2xl leading-tight font-semibold">
+                                {{ service.title }}
+                            </h3>
+                            <p class="max-w-2xl text-lg leading-8 text-sky-100">
                                 {{ service.description }}
                             </p>
                         </div>
@@ -935,65 +1331,64 @@ onBeforeUnmount(() => {
                         v-for="(service, index) in campus.services"
                         :key="service"
                         :data-scroll-section="`campus-service-${index}`"
-                        class="flex gap-3 rounded-md border border-white/10 bg-white/[0.06] p-5 text-sm leading-6 text-sky-100"
+                        class="bg-white/[0.08] p-5 text-lg leading-8 text-sky-100"
                         :class="revealClasses(`campus-service-${index}`, 'up')"
                         :style="staggerDelay(`campus-service-${index}`, index)"
                     >
-                        <ShieldCheck
-                            class="mt-1 size-4 shrink-0 text-emerald-300"
-                            aria-hidden="true"
-                        />
                         {{ service }}
                     </li>
                 </ul>
             </div>
         </section>
 
-        <section class="bg-white py-16 dark:bg-slate-900">
+        <section class="bg-[#f7f8f5] py-16 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+                <div
+                    class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start"
+                >
                     <div
+                        class="max-w-xl"
                         data-scroll-section="campus-government-heading"
                         :class="
                             revealClasses('campus-government-heading', 'right')
                         "
                     >
-                        <Sparkles
-                            class="size-7 text-[#1711d4] dark:text-sky-200"
-                            aria-hidden="true"
-                        />
                         <p
-                            class="mt-5 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             University Student Government
                         </p>
                         <h2
-                            class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
+                            class="mt-4 font-serif text-4xl leading-tight font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
                             {{ campus.studentGovernment.name }}
                         </h2>
                         <p
-                            class="mt-4 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
+                            class="mt-6 text-xl leading-8 font-semibold text-[#0b6680] dark:text-sky-300"
                         >
                             {{ campus.studentGovernment.focus }}
                         </p>
-                        <p
-                            class="mt-3 text-sm text-slate-600 dark:text-slate-300"
-                        >
-                            Adviser:
-                            <span class="font-semibold">{{
-                                campus.studentGovernment.adviser
-                            }}</span>
-                        </p>
+                        <div class="mt-8 grid gap-2">
+                            <p
+                                class="text-sm font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
+                            >
+                                Adviser
+                            </p>
+                            <p
+                                class="text-lg font-semibold text-slate-700 dark:text-slate-200"
+                            >
+                                {{ campus.studentGovernment.adviser }}
+                            </p>
+                        </div>
                     </div>
 
-                    <ul class="grid gap-3">
+                    <ul class="grid gap-1">
                         <li
                             v-for="(initiative, index) in campus
                                 .studentGovernment.initiatives"
                             :key="initiative"
                             :data-scroll-section="`campus-government-initiative-${index}`"
-                            class="flex items-center gap-4 rounded-md border border-slate-200 p-5 text-sm font-medium text-slate-700 dark:border-white/10 dark:text-slate-200"
+                            class="group relative grid grid-cols-[3.75rem_minmax(0,1fr)] gap-5 py-5"
                             :class="
                                 revealClasses(
                                     `campus-government-initiative-${index}`,
@@ -1007,11 +1402,17 @@ onBeforeUnmount(() => {
                                 )
                             "
                         >
-                            <Sparkles
-                                class="size-4 shrink-0 text-[#f2b705]"
+                            <span
+                                class="font-serif text-3xl leading-none font-semibold text-[#f2b705] transition-colors group-hover:text-[#9b1c31] dark:text-[#f2b705]/90"
                                 aria-hidden="true"
-                            />
-                            {{ initiative }}
+                            >
+                                0{{ index + 1 }}
+                            </span>
+                            <p
+                                class="max-w-2xl text-lg leading-8 font-semibold text-slate-700 transition-colors group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
+                            >
+                                {{ initiative }}
+                            </p>
                         </li>
                     </ul>
                 </div>
@@ -1025,7 +1426,7 @@ onBeforeUnmount(() => {
                             .activities"
                         :key="activity.title"
                         :data-scroll-section="`campus-government-activity-${index}`"
-                        class="overflow-hidden rounded-lg border border-slate-200 bg-[#f7f8f5] dark:border-white/10 dark:bg-white/5"
+                        class="overflow-hidden bg-white/80 dark:bg-white/5"
                         :class="
                             revealClasses(
                                 `campus-government-activity-${index}`,
@@ -1041,20 +1442,110 @@ onBeforeUnmount(() => {
                     >
                         <div
                             v-if="activity.images.length"
-                            class="grid grid-cols-2 gap-1 bg-slate-200 dark:bg-slate-800"
+                            class="group/slider relative isolate overflow-hidden bg-slate-950"
+                            data-usg-photo-frame
                         >
-                            <img
-                                v-for="image in activity.images"
-                                :key="image.image"
-                                :src="image.image"
-                                :alt="image.alt"
-                                class="aspect-4/3 size-full object-cover"
-                                loading="lazy"
-                            />
+                            <div
+                                class="usg-photo-slider flex snap-x snap-mandatory scrollbar-none overflow-x-auto scroll-smooth"
+                                :aria-label="`${activity.title} photo slider`"
+                                data-usg-photo-slider
+                                @scroll.passive="
+                                    setGovernmentActivityPhoto(index, $event)
+                                "
+                                tabindex="0"
+                            >
+                                <img
+                                    v-for="image in activity.images"
+                                    :key="image.image"
+                                    :src="image.image"
+                                    :alt="image.alt"
+                                    class="aspect-video w-full shrink-0 snap-center object-cover transition duration-500 group-hover/slider:scale-[1.02]"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div
+                                class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/70 to-transparent"
+                                aria-hidden="true"
+                            ></div>
+                            <template v-if="activity.images.length > 1">
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
+                                    :disabled="
+                                        (activeGovernmentActivityPhoto[index] ??
+                                            0) === 0
+                                    "
+                                    :aria-label="`Previous ${activity.title} photo`"
+                                    @click="
+                                        scrollGovernmentActivityPhoto(
+                                            index,
+                                            $event,
+                                            -1,
+                                        )
+                                    "
+                                >
+                                    <ChevronLeft
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                                <button
+                                    type="button"
+                                    class="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
+                                    :disabled="
+                                        (activeGovernmentActivityPhoto[index] ??
+                                            0) ===
+                                        activity.images.length - 1
+                                    "
+                                    :aria-label="`Next ${activity.title} photo`"
+                                    @click="
+                                        scrollGovernmentActivityPhoto(
+                                            index,
+                                            $event,
+                                            1,
+                                        )
+                                    "
+                                >
+                                    <ChevronRight
+                                        class="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                                <div
+                                    class="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-slate-950/20 px-2 py-1 backdrop-blur-sm"
+                                    aria-hidden="true"
+                                >
+                                    <span
+                                        v-for="(
+                                            _, imageIndex
+                                        ) in activity.images"
+                                        :key="imageIndex"
+                                        class="h-1.5 transition-all"
+                                        :class="
+                                            (activeGovernmentActivityPhoto[
+                                                index
+                                            ] ?? 0) === imageIndex
+                                                ? 'w-5 bg-[#f2b705]/90'
+                                                : 'w-1.5 bg-white/45'
+                                        "
+                                    ></span>
+                                </div>
+                            </template>
+                            <span
+                                v-if="activity.images.length > 1"
+                                class="absolute right-4 bottom-4 rounded-full bg-white/65 px-2.5 py-1 text-xs font-semibold text-[#08047d]/70 backdrop-blur-sm"
+                            >
+                                {{ activity.images.length }}
+                                {{
+                                    activity.images.length === 1
+                                        ? 'photo'
+                                        : 'photos'
+                                }}
+                            </span>
                         </div>
                         <div class="p-6">
                             <p
-                                class="text-xs font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                             >
                                 {{ activity.date }}
                             </p>
@@ -1064,7 +1555,7 @@ onBeforeUnmount(() => {
                                 {{ activity.title }}
                             </h3>
                             <p
-                                class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300"
+                                class="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-300"
                             >
                                 {{ activity.description }}
                             </p>
@@ -1074,14 +1565,14 @@ onBeforeUnmount(() => {
             </div>
         </section>
 
-        <section class="bg-[#f7f8f5] py-16 dark:bg-slate-950">
+        <section class="bg-[#f7f8f5] py-20 dark:bg-slate-950">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
-                    class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"
+                    class="grid gap-10 lg:grid-cols-[22rem_minmax(0,1fr)] lg:items-start"
                 >
-                    <div>
+                    <div class="lg:sticky lg:top-24">
                         <p
-                            class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
                             Updates
                         </p>
@@ -1090,96 +1581,140 @@ onBeforeUnmount(() => {
                         >
                             Latest campus notices
                         </h2>
-                    </div>
-                    <Link
-                        :href="home().url + '#campuses'"
-                        class="inline-flex min-h-11 items-center gap-2 rounded-md border border-slate-300 bg-white px-4 text-sm font-semibold text-[#1711d4] transition hover:border-[#1711d4]/40 hover:bg-slate-50 dark:border-white/10 dark:bg-white/5 dark:text-sky-100"
-                    >
-                        All campuses
-                        <ArrowRight class="size-4" aria-hidden="true" />
-                    </Link>
-                </div>
-
-                <div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    <article
-                        v-for="update in campus.updates"
-                        :key="update.title"
-                        class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
-                    >
-                        <div
-                            v-if="update.images?.length"
-                            class="relative border-b border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-slate-800"
+                        <p
+                            class="mt-4 text-lg leading-8 text-slate-600 dark:text-slate-300"
                         >
-                            <div
-                                class="flex snap-x snap-mandatory overflow-x-auto"
-                                tabindex="0"
-                                :aria-label="`${update.title} photo gallery`"
-                            >
-                                <img
-                                    v-for="image in update.images"
-                                    :key="image.image"
-                                    :src="image.image"
-                                    :alt="image.alt"
-                                    class="aspect-video w-full shrink-0 snap-center object-cover"
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                            </div>
-                            <span
-                                class="absolute right-3 bottom-3 rounded-full bg-slate-950/75 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm"
-                            >
-                                {{ update.images.length }}
-                                {{
-                                    update.images.length === 1
-                                        ? 'photo'
-                                        : 'photos'
-                                }}
-                            </span>
-                        </div>
-                        <div class="p-6">
-                            <p
-                                class="inline-flex items-center gap-2 text-xs font-semibold text-[#0b6680] dark:text-sky-300"
-                            >
-                                <CalendarDays
-                                    class="size-3.5"
-                                    aria-hidden="true"
-                                />
-                                {{ update.date }}
-                            </p>
-                            <h3
-                                class="mt-4 font-semibold text-slate-950 dark:text-white"
-                            >
-                                {{ update.title }}
-                            </h3>
-                            <p
-                                class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300"
-                            >
-                                {{ update.summary }}
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+                            Timely campus advisories, service updates, and
+                            academic announcements.
+                        </p>
+                    </div>
 
-        <section class="bg-white py-12 dark:bg-slate-900">
-            <div
-                class="mx-auto flex max-w-7xl gap-3 overflow-x-auto px-4 sm:px-6 lg:px-8"
-                aria-label="Other campuses"
-            >
-                <Link
-                    v-for="item in campuses"
-                    :key="item.slug"
-                    :href="campusShow(item.slug)"
-                    class="inline-flex min-h-11 shrink-0 items-center rounded-md border px-4 text-sm font-semibold transition"
-                    :class="
-                        item.slug === campus.slug
-                            ? 'border-[#1711d4] bg-[#1711d4] text-white'
-                            : 'border-slate-200 text-slate-700 hover:border-[#1711d4]/40 hover:text-[#1711d4] dark:border-white/10 dark:text-slate-200 dark:hover:text-sky-200'
-                    "
-                >
-                    {{ item.name }}
-                </Link>
+                    <ol class="grid">
+                        <li
+                            v-for="(update, updateIndex) in campus.updates"
+                            :key="update.title"
+                            class="group relative grid gap-5 py-9 md:grid-cols-[10rem_minmax(0,1fr)]"
+                        >
+                            <time
+                                class="text-base leading-7 font-semibold text-[#0b6680] md:pt-1 dark:text-sky-300"
+                            >
+                                {{ update.date }}
+                            </time>
+                            <div
+                                class="relative max-w-3xl pl-5 before:absolute before:top-1.5 before:bottom-1 before:left-0 before:w-1 before:bg-[#f2b705] before:transition-all before:duration-200 group-hover:before:bg-[#9b1c31] dark:before:bg-[#f2b705]/80"
+                            >
+                                <div
+                                    v-if="update.images?.length"
+                                    class="group/update-slider relative isolate mb-6 aspect-[16/9] overflow-hidden bg-slate-950"
+                                    data-update-photo-frame
+                                >
+                                    <div
+                                        class="update-photo-slider flex size-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
+                                        :aria-label="`${update.title} photo slider`"
+                                        data-update-photo-slider
+                                        tabindex="0"
+                                        @scroll.passive="
+                                            setUpdatePhoto(updateIndex, $event)
+                                        "
+                                    >
+                                        <img
+                                            v-for="image in update.images"
+                                            :key="image.image"
+                                            :src="image.image"
+                                            :alt="image.alt"
+                                            class="size-full shrink-0 snap-center object-cover"
+                                            loading="lazy"
+                                        />
+                                    </div>
+
+                                    <div
+                                        class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-slate-950/65 to-transparent"
+                                        aria-hidden="true"
+                                    ></div>
+
+                                    <template v-if="update.images.length > 1">
+                                        <button
+                                            type="button"
+                                            class="absolute top-1/2 left-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                            :aria-label="`Show previous photo for ${update.title}`"
+                                            @click="
+                                                scrollUpdatePhoto(
+                                                    updateIndex,
+                                                    $event,
+                                                    -1,
+                                                )
+                                            "
+                                        >
+                                            <ChevronLeft
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="absolute top-1/2 right-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                            :aria-label="`Show next photo for ${update.title}`"
+                                            @click="
+                                                scrollUpdatePhoto(
+                                                    updateIndex,
+                                                    $event,
+                                                    1,
+                                                )
+                                            "
+                                        >
+                                            <ChevronRight
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </button>
+
+                                        <div
+                                            class="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5"
+                                            aria-hidden="true"
+                                        >
+                                            <span
+                                                v-for="(
+                                                    image, imageIndex
+                                                ) in update.images"
+                                                :key="`${image.image}-indicator`"
+                                                class="size-1.5 rounded-full transition"
+                                                :class="
+                                                    (activeUpdatePhoto[
+                                                        updateIndex
+                                                    ] ?? 0) === imageIndex
+                                                        ? 'bg-white'
+                                                        : 'bg-white/45'
+                                                "
+                                            ></span>
+                                        </div>
+
+                                        <span
+                                            class="pointer-events-none absolute top-3 right-3 rounded bg-slate-950/60 px-2 py-1 text-[11px] leading-none font-medium text-white/85 backdrop-blur-sm"
+                                        >
+                                            {{ update.images.length }} photos
+                                        </span>
+                                    </template>
+                                </div>
+
+                                <h3
+                                    class="text-2xl leading-tight font-semibold text-slate-950 transition-colors group-hover:text-[#08047d] dark:text-white dark:group-hover:text-sky-200"
+                                >
+                                    {{ update.title }}
+                                </h3>
+                                <p
+                                    class="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                                >
+                                    {{ update.summary }}
+                                </p>
+                                <span
+                                    class="mt-4 inline-flex text-xs font-semibold tracking-[0.18em] text-[#9b1c31] uppercase dark:text-rose-300"
+                                >
+                                    Notice
+                                </span>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
             </div>
         </section>
     </PublicSiteLayout>
@@ -1191,6 +1726,21 @@ onBeforeUnmount(() => {
     transform: scale(1.03);
     transform-origin: center;
     will-change: transform;
+}
+
+.campus-life-photo-slider,
+.service-photo-slider,
+.usg-photo-slider,
+.update-photo-slider {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.campus-life-photo-slider::-webkit-scrollbar,
+.service-photo-slider::-webkit-scrollbar,
+.usg-photo-slider::-webkit-scrollbar,
+.update-photo-slider::-webkit-scrollbar {
+    display: none;
 }
 
 @keyframes campus-hero-zoom {
