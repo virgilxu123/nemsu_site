@@ -39,6 +39,95 @@ test('tandag campus director photo is configured', function () {
         ->toBe('/images/campuses/tandag/cd.png');
 });
 
+test('bislig campus page presents its official about content', function () {
+    $this->get(route('campuses.show', 'bislig'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('campus.profile.overview', fn (string $overview): bool => str_contains(
+                $overview,
+                'became an integral part of NEMSU pursuant to the Memorandum of Agreement executed in 2018',
+            ) && str_contains(
+                $overview,
+                'Center for Agro-Forestry Industrial Research',
+            ) && str_contains(
+                $overview,
+                'Bachelor of Secondary Education Major in English – Level III Accredited',
+            ))
+        );
+});
+
+test('bislig campus page presents its official director and visit details', function () {
+    expect(public_path('images/campuses/bislig/whelson-c-pasos.jpg'))
+        ->toBeFile();
+
+    $campusPage = file_get_contents(
+        dirname(__DIR__, 2).'/resources/js/pages/campuses/Show.vue',
+    );
+
+    expect($campusPage)
+        ->toContain('{{ campus.director.office }}')
+        ->toContain('{{ campus.contact.address }}')
+        ->toContain('{{ campus.contact.email }}')
+        ->toContain('v-if="campus.contact.phone"')
+        ->toContain('v-if="campus.contact.officeHours"')
+        ->not->toContain('v-if="campus.director.email"')
+        ->not->toContain('campus.contact.facebook');
+
+    $this->get(route('campuses.show', 'bislig'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('campus.director.name', 'Whelson C. Pasos')
+            ->where('campus.director.role', 'Campus Director')
+            ->where('campus.director.email', 'wcpasos@nemsu.edu.ph')
+            ->where('campus.director.photo', '/images/campuses/bislig/whelson-c-pasos.jpg')
+            ->where('campus.contact.address', 'Maharlika, Bislig City, Surigao del Sur, 8311')
+            ->where('campus.contact.email', 'nemsubislig@nemsu.edu.ph')
+            ->where('campus.contact.phone', null)
+            ->where('campus.contact.officeHours', 'Monday to Friday, 8:00 AM - 5:00 PM')
+        );
+});
+
+test('bislig campus groups its accredited program offerings by college', function () {
+    $programs = [
+        [
+            'college' => 'College of Teacher Education',
+            'offerings' => [
+                'Bachelor of Secondary Education Major in English – Level III Accredited',
+                'Bachelor of Technical-Vocational Teacher Education (Electrical Technology) – Level I Accredited',
+            ],
+        ],
+        [
+            'college' => 'College of Engineering and Technology',
+            'offerings' => [
+                'Bachelor of Science in Civil Engineering – Level II Accredited',
+                'Bachelor of Science in Electrical Engineering – Level II Accredited',
+                'Bachelor of Science in Mechanical Engineering – Level II Accredited',
+            ],
+        ],
+        [
+            'college' => 'College of Agriculture and Forestry',
+            'offerings' => [
+                'Bachelor of Science in Forestry – Level II Accredited',
+            ],
+        ],
+    ];
+
+    expect(config('campus_profiles.bislig.programs'))
+        ->toBe($programs)
+        ->and(config('campus_profiles.bislig.stats.2'))
+        ->toMatchArray([
+            'label' => 'Program Offerings',
+            'value' => '6',
+        ]);
+
+    $this->get(route('campuses.show', 'bislig'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('campus.programs', $programs)
+            ->where('campus.stats.2.value', '6')
+        );
+});
+
 test('all campus data files are loaded', function () {
     expect(config('campus_profiles'))
         ->toHaveKeys([
