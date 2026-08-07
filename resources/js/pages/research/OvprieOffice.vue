@@ -9,22 +9,29 @@ import { rie } from '@/routes/research';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
+type Suboffice = {
+    title: string;
+    acronym: string | null;
+    description: string;
+};
+
 type Office = {
     slug: string;
     title: string;
-    acronym: string | null;
-    cluster: string;
+    acronym: string;
+    parent: string;
     description: string;
     head: string;
     email: string | null;
     phone: string | null;
     headImage: string | null;
+    suboffices: Suboffice[];
 };
 
 type OfficeLink = {
     slug: string;
     title: string;
-    cluster: string;
+    acronym: string;
 };
 
 const props = defineProps<{
@@ -32,8 +39,7 @@ const props = defineProps<{
     offices: OfficeLink[];
 }>();
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -163,7 +169,7 @@ onBeforeUnmount(() => {
                     <p
                         class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
                     >
-                        {{ props.office.cluster }}
+                        {{ props.office.parent }}
                     </p>
                     <h1
                         class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
@@ -216,10 +222,10 @@ onBeforeUnmount(() => {
                         <p
                             class="text-sm font-light tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
                         >
-                            Other OVPRIE Offices
+                            OVPRIE Offices
                         </p>
                         <nav
-                            aria-label="Other OVPRIE offices"
+                            aria-label="OVPRIE offices"
                             class="mt-7 grid gap-0"
                         >
                             <Link
@@ -233,12 +239,10 @@ onBeforeUnmount(() => {
                                         : ''
                                 "
                             >
-                                <span>{{ officeLink.title }}</span>
-                                <!-- <span
-                                    class="mt-1 block text-xs leading-4 text-slate-400 dark:text-slate-500"
-                                >
-                                    {{ officeLink.cluster }}
-                                </span> -->
+                                <span>
+                                    {{ officeLink.title }}
+                                    ({{ officeLink.acronym }})
+                                </span>
                             </Link>
                         </nav>
                     </aside>
@@ -261,13 +265,53 @@ onBeforeUnmount(() => {
                         <p
                             class="mt-3 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
                         >
-                            {{ props.office.cluster }}
+                            {{ props.office.acronym }}
                         </p>
                         <p
                             class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             {{ props.office.description }}
                         </p>
+
+                        <section
+                            class="mt-10 border-t border-slate-200 pt-8 dark:border-white/10"
+                        >
+                            <p
+                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                Suboffices
+                            </p>
+                            <h3
+                                class="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl"
+                            >
+                                Offices and units under
+                                {{ props.office.acronym }}
+                            </h3>
+                            <div class="mt-6 grid gap-4">
+                                <article
+                                    v-for="suboffice in props.office.suboffices"
+                                    :key="suboffice.title"
+                                    class="rounded-md border border-slate-200 bg-slate-50 p-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                >
+                                    <h4
+                                        class="text-lg font-semibold text-slate-950 dark:text-white"
+                                    >
+                                        {{ suboffice.title }}
+                                        <span
+                                            v-if="suboffice.acronym"
+                                            class="text-[#0b6680] dark:text-sky-300"
+                                        >
+                                            ({{ suboffice.acronym }})
+                                        </span>
+                                    </h4>
+                                    <p
+                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{ suboffice.description }}
+                                    </p>
+                                </article>
+                            </div>
+                        </section>
 
                         <Link
                             :href="rie().url + '#ovprie-offices'"
@@ -281,7 +325,7 @@ onBeforeUnmount(() => {
                     <aside
                         data-scroll-section="office-profile"
                         :class="revealClasses('office-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 md:order-none md:sticky md:top-24 md:mt-[-8.5rem] md:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 md:sticky md:top-24 md:order-none md:mt-[-8.5rem] md:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img

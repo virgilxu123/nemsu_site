@@ -625,7 +625,7 @@ onBeforeUnmount(() => {
                         {{ campus.profile.headline }}
                     </h4>
                     <p
-                        class="mt-6 text-lg leading-8 whitespace-pre-line text-slate-600 dark:text-slate-300"
+                        class="mt-6 text-justify text-lg leading-8 whitespace-pre-line text-slate-600 dark:text-slate-300"
                     >
                         {{ campus.profile.overview }}
                     </p>
@@ -778,7 +778,7 @@ onBeforeUnmount(() => {
                             "
                         >
                             <div
-                                class="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-[#1711d4] via-[#0b6680] to-[#f2b705]"
+                                class="absolute inset-x-0 top-0 h-1 bg-[#1711d4]"
                             ></div>
                             <button
                                 type="button"
@@ -997,7 +997,7 @@ onBeforeUnmount(() => {
                             </h4>
                             <p
                                 v-if="facility.description"
-                                class="mt-1 max-w-lg text-sm leading-6 text-sky-100"
+                                class="mt-1 max-w-lg text-justify text-sm leading-6 text-sky-100"
                             >
                                 {{ facility.description }}
                             </p>
@@ -1039,7 +1039,7 @@ onBeforeUnmount(() => {
                     </div>
                     <p
                         v-if="campus.campusLifeOverview"
-                        class="max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300"
+                        class="max-w-3xl text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                     >
                         {{ campus.campusLifeOverview }}
                     </p>
@@ -1155,7 +1155,7 @@ onBeforeUnmount(() => {
                                 {{ highlight.title }}
                             </h3>
                             <p
-                                class="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                                class="mt-5 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                             >
                                 {{ highlight.description }}
                             </p>
@@ -1316,7 +1316,9 @@ onBeforeUnmount(() => {
                             <h3 class="text-2xl leading-tight font-semibold">
                                 {{ service.title }}
                             </h3>
-                            <p class="max-w-2xl text-lg leading-8 text-sky-100">
+                            <p
+                                class="max-w-2xl text-justify text-lg leading-8 text-sky-100"
+                            >
                                 {{ service.description }}
                             </p>
                         </div>
@@ -1341,36 +1343,52 @@ onBeforeUnmount(() => {
             </div>
         </section>
 
-        <section class="bg-[#f7f8f5] py-16 dark:bg-slate-900">
+        <section
+            class="bg-[#f7f8f5] py-16 sm:py-20 dark:bg-slate-900"
+        >
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
-                    class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start"
+                    class="border-y border-slate-200 py-10 sm:py-12 dark:border-white/10"
+                    data-scroll-section="campus-government-heading"
+                    :class="
+                        revealClasses('campus-government-heading', 'right')
+                    "
                 >
-                    <div
-                        class="max-w-xl"
-                        data-scroll-section="campus-government-heading"
-                        :class="
-                            revealClasses('campus-government-heading', 'right')
-                        "
-                    >
+                    <div class="flex items-center gap-4">
+                        <span
+                            class="h-0.5 w-10 bg-[#f2b705]"
+                            aria-hidden="true"
+                        ></span>
                         <p
-                            class="text-lg font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-sm font-semibold tracking-[0.16em] text-[#1711d4] uppercase dark:text-blue-300"
                         >
                             University Student Government
                         </p>
-                        <h2
-                            class="mt-4 font-serif text-4xl leading-tight font-semibold tracking-tight text-slate-950 dark:text-white"
-                        >
-                            {{ campus.studentGovernment.name }}
-                        </h2>
-                        <p
-                            class="mt-6 text-xl leading-8 font-semibold text-[#0b6680] dark:text-sky-300"
-                        >
-                            {{ campus.studentGovernment.focus }}
-                        </p>
-                        <div class="mt-8 grid gap-2">
+                    </div>
+                    <div
+                        class="mt-7 grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end"
+                    >
+                        <div>
+                            <h2
+                                class="max-w-4xl font-serif text-4xl leading-tight font-semibold tracking-tight text-slate-950 sm:text-5xl dark:text-white"
+                            >
+                                {{ campus.studentGovernment.name }}
+                            </h2>
                             <p
-                                class="text-sm font-semibold tracking-[0.18em] text-slate-500 uppercase dark:text-slate-400"
+                                class="mt-6 max-w-3xl text-xl leading-8 font-semibold text-[#1711d4] dark:text-blue-300"
+                            >
+                                {{ campus.studentGovernment.focus }}
+                            </p>
+                        </div>
+                        <div
+                            class="border-t border-slate-300 pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-8 dark:border-white/15"
+                        >
+                            <span
+                                class="mb-4 block h-1 w-10 bg-[#f2b705]"
+                                aria-hidden="true"
+                            ></span>
+                            <p
+                                class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-400"
                             >
                                 Adviser
                             </p>
@@ -1381,40 +1399,6 @@ onBeforeUnmount(() => {
                             </p>
                         </div>
                     </div>
-
-                    <ul class="grid gap-1">
-                        <li
-                            v-for="(initiative, index) in campus
-                                .studentGovernment.initiatives"
-                            :key="initiative"
-                            :data-scroll-section="`campus-government-initiative-${index}`"
-                            class="group relative grid grid-cols-[3.75rem_minmax(0,1fr)] gap-5 py-5"
-                            :class="
-                                revealClasses(
-                                    `campus-government-initiative-${index}`,
-                                    'up',
-                                )
-                            "
-                            :style="
-                                staggerDelay(
-                                    `campus-government-initiative-${index}`,
-                                    index,
-                                )
-                            "
-                        >
-                            <span
-                                class="font-serif text-3xl leading-none font-semibold text-[#f2b705] transition-colors group-hover:text-[#9b1c31] dark:text-[#f2b705]/90"
-                                aria-hidden="true"
-                            >
-                                0{{ index + 1 }}
-                            </span>
-                            <p
-                                class="max-w-2xl text-lg leading-8 font-semibold text-slate-700 transition-colors group-hover:text-slate-950 dark:text-slate-200 dark:group-hover:text-white"
-                            >
-                                {{ initiative }}
-                            </p>
-                        </li>
-                    </ul>
                 </div>
 
                 <div
@@ -1555,7 +1539,7 @@ onBeforeUnmount(() => {
                                 {{ activity.title }}
                             </h3>
                             <p
-                                class="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                                class="mt-3 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                             >
                                 {{ activity.description }}
                             </p>
@@ -1582,7 +1566,7 @@ onBeforeUnmount(() => {
                             Latest campus notices
                         </h2>
                         <p
-                            class="mt-4 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                         >
                             Timely campus advisories, service updates, and
                             academic announcements.
@@ -1702,7 +1686,7 @@ onBeforeUnmount(() => {
                                     {{ update.title }}
                                 </h3>
                                 <p
-                                    class="mt-3 text-lg leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-3 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     {{ update.summary }}
                                 </p>

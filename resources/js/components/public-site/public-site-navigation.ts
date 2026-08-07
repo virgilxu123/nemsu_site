@@ -152,8 +152,8 @@ export const publicSiteNavigationGroups: PublicSiteNavigationGroup[] = [
                         href: rie().url,
                     },
                     {
-                        label: 'Research Centers',
-                        href: `${rie().url}#research-centers`,
+                        label: 'OVPRIE Offices',
+                        href: `${rie().url}#ovprie-offices`,
                     },
                     {
                         label: 'Published Articles',

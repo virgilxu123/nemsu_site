@@ -136,7 +136,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                                 {{ props.college.title }}
                             </h2>
                             <p
-                                class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                                class="mt-5 text-lg/8 text-justify text-slate-600 dark:text-slate-300"
                             >
                                 {{ props.college.overview }}
                             </p>
@@ -161,7 +161,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 
                                     <div>
                                         <ul
-                                            class="grid gap-3 text-uni-body text-slate-700 dark:text-slate-300"
+                                            class="grid gap-3 text-lg/8 text-slate-700 dark:text-slate-300 text-justify"
                                         >
                                             <li
                                                 v-for="course in campus.courses"

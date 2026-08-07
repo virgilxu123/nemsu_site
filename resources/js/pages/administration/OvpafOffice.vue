@@ -247,7 +247,7 @@ onBeforeUnmount(() => {
                             {{ props.office.title }}
                         </h4>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                         >
                             {{ props.office.description }}
                         </p>

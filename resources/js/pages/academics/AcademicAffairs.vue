@@ -176,14 +176,14 @@ defineProps<{
                             Leading Academic Excellence Across NEMSU
                         </h2>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                         >
                             {{ academicAffairs.profile.summary }}
                         </p>
                         <p
                             v-for="paragraph in academicAffairs.profile.description"
                             :key="paragraph"
-                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                         >
                             {{ paragraph }}
                         </p>
@@ -203,7 +203,7 @@ defineProps<{
                             <p
                                 v-for="paragraph in academicAffairs.profile.biography"
                                 :key="paragraph"
-                                class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                                class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                             >
                                 {{ paragraph }}
                             </p>
