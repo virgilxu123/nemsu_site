@@ -64,7 +64,7 @@ const heroBackgroundImage =
     '/images/administration/ovpaf/6I3A7029(1).jpg';
 
 const vicePresidentImage =
-    '/images/administration/ovpaf/URBIZTONDO,%20FLORIFE,%20O%20SFFB%20NEMSU_4532%20copy.jpg';
+    '/images/administration/ovpaf/Reso of URBIZTONDO, FLORIFE, O SFFB NEMSU_4532 copy.jpg';
 
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
