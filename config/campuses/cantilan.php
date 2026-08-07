@@ -23,7 +23,68 @@ TEXT,
     'directorRole' => 'Professor V / Campus Director',
     'directorEmail' => 'nemsucantilan.cdoffice@gmail.com',
     'directorPhone' => '0907 867 0913',
-    'focus' => 'Technology-driven and skills-based education',
+    'directorPhoto' => '/images/campuses/cantilan/campus-director.jpg',
+    'focus' => 'Student leadership, emergency response, and community extension',
+    'studentGovernmentActivities' => [
+        [
+            'title' => 'USG Spreads Care',
+            'date' => 'October 10, 2025',
+            'description' => 'Following the magnitude 7.6 earthquake centered in Manay, Davao Oriental, the University Student Government repurposed refreshments prepared for the cancelled National Teachers’ Month culmination program. Led by Student Regent Hon. Neo P. Villason, USG officers and department governors formed mobile teams and orderly distributed ice cream and kakanin to evacuated students across the NEMSU Cantilan Campus grounds.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/cantilan/student-government/usg-spreads-care-1.webp',
+                    'alt' => 'USG Spreads Care emergency response narrative poster',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/usg-spreads-care-2.webp',
+                    'alt' => 'USG officers distributing refreshments to evacuated students after the earthquake',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/usg-spreads-care-3.webp',
+                    'alt' => 'Student leaders serving food during the USG Spreads Care initiative',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/usg-spreads-care-4.webp',
+                    'alt' => 'Evacuated students receiving refreshments from USG mobile distribution teams',
+                ],
+            ],
+        ],
+        [
+            'title' => 'Donation Drive 2026: Compassion in Action',
+            'date' => 'February 17, 2026',
+            'description' => 'The University Student Government mobilized a campus-wide donation drive for families in Lanuza affected by Typhoon Basyang. With support from campus administrators, the Office of Student Welfare and Development, student organizations, and the municipal government, the delegation sorted, transported, and directly distributed food, clothing, kitchen utensils, and household necessities to affected communities.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-1.webp',
+                    'alt' => 'Donation Drive 2026 Compassion in Action narrative poster',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-2.webp',
+                    'alt' => 'USG Donation Drive 2026 campaign announcement and activity documentation',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-3.webp',
+                    'alt' => 'Donated food, clothing, and household supplies collected for Lanuza families',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-4.webp',
+                    'alt' => 'USG volunteers sorting and packing relief goods for deployment',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-5.webp',
+                    'alt' => 'NEMSU Cantilan delegation delivering relief assistance in Lanuza',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-6.webp',
+                    'alt' => 'USG representatives handing donated supplies to affected families',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/student-government/donation-drive-2026-7.webp',
+                    'alt' => 'Relief goods prepared and distributed during the Compassion in Action drive',
+                ],
+            ],
+        ],
+    ],
     'facilities' => [
         'Old Science Building',
         'Science Building',
@@ -302,6 +363,156 @@ TEXT,
             'category' => 'Income Generation',
         ],
     ],
+    'services' => [
+        'Guidance and Counseling Services',
+        'School Clinic',
+    ],
+    'serviceHighlights' => [
+        [
+            'title' => 'Guidance and Counseling Services',
+            'description' => 'Counseling, mental health awareness, special programs, and enrollment campaigns that support student well-being, informed decision-making, and access to NEMSU programs. Activities include the 2024 Breaking the Stigma program and 2026 Grade 12 enrollment campaigns across mainland Surigao del Norte, its island communities, and the Dinagat Islands.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/cantilan/services/counseling-session-1.webp',
+                    'alt' => 'Individual counseling session at NEMSU Cantilan Campus',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/counseling-session-2.webp',
+                    'alt' => 'Group counseling session facilitated by the Guidance Office',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/dinagat-enrollment-campaign-2026-1.webp',
+                    'alt' => 'NEMSU Cantilan enrollment campaign team in the Dinagat Islands',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/dinagat-enrollment-campaign-2026-2.webp',
+                    'alt' => 'Grade 12 students attending the 2026 Dinagat enrollment campaign',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/dinagat-enrollment-campaign-2026-3.webp',
+                    'alt' => 'Enrollment campaign team with school partners in the Dinagat Islands',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-islands-enrollment-campaign-2026-1.webp',
+                    'alt' => 'Enrollment campaign team visiting a Surigao del Norte island school',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-islands-enrollment-campaign-2026-2.webp',
+                    'alt' => 'NEMSU program presentation for Grade 12 students in the island communities',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-islands-enrollment-campaign-2026-3.webp',
+                    'alt' => 'Students and campaign personnel during the Surigao del Norte islands visit',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-mainland-enrollment-campaign-2026-1.webp',
+                    'alt' => 'Grade 12 students attending the mainland Surigao del Norte enrollment campaign',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-mainland-enrollment-campaign-2026-2.webp',
+                    'alt' => 'NEMSU Cantilan enrollment campaign team with mainland students',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/surigao-mainland-enrollment-campaign-2026-3.webp',
+                    'alt' => 'Campaign team and school partners during the mainland enrollment drive',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/mental-health-awareness-2024-1.webp',
+                    'alt' => 'Speaker presenting during the 2024 mental health awareness activity',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/mental-health-awareness-2024-2.webp',
+                    'alt' => 'Freedom Wall activity during the Breaking the Stigma mental health program',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/mental-health-awareness-2024-3.webp',
+                    'alt' => 'Participants in the 2024 mental health awareness program',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/special-orientation-program-1.webp',
+                    'alt' => 'Resource speaker during the Guidance Office special orientation program',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/special-orientation-program-2.webp',
+                    'alt' => 'Students and facilitators at the special orientation program',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/special-orientation-program-3.webp',
+                    'alt' => 'Students attending the Guidance Office special orientation program',
+                ],
+            ],
+        ],
+        [
+            'title' => 'School Clinic',
+            'description' => 'Primary health care, medical consultations, wound dressing, intramuscular injections, bloodletting activities, health symposiums, and emergency-preparedness training for students and personnel. Activities include the 2024 bloodletting program and Standard First Aid and Basic Life Support training.',
+            'images' => [
+                [
+                    'image' => '/images/campuses/cantilan/services/bloodletting-2024-1.webp',
+                    'alt' => 'Participants donating blood during the 2024 campus bloodletting activity',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/bloodletting-2024-2.webp',
+                    'alt' => 'Campus community participating in the 2024 bloodletting program',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/bloodletting-2024-3.webp',
+                    'alt' => 'Bloodletting program presentation at NEMSU Cantilan Campus',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/medical-consultation-dr-lyle-1.webp',
+                    'alt' => 'Student receiving a medical consultation from Dr. Lyle',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/medical-consultation-dr-lyle-2.webp',
+                    'alt' => 'Dr. Lyle attending to a student during a campus consultation',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/medical-consultation-dr-paul-1.webp',
+                    'alt' => 'Dr. Paul providing medical care in the campus clinic',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/medical-consultation-dr-paul-2.webp',
+                    'alt' => 'Student receiving treatment from Dr. Paul in the campus clinic',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/standard-first-aid-bls-training-1.webp',
+                    'alt' => 'Participants practicing bandaging during first aid and BLS training',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/standard-first-aid-bls-training-2.webp',
+                    'alt' => 'Campus participants attending Standard First Aid and Basic Life Support training',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/standard-first-aid-bls-training-3.webp',
+                    'alt' => 'First aid responder assisting a participant during practical training',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/health-symposium-1.webp',
+                    'alt' => 'Health symposium poster on HIV, teenage pregnancy, mental health, substance abuse, and free testing',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/health-symposium-2.webp',
+                    'alt' => 'Health professionals leading the campus health symposium',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/health-symposium-3.webp',
+                    'alt' => 'Students participating in the NEMSU Cantilan health symposium',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/wound-dressing-im-injection-1.webp',
+                    'alt' => 'Clinic personnel performing a wound dressing procedure',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/wound-dressing-im-injection-2.webp',
+                    'alt' => 'Wound care service provided by campus clinic personnel',
+                ],
+                [
+                    'image' => '/images/campuses/cantilan/services/wound-dressing-im-injection-3.webp',
+                    'alt' => 'Campus clinic personnel administering an intramuscular injection',
+                ],
+            ],
+        ],
+    ],
     'programs' => [
         [
             'college' => 'Graduate School',
@@ -363,6 +574,58 @@ TEXT,
                 'Bachelor of Industrial Technology (BIndTech) major in Culinary Technology',
                 'Bachelor of Industrial Technology (BIndTech) major in Apparel and Fashion Technology',
             ],
+        ],
+    ],
+    'updates' => [
+        [
+            'date' => 'February 2026',
+            'title' => 'Cantilan Produces Two Criminologist Licensure Examination Topnotchers',
+            'summary' => 'The College of Criminal Justice Education produced two topnotchers in the February 2026 Criminologist Licensure Examination: John Fred Parreño ranked Top 5, while Ailene Loria ranked Top 8.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Campus Continues to Uphold Institutional Excellence',
+            'summary' => 'NEMSU Cantilan Campus continues to uphold excellence in instruction, research, extension, and student development.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'ROTC Unit Earns Outstanding RAATI 2026 Rating',
+            'summary' => 'The NEMSU Cantilan Campus ROTC Unit garnered an outstanding rating of 96.920% during RAATI 2026.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Cantilan Successfully Hosts Techno Fair 2026',
+            'summary' => 'NEMSU Cantilan Campus successfully hosted Techno Fair 2026.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Russiana Mae Ouano Wins Regional Tawag ng Tanghalan',
+            'summary' => 'Russiana Mae Ouano, a DBM student of NEMSU Cantilan Campus, emerged as the regional winner of Tawag ng Tanghalan.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Rex Brian E. Pude Ranks Top 4 in Master Electrician Licensure Examination',
+            'summary' => 'Rex Brian E. Pude, RME, an alumnus of NEMSU Cantilan Campus, ranked Top 4 in the Master Electrician Licensure Examination.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'John Michael Pradas Places Second Runner-Up in Battle of the Brains Season 4',
+            'summary' => 'John Michael Pradas, a DGTT student of NEMSU Cantilan Campus, was declared second runner-up in Battle of the Brains Season 4 conducted by Falculan Twins’ Review Center.',
+        ],
+        [
+            'date' => 'March 2026',
+            'title' => 'Cantilan Receives Best Campus Award at PRAISE 2026',
+            'summary' => 'NEMSU Cantilan Campus received the Best Campus Award during the PRAISE Award Ceremony held in March 2026.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Dr. Juancho A. Intano Marks 12 Years as Campus Director',
+            'summary' => 'Dr. Juancho A. Intano celebrated his 12th year of dedicated service as Campus Director of NEMSU Cantilan Campus.',
+        ],
+        [
+            'date' => 'January–May 2026',
+            'title' => 'Cantilan Extends Relief to Tropical Storm Basyang Survivors',
+            'summary' => 'NEMSU Cantilan Campus extended assistance and relief efforts to the victims and survivors of Tropical Storm Basyang in Surigao del Sur.',
         ],
     ],
 ];
