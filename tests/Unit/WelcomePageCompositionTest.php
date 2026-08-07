@@ -42,7 +42,7 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->toBeLessThan(strpos($welcomePage, '<WelcomeBAC'));
 });
 
-test('the default welcome hero links its bold tagline to the home route', function () {
+test('the default welcome hero uses the exported video and links its bold tagline to the home route', function () {
     $heroSection = file_get_contents(
         dirname(__DIR__, 2).
             '/resources/js/pages/welcome-sections/WelcomeHero.vue',
@@ -56,9 +56,11 @@ test('the default welcome hero links its bold tagline to the home route', functi
     expect($heroSection)
         ->toContain("import { Link } from '@inertiajs/vue3'")
         ->toContain("import { home } from '@/routes'")
+        ->toContain("v-if=\"slide.imageUrl.toLowerCase().endsWith('.mp4')\"")
         ->toContain(':href="home()"')
         ->toContain('font-bold')
         ->and($heroSource)
+        ->toContain('/storage/images/banners/home/Exported%202.mp4')
         ->toContain('Walk a journey of Excellence and Success')
         ->not->toContain(
             'We drive sustainable development through quality instruction',
