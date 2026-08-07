@@ -318,7 +318,7 @@ onBeforeUnmount(() => {
                             Aligning Plans, Quality, and Institutional Growth
                         </h3>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                         >
                             The Office of the Vice President for Planning and
                             Strategic Initiatives leads strategic planning,
@@ -328,7 +328,7 @@ onBeforeUnmount(() => {
                             essential support services.
                         </p>
                         <p
-                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
                         >
                             OVPPSI strengthens evidence-based planning,
                             transparent operations, and responsive service
@@ -479,11 +479,6 @@ onBeforeUnmount(() => {
                                             <div
                                                 class="flex flex-wrap items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400"
                                             >
-                                                <span
-                                                    class="rounded bg-[#e7f3fb] px-2 py-1 text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
-                                                >
-                                                    {{ matter.type }}
-                                                </span>
                                                 <span
                                                     v-if="matter.date"
                                                     class="inline-flex items-center gap-1.5"

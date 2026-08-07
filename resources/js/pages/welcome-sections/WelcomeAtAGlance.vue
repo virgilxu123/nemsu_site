@@ -26,7 +26,9 @@ defineProps<{
         >
             <p
                 class="w-full text-center font-serif text-[27.5vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
-            >NEMSU</p>
+            >
+                NEMSU
+            </p>
         </div>
 
         <div
@@ -60,7 +62,7 @@ defineProps<{
                                     at a
                                 </span>
                                 <span
-                                    class="ml-2 font-allura font-normal italic text-[3.5rem]"
+                                    class="ml-2 font-sans text-[3.5rem] font-normal italic"
                                 >
                                     Glance
                                 </span>

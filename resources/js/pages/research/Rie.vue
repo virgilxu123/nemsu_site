@@ -26,16 +26,12 @@ type Leader = {
     summary: string;
 };
 
-type OfficeItem = {
-    slug: string;
-    name: string;
-};
-
 type OfficeGroup = {
     id: string;
+    slug: string;
     title: string;
+    acronym: string;
     director: Leader;
-    offices: OfficeItem[];
 };
 
 type NewsUpdate = {
@@ -73,8 +69,7 @@ type RevealDirection = 'down' | 'left' | 'right' | 'up';
 const manualUrl =
     'https://drive.google.com/file/d/1N_PgfkGK7-k68JBKqrNCW4BuOzhmHsXv/view?usp=sharing';
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 
 const vicePresident: Leader = {
     name: 'Rolly G. Salvaleon, PhD',
@@ -119,64 +114,28 @@ const extensionDirector: Leader = {
 const officeGroups: OfficeGroup[] = [
     {
         id: 'research',
+        slug: 'university-research-and-innovation-office',
         title: 'University Research and Innovation Office',
+        acronym: 'RIDO',
         director: researchDirector,
-        offices: [
-            {
-                slug: 'research-centers',
-                name: 'Research Centers',
-            },
-            {
-                slug: 'research-operation-office',
-                name: 'Research Operation Office',
-            },
-            {
-                slug: 'creative-works-management-office',
-                name: 'Creative Works Management Office',
-            },
-            {
-                slug: 'publication-and-printing-office',
-                name: 'Publication and Printing Office',
-            },
-        ],
     },
     {
         id: 'innovation',
+        slug: 'knowledge-and-technology-transfer-office',
         title: 'Knowledge and Technology Transfer Office',
+        acronym: 'KTTO',
         director: kttoDirector,
-        offices: [
-            {
-                slug: 'innovation-and-technology-support-office',
-                name: 'Innovation and Technology Support Office',
-            },
-            {
-                slug: 'intellectual-property-and-technology-business-management-office',
-                name: 'Intellectual Property and Technology Business Management Office',
-            },
-            {
-                slug: 'technology-business-incubation-office',
-                name: 'Technology Business Incubation Office',
-            },
-        ],
     },
     {
         id: 'extension',
+        slug: 'extension-services-and-linkages-office',
         title: 'Extension Services and Linkages Office',
+        acronym: 'ESLO',
         director: extensionDirector,
-        offices: [
-            {
-                slug: 'extension-planning-and-implementation-office',
-                name: 'Extension Planning and Implementation Office',
-            },
-            {
-                slug: 'monitoring-and-impact-assessment-office',
-                name: 'Monitoring and Impact Assessment Office',
-            },
-        ],
     },
 ];
 
-const officeLinks = officeGroups.flatMap((group) => group.offices);
+const officeLinks = officeGroups;
 
 const innovationRegistryDocuments: RegistryDocument[] = [
     {
@@ -579,7 +538,7 @@ onBeforeUnmount(() => {
                     <article
                         data-scroll-section="ovprie-profile-card"
                         :class="revealClasses('ovprie-profile-card', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:sticky lg:top-24 lg:order-none lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img
@@ -641,7 +600,9 @@ onBeforeUnmount(() => {
                             :href="officeShow.url(office.slug)"
                             class="group inline-flex items-center justify-start gap-2 text-left text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
                         >
-                            <span>{{ office.name }}</span>
+                            <span>
+                                {{ office.title }} ({{ office.acronym }})
+                            </span>
                             <span
                                 class="text-[#f2b705] transition group-hover:translate-x-1"
                                 aria-hidden="true"

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
-
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -9,13 +7,39 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+    font-family: 'Delight';
+    src: url('/fonts/delight/delight-vf.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PolySans Trial Neutral';
+    src: url('/fonts/polysans/polysanstrial-neutral.otf') format('opentype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'PolySans Trial Neutral';
+    src: url('/fonts/polysans/polysansitalictrial-neutralitalic.otf')
+        format('opentype');
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+}
+
 @theme inline {
     --font-sans:
-        Instrument Sans, ui-sans-serif, system-ui, sans-serif,
+        'PolySans Trial Neutral', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
-    --font-academic: Georgia, Merriweather, ui-serif, serif;
-    --font-allura: Allura, cursive;
+    --font-delight: Delight, ui-sans-serif, system-ui, sans-serif;
+    --font-academic: Delight, ui-sans-serif, system-ui, sans-serif;
+    --font-serif: Delight, ui-serif, serif;
 
     --text-uni-micro: 0.875rem;
     --text-uni-micro--line-height: 1.4;
@@ -181,6 +205,13 @@
         @apply bg-background font-sans text-foreground;
     }
 
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply font-delight;
+    }
+
     .public-site main {
         @apply font-sans text-uni-body text-slate-900 dark:text-white;
     }
@@ -190,8 +221,8 @@
         line-height: inherit;
     }
 
-    .public-site main :where(h1, h2, h3) {
-        @apply font-academic font-semibold;
+    .public-site main :where(h1, h2, h3, h4) {
+        @apply font-semibold;
     }
 
     .public-site main :where(h1) {
