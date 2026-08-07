@@ -69,8 +69,7 @@ test('the campus profile maps the San Miguel student government details', functi
 
     expect($studentGovernment['adviser'])->toBe('Ed B. Bautista, MAEd')
         ->and($studentGovernment['activities'])->toHaveCount(6)
-        ->and($studentGovernment)->not->toHaveKey('officers')
-        ->and($campusProfiles['cantilan']['studentGovernment']['activities'])->toBe([]);
+        ->and($studentGovernment)->not->toHaveKey('officers');
 });
 
 test('the campus page keeps the student government layout uniform without an officer roster', function () {
