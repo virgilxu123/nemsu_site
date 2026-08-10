@@ -83,7 +83,7 @@ export const fallbackAtAGlanceStats: GlanceStat[] = [
     {
         key: 'academic-programs',
         label: 'Academic Programs',
-        value: '121',
+        value: '106',
         scope: 'As of Apr. 30, 2026',
     },
     {
