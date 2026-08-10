@@ -915,8 +915,7 @@ onBeforeUnmount(() => {
                         <h2
                             class="mt-3 max-w-2xl font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
-                            Spaces for learning, research, service, and campus
-                            life
+                            Spaces for Learning, Research, and Service
                         </h2>
                     </div>
                     <div
@@ -1034,7 +1033,7 @@ onBeforeUnmount(() => {
                         <h2
                             class="mt-3 max-w-xl font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
-                            Student experiences beyond the classroom
+                            Student Experiences Beyond the Classroom
                         </h2>
                     </div>
                     <p
@@ -1088,27 +1087,27 @@ onBeforeUnmount(() => {
                             <template v-if="highlight.images.length > 1">
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 left-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                    class="absolute top-1/2 left-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Show previous photo for ${highlight.title}`"
                                     @click="
                                         scrollCampusLifePhoto(index, $event, -1)
                                     "
                                 >
                                     <ChevronLeft
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 right-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                    class="absolute top-1/2 right-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Show next photo for ${highlight.title}`"
                                     @click="
                                         scrollCampusLifePhoto(index, $event, 1)
                                     "
                                 >
                                     <ChevronRight
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
@@ -1131,12 +1130,6 @@ onBeforeUnmount(() => {
                                         "
                                     ></span>
                                 </div>
-
-                                <span
-                                    class="pointer-events-none absolute top-3 right-3 rounded bg-[#160a45]/65 px-2 py-1 text-[11px] leading-none font-medium text-white/85 backdrop-blur-sm"
-                                >
-                                    {{ highlight.images.length }} photos
-                                </span>
                             </template>
                         </div>
 
@@ -1180,7 +1173,7 @@ onBeforeUnmount(() => {
                     <h2
                         class="mt-3 font-serif text-3xl font-semibold tracking-tight"
                     >
-                        Campus support and student service points
+                        Campus Support and Student Service Points
                     </h2>
                 </div>
 
@@ -1208,7 +1201,7 @@ onBeforeUnmount(() => {
                         "
                     >
                         <div
-                            class="group/service-slider relative isolate aspect-[16/10] overflow-hidden bg-slate-950/40"
+                            class="relative isolate aspect-[16/10] overflow-hidden bg-[#160a45]"
                             data-service-photo-frame
                         >
                             <div
@@ -1225,21 +1218,18 @@ onBeforeUnmount(() => {
                                     :key="image.image"
                                     :src="image.image"
                                     :alt="image.alt"
-                                    class="size-full shrink-0 snap-center object-cover transition duration-500 group-hover/service-slider:scale-[1.025]"
+                                    class="size-full shrink-0 snap-center object-contain"
+                                    loading="lazy"
                                 />
                             </div>
                             <div
-                                class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-[#1f007c]/75 to-transparent"
+                                class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#160a45]/75 to-transparent"
                                 aria-hidden="true"
                             ></div>
                             <template v-if="service.images.length > 1">
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
-                                    :disabled="
-                                        (activeServiceHighlightPhoto[index] ??
-                                            0) === 0
-                                    "
+                                    class="absolute top-1/2 left-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Previous ${service.title} photo`"
                                     @click="
                                         scrollServiceHighlightPhoto(
@@ -1250,18 +1240,13 @@ onBeforeUnmount(() => {
                                     "
                                 >
                                     <ChevronLeft
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
-                                    :disabled="
-                                        (activeServiceHighlightPhoto[index] ??
-                                            0) ===
-                                        service.images.length - 1
-                                    "
+                                    class="absolute top-1/2 right-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Next ${service.title} photo`"
                                     @click="
                                         scrollServiceHighlightPhoto(
@@ -1272,12 +1257,12 @@ onBeforeUnmount(() => {
                                     "
                                 >
                                     <ChevronRight
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
                                 <div
-                                    class="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-slate-950/20 px-2 py-1 backdrop-blur-sm"
+                                    class="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5"
                                     aria-hidden="true"
                                 >
                                     <span
@@ -1285,26 +1270,16 @@ onBeforeUnmount(() => {
                                             _, imageIndex
                                         ) in service.images"
                                         :key="imageIndex"
-                                        class="h-1.5 transition-all"
+                                        class="size-1.5 rounded-full transition"
                                         :class="
                                             (activeServiceHighlightPhoto[
                                                 index
                                             ] ?? 0) === imageIndex
-                                                ? 'w-5 bg-[#f2b705]/90'
-                                                : 'w-1.5 bg-white/45'
+                                                ? 'bg-white'
+                                                : 'bg-white/45'
                                         "
                                     ></span>
                                 </div>
-                                <span
-                                    class="absolute right-4 bottom-4 rounded-full bg-white/65 px-2.5 py-1 text-xs font-semibold text-[#08047d]/70 backdrop-blur-sm"
-                                >
-                                    {{ service.images.length }}
-                                    {{
-                                        service.images.length === 1
-                                            ? 'photo'
-                                            : 'photos'
-                                    }}
-                                </span>
                             </template>
                         </div>
                         <div class="mt-5 grid gap-3">
@@ -1343,16 +1318,12 @@ onBeforeUnmount(() => {
             </div>
         </section>
 
-        <section
-            class="bg-[#f7f8f5] py-16 sm:py-20 dark:bg-slate-900"
-        >
+        <section class="bg-[#f7f8f5] py-16 sm:py-20 dark:bg-slate-900">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div
                     class="border-y border-slate-200 py-10 sm:py-12 dark:border-white/10"
                     data-scroll-section="campus-government-heading"
-                    :class="
-                        revealClasses('campus-government-heading', 'right')
-                    "
+                    :class="revealClasses('campus-government-heading', 'right')"
                 >
                     <div class="flex items-center gap-4">
                         <span
@@ -1426,11 +1397,11 @@ onBeforeUnmount(() => {
                     >
                         <div
                             v-if="activity.images.length"
-                            class="group/slider relative isolate overflow-hidden bg-slate-950"
+                            class="relative isolate aspect-[16/10] overflow-hidden bg-[#160a45]"
                             data-usg-photo-frame
                         >
                             <div
-                                class="usg-photo-slider flex snap-x snap-mandatory scrollbar-none overflow-x-auto scroll-smooth"
+                                class="usg-photo-slider flex size-full snap-x snap-mandatory overflow-x-auto scroll-smooth"
                                 :aria-label="`${activity.title} photo slider`"
                                 data-usg-photo-slider
                                 @scroll.passive="
@@ -1443,22 +1414,18 @@ onBeforeUnmount(() => {
                                     :key="image.image"
                                     :src="image.image"
                                     :alt="image.alt"
-                                    class="aspect-video w-full shrink-0 snap-center object-cover transition duration-500 group-hover/slider:scale-[1.02]"
+                                    class="size-full shrink-0 snap-center object-contain"
                                     loading="lazy"
                                 />
                             </div>
                             <div
-                                class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/70 to-transparent"
+                                class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#160a45]/75 to-transparent"
                                 aria-hidden="true"
                             ></div>
                             <template v-if="activity.images.length > 1">
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 left-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
-                                    :disabled="
-                                        (activeGovernmentActivityPhoto[index] ??
-                                            0) === 0
-                                    "
+                                    class="absolute top-1/2 left-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Previous ${activity.title} photo`"
                                     @click="
                                         scrollGovernmentActivityPhoto(
@@ -1469,18 +1436,13 @@ onBeforeUnmount(() => {
                                     "
                                 >
                                     <ChevronLeft
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
                                 <button
                                     type="button"
-                                    class="absolute top-1/2 right-3 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-white/55 text-[#08047d] shadow-sm backdrop-blur-sm transition hover:bg-white/85 disabled:pointer-events-none disabled:opacity-25"
-                                    :disabled="
-                                        (activeGovernmentActivityPhoto[index] ??
-                                            0) ===
-                                        activity.images.length - 1
-                                    "
+                                    class="absolute top-1/2 right-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                     :aria-label="`Next ${activity.title} photo`"
                                     @click="
                                         scrollGovernmentActivityPhoto(
@@ -1491,12 +1453,12 @@ onBeforeUnmount(() => {
                                     "
                                 >
                                     <ChevronRight
-                                        class="size-4"
+                                        class="size-6"
                                         aria-hidden="true"
                                     />
                                 </button>
                                 <div
-                                    class="absolute bottom-4 left-4 flex items-center gap-1.5 rounded-full bg-slate-950/20 px-2 py-1 backdrop-blur-sm"
+                                    class="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5"
                                     aria-hidden="true"
                                 >
                                     <span
@@ -1504,28 +1466,17 @@ onBeforeUnmount(() => {
                                             _, imageIndex
                                         ) in activity.images"
                                         :key="imageIndex"
-                                        class="h-1.5 transition-all"
+                                        class="size-1.5 rounded-full transition"
                                         :class="
                                             (activeGovernmentActivityPhoto[
                                                 index
                                             ] ?? 0) === imageIndex
-                                                ? 'w-5 bg-[#f2b705]/90'
-                                                : 'w-1.5 bg-white/45'
+                                                ? 'bg-white'
+                                                : 'bg-white/45'
                                         "
                                     ></span>
                                 </div>
                             </template>
-                            <span
-                                v-if="activity.images.length > 1"
-                                class="absolute right-4 bottom-4 rounded-full bg-white/65 px-2.5 py-1 text-xs font-semibold text-[#08047d]/70 backdrop-blur-sm"
-                            >
-                                {{ activity.images.length }}
-                                {{
-                                    activity.images.length === 1
-                                        ? 'photo'
-                                        : 'photos'
-                                }}
-                            </span>
                         </div>
                         <div class="p-6">
                             <p
@@ -1563,7 +1514,7 @@ onBeforeUnmount(() => {
                         <h2
                             class="mt-3 font-serif text-3xl font-semibold tracking-tight text-slate-950 dark:text-white"
                         >
-                            Latest campus notices
+                            Latest Campus Notices
                         </h2>
                         <p
                             class="mt-4 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
@@ -1585,11 +1536,11 @@ onBeforeUnmount(() => {
                                 {{ update.date }}
                             </time>
                             <div
-                                class="relative max-w-3xl pl-5 before:absolute before:top-1.5 before:bottom-1 before:left-0 before:w-1 before:bg-[#f2b705] before:transition-all before:duration-200 group-hover:before:bg-[#9b1c31] dark:before:bg-[#f2b705]/80"
+                                class="relative max-w-3xl pl-5 before:absolute before:top-1.5 before:bottom-1 before:left-0 before:w-1 before:bg-[#f2b705] before:transition-all before:duration-200 group-hover:before:bg-[#1711d4] dark:before:bg-[#f2b705]/80 dark:group-hover:before:bg-sky-300"
                             >
                                 <div
                                     v-if="update.images?.length"
-                                    class="group/update-slider relative isolate mb-6 aspect-[16/9] overflow-hidden bg-slate-950"
+                                    class="relative isolate mb-6 aspect-[16/10] overflow-hidden bg-[#160a45]"
                                     data-update-photo-frame
                                 >
                                     <div
@@ -1606,20 +1557,20 @@ onBeforeUnmount(() => {
                                             :key="image.image"
                                             :src="image.image"
                                             :alt="image.alt"
-                                            class="size-full shrink-0 snap-center object-cover"
+                                            class="size-full shrink-0 snap-center object-contain"
                                             loading="lazy"
                                         />
                                     </div>
 
                                     <div
-                                        class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-slate-950/65 to-transparent"
+                                        class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-[#160a45]/75 to-transparent"
                                         aria-hidden="true"
                                     ></div>
 
                                     <template v-if="update.images.length > 1">
                                         <button
                                             type="button"
-                                            class="absolute top-1/2 left-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                            class="absolute top-1/2 left-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                             :aria-label="`Show previous photo for ${update.title}`"
                                             @click="
                                                 scrollUpdatePhoto(
@@ -1630,13 +1581,13 @@ onBeforeUnmount(() => {
                                             "
                                         >
                                             <ChevronLeft
-                                                class="size-4"
+                                                class="size-6"
                                                 aria-hidden="true"
                                             />
                                         </button>
                                         <button
                                             type="button"
-                                            class="absolute top-1/2 right-3 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 opacity-80 shadow-sm backdrop-blur-sm transition hover:bg-white hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                                            class="absolute top-1/2 right-3 inline-flex size-10 -translate-y-1/2 items-center justify-center text-white/75 drop-shadow-md transition hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                                             :aria-label="`Show next photo for ${update.title}`"
                                             @click="
                                                 scrollUpdatePhoto(
@@ -1647,7 +1598,7 @@ onBeforeUnmount(() => {
                                             "
                                         >
                                             <ChevronRight
-                                                class="size-4"
+                                                class="size-6"
                                                 aria-hidden="true"
                                             />
                                         </button>
@@ -1671,12 +1622,6 @@ onBeforeUnmount(() => {
                                                 "
                                             ></span>
                                         </div>
-
-                                        <span
-                                            class="pointer-events-none absolute top-3 right-3 rounded bg-slate-950/60 px-2 py-1 text-[11px] leading-none font-medium text-white/85 backdrop-blur-sm"
-                                        >
-                                            {{ update.images.length }} photos
-                                        </span>
                                     </template>
                                 </div>
 
@@ -1690,11 +1635,6 @@ onBeforeUnmount(() => {
                                 >
                                     {{ update.summary }}
                                 </p>
-                                <span
-                                    class="mt-4 inline-flex text-xs font-semibold tracking-[0.18em] text-[#9b1c31] uppercase dark:text-rose-300"
-                                >
-                                    Notice
-                                </span>
                             </div>
                         </li>
                     </ol>
