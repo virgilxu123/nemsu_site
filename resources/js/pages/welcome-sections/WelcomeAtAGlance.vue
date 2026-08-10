@@ -117,7 +117,7 @@ defineProps<{
                     class="relative mx-auto w-full max-w-[36rem] lg:-ml-4 lg:justify-self-start"
                 >
                     <img
-                        src="/storage/images/nemsu-at-glance/nemsu-map.png"
+                        src="/storage/images/nemsu-at-glance/nemsu-map-v2.png"
                         alt="Map of Surigao del Sur showing the seven NEMSU campuses"
                         width="713"
                         height="764"

@@ -26,15 +26,15 @@ const currentYear = new Date().getFullYear();
                 <img
                     src="/storage/images/branding/logos/nemsu-logo.png"
                     alt="NEMSU seal"
-                    class="size-18 shrink-0 object-contain"
+                    class="size-24 shrink-0 object-contain"
                 />
-                <h2
+                <h3
                     id="footer-university"
-                    class="max-w-md font-academic text-xl leading-[1.15] font-extrabold tracking-wide text-[#08045f] dark:text-white"
+                    class="max-w-md mt-2 font-academic leading-[1.15] font-extrabold tracking-wide text-[#08045f] dark:text-white"
                 >
                     North Eastern Mindanao <br />
                     State University
-                </h2>
+                </h3>
                 <div class="grid gap-1">
                     <component
                         :is="item.href ? 'a' : 'p'"
@@ -47,7 +47,7 @@ const currentYear = new Date().getFullYear();
                     </component>
                 </div>
                 <div
-                    class="h-px w-full max-w-sm bg-slate-200 dark:bg-white/15"
+                    class="h-px mt-2 mb-3 w-full max-w-sm bg-slate-200 dark:bg-white/15"
                     aria-hidden="true"
                 ></div>
                 <div
@@ -90,13 +90,13 @@ const currentYear = new Date().getFullYear();
             </section>
 
             <section aria-labelledby="footer-contact-information">
-                <h2
+                <h3
                     id="footer-contact-information"
-                    class="font-academic text-sm font-semibold tracking-wide text-[#08045f] dark:text-white"
+                    class="font-academic font-semibold tracking-wide text-[#08045f] dark:text-white"
                 >
                     Contact Information
-                </h2>
-                <div class="mt-4 grid gap-4 lg:grid-cols-2 lg:gap-x-10">
+                </h3>
+                <div class="mt-8 grid gap-4 lg:grid-cols-2 lg:gap-x-10">
                     <div
                         v-for="(
                             contactColumn, columnIndex
@@ -111,7 +111,7 @@ const currentYear = new Date().getFullYear();
                             class="group flex items-center gap-2.5 rounded-sm text-sm text-slate-600 transition hover:text-[#1711d4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:text-slate-300 dark:hover:text-sky-200"
                         >
                             <span
-                                class="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-[#efefff] text-[#1711d4] transition group-hover:bg-[#1711d4] group-hover:text-white dark:bg-white/10 dark:text-sky-200"
+                                class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-[#efefff] text-[#1711d4] transition group-hover:bg-[#1711d4] group-hover:text-white dark:bg-white/10 dark:text-sky-200"
                             >
                                 <component
                                     :is="contact.icon"
