@@ -16,12 +16,27 @@ test('the Cantilan campus profile uses the official campus details', function ()
             'role' => 'Professor V / Campus Director',
             'email' => 'nemsucantilan.cdoffice@gmail.com',
             'phone' => '0907 867 0913',
+            'photo' => '/images/campuses/cantilan/campus-director.jpg',
         ])
         ->and($cantilan['contact'])
         ->toMatchArray([
             'address' => 'Pag-antayan, Cantilan, Surigao del Sur, 8317',
             'email' => 'cantilan@nemsu.edu.ph',
         ]);
+});
+
+test('the Cantilan campus director uses the supplied portrait', function () {
+    $publicPath = dirname(__DIR__, 2).'/public/images/campuses/cantilan/campus-director.jpg';
+
+    expect(file_exists($publicPath))->toBeTrue();
+
+    $dimensions = getimagesize($publicPath);
+
+    expect($dimensions)
+        ->not->toBeFalse()
+        ->and($dimensions['mime'])->toBe('image/jpeg')
+        ->and($dimensions[0])->toBe(1295)
+        ->and($dimensions[1])->toBe(1066);
 });
 
 test('the Cantilan campus profile lists its official program offerings', function () {

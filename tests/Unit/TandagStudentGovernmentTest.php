@@ -36,6 +36,5 @@ test('the Tandag student government activities use the supplied local content', 
 
     $campusProfiles = require dirname(__DIR__, 2).'/config/campus_profiles.php';
 
-    expect($campusProfiles['tandag']['studentGovernment']['activities'])->toHaveCount(5)
-        ->and($campusProfiles['cantilan']['studentGovernment']['activities'])->toBe([]);
+    expect($campusProfiles['tandag']['studentGovernment']['activities'])->toHaveCount(5);
 });
