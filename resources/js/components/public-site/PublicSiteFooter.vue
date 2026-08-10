@@ -149,12 +149,12 @@ const currentYear = new Date().getFullYear();
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    fill="#1711d4"
+                    fill="#08045f"
                     d="M0 8C220 37 440 27 650 16C906 2 1130 0 1440 22V40H0Z"
                 />
             </svg>
         </div>
-        <div class="bg-[#1711d4] text-white">
+        <div class="bg-brand-navy text-white">
             <div
                 class="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-4 px-4 pt-1 pb-5 text-center sm:flex-row sm:px-6 sm:text-left lg:px-8"
             >

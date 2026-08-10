@@ -514,13 +514,13 @@ onBeforeUnmount(() => {
                 <div class="mx-auto overflow-x-auto max-w-400">
                 <!-- <div class="flex justify-center overflow-x-auto max-w-700"> -->
                     <div class="flex mt-20 min-w-max">
-                        <div v-for="(item, index) in historyItems" :key="item.year" class="w-65 max-w-65 py-4 pe-7 relative border-primary" :class="{'border-t-4' : index !== historyItems.length - 1}">
-                            <div class="absolute w-10 h-10 border-4 border-primary rounded-full left-0 -top-5 bg-[#f5f8ff] flex items-center justify-center">
-                                <div class="bg-primary h-6 w-6 rounded-full"></div>
+                        <div v-for="(item, index) in historyItems" :key="item.year" class="w-65 max-w-65 py-4 pe-7 relative border-[#1711d4]" :class="{'border-t-4' : index !== historyItems.length - 1}">
+                            <div class="absolute w-9 h-9 border-4 border-[#1711d4] rounded-full left-0 -top-5 bg-[#f5f8ff] flex items-center justify-center">
+                                <div class="bg-brand-blue h-5 w-5 rounded-full"></div>
                             </div>
-                            <h3 class="font-bold mb-4 mt-2">{{ item.year }}</h3>
-                            <div class="font-bold">{{ item.title }}</div>
-                            <p>{{ item.description }}</p>
+                            <h3 class="font-bold text-brand-navy mb-7 mt-3">{{ item.year }}</h3>
+                            <div class="font-bold text-brand-navy">{{ item.title }}</div>
+                            <p class="text-brand-navy">{{ item.description }}</p>
                         </div>
                     </div>
                 </div>
