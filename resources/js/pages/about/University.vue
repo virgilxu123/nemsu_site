@@ -495,8 +495,10 @@ onBeforeUnmount(() => {
 
             <section
                 id="history"
-                class="bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
+                class="bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900 relative"
             >
+                <img src="/storage/images/university/history-bg-text.png" alt="History background text" class="absolute w-full left-0 top-0">
+
              <div class="px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
                     <p

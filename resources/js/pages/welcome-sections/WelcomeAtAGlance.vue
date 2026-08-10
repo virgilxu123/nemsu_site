@@ -20,16 +20,25 @@ defineProps<{
         data-scroll-section="at-a-glance"
         class="relative isolate min-h-[34rem] overflow-hidden bg-[#EEF2FF] py-16 lg:py-20 dark:bg-slate-950"
     >
-        <div
+        <!-- <div> -->
+             <img
+                src="/storage/images/nemsu-at-glance/nemsu-bg-text.png"
+                alt="Map of Surigao del Sur showing the seven NEMSU campuses"
+                loading="lazy"
+                decoding="async"
+                class="h-auto w-full absolute bottom-0"
+            />
+        <!-- </div> -->
+        <!-- <div
             class="pointer-events-none absolute inset-x-0 bottom-[-2vw] -z-10 overflow-hidden"
             aria-hidden="true"
         >
-            <p
+            <div
                 class="w-screen text-center font-serif text-[27.5vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
             >
                 NEMSU
-            </p>
-        </div>
+            </div>
+        </div> -->
 
         <div
             :class="revealClasses('at-a-glance', 'up')"
