@@ -878,11 +878,6 @@ onBeforeUnmount(() => {
                         >
                             University Seal
                         </p>
-                        <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl"
-                        >
-                            Symbols of knowledge, courage, and service
-                        </h2>
                     </div>
 
                     <div
