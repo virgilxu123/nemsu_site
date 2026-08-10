@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CollegeController;
 use App\Http\Middleware\HandleInertiaRequests;
+use Illuminate\Support\Str;
 use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
@@ -50,14 +51,50 @@ test('college programs are listed once with every campus offering', function () 
         );
 });
 
+test('program aliases are consolidated under one expanded title', function () {
+    $this->withoutMiddleware(HandleInertiaRequests::class);
+
+    $this->get(route('academics.academic-affairs.colleges.show', 'college-of-business-and-management'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('college.programs', 8)
+            ->where('college.programs.1.title', 'Bachelor of Science in Business Administration major in Financial Management')
+            ->where('college.programs.1.campuses', ['Cantilan Campus', 'Lianga Campus', 'Tagbina Campus', 'Tandag Campus'])
+            ->where('college.programs.1.prospectusUrl', 'https://drive.google.com/file/d/1sfbRgyn8ZJfMxXq_RAodHlHtGvgxDUva/view?usp=sharing')
+        );
+
+    $this->get(route('academics.academic-affairs.colleges.show', 'college-of-information-technology-education'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('college.programs', 3)
+            ->where('college.programs.2.title', 'Bachelor of Science in Computer Science')
+            ->where('college.programs.2.campuses', ['Cantilan Campus', 'Lianga Campus', 'Tagbina Campus', 'Tandag Campus'])
+        );
+
+    $this->get(route('academics.academic-affairs.colleges.show', 'college-of-teacher-education'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('college.programs', 15)
+            ->where('college.programs.0.title', 'Bachelor of Secondary Education major in English')
+            ->where('college.programs.0.campuses', ['Bislig Campus', 'Cantilan Campus', 'Tandag Campus'])
+        );
+});
+
 test('every current college program has a supplied description', function () {
     foreach (CollegeController::COLLEGES as $college) {
         $programTitles = collect($college['campuses'])
             ->flatMap(fn (array $campus): array => $campus['courses'])
             ->unique();
         $programDetails = collect($college['programDetails'] ?? []);
+        $normalizedProgramTitles = $programTitles->map(fn (string $programTitle): string => Str::of($programTitle)
+            ->replaceMatches('/\s*\([^)]*\)\s*/', ' ')
+            ->squish()
+            ->lower()
+            ->toString());
 
         expect($programTitles->diff($programDetails->keys()))->toBeEmpty();
+        expect($programDetails->keys()->diff($programTitles))->toBeEmpty();
+        expect($normalizedProgramTitles->duplicates())->toBeEmpty();
 
         foreach ($programTitles as $programTitle) {
             expect($programDetails[$programTitle]['description'])

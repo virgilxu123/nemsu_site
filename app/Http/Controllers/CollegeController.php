@@ -156,9 +156,9 @@ class CollegeController extends Controller
                 [
                     'name' => 'Cantilan Campus',
                     'courses' => [
-                        'Bachelor of Science in Business Administration (BSBA) major in Financial Management',
-                        'Bachelor of Science in Business Administration (BSBA) major in Human Resource Management',
-                        'Bachelor of Science in Hospitality Management (BSHM)',
+                        'Bachelor of Science in Business Administration major in Financial Management',
+                        'Bachelor of Science in Business Administration major in Human Resource Management',
+                        'Bachelor of Science in Hospitality Management',
                         'Bachelor of Science in Tourism Management (BSTM)',
                     ],
                 ],
@@ -194,21 +194,9 @@ class CollegeController extends Controller
                     'description' => 'The Bachelor of Science in Hospitality Management program prepares students for professional careers in the hospitality and tourism industry through quality instruction, practical training, and industry immersion. It develops competencies in hotel and restaurant operations, tourism services, event management, customer relations, entrepreneurship, and hospitality leadership while promoting professionalism, cultural awareness, innovation, and excellence in service delivery.',
                     'prospectusUrl' => 'https://drive.google.com/file/d/1EV-UYg6qD4cj1vnCuXTHSLHp4IyfNqHl/view?usp=sharing',
                 ],
-                'Bachelor of Science in Business Administration (BSBA) major in Financial Management' => [
-                    'description' => 'The Bachelor of Science in Business Administration major in Financial Management program develops students’ competencies in financial planning, investment management, banking, risk management, and business finance. It equips future professionals with analytical, decision-making, and managerial skills necessary for effective financial operations in corporate, government, and entrepreneurial settings while promoting ethical and strategic financial practices.',
-                    'prospectusUrl' => 'https://drive.google.com/file/d/1sfbRgyn8ZJfMxXq_RAodHlHtGvgxDUva/view?usp=sharing',
-                ],
-                'Bachelor of Science in Business Administration (BSBA) major in Human Resource Management' => [
-                    'description' => 'The Bachelor of Science in Business Administration major in Human Resource Management program prepares students for careers in human resource administration, organizational development, labor relations, recruitment, training, and performance management. It develops leadership, communication, and people-management skills necessary for creating productive, ethical, and people-centered organizational environments.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Science in Hospitality Management (BSHM)' => [
-                    'description' => 'The Bachelor of Science in Hospitality Management program prepares students for professional careers in the hospitality and service industry through quality instruction, practical training, and industry immersion. It develops competencies in hotel and restaurant operations, food and beverage services, event management, customer relations, and hospitality leadership while promoting professionalism, innovation, cultural awareness, and excellence in service delivery.',
-                    'prospectusUrl' => null,
-                ],
                 'Bachelor of Science in Tourism Management (BSTM)' => [
                     'description' => 'The Bachelor of Science in Tourism Management program equips students with knowledge and skills in tourism operations, travel services, destination management, tour planning, hospitality, and sustainable tourism development. It prepares graduates to become competent tourism professionals capable of promoting cultural appreciation, customer satisfaction, environmental responsibility, and excellence in tourism and travel services.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1wgOWuVZau1Gzsn1pOawvMkbUhAvwy4EV/view?usp=sharing',
                 ],
                 'Bachelor of Science in Business Administration major in Business Economics' => [
                     'description' => 'The Bachelor of Science in Business Administration major in Business Economics program equips students with knowledge and analytical skills in economics, business operations, market analysis, financial systems, and strategic decision-making. It prepares graduates to evaluate economic trends, develop business strategies, and contribute to organizational growth and sustainable economic development in both public and private sectors.',
@@ -216,11 +204,11 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Business Administration major in Financial Management' => [
                     'description' => 'The Bachelor of Science in Business Administration major in Financial Management program develops students’ competencies in financial planning, investment management, banking, risk management, and corporate finance. It equips future professionals with analytical, decision-making, and managerial skills necessary for effective financial operations and ethical financial practices in business, government, and entrepreneurial settings.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1sfbRgyn8ZJfMxXq_RAodHlHtGvgxDUva/view?usp=sharing',
                 ],
                 'Bachelor of Science in Business Administration major in Human Resource Management' => [
                     'description' => 'The Bachelor of Science in Business Administration major in Human Resource Management program prepares students for careers in human resource administration, organizational development, labor relations, recruitment, training, and performance management. It develops leadership, communication, and people-management skills necessary for creating productive, ethical, and people-centered organizational environments.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1ryMRdFBGruokiI-Em4VrOvpcgZ8u6HN5/view?usp=sharing',
                 ],
                 'Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management' => [
                     'description' => 'The Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management program prepares students for professional careers in the hospitality industry through quality instruction, practical training, and industry immersion. It develops competencies in hotel operations, restaurant management, food and beverage services, customer relations, event coordination, and hospitality leadership while promoting professionalism, innovation, cultural awareness, and excellence in service delivery.',
@@ -228,11 +216,11 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Business Administration major in Marketing Management' => [
                     'description' => 'The Bachelor of Science in Business Administration major in Marketing Management program equips students with knowledge and skills in marketing strategies, consumer behavior, brand management, digital marketing, sales management, and market research. It prepares graduates to become innovative and customer-oriented professionals capable of developing effective marketing solutions and contributing to organizational growth and competitiveness.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1cM98vEXHkLHlmwcNNxSyc5FUJ9QLsYv7/view?usp=sharing',
                 ],
                 'Bachelor of Public Administration' => [
                     'description' => 'The Bachelor of Public Administration program equips students with knowledge and competencies in public governance, policy development, organizational management, public service, and community development. It prepares graduates for leadership roles in government agencies, non-government organizations, and public institutions while promoting accountability, ethical leadership, public sector innovation, and responsive public service.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/10C6diU-ttD8MNevLuTlkIF36DoWK6qTU/view?usp=sharing',
                 ],
             ],
         ],
@@ -250,7 +238,7 @@ class CollegeController extends Controller
             'programDetails' => [
                 'Bachelor of Science in Criminology' => [
                     'description' => 'The Bachelor of Science in Criminology program provides students with comprehensive knowledge and competencies in criminal justice, law enforcement, crime prevention, forensic science, criminal investigation, correctional administration, and public safety. It prepares graduates to become competent, disciplined, and ethical professionals capable of promoting peace and order, upholding justice, protecting human rights, and serving in various fields of criminal justice and public safety service.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1r716IyYLu3Q81Y7xjC6WHRKfUqkni1R7/view?usp=sharing',
                 ],
             ],
         ],
@@ -298,15 +286,15 @@ class CollegeController extends Controller
             'programDetails' => [
                 'Bachelor of Science in Electrical Engineering' => [
                     'description' => 'The Bachelor of Science in Electrical Engineering program prepares students in the design, operation, maintenance, and management of electrical systems, power generation, transmission, instrumentation, and control systems. It develops analytical, technical, and problem-solving skills necessary for the safe, efficient, and sustainable application of electrical technologies in industrial, commercial, and community settings.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/16NdKtdyW0gdQ7MjmQNeEUQgYcIK-sDU_/view?usp=sharing',
                 ],
                 'Bachelor of Science in Civil Engineering' => [
                     'description' => 'The Bachelor of Science in Civil Engineering program equips students with competencies in the planning, design, construction, and maintenance of infrastructure projects such as buildings, roads, bridges, water systems, and transportation facilities. The program emphasizes sustainable engineering practices, structural integrity, environmental responsibility, and innovative solutions to societal infrastructure needs.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1x46tsZoshrc9a6MDtMZ4qn5SQtpaxzUw/view?usp=sharing',
                 ],
                 'Bachelor of Science in Mechanical Engineering' => [
                     'description' => 'The Bachelor of Science in Mechanical Engineering program provides students with knowledge and technical skills in machine design, manufacturing processes, thermal systems, energy conversion, materials engineering, and mechanical operations. It develops competent and innovative mechanical engineers capable of designing, operating, and improving mechanical systems and technologies for industrial and community development.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1A16Ceu_En9KzwfBCoy8vTBvH6lQHEyk8/view?usp=sharing',
                 ],
                 'Bachelor of Science in Industrial Technology major in Automotive Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Automotive Technology program provides students with technical knowledge and practical skills in automotive servicing, vehicle diagnostics, maintenance, repair, and operation of automotive systems. It prepares graduates for careers in the automotive industry by developing competencies in modern automotive technologies, troubleshooting, workplace safety, and technical problem-solving.',
@@ -326,35 +314,35 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Architectural Drafting Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Architectural Drafting Technology program equips students with technical competencies in architectural drafting, computer-aided design (CAD), building plans preparation, construction detailing, and drafting standards. It develops skilled professionals capable of producing accurate technical drawings and design layouts for architectural and construction projects while promoting creativity, precision, and technical proficiency.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1HZjj9j2I0XKcdrTSvfC41tLQCzaJ8YdI/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Automotive Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Automotive Technology program provides students with practical and technical skills in automotive servicing, diagnostics, repair, maintenance, and operation of vehicle systems. It prepares graduates for careers in the automotive industry by developing competencies in modern automotive technologies, workplace safety, troubleshooting, and technical problem-solving.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1R5_BruijmvXbTzs5h3eTz0nMRE-PhZcK/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Computer Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Computer Technology program develops students’ competencies in computer systems servicing, networking, hardware and software installation, programming fundamentals, and information technology support services. It prepares graduates to become skilled technology practitioners capable of supporting digital and technological operations in various industries and institutions.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1MtwE6c1a-3S5cLGDfPC1fJC-16BIvvdh/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Electrical Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Electrical Technology program equips students with knowledge and technical skills in electrical installation, maintenance, troubleshooting, and operation of electrical systems and equipment. It prepares graduates to apply electrical principles and safety standards in industrial, commercial, and community-based environments.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1xTCet-KSuKINnREO3z4acJNrKbikM3xp/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Electronics Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Electronics Technology program provides students with competencies in electronics systems, circuit analysis, instrumentation, troubleshooting, repair, and maintenance of electronic equipment and devices. It develops technically proficient graduates capable of responding to the demands of the electronics and communications industries.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1bzRuJMLbdIkFu83hY_8fg3gykIGw0LTv/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Culinary Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Culinary Technology program develops students’ expertise in culinary arts, food preparation, kitchen operations, food safety, nutrition, and hospitality services. It prepares graduates for careers in the culinary and food service industries through practical training, creativity, technical competence, and entrepreneurial development.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1mnRP1mriTPec4OJGEAJY1aUGamBR5Pte/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Fashion and Apparel Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Fashion and Apparel Technology program equips students with knowledge and practical skills in garment construction, fashion illustration, textile selection, apparel production, pattern making, and fashion entrepreneurship. It prepares graduates to become competent professionals in the fashion and apparel industry while promoting creativity, innovation, and design excellence.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1YxIINqusrHrr0k12BP2Et2XFVIEz8Dwp/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Mechanical Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Mechanical Technology program provides students with technical competencies in machine operation, fabrication, welding, manufacturing processes, industrial maintenance, and mechanical systems. It prepares graduates to become skilled practitioners capable of operating, maintaining, and improving mechanical and industrial technologies in various sectors.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1wdbf8PSRYQ6oYes8Uptnwxa-pkZ1C6Rb/view?usp=sharing',
                 ],
             ],
         ],
@@ -395,8 +383,8 @@ class CollegeController extends Controller
                     'name' => 'Cantilan Campus',
                     'courses' => [
                         'Bachelor of Science in Computer Engineering (BSCpE)',
-                        'Bachelor of Science in Computer Science (BSCS)',
-                        'Bachelor of Science in Information Technology (BS Info. Tech.)',
+                        'Bachelor of Science in Computer Science',
+                        'Bachelor of Science in Information Technology',
                     ],
                 ],
                 [
@@ -421,23 +409,15 @@ class CollegeController extends Controller
             'programDetails' => [
                 'Bachelor of Science in Information Technology' => [
                     'description' => 'The Bachelor of Science in Information Technology program equips students with knowledge and technical competencies in software development, database management, networking, systems administration, cybersecurity, and information systems. It develops innovative, analytical, and problem-solving skills necessary for designing, implementing, and managing technology-driven solutions that support organizational operations, digital transformation, and sustainable development in various industries and institutions.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/17EZpmg5MQRP6J8Ur5j5DzA7CXZdFGUak/view?usp=sharing',
                 ],
                 'Bachelor of Science in Computer Engineering (BSCpE)' => [
                     'description' => 'The Bachelor of Science in Computer Engineering program integrates principles of computer science and electrical engineering to prepare students in the design, development, implementation, and maintenance of computer systems, hardware, software, and embedded technologies. It equips students with analytical, technical, and problem-solving skills necessary for innovation, automation, networking, and the advancement of modern computing technologies.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Science in Computer Science (BSCS)' => [
-                    'description' => 'The Bachelor of Science in Computer Science program provides students with strong foundations in algorithms, programming, software development, artificial intelligence, data structures, database systems, and computational theory. It develops innovative and research-oriented professionals capable of designing efficient computing solutions and advancing technological innovation across various industries and disciplines.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Science in Information Technology (BS Info. Tech.)' => [
-                    'description' => 'The Bachelor of Science in Information Technology program equips students with knowledge and technical competencies in software development, database management, networking, systems administration, cybersecurity, and information systems. It develops innovative, analytical, and problem-solving skills necessary for designing, implementing, and managing technology-driven solutions that support organizational operations, digital transformation, and sustainable development in various industries and institutions.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/14dYueVGHIG9lK5JmwshPdTLltMs12-Hv/view?usp=sharing',
                 ],
                 'Bachelor of Science in Computer Science' => [
                     'description' => 'The Bachelor of Science in Computer Science program provides students with strong foundations in algorithms, programming, software development, artificial intelligence, data structures, database systems, and computational theory. It develops innovative, analytical, and research-oriented professionals capable of designing efficient computing solutions, developing advanced software systems, and contributing to technological innovation across various industries and disciplines.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1m4HVwVJCCvJ9ZkayVEutMhI3r6KCSX6e/view?usp=sharing',
                 ],
             ],
         ],
@@ -456,13 +436,13 @@ class CollegeController extends Controller
                 [
                     'name' => 'Cantilan Campus',
                     'courses' => [
-                        'Bachelor of Secondary Education (BSEd) major in Science',
-                        'Bachelor of Secondary Education (BSEd) major in Mathematics',
-                        'Bachelor of Secondary Education (BSEd) major in Filipino',
-                        'Bachelor of Secondary Education (BSEd) major in English',
-                        'Bachelor of Technology and Livelihood Education (BTLEd) major in Home Economics',
-                        'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Automotive Technology',
-                        'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Electrical Technology',
+                        'Bachelor of Secondary Education major in Science',
+                        'Bachelor of Secondary Education major in Mathematics',
+                        'Bachelor of Secondary Education major in Filipino',
+                        'Bachelor of Secondary Education major in English',
+                        'Bachelor of Technology and Livelihood Education major in Home Economics',
+                        'Bachelor of Technical-Vocational Teacher Education major in Automotive Technology',
+                        'Bachelor of Technical-Vocational Teacher Education major in Electrical Technology',
                         'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Electronics Technology',
                         'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Food & Services Management',
                         'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Garments, Fashion and Design',
@@ -471,7 +451,7 @@ class CollegeController extends Controller
                 [
                     'name' => 'Lianga Campus',
                     'courses' => [
-                        'Bachelor of Elementary Education (BEEd)',
+                        'Bachelor of Elementary Education',
                         'Bachelor of Secondary Education major in Science',
                     ],
                 ],
@@ -505,43 +485,15 @@ class CollegeController extends Controller
             'programDetails' => [
                 'Bachelor of Secondary Education major in English' => [
                     'description' => 'The Bachelor of Secondary Education major in English program prepares students to become competent and effective English educators in the secondary level. It develops proficiency in language, literature, communication, pedagogy, curriculum development, and research while equipping future teachers with innovative instructional strategies, critical thinking skills, and professional ethics necessary for quality and learner-centered education.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1jclYwTnZjOcNP-m_lQu_GsznyP165732/view?usp=sharing',
                 ],
                 'Bachelor of Technical-Vocational Teacher Education major in Automotive Technology' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Automotive Technology program equips students with technical competencies in automotive servicing, diagnostics, maintenance, and repair, integrated with professional education and teaching methodologies. It prepares future technical-vocational educators and skilled practitioners capable of delivering competency-based instruction and promoting technical expertise in the automotive industry.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1eYLKG2ZVd0FeeBOmYElZNi1y1ckGcog0/view?usp=sharing',
                 ],
                 'Bachelor of Technical-Vocational Teacher Education major in Electrical Technology' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Electrical Technology program develops students’ knowledge and skills in electrical installation, maintenance, troubleshooting, and operation of electrical systems combined with pedagogical training and instructional competencies. The program prepares graduates to become qualified technical-vocational educators and industry practitioners in the field of electrical technology.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Secondary Education (BSEd) major in Science' => [
-                    'description' => 'The Bachelor of Secondary Education major in Science program prepares future science educators with strong foundations in biological, physical, and environmental sciences integrated with effective teaching methodologies and research skills. It develops competent and innovative teachers capable of promoting scientific literacy, critical thinking, inquiry-based learning, and environmental awareness among secondary learners.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Secondary Education (BSEd) major in Mathematics' => [
-                    'description' => 'The Bachelor of Secondary Education major in Mathematics program equips students with comprehensive knowledge in mathematical concepts, problem-solving, analytical reasoning, and instructional strategies for mathematics education. It prepares future mathematics teachers who can effectively foster numeracy, logical thinking, and quantitative skills among secondary school learners.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Secondary Education (BSEd) major in Filipino' => [
-                    'description' => 'The Bachelor of Secondary Education major in Filipino program develops competent educators proficient in the Filipino language, literature, communication, and culture. It prepares future teachers to effectively teach Filipino in the secondary level while promoting national identity, cultural appreciation, critical thinking, and language proficiency.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Secondary Education (BSEd) major in English' => [
-                    'description' => 'The Bachelor of Secondary Education major in English program prepares students to become effective English educators equipped with competencies in language, literature, communication, pedagogy, and research. It develops future teachers capable of delivering learner-centered and innovative English instruction that enhances communication skills, critical thinking, and global competence.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Technology and Livelihood Education (BTLEd) major in Home Economics' => [
-                    'description' => 'The Bachelor of Technology and Livelihood Education major in Home Economics program equips students with knowledge and practical skills in home management, food preparation, entrepreneurship, family resource management, clothing and textiles, and livelihood education integrated with professional teaching competencies. It prepares future educators to deliver relevant and skills-based instruction in home economics and livelihood education.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Automotive Technology' => [
-                    'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Automotive Technology program develops students’ technical competencies in automotive servicing, diagnostics, repair, and maintenance combined with pedagogical knowledge and teaching skills. It prepares graduates to become competent technical-vocational educators and practitioners in the automotive industry.',
-                    'prospectusUrl' => null,
-                ],
-                'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Electrical Technology' => [
-                    'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Electrical Technology program provides students with technical knowledge and practical competencies in electrical installation, maintenance, troubleshooting, and electrical systems operation integrated with instructional methodologies and teaching strategies. It prepares future educators and skilled practitioners in the field of electrical technology.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/11u6Z_zehbXxZlvSNjpa3bv4yek0UQV5n/view?usp=sharing',
                 ],
                 'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Electronics Technology' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Electronics Technology program equips students with competencies in electronics servicing, circuit analysis, instrumentation, troubleshooting, and maintenance of electronic systems combined with technical-vocational teaching skills. It prepares graduates for careers as technical educators and electronics technology practitioners.',
@@ -555,13 +507,9 @@ class CollegeController extends Controller
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Garments, Fashion and Design program equips students with competencies in clothing construction, fashion illustration, garment production, textile selection, apparel design, and entrepreneurship combined with technical-vocational teaching methodologies. It prepares graduates to become skilled educators and practitioners in the garments and fashion industry.',
                     'prospectusUrl' => null,
                 ],
-                'Bachelor of Elementary Education (BEEd)' => [
-                    'description' => 'The Bachelor of Elementary Education program prepares students to become competent, innovative, and values-oriented elementary school teachers equipped with foundational knowledge in child development, pedagogy, curriculum implementation, classroom management, and assessment. It develops future educators capable of delivering inclusive, learner-centered, and transformative instruction that promotes holistic development and lifelong learning among elementary learners.',
-                    'prospectusUrl' => null,
-                ],
                 'Bachelor of Secondary Education major in Science' => [
                     'description' => 'The Bachelor of Secondary Education major in Science program prepares future science educators with strong foundations in biological, physical, and environmental sciences integrated with effective teaching methodologies and research skills. It develops competent and innovative teachers capable of promoting scientific literacy, critical thinking, inquiry-based learning, and environmental awareness among secondary learners.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1eKvwfzmZ23XCeV71manrkPWFlAUHbiPk/view?usp=sharing',
                 ],
                 'Bachelor of Technology and Livelihood Education major in Home Economics' => [
                     'description' => 'The Bachelor of Technology and Livelihood Education major in Home Economics program equips students with knowledge, practical skills, and teaching competencies in home management, food preparation, entrepreneurship, clothing and textiles, family resource management, and livelihood education. It prepares future educators to deliver relevant, skills-based, and learner-centered instruction that promotes productivity, sustainability, entrepreneurship, and community development.',
@@ -585,7 +533,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Secondary Education major in Mathematics' => [
                     'description' => 'The Bachelor of Secondary Education major in Mathematics program equips students with comprehensive knowledge in mathematical concepts, problem-solving, analytical reasoning, and instructional strategies for mathematics education. It prepares future mathematics teachers who can effectively foster numeracy, logical thinking, and quantitative skills among secondary school learners.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1ixDOdloKW0ugDJNX2lvIGl2qsM1DxiPX/view?usp=sharing',
                 ],
                 'Bachelor of Physical Education' => [
                     'description' => 'The Bachelor of Physical Education program prepares students to become competent educators and fitness professionals equipped with knowledge and skills in physical fitness, sports, recreation, wellness, movement education, and physical activity instruction. It promotes holistic development, healthy lifestyles, leadership, sportsmanship, and excellence in physical education and community wellness programs.',
