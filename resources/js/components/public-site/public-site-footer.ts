@@ -55,7 +55,7 @@ export const publicSiteFooterOfficeContactColumns = [
 export const publicSiteFooterSocialLinks: PublicSiteFooterSocialLink[] = [
     {
         label: 'NEMSU on Facebook',
-        href: 'https://www.facebook.com/nemsueduph',
+        href: 'https://www.facebook.com/nemsuofficialph',
         icon: Facebook,
     },
     {

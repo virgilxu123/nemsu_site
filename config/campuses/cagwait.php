@@ -4,12 +4,27 @@ return [
     'slug' => 'cagwait',
     'name' => 'Cagwait Campus',
     'label' => 'Industrial Technology',
-    'location' => 'Cagwait, Surigao del Sur',
-    'headline' => 'A coastal campus for technical programs, student formation, and local service.',
-    'overview' => 'NEMSU Cagwait combines technical instruction with accessible campus services for learners in coastal communities.',
-    'highlights' => ['Technology programs', 'Coastal access', 'Student formation'],
-    'director' => 'Dr. Marlon P. Placeholder',
-    'focus' => 'Technical education access',
+    'location' => 'Purok 3, Poblacion, Cagwait, Surigao del Sur, 8304',
+    'email' => 'cagwait@nemsu.edu.ph',
+    'phone' => null,
+    'officeHours' => null,
+    'headline' => 'Campus Profile of North Eastern Mindanao State University – Cagwait Campus',
+    'overview' => <<<'TEXT'
+North Eastern Mindanao State University – Cagwait Campus is a growing higher education institution located in Poblacion, Cagwait, Surigao del Sur, Philippines. As the only tertiary institution in the municipality, the campus plays a vital role in providing accessible and quality education to the youth of Cagwait and nearby communities.
+
+The campus is strategically situated near the famous Cagwait White Beach, a known tourist destination and the venue of the annual Kaliguan Festival. Its peaceful, safe, and student-friendly environment contributes to a conducive atmosphere for learning and personal development.
+
+NEMSU–Cagwait Campus is recognized for its community-centered service, continuous institutional development, and steadily increasing student enrollment. Its strengths include accessible and free education, supportive academic services, and industry-relevant academic programs such as Information Technology, Industrial Technology, and Hospitality Management.
+
+The campus remains committed to producing competent, skilled, innovative, and values-oriented graduates who can contribute meaningfully to community and national development.
+TEXT,
+    'highlights' => ['Accessible and free education', 'Community-centered service', 'Industry-relevant programs'],
+    'director' => 'Rozette E. Mercado, PhD',
+    'directorRole' => 'Professor III / OIC-Campus Director',
+    'directorEmail' => 'remercado@nemsu.edu.ph',
+    'directorPhone' => '09457390082',
+    'directorPhoto' => '/images/campuses/cagwait/campus-director.jpg',
+    'focus' => 'Accessible education, institutional development, and community service',
     'campusLife' => [
         'The Coastal Chronicles',
         'Malaya Dance Troupe',
@@ -186,19 +201,127 @@ return [
         ],
     ],
     'facilities' => [
-        'Learning resource center',
-        'Computer and innovation laboratories',
-        'Student activity and wellness spaces',
-        'Registrar and admission service counters',
+        'School Clinic',
+        'Library',
+    ],
+    'facilityGallery' => [
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-1.webp',
+            'alt' => 'School nurse at the NEMSU Cagwait School Clinic',
+            'title' => 'School Clinic',
+            'description' => 'Accessible campus healthcare, first aid, health monitoring, and emergency support.',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-2.webp',
+            'alt' => 'Medical supplies donated to support the NEMSU Cagwait School Clinic',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+            'wide' => true,
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-3.webp',
+            'alt' => 'School nurse speaking during a campus HIV and AIDS awareness program',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-4.webp',
+            'alt' => 'School Clinic representative receiving a health services award',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-5.webp',
+            'alt' => 'Plaque recognizing NEMSU Cagwait health program implementation',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-6.webp',
+            'alt' => 'NEMSU Cagwait recognized as an outstanding HIV and AIDS program partner',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/school-clinic-7.webp',
+            'alt' => 'Health advocacy awards received by NEMSU Cagwait Campus',
+            'title' => 'School Clinic',
+            'category' => 'Health and Wellness',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-1.webp',
+            'alt' => 'Exterior of the building housing the NEMSU Cagwait Library',
+            'title' => 'Library',
+            'description' => 'Academic support spaces for print resources, research, study, and digital learning.',
+            'category' => 'Library',
+            'featured' => true,
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-2.webp',
+            'alt' => 'Library reading and collaborative learning area',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-3.webp',
+            'alt' => 'NEMSU Cagwait eLibrary computer and reading area',
+            'title' => 'Library',
+            'category' => 'Library',
+            'wide' => true,
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-4.webp',
+            'alt' => 'Library reading tables and reference shelves',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-5.webp',
+            'alt' => 'Library lounge and periodicals area',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-6.webp',
+            'alt' => 'Library circulation and service counter',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-7.webp',
+            'alt' => 'Student using the library online public access catalog workstation',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
+        [
+            'image' => '/images/campuses/cagwait/facilities/gallery/library-8.webp',
+            'alt' => 'Librarian office inside the NEMSU Cagwait Library',
+            'title' => 'Library',
+            'category' => 'Library',
+        ],
     ],
     'programs' => [
         [
-            'college' => 'College of Teacher Education',
-            'offerings' => ['Bachelor of Elementary Education', 'Bachelor of Secondary Education', 'Professional education units'],
+            'college' => 'College of Business and Management',
+            'offerings' => [
+                'Bachelor of Science in Hospitality Management',
+            ],
         ],
         [
-            'college' => 'College of Business and Technology',
-            'offerings' => ['Bachelor of Science in Information Technology', 'Bachelor of Science in Business Administration', 'Industrial technology ladderized programs'],
+            'college' => 'College of Information Technology Education',
+            'offerings' => [
+                'Bachelor of Science in Information Technology',
+            ],
+        ],
+        [
+            'college' => 'College of Engineering and Technology',
+            'offerings' => [
+                'Bachelor in Industrial Technology major in Automotive Technology',
+                'Bachelor in Industrial Technology major in Electrical Technology',
+                'Bachelor in Industrial Technology major in Computer Technology',
+                'Bachelor in Industrial Technology major in Culinary Technology',
+            ],
         ],
     ],
     'updates' => [
