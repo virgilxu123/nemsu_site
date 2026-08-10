@@ -662,7 +662,7 @@ onBeforeUnmount(() => {
                             <h3
                                 class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                Live. Rise. Soar. Excel.
+                                NEMSU Touch
                             </h3>
                             <dl
                                 class="mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
