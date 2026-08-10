@@ -492,7 +492,42 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
+
             <section
+                id="history"
+                class="bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
+            >
+             <div class="px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p
+                        class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
+                    >
+                        History
+                    </p>
+                    <h2
+                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                    >
+                        From Extension Center to State University
+                    </h2>
+                </div>
+
+                <div class="mx-auto overflow-x-auto max-w-400">
+                <!-- <div class="flex justify-center overflow-x-auto max-w-700"> -->
+                    <div class="flex mt-20 min-w-max">
+                        <div v-for="(item, index) in historyItems" :key="item.year" class="w-65 max-w-65 py-4 pe-7 relative border-primary" :class="{'border-t-4' : index !== historyItems.length - 1}">
+                            <div class="absolute w-10 h-10 border-4 border-primary rounded-full left-0 -top-5 bg-[#f5f8ff] flex items-center justify-center">
+                                <div class="bg-primary h-6 w-6 rounded-full"></div>
+                            </div>
+                            <h3 class="font-bold mb-4 mt-2">{{ item.year }}</h3>
+                            <div class="font-bold">{{ item.title }}</div>
+                            <p>{{ item.description }}</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+            </section>
+
+            <!-- <section
                 id="history"
                 class="scroll-mt-28 bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
             >
@@ -571,7 +606,7 @@ onBeforeUnmount(() => {
                         </article>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <section
                 id="vision-and-mission"
@@ -581,7 +616,7 @@ onBeforeUnmount(() => {
                     <div
                         data-scroll-section="vision-mission"
                         :class="revealClasses('vision-mission')"
-                        class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]"
+                        class="grid items-start gap-12 lg:grid-cols-2"
                     >
                         <div
                             class="grid gap-10"
@@ -648,7 +683,7 @@ onBeforeUnmount(() => {
 
                         <article
                             id="nemsu-hymn"
-                            class="grid max-w-3xl scroll-mt-28"
+                            class="scroll-mt-28"
                         >
                             <!-- <Music2
                                 class="mx-auto mb-5 size-10 text-[#f2b705]"
@@ -664,7 +699,7 @@ onBeforeUnmount(() => {
                             >
                                 NEMSU Touch
                             </h3>
-                            <dl
+                            <!-- <dl
                                 class="mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
                             >
                                 <div>
@@ -703,15 +738,69 @@ onBeforeUnmount(() => {
                                         Mr. Carl Martin R. Engcoy
                                     </dd>
                                 </div>
-                            </dl>
+                            </dl> -->
                             <div
-                                class="mt-6 max-w-2xl border-t border-slate-300 pt-5 text-left dark:border-white/10"
+                                class="mt-2 flex flex-col gap-7 pt-5 text-left md:flex-row dark:border-white/10"
                             >
-                                <p
-                                    class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                >
-                                    {{ hymnLyrics }}
-                                </p>
+                                <div class="flex-1">
+                                    <p
+                                        class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{ hymnLyrics }}
+                                    </p>
+                                </div>
+                                <div class="flex-1">
+                                    <iframe
+                                        class="aspect-video w-full rounded mt-2"
+                                        src="https://www.youtube.com/embed/Z7SPq_B6S5o?si=TiVW6BdzWuTj6S5M"
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen
+                                    ></iframe>
+
+                                       <dl
+                                class="mt-6 grid max-w-xl gap-3 text-sm text-left ms-2"
+                                    >
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Lyricist
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Prof. Evelyn T. Bagood
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Composer
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Mr. Castor V. Balacuit
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Arranger
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Mr. Carl Martin R. Engcoy
+                                        </dd>
+                                    </div>
+                                </dl>
+                                </div>
                             </div>
                         </article>
                     </div>

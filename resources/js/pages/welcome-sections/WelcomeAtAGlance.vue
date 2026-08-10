@@ -25,7 +25,7 @@ defineProps<{
             aria-hidden="true"
         >
             <p
-                class="w-full text-center font-serif text-[27.5vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
+                class="w-screen text-center font-serif text-[27.5vw] leading-[0.72] font-bold tracking-[-0.085em] whitespace-nowrap text-[#08045F]/5 select-none dark:text-white/5"
             >
                 NEMSU
             </p>
