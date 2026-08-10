@@ -71,7 +71,7 @@ const closeMobileMenu = (): void => {
                     <span
                         class="block truncate text-xs text-slate-600 dark:text-slate-300 font-bold"
                     >
-                        Walk a journey of Excellence and Success
+                        Walk a Journey of Excellence and Success
                     </span>
                 </span>
             </PublicSiteLink>
