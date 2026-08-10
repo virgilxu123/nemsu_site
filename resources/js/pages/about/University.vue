@@ -348,7 +348,7 @@ onBeforeUnmount(() => {
                                                 State University
                                             </h2>
                                             <p
-                                                class="mt-3 max-w-2xl text-sm leading-6 text-slate-100 sm:text-base"
+                                                class="mt-3 max-w-2xl text-justify text-sm leading-6 text-slate-100 sm:text-base"
                                             >
                                                 A research university advancing
                                                 technology, innovation,
@@ -478,7 +478,7 @@ onBeforeUnmount(() => {
                                         }}
                                     </h3>
                                     <p
-                                        class="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-3 text-justify text-base leading-7 text-slate-600 dark:text-slate-300"
                                     >
                                         {{
                                             historySlides[activeHistorySlide]
@@ -563,7 +563,7 @@ onBeforeUnmount(() => {
                                     {{ item.title }}
                                 </h3>
                                 <p
-                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    class="mt-3 text-justify text-sm leading-7 text-slate-600 dark:text-slate-300"
                                 >
                                     {{ item.description }}
                                 </p>
@@ -595,7 +595,7 @@ onBeforeUnmount(() => {
                                     Vision
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     A Research University advancing technology
                                     and innovation for sustainable development.
@@ -609,7 +609,7 @@ onBeforeUnmount(() => {
                                     Mission
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     We drive sustainable development through
                                     quality instruction, innovative research,
@@ -625,7 +625,7 @@ onBeforeUnmount(() => {
                                     Core Values
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     Compassion, Accountability, Responsiveness,
                                     Excellence, and Service.
@@ -639,7 +639,7 @@ onBeforeUnmount(() => {
                                     Quality Policy
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                    The North Eastern Mindanao State University commits itself to produce highly motivated, globally competitive, and morally upright human resource through the delivery of transformative and quality higher education that conforms to international standards driven by excellent instruction, relevant researches, sustainable extension, and production services. Together with our stakeholders, we shall endeavor for continual improvement of our quality management system in consonance with statutory and regulatory requirements for clients and industry satisfaction for quality of life.
                                 </p>
@@ -768,7 +768,7 @@ onBeforeUnmount(() => {
                                         {{ value.title }}
                                     </h3>
                                     <p
-                                        class="mt-1 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-1 text-justify text-sm leading-7 text-slate-600 dark:text-slate-300"
                                     >
                                         {{ value.description }}
                                     </p>
