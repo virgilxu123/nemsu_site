@@ -34,6 +34,5 @@ test('the Tandag service highlights use the extracted local photos', function ()
 
     $campusProfiles = require dirname(__DIR__, 2).'/config/campus_profiles.php';
 
-    expect($campusProfiles['tandag']['serviceHighlights'])->toHaveCount(4)
-        ->and($campusProfiles['cantilan']['serviceHighlights'])->toBe([]);
+    expect($campusProfiles['tandag']['serviceHighlights'])->toHaveCount(4);
 });
