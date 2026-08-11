@@ -495,6 +495,8 @@ onBeforeUnmount(() => {
 
             <section
                 id="history"
+                data-scroll-section="history"
+                :class="revealClasses('history', 'up')"
                 class="bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900 relative"
             >
                 <img src="/storage/images/university/history-bg-text.png" alt="History background text" class="absolute w-full left-0 top-0">
