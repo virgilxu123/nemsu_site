@@ -37,6 +37,106 @@
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+
+        <style>
+            :root {
+                --color-brand-navy: #08045f;
+                --color-brand-blue: #1711d4;
+                --color-brand-teal: #0b6680;
+                --color-brand-maroon: #9b1c31;
+                --color-brand-gold: #f2b705;
+                --color-bg-page: #f7f8f5;
+                --color-bg-section: #f5f8ff;
+                --color-bg-hero: #eef2ff;
+                --color-bg-teal-light: #e6f3f5;
+                --color-bg-pink-light: #f8e7eb;
+            }
+
+            .dark {
+                --color-brand-navy: #f2b705;
+                --color-brand-blue: #f2b705;
+                --color-brand-teal: #7dd3fc;
+                --color-brand-maroon: #fda4af;
+                --color-brand-gold: #f2b705;
+                --color-bg-page: #0b0f19;
+                --color-bg-section: #0f172a;
+                --color-bg-hero: #0f172a;
+                --color-bg-teal-light: #1e293b;
+                --color-bg-pink-light: #2a0a0f;
+            }
+
+            .text-shadow-sm {
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            }
+
+            .text-shadow-md {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .text-shadow-black\/50 {
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            }
+
+            .text-brand-navy {
+                color: var(--color-brand-navy);
+            }
+
+            .text-brand-blue {
+                color: var(--color-brand-blue);
+            }
+
+            .text-brand-teal {
+                color: var(--color-brand-teal);
+            }
+
+            .text-brand-maroon {
+                color: var(--color-brand-maroon);
+            }
+
+            .text-brand-gold {
+                color: var(--color-brand-gold);
+            }
+
+            .bg-brand-navy {
+                background-color: var(--color-brand-navy);
+            }
+
+            .bg-brand-blue {
+                background-color: var(--color-brand-blue);
+            }
+
+            .bg-brand-teal {
+                background-color: var(--color-brand-teal);
+            }
+
+            .bg-brand-maroon {
+                background-color: var(--color-brand-maroon);
+            }
+
+            .bg-brand-gold {
+                background-color: var(--color-brand-gold);
+            }
+
+            .bg-page {
+                background-color: var(--color-bg-page);
+            }
+
+            .bg-section {
+                background-color: var(--color-bg-section);
+            }
+
+            .bg-hero {
+                background-color: var(--color-bg-hero);
+            }
+
+            .bg-teal-light {
+                background-color: var(--color-bg-teal-light);
+            }
+
+            .bg-pink-light {
+                background-color: var(--color-bg-pink-light);
+            }
+        </style>
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>

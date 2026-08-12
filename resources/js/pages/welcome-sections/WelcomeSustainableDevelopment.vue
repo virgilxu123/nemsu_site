@@ -24,14 +24,15 @@ const articleUrl = (article: SdgArticle): string =>
         data-scroll-section="sustainable-development"
         class="relative isolate overflow-hidden border-y border-[#D8DEE8] bg-[#EEF3FF] py-16 lg:py-20 dark:border-white/10 dark:bg-slate-950"
     >
-        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <img src="/storage/images/sdg/sdg-bg-text.png" alt="Sdg background text" class="absolute top-0 left-0 h-[13rem] w-auto">
+        <!-- <div class="pointer-events-none absolute inset-0" aria-hidden="true">
             <span
-                class="absolute top-0 left-0 font-academic text-[20rem] leading-none font-semibold tracking-[-0.12em] text-[#DCE5F7] select-none sm:text-[26rem] lg:-top-20 lg:-left-4 lg:text-[23rem] dark:text-white/[0.025]"
+                class="absolute font-serif top-0 left-0 font-academic text-[20rem] leading-none font-semibold tracking-[-0.12em] text-[#DCE5F7] select-none sm:text-[26rem] lg:-top-20 lg:-left-4 lg:text-[23rem] dark:text-white/[0.025]"
                 data-sdg-watermark
             >
                 SDG
             </span>
-        </div>
+        </div> -->
 
         <div
             class="pointer-events-none absolute inset-y-0 left-1/2 z-10 hidden w-full max-w-7xl -translate-x-1/2 px-4 sm:px-6 lg:block lg:px-8"

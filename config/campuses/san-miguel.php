@@ -8,7 +8,7 @@ return [
     'email' => 'campusinfo_nemsusm@nemsu.edu.ph',
     'phone' => null,
     'officeHours' => null,
-    'headline' => 'A premier institution for agriculture and forestry education in Surigao del Sur.',
+    'headline' => 'A premier Institution for Agriculture and Forestry Education in Surigao del Sur.',
     'overview' => <<<'TEXT'
 The North Eastern Mindanao State University – San Miguel Campus (NEMSU-SMC) is a premier institution for agriculture and forestry education in Surigao del Sur. Established in 1953 as the Surigao National Agricultural School, the campus has evolved through several legislative transformations into a center of excellence committed to producing competent professionals in agriculture, forestry, education, and allied fields while promoting sustainable development and environmental stewardship. This extensive journey includes its eras as the Tago River Valley Institute of Agriculture, Surigao del Sur Polytechnic College (SSPC), and Surigao del Sur State University (SDSSU) before formally becoming NEMSU in 2021 by virtue of Republic Act No. 11584. Today, under the leadership of University President III Dr. Nemesio G. Loayon and Campus Director Dr. Marvie V. Gonzaga, the institution thrives on a culture of excellence, mutual respect, and continuous progress.
 

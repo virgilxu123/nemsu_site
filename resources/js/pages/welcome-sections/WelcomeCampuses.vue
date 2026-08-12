@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
                     <img
                         :src="photoForCampus(campus)"
                         :alt="`${campus.name} Campus`"
-                        class="absolute inset-x-0 top-0 -z-20 h-[68%] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                        class="absolute inset-x-0 top-0 -z-20 h-[75%] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                         loading="lazy"
                         draggable="false"
                     />

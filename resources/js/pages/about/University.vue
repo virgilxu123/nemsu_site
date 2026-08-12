@@ -348,7 +348,7 @@ onBeforeUnmount(() => {
                                                 State University
                                             </h2>
                                             <p
-                                                class="mt-3 max-w-2xl text-sm leading-6 text-slate-100 sm:text-base"
+                                                class="mt-3 max-w-2xl text-justify text-sm leading-6 text-slate-100 sm:text-base"
                                             >
                                                 A research university advancing
                                                 technology, innovation,
@@ -478,7 +478,7 @@ onBeforeUnmount(() => {
                                         }}
                                     </h3>
                                     <p
-                                        class="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-3 text-justify text-base leading-7 text-slate-600 dark:text-slate-300"
                                     >
                                         {{
                                             historySlides[activeHistorySlide]
@@ -492,7 +492,46 @@ onBeforeUnmount(() => {
                 </div>
             </section>
 
+
             <section
+                id="history"
+                data-scroll-section="history"
+                :class="revealClasses('history', 'up')"
+                class="bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900 relative"
+            >
+                <img src="/storage/images/university/history-bg-text.png" alt="History background text" class="absolute w-full left-0 top-0">
+
+             <div class="px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p
+                        class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
+                    >
+                        History
+                    </p>
+                    <h2
+                        class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                    >
+                        From Extension Center to State University
+                    </h2>
+                </div>
+
+                <div class="mx-auto overflow-x-auto max-w-400">
+                <!-- <div class="flex justify-center overflow-x-auto max-w-700"> -->
+                    <div class="flex mt-20 min-w-max">
+                        <div v-for="(item, index) in historyItems" :key="item.year" class="w-65 max-w-65 py-4 pe-7 relative border-[#1711d4]" :class="{'border-t-4' : index !== historyItems.length - 1}">
+                            <div class="absolute w-9 h-9 border-4 border-[#1711d4] rounded-full left-0 -top-5 bg-[#f5f8ff] flex items-center justify-center">
+                                <div class="bg-brand-blue h-5 w-5 rounded-full"></div>
+                            </div>
+                            <h3 class="font-bold text-brand-navy mb-7 mt-3">{{ item.year }}</h3>
+                            <div class="font-bold text-brand-navy">{{ item.title }}</div>
+                            <p class="text-brand-navy">{{ item.description }}</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+            </section>
+
+            <!-- <section
                 id="history"
                 class="scroll-mt-28 bg-[#f5f8ff] py-16 sm:py-20 dark:bg-slate-900"
             >
@@ -563,7 +602,7 @@ onBeforeUnmount(() => {
                                     {{ item.title }}
                                 </h3>
                                 <p
-                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    class="mt-3 text-justify text-sm leading-7 text-slate-600 dark:text-slate-300"
                                 >
                                     {{ item.description }}
                                 </p>
@@ -571,7 +610,7 @@ onBeforeUnmount(() => {
                         </article>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
             <section
                 id="vision-and-mission"
@@ -581,7 +620,7 @@ onBeforeUnmount(() => {
                     <div
                         data-scroll-section="vision-mission"
                         :class="revealClasses('vision-mission')"
-                        class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]"
+                        class="grid items-start gap-12 lg:grid-cols-2"
                     >
                         <div
                             class="grid gap-10"
@@ -595,7 +634,7 @@ onBeforeUnmount(() => {
                                     Vision
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     A Research University advancing technology
                                     and innovation for sustainable development.
@@ -609,7 +648,7 @@ onBeforeUnmount(() => {
                                     Mission
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     We drive sustainable development through
                                     quality instruction, innovative research,
@@ -625,7 +664,7 @@ onBeforeUnmount(() => {
                                     Core Values
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                     Compassion, Accountability, Responsiveness,
                                     Excellence, and Service.
@@ -639,7 +678,7 @@ onBeforeUnmount(() => {
                                     Quality Policy
                                 </h3>
                                 <p
-                                    class="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300"
+                                    class="mt-6 max-w-xl text-justify text-base leading-8 text-slate-600 dark:text-slate-300"
                                 >
                                    The North Eastern Mindanao State University commits itself to produce highly motivated, globally competitive, and morally upright human resource through the delivery of transformative and quality higher education that conforms to international standards driven by excellent instruction, relevant researches, sustainable extension, and production services. Together with our stakeholders, we shall endeavor for continual improvement of our quality management system in consonance with statutory and regulatory requirements for clients and industry satisfaction for quality of life.
                                 </p>
@@ -648,7 +687,7 @@ onBeforeUnmount(() => {
 
                         <article
                             id="nemsu-hymn"
-                            class="grid max-w-3xl scroll-mt-28"
+                            class="scroll-mt-28"
                         >
                             <!-- <Music2
                                 class="mx-auto mb-5 size-10 text-[#f2b705]"
@@ -662,9 +701,9 @@ onBeforeUnmount(() => {
                             <h3
                                 class="mt-3 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                Live. Rise. Soar. Excel.
+                                NEMSU Touch
                             </h3>
-                            <dl
+                            <!-- <dl
                                 class="mt-6 grid max-w-xl gap-3 text-sm text-left sm:grid-cols-3"
                             >
                                 <div>
@@ -703,15 +742,69 @@ onBeforeUnmount(() => {
                                         Mr. Carl Martin R. Engcoy
                                     </dd>
                                 </div>
-                            </dl>
+                            </dl> -->
                             <div
-                                class="mt-6 max-w-2xl border-t border-slate-300 pt-5 text-left dark:border-white/10"
+                                class="mt-2 flex flex-col gap-7 pt-5 text-left md:flex-row dark:border-white/10"
                             >
-                                <p
-                                    class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                >
-                                    {{ hymnLyrics }}
-                                </p>
+                                <div class="flex-1">
+                                    <p
+                                        class="whitespace-pre-line text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{ hymnLyrics }}
+                                    </p>
+                                </div>
+                                <div class="flex-1">
+                                    <iframe
+                                        class="aspect-video w-full rounded mt-2"
+                                        src="https://www.youtube.com/embed/Z7SPq_B6S5o?si=TiVW6BdzWuTj6S5M"
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen
+                                    ></iframe>
+
+                                       <dl
+                                class="mt-6 grid max-w-xl gap-3 text-sm text-left ms-2"
+                                    >
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Lyricist
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Prof. Evelyn T. Bagood
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Composer
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Mr. Castor V. Balacuit
+                                        </dd>
+                                    </div>
+                                    <div>
+                                        <dt
+                                            class="font-semibold text-slate-950 dark:text-white"
+                                        >
+                                            Arranger
+                                        </dt>
+                                        <dd
+                                            class="mt-1 text-slate-600 dark:text-slate-300"
+                                        >
+                                            Mr. Carl Martin R. Engcoy
+                                        </dd>
+                                    </div>
+                                </dl>
+                                </div>
                             </div>
                         </article>
                     </div>
@@ -768,7 +861,7 @@ onBeforeUnmount(() => {
                                         {{ value.title }}
                                     </h3>
                                     <p
-                                        class="mt-1 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-1 text-justify text-sm leading-7 text-slate-600 dark:text-slate-300"
                                     >
                                         {{ value.description }}
                                     </p>
@@ -878,11 +971,6 @@ onBeforeUnmount(() => {
                         >
                             University Seal
                         </p>
-                        <h2
-                            class="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl"
-                        >
-                            Symbols of knowledge, courage, and service
-                        </h2>
                     </div>
 
                     <div
