@@ -34,6 +34,15 @@ test('unknown campus returns not found', function () {
         ->assertNotFound();
 });
 
+test('lianga campus page preserves external Google Drive prospectus links', function () {
+    $this->get(route('campuses.show', 'lianga'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('campus.prospectuses.Bachelor of Science in Environmental Science', 'https://drive.google.com/file/d/1lIzDz-7LT2jjxdGSVCmVoVZBpHJtBvv1/view?usp=sharing')
+            ->where('campus.prospectuses.Bachelor of Science in Computer Science', 'https://drive.google.com/file/d/1m4HVwVJCCvJ9ZkayVEutMhI3r6KCSX6e/view?usp=sharing')
+        );
+});
+
 test('tandag campus director photo is configured', function () {
     expect(config('campus_profiles.tandag.director.photo'))
         ->toBe('/images/campuses/tandag/cd.png');

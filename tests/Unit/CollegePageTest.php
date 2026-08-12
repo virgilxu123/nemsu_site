@@ -16,6 +16,7 @@ test('college page can be viewed', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('academics/College')
             ->where('college.title', 'College of Teacher Education')
+            ->where('college.photo', '/images/academics/colleges/cte_logo.jpg')
             ->where('college.campuses.0.name', 'Bislig Campus')
             ->where('college.campuses.0.courses.0', 'Bachelor of Secondary Education major in English')
             ->where('college.campuses.5.name', 'Tandag Campus')
@@ -44,6 +45,7 @@ test('college programs are listed once with every campus offering', function () 
         ->assertInertia(fn (Assert $page) => $page
             ->component('academics/College')
             ->has('college.programs', 4)
+            ->where('college.programs.0.id', 'program-bachelor-of-science-in-forestry')
             ->where('college.programs.0.title', 'Bachelor of Science in Forestry')
             ->where('college.programs.0.campuses', ['Bislig Campus', 'San Miguel Campus'])
             ->where('college.programs.0.description', 'The Bachelor of Science in Forestry program equips students with scientific knowledge, technical competencies, and practical skills in forest resource management, forest protection, watershed management, agroforestry, biodiversity conservation, and environmental sustainability. The program prepares future forestry professionals to address environmental challenges, promote sustainable utilization of forest resources, and contribute to climate change adaptation, ecological preservation, and rural development initiatives.')
@@ -104,6 +106,36 @@ test('every current college program has a supplied description', function () {
     }
 });
 
+test('every college has a valid featured photo path', function () {
+    foreach (CollegeController::COLLEGES as $college) {
+        expect($college['photo'])
+            ->toBeString()
+            ->toStartWith('/images/academics/colleges/');
+
+        expect(public_path(ltrim($college['photo'], '/')))->toBeFile();
+    }
+});
+
+test('every college program has a stable unique anchor id', function () {
+    $this->withoutMiddleware(HandleInertiaRequests::class);
+
+    foreach (array_keys(CollegeController::COLLEGES) as $collegeSlug) {
+        $programs = $this
+            ->get(route('academics.academic-affairs.colleges.show', $collegeSlug))
+            ->assertOk()
+            ->inertiaProps('college.programs');
+        $programIds = collect($programs)->pluck('id');
+
+        expect($programIds->duplicates())->toBeEmpty();
+
+        foreach ($programIds as $programId) {
+            expect($programId)
+                ->toBeString()
+                ->toMatch('/^program-[a-z0-9]+(?:-[a-z0-9]+)*$/');
+        }
+    }
+});
+
 test('unknown college page is hidden', function () {
     $this->get(route('academics.academic-affairs.colleges.show', 'unknown-college'))
         ->assertNotFound();
@@ -121,6 +153,17 @@ test('college page renders an editorial program accordion', function () {
         ->not->toContain('A detailed program description will be published soon.')
         ->toContain('Programs Offered')
         ->toContain('Undergraduate Colleges')
+        ->toContain('Featured photo')
+        ->toContain('props.college.photo')
+        ->toContain(':src="props.college.photo"')
+        ->toContain('class="h-full w-full object-cover"')
+        ->toContain('aspect-[4/3]')
+        ->toContain('lg:grid-cols-[minmax(0,3fr)_minmax(16rem,2fr)]')
+        ->toContain(':id="program.id"')
+        ->toContain('openLinkedProgram')
+        ->toContain("window.addEventListener('hashchange', openLinkedProgram)")
+        ->toContain('programElement.open = true')
+        ->toContain('scroll-mt-28')
         ->toContain('collegeShow.url')
         ->toContain('text-[#1711d4]')
         ->not->toContain('#0b6680')

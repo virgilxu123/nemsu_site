@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -10,6 +11,7 @@ class CollegeController extends Controller
     /**
      * @var array<string, array{
      *     title: string,
+     *     photo: string,
      *     overview: string,
      *     campuses: array<int, array{name: string, courses: array<int, string>}>,
      *     programDetails?: array<string, array{description: string, prospectusUrl: string|null}>
@@ -18,6 +20,7 @@ class CollegeController extends Controller
     public const COLLEGES = [
         'college-of-accountancy' => [
             'title' => 'College of Accountancy',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Accountancy develops competent, ethical, and globally competitive accounting professionals equipped with technical expertise, analytical skills, and a strong commitment to integrity and public accountability. It prepares future accountants and financial professionals through quality instruction, research, and community engagement, fostering excellence in accounting practice and responsible stewardship of financial resources.
 ',
             'campuses' => [
@@ -37,6 +40,7 @@ class CollegeController extends Controller
         ],
         'college-of-agriculture-and-forestry' => [
             'title' => 'College of Agriculture and Forestry',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Agriculture and Forestry promotes sustainable agriculture, forestry, environmental stewardship, and natural resource management through instruction, research, and extension services. It prepares graduates to contribute to food security, climate resilience, ecological sustainability, and rural development.',
             'campuses' => [
                 [
@@ -81,6 +85,7 @@ class CollegeController extends Controller
         ],
         'college-of-arts-and-sciences' => [
             'title' => 'College of Arts and Sciences',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Arts and Sciences provides interdisciplinary and foundational education in the humanities, social sciences, natural sciences, and mathematics. It develops critical thinking, communication skills, scientific inquiry, research competence, and social awareness essential for academic, professional, and community engagement.',
             'campuses' => [
                 [
@@ -145,6 +150,7 @@ class CollegeController extends Controller
         ],
         'college-of-business-and-management' => [
             'title' => 'College of Business and Management',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Business and Management prepares students for careers in entrepreneurship, business administration, finance, marketing, operations, and organizational management. It promotes innovation, ethical leadership, strategic thinking, and sustainable economic development through quality business education and industry-responsive programs.',
             'campuses' => [
                 [
@@ -226,6 +232,7 @@ class CollegeController extends Controller
         ],
         'college-of-criminal-justice-education' => [
             'title' => 'College of Criminal Justice Education',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Criminal Justice Education prepares students for careers in criminology, law enforcement, correctional administration, forensic investigation, and public safety services. It promotes discipline, integrity, professionalism, and respect for human rights and justice systems.',
             'campuses' => [
                 [
@@ -244,6 +251,7 @@ class CollegeController extends Controller
         ],
         'college-of-engineering-and-technology' => [
             'title' => 'College of Engineering and Technology',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Engineering and Technology provides quality education and training in engineering, industrial, and technological fields through instruction, research, innovation, and extension services. It equips students with technical expertise, problem-solving abilities, practical skills, and ethical values necessary for professional practice, technological advancement, sustainable development, and industry responsiveness in local and global settings.',
             'campuses' => [
                 [
@@ -348,6 +356,7 @@ class CollegeController extends Controller
         ],
         'college-of-fisheries-and-aquatic-sciences' => [
             'title' => 'College of Fisheries and Aquatic Sciences',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Fisheries and Aquatic Sciences advances education, research, and innovation in fisheries, aquaculture, marine biodiversity, and aquatic resource management. It supports the sustainable utilization, conservation, and protection of aquatic ecosystems and coastal communities.',
             'campuses' => [
                 [
@@ -371,6 +380,7 @@ class CollegeController extends Controller
         ],
         'college-of-information-technology-education' => [
             'title' => 'College of Information Technology Education',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Information Technology Education provides quality instruction in computing, information systems, software development, networking, multimedia, and emerging digital technologies. It equips students with technical competencies, problem-solving skills, and innovation capabilities necessary in the rapidly evolving digital and technological environment.',
             'campuses' => [
                 [
@@ -423,6 +433,7 @@ class CollegeController extends Controller
         ],
         'college-of-teacher-education' => [
             'title' => 'College of Teacher Education',
+            'photo' => '/images/academics/colleges/cte_logo.jpg',
             'overview' => 'The College of Teacher Education develops competent, innovative, research-oriented, and values-driven educators equipped with pedagogical expertise and professional ethics. It prepares future teachers and education leaders committed to transformative, inclusive, and quality education.',
             'campuses' => [
                 [
@@ -497,15 +508,15 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Electronics Technology' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Electronics Technology program equips students with competencies in electronics servicing, circuit analysis, instrumentation, troubleshooting, and maintenance of electronic systems combined with technical-vocational teaching skills. It prepares graduates for careers as technical educators and electronics technology practitioners.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/13srSJYPBal3jpZvFgs4X1B1_K2IZsytB/view?usp=sharing',
                 ],
                 'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Food & Services Management' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Food & Services Management program develops students’ knowledge and practical skills in food preparation, hospitality services, catering operations, customer relations, and entrepreneurship integrated with professional teaching competencies. It prepares future educators and professionals in the food service and hospitality industry.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1PYqESQvxreNgR5mSlrnwULLeBpXQv8K7/view?usp=sharing',
                 ],
                 'Bachelor of Technical-Vocational Teacher Education (BTVTEd) major in Garments, Fashion and Design' => [
                     'description' => 'The Bachelor of Technical-Vocational Teacher Education major in Garments, Fashion and Design program equips students with competencies in clothing construction, fashion illustration, garment production, textile selection, apparel design, and entrepreneurship combined with technical-vocational teaching methodologies. It prepares graduates to become skilled educators and practitioners in the garments and fashion industry.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1MjRhXqbiP9XJ-o5V5gsyhAE0m3DgTBXR/view?usp=sharing',
                 ],
                 'Bachelor of Secondary Education major in Science' => [
                     'description' => 'The Bachelor of Secondary Education major in Science program prepares future science educators with strong foundations in biological, physical, and environmental sciences integrated with effective teaching methodologies and research skills. It develops competent and innovative teachers capable of promoting scientific literacy, critical thinking, inquiry-based learning, and environmental awareness among secondary learners.',
@@ -513,23 +524,23 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Technology and Livelihood Education major in Home Economics' => [
                     'description' => 'The Bachelor of Technology and Livelihood Education major in Home Economics program equips students with knowledge, practical skills, and teaching competencies in home management, food preparation, entrepreneurship, clothing and textiles, family resource management, and livelihood education. It prepares future educators to deliver relevant, skills-based, and learner-centered instruction that promotes productivity, sustainability, entrepreneurship, and community development.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/18nrpsCnS1342l1QBxnxrM7bYnDHuR472/view?usp=sharing',
                 ],
                 'Bachelor of Elementary Education major in General Education' => [
                     'description' => 'The Bachelor of Elementary Education major in General Education program prepares students to become competent and learner-centered elementary school teachers equipped with foundational knowledge in child development, pedagogy, curriculum implementation, classroom management, and assessment. It develops future educators capable of delivering inclusive, holistic, and transformative instruction across the different learning areas in elementary education while promoting values formation, lifelong learning, and community engagement.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1c622TJNlLex_qkCVSZjFqrbGWM0YTJGu/view?usp=sharing',
                 ],
                 'Bachelor of Early Childhood Education' => [
                     'description' => 'The Bachelor of Early Childhood Education program prepares students to become competent and nurturing educators for young learners in early childhood settings. It equips future teachers with knowledge and skills in child growth and development, early childhood pedagogy, classroom management, curriculum design, and learner-centered instructional approaches that support holistic child development and foundational learning.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1ouNjik-lgGb-vac1ftRGGLnZP1QDvXw0/view?usp=sharing',
                 ],
                 'Bachelor of Elementary Education' => [
                     'description' => 'The Bachelor of Elementary Education program prepares students to become competent, innovative, and values-oriented elementary school teachers equipped with foundational knowledge in child development, pedagogy, curriculum implementation, classroom management, and assessment. It develops future educators capable of delivering inclusive, learner-centered, and transformative instruction that promotes holistic development and lifelong learning among elementary learners.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1c622TJNlLex_qkCVSZjFqrbGWM0YTJGu/view?usp=sharing',
                 ],
                 'Bachelor of Secondary Education major in Filipino' => [
                     'description' => 'The Bachelor of Secondary Education major in Filipino program develops competent educators proficient in the Filipino language, literature, communication, and culture. It prepares future teachers to effectively teach Filipino in the secondary level while promoting national identity, cultural appreciation, critical thinking, and language proficiency.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1eMe1mjRIEyaHRLjVS8okV0OoedCJex7n/view?usp=sharing',
                 ],
                 'Bachelor of Secondary Education major in Mathematics' => [
                     'description' => 'The Bachelor of Secondary Education major in Mathematics program equips students with comprehensive knowledge in mathematical concepts, problem-solving, analytical reasoning, and instructional strategies for mathematics education. It prepares future mathematics teachers who can effectively foster numeracy, logical thinking, and quantitative skills among secondary school learners.',
@@ -537,7 +548,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Physical Education' => [
                     'description' => 'The Bachelor of Physical Education program prepares students to become competent educators and fitness professionals equipped with knowledge and skills in physical fitness, sports, recreation, wellness, movement education, and physical activity instruction. It promotes holistic development, healthy lifestyles, leadership, sportsmanship, and excellence in physical education and community wellness programs.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1vCcM9frgZosEylkKpB80VgtBQDzU4m1m/view?usp=sharing',
                 ],
                 'Bachelor of Secondary Education Major in Social Studies' => [
                     'description' => 'The Bachelor of Secondary Education Major in Social Studies program prepares students to become competent, ethical, and socially responsive educators equipped with comprehensive knowledge and pedagogical skills in history, geography, political science, economics, sociology, anthropology, and other social sciences. It develops critical thinking, civic consciousness, cultural appreciation, and research competencies necessary for effective Social Studies instruction. The program promotes lifelong learning, democratic values, global awareness, and active citizenship, enabling graduates to contribute meaningfully to quality education, community development, and nation-building.',
@@ -564,11 +575,12 @@ class CollegeController extends Controller
     /**
      * @param  array{
      *     title: string,
+     *     photo: string,
      *     overview: string,
      *     campuses: array<int, array{name: string, courses: array<int, string>}>,
      *     programDetails?: array<string, array{description: string, prospectusUrl: string|null}>
      * }  $college
-     * @return array<int, array{title: string, campuses: array<int, string>, description: string|null, prospectusUrl: string|null}>
+     * @return array<int, array{id: string, title: string, campuses: array<int, string>, description: string|null, prospectusUrl: string|null}>
      */
     private static function programsFor(array $college): array
     {
@@ -583,6 +595,7 @@ class CollegeController extends Controller
                 ->all())
             ->groupBy('title')
             ->map(fn ($offerings, string $title): array => [
+                'id' => 'program-'.Str::slug($title),
                 'title' => $title,
                 'campuses' => $offerings->pluck('campus')->unique()->values()->all(),
                 'description' => $programDetails[$title]['description'] ?? null,

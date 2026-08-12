@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { onBeforeUnmount, onMounted } from 'vue';
 import { show as collegeShow } from '@/actions/App/Http/Controllers/CollegeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { academicAffairs } from '@/routes/academics';
 
 type Program = {
+    id: string;
     title: string;
     campuses: string[];
     description: string | null;
@@ -15,6 +17,7 @@ type Program = {
 type College = {
     slug: string;
     title: string;
+    photo: string;
     overview: string;
     programs: Program[];
 };
@@ -30,6 +33,34 @@ const props = defineProps<{
 }>();
 
 const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
+
+const openLinkedProgram = (): void => {
+    const programId = window.location.hash.slice(1);
+
+    if (!programId) {
+        return;
+    }
+
+    const programElement = document.getElementById(programId);
+
+    if (!(programElement instanceof HTMLDetailsElement)) {
+        return;
+    }
+
+    programElement.open = true;
+    window.requestAnimationFrame(() => {
+        programElement.scrollIntoView({ block: 'start' });
+    });
+};
+
+onMounted(() => {
+    openLinkedProgram();
+    window.addEventListener('hashchange', openLinkedProgram);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('hashchange', openLinkedProgram);
+});
 </script>
 
 <template>
@@ -128,22 +159,78 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                     </aside>
 
                     <div>
-                        <article class="max-w-4xl">
+                        <article>
                             <p
                                 class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-300"
                             >
                                 Overview
                             </p>
-                            <h2
-                                class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                            <div
+                                class="mt-3 grid gap-x-10 lg:grid-cols-[minmax(0,3fr)_minmax(16rem,2fr)] lg:items-start"
                             >
-                                {{ props.college.title }}
-                            </h2>
-                            <p
-                                class="mt-5 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
-                            >
-                                {{ props.college.overview }}
-                            </p>
+                                <h2
+                                    class="text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl lg:col-start-1 lg:row-start-1 dark:text-white"
+                                >
+                                    {{ props.college.title }}
+                                </h2>
+
+                                <figure
+                                    class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
+                                >
+                                    <div
+                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-slate-900"
+                                    >
+                                        <img
+                                            v-if="props.college.photo"
+                                            :src="props.college.photo"
+                                            :alt="`${props.college.title} featured photo`"
+                                            class="h-full w-full object-cover"
+                                        />
+                                        <div
+                                            v-else
+                                            class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
+                                            aria-hidden="true"
+                                        ></div>
+                                        <div
+                                            v-if="!props.college.photo"
+                                            class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
+                                        >
+                                            <svg
+                                                class="size-10 text-[#1711d4] dark:text-sky-300"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"
+                                                />
+                                            </svg>
+                                            <div>
+                                                <p
+                                                    class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white"
+                                                >
+                                                    Featured photo
+                                                </p>
+                                                <p
+                                                    class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400"
+                                                >
+                                                    {{ props.college.title }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </figure>
+
+                                <p
+                                    class="mt-5 text-justify text-lg/8 text-slate-600 lg:col-start-1 lg:row-start-2 dark:text-slate-300"
+                                >
+                                    {{ props.college.overview }}
+                                </p>
+                            </div>
                         </article>
 
                         <section class="mt-12">
@@ -158,9 +245,10 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                             >
                                 <details
                                     v-for="program in props.college.programs"
-                                    :key="program.title"
+                                    :id="program.id"
+                                    :key="program.id"
                                     name="college-programs"
-                                    class="group border-b border-slate-200 last:border-b-0 dark:border-white/10"
+                                    class="group scroll-mt-28 border-b border-slate-200 last:border-b-0 dark:border-white/10"
                                 >
                                     <summary
                                         class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1711d4] [&::-webkit-details-marker]:hidden"

@@ -4,8 +4,8 @@ return [
     'slug' => 'lianga',
     'name' => 'Lianga Campus',
     'label' => 'Fisheries and Marine Sciences',
-    'location' => 'Lianga, Surigao del Sur',
-    'headline' => 'A beacon of academic distinction and sustainable development in Southern Surigao del Sur.',
+    'location' => 'Poblacion, Lianga, Surigao del Sur 8307',
+    'headline' => 'A Beacon of Academic Distinction and Sustainable Development in Southern Surigao del Sur.',
     'overview' => <<<'TEXT'
 The present North Eastern Mindanao State University (NEMSU)–Lianga Campus stands as a testament to a distinguished legacy of educational transformation, visionary leadership, and unwavering commitment to community development. Its origins trace back to 1949, when it was established as Lianga Junior High School through the initiative of Honorable Mayor Prudencio S. Ronquillo, whose vision laid the foundation for accessible secondary education in the municipality. In 1954, the institution was elevated to Lianga High School (LHS), continuing under his dedicated leadership and further strengthening educational opportunities for the youth of Lianga and neighboring communities.
 
@@ -32,7 +32,13 @@ TEXT,
         'Sustainable coastal development',
         'Community-based research and extension',
     ],
-    'director' => 'Dr. Celeste R. Placeholder',
+    'director' => 'Ivy M. Orcullo, PhD',
+    'directorRole' => 'OIC-Campus Director',
+    'directorEmail' => 'nemsulianga@nemsu.edu.ph',
+    'directorPhone' => '0956-831-0202',
+    'directorPhoto' => '/images/campuses/lianga/campus-director.jpg',
+    'email' => 'nemsulianga@nemsu.edu.ph',
+    'phone' => '0956-831-0202',
     'focus' => 'Coastal resource learning',
     'facilities' => [
         'Learning resource center',
@@ -44,12 +50,41 @@ TEXT,
     ],
     'programs' => [
         [
-            'college' => 'College of Fisheries and Marine Sciences',
-            'offerings' => ['Fisheries', 'Marine biology support programs', 'Aquaculture technology'],
+            'college' => 'College of Fisheries and Aquatic Sciences',
+            'offerings' => [
+                'Bachelor of Science in Fisheries',
+                'Bachelor of Science in Marine Biology',
+                'Bachelor of Science in Environmental Science',
+            ],
         ],
         [
-            'college' => 'College of Business and Technology',
-            'offerings' => ['Bachelor of Science in Information Technology', 'Bachelor of Science in Business Administration', 'Industrial technology ladderized programs'],
+            'college' => 'College of Teachers Education',
+            'offerings' => [
+                'Bachelor of Elementary Education',
+                'Bachelor of Secondary Education major in Science',
+            ],
         ],
+        [
+            'college' => 'College of Business Management',
+            'offerings' => [
+                'Bachelor of Science in Business Administration major in Financial Management',
+                'Bachelor of Science in Business Administration major in Business Economics',
+                'Bachelor of Science in Hospitality Management',
+            ],
+        ],
+        [
+            'college' => 'College of Information Technology Education',
+            'offerings' => [
+                'Bachelor of Science in Computer Science',
+            ],
+        ],
+    ],
+    'prospectuses' => [
+        'Bachelor of Science in Environmental Science' => 'https://drive.google.com/file/d/1lIzDz-7LT2jjxdGSVCmVoVZBpHJtBvv1/view?usp=sharing',
+        'Bachelor of Elementary Education' => 'https://drive.google.com/file/d/1c622TJNlLex_qkCVSZjFqrbGWM0YTJGu/view?usp=sharing',
+        'Bachelor of Secondary Education major in Science' => 'https://drive.google.com/file/d/1eKvwfzmZ23XCeV71manrkPWFlAUHbiPk/view?usp=sharing',
+        'Bachelor of Science in Business Administration major in Financial Management' => 'https://drive.google.com/file/d/1sfbRgyn8ZJfMxXq_RAodHlHtGvgxDUva/view?usp=sharing',
+        'Bachelor of Science in Hospitality Management' => 'https://drive.google.com/file/d/1EV-UYg6qD4cj1vnCuXTHSLHp4IyfNqHl/view?usp=sharing',
+        'Bachelor of Science in Computer Science' => 'https://drive.google.com/file/d/1m4HVwVJCCvJ9ZkayVEutMhI3r6KCSX6e/view?usp=sharing',
     ],
 ];
