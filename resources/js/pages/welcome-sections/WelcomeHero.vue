@@ -138,7 +138,7 @@ watch(
                 >
                     {{
                         fallbackHeroSlide.summary ||
-                        'Walk a journey of Excellence and Success'
+                        'Walk a Journey of Excellence and Success'
                     }}
                 </Link>
                 <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row">

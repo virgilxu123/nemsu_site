@@ -10,6 +10,7 @@ test('ovprie parent office pages include their suboffices', function (
     string $slug,
     string $title,
     string $acronym,
+    string $head,
     int $subofficeCount,
     string $firstSuboffice,
 ) {
@@ -22,6 +23,7 @@ test('ovprie parent office pages include their suboffices', function (
             ->component('research/OvprieOffice')
             ->where('office.title', $title)
             ->where('office.acronym', $acronym)
+            ->where('office.head', $head)
             ->where('office.parent', 'Office of the Vice President for Research, Innovation, and Extension')
             ->where('office.suboffices.0.title', $firstSuboffice)
             ->has('office.suboffices', $subofficeCount)
@@ -32,6 +34,7 @@ test('ovprie parent office pages include their suboffices', function (
         'university-research-and-innovation-office',
         'University Research and Innovation Office',
         'RIDO',
+        'Arturo G. Gracia, Jr., MSci',
         4,
         'Research Centers',
     ],
@@ -39,6 +42,7 @@ test('ovprie parent office pages include their suboffices', function (
         'knowledge-and-technology-transfer-office',
         'Knowledge and Technology Transfer Office',
         'KTTO',
+        'Engr. Luzminda S. Bacquial, PhD',
         3,
         'Innovation and Technology Support Office',
     ],
@@ -46,6 +50,7 @@ test('ovprie parent office pages include their suboffices', function (
         'extension-services-and-linkages-office',
         'Extension Services and Linkages Office',
         'ESLO',
+        'Abundio C. Miralles, EdD',
         2,
         'Extension Planning and Implementation Office',
     ],
@@ -77,11 +82,11 @@ test('rie page links ovprie offices to office detail routes', function () {
 
     expect($page)
         ->toContain('OvprieOfficeController')
-        ->toContain('const officeLinks = officeGroups;')
+        ->toContain('v-for="group in officeGroups"')
+        ->toContain('v-for="unit in group.units"')
         ->toContain('aria-label="Offices under OVPRIE"')
-        ->toContain('class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"')
-        ->toContain('items-center justify-start gap-2 text-left')
-        ->toContain('officeShow.url(office.slug)')
+        ->toContain('class="mt-10 grid gap-5 lg:grid-cols-3"')
+        ->toContain('officeShow.url(group.slug)')
         ->toContain('University Research and Innovation Office')
         ->toContain('Knowledge and Technology Transfer Office')
         ->toContain('Extension Services and Linkages Office')

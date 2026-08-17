@@ -13,7 +13,7 @@ import type {
 export const fallbackHeroSlide: BannerItem = {
     id: 'nemsu-hero',
     title: 'North Eastern Mindanao State University',
-    summary: 'Walk a journey of Excellence and Success',
+    summary: 'Walk a Journey of Excellence and Success',
     imageUrl: '/storage/images/banners/home/Exported%202.mp4',
 };
 

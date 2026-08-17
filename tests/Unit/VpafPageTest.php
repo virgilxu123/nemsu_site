@@ -29,6 +29,8 @@ test('vpaf page contains the supplied office directory', function () {
         ->toContain('data-scroll-section="ovpaf-profile"')
         ->toContain('data-scroll-section="ovpaf-offices"')
         ->toContain('Atty. Mitchiko Donaire-Maglinte')
+        ->toContain('provides strategic leadership for the')
+        ->toContain('sound stewardship, transparent')
         ->toContain('Chief Administrative Office - Finance Division')
         ->toContain('Chief Administrative Office - Admin Division')
         ->toContain('Supervising Administrative Office - Finance Division')
@@ -44,6 +46,7 @@ test('vpaf page contains the supplied office directory', function () {
         ->toContain('class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"')
         ->toContain('items-center justify-start gap-2 text-left')
         ->toContain('officeShow.url')
+        ->not->toContain('Placeholder text is shown here')
         ->not->toContain('id="freedom-of-information"')
         ->not->toContain('freedomOfInformationResources');
 });

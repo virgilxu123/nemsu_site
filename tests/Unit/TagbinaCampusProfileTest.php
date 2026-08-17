@@ -75,7 +75,7 @@ test('the Tagbina campus lists its official programs under the corresponding col
                 'Bachelor of Science in Computer Science',
             ],
         ],
-    ])->and($campusProfiles['tagbina']['stats'][2])->toMatchArray([
+    ])->and($campusProfiles['tagbina']['stats'][3])->toMatchArray([
         'label' => 'Program Offerings',
         'value' => '8',
     ]);

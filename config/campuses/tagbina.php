@@ -32,6 +32,12 @@ TEXT,
     'directorPhone' => '086-628-0714',
     'directorPhoto' => '/images/campuses/tagbina/campus-director.jpg',
     'focus' => 'Leadership development, student engagement, cultural celebration, and community service',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '3,469', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '3,243', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '142', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '8', 'note' => 'Academic programs'],
+    ],
     'initiatives' => [
         'Student orientation and campus engagement',
         'Leadership formation and responsible governance',

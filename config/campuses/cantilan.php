@@ -25,6 +25,12 @@ TEXT,
     'directorPhone' => '0907 867 0913',
     'directorPhoto' => '/images/campuses/cantilan/campus-director.jpg',
     'focus' => 'Student leadership, emergency response, and community extension',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '8,723', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '8,658', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '358', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '31', 'note' => '26 undergraduate · 5 postgraduate'],
+    ],
     'studentGovernmentActivities' => [
         [
             'title' => 'USG Spreads Care',

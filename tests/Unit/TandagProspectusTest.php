@@ -19,9 +19,11 @@ test('the campus page opens available prospectuses in a new tab', function () {
     );
 
     expect($campusPage)
-        ->toContain('campus.prospectuses[offering]')
+        ->toMatch('/campus\.prospectuses\[\s*offering\s*\]/')
         ->toContain('target="_blank"')
         ->toContain('rel="noopener noreferrer"')
         ->toContain('Prospectus PDF')
-        ->toContain('Prospectus available');
+        ->toContain('Prospectus pending')
+        ->toContain('bg-[#eef2ff]')
+        ->toContain('text-[#1711d4]');
 });

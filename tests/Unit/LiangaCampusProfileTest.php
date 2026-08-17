@@ -85,7 +85,7 @@ test('the Lianga campus lists its official programs under the corresponding coll
                 'Bachelor of Science in Computer Science',
             ],
         ],
-    ])->and($campusProfiles['lianga']['stats'][2])->toMatchArray([
+    ])->and($campusProfiles['lianga']['stats'][3])->toMatchArray([
         'label' => 'Program Offerings',
         'value' => '9',
     ]);

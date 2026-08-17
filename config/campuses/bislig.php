@@ -36,6 +36,12 @@ TEXT,
     'directorEmail' => 'wcpasos@nemsu.edu.ph',
     'directorPhoto' => '/images/campuses/bislig/whelson-c-pasos.jpg',
     'focus' => 'Regional workforce development',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '1,787', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '1,630', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '106', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '7', 'note' => 'Academic programs'],
+    ],
     'services' => [
         'Circulation Services',
         'Reference and Information Services',

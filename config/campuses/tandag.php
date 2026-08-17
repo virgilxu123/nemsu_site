@@ -22,6 +22,12 @@ TEXT,
     'director' => 'Dr. Floresito D. Calub',
     'directorPhoto' => '/images/campuses/tandag/cd.png',
     'focus' => 'Student services modernization',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '11,732', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '10,741', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '562', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '43', 'note' => '25 undergraduate · 14 postgraduate · 1 College of Medicine · 3 College of Law'],
+    ],
     'studentGovernmentActivities' => [
         [
             'title' => 'Donation Drive',

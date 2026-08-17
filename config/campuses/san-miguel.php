@@ -31,6 +31,12 @@ TEXT,
     'directorRole' => 'OIC – Campus Director',
     'directorPhoto' => '/images/campuses/san-miguel/campus-director.jpg',
     'focus' => 'Student leadership, environmental stewardship, and community outreach',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '815', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '728', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '108', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '3', 'note' => 'Academic programs'],
+    ],
     'initiatives' => [
         'Student representation and leadership development',
         'Environmental conservation and tree-growing campaigns',
