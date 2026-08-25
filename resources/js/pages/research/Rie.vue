@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
 import {
     ArrowRight,
     ArrowUpRight,
@@ -11,6 +10,7 @@ import {
     Mail,
     Newspaper,
 } from 'lucide-vue-next';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { show as officeShow } from '@/actions/App/Http/Controllers/OvprieOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
@@ -852,40 +852,24 @@ onBeforeUnmount(() => {
 
                     <nav
                         aria-label="Offices under OVPRIE"
-                        class="mt-10 grid gap-5 lg:grid-cols-3"
+                        class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"
                     >
-                        <article
+                        <Link
                             v-for="group in officeGroups"
                             :key="`${group.slug}-directory`"
-                            class="rounded-md border border-white/15 bg-white/10 p-5 backdrop-blur"
+                            :href="officeShow.url(group.slug)"
+                            class="group inline-flex items-start justify-start gap-2 text-left text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
                         >
-                            <Link
-                                :href="officeShow.url(group.slug)"
-                                class="group inline-flex items-start gap-2 font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705]"
+                            <span>
+                                {{ group.title }} ({{ group.acronym }})
+                            </span>
+                            <span
+                                class="mt-0.5 text-[#f2b705] transition group-hover:translate-x-1"
+                                aria-hidden="true"
                             >
-                                <span>
-                                    {{ group.title }} ({{ group.acronym }})
-                                </span>
-                                <ArrowRight
-                                    class="mt-0.5 size-4 shrink-0 text-[#f2b705] transition group-hover:translate-x-1"
-                                    aria-hidden="true"
-                                />
-                            </Link>
-                            <ul
-                                class="mt-5 grid gap-3 border-t border-white/15 pt-4"
-                            >
-                                <li
-                                    v-for="unit in group.units"
-                                    :key="unit.title"
-                                    class="text-sm leading-6 text-white/80"
-                                >
-                                    {{ unit.title }}
-                                    <span v-if="unit.acronym">
-                                        ({{ unit.acronym }})
-                                    </span>
-                                </li>
-                            </ul>
-                        </article>
+                                &gt;
+                            </span>
+                        </Link>
                     </nav>
                 </div>
             </section>
