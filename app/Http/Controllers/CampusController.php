@@ -32,9 +32,7 @@ class CampusController extends Controller
         abort_if($campusProfile === null, 404);
 
         $campusProfile['heroImage'] = $this->heroImageUrl($campus);
-        $campusProfile['prospectuses'] = collect($campusProfile['prospectuses'])
-            ->map(fn (string $path): string => $this->prospectusUrl($path))
-            ->all();
+        $campusProfile['prospectuses'] = $this->prospectusesFor($campusProfile);
 
         return Inertia::render('campuses/Show', [
             'campus' => $campusProfile,
@@ -54,5 +52,56 @@ class CampusController extends Controller
         }
 
         return Storage::disk('public')->url($path);
+    }
+
+    /**
+     * @param  array{
+     *     name: string,
+     *     programs: array<int, array{college: string, offerings: array<int, string>}>,
+     *     prospectuses: array<string, string>
+     * }  $campusProfile
+     * @return array<string, string>
+     */
+    private function prospectusesFor(array $campusProfile): array
+    {
+        $academicProspectuses = collect(
+            CollegeController::prospectusUrlsForCampus($campusProfile['name']),
+        )->mapWithKeys(fn (string $url, string $program): array => [
+            $this->normalizedProgramTitle($program) => $url,
+        ]);
+
+        $reusedProspectuses = collect($campusProfile['programs'])
+            ->flatMap(fn (array $group): array => $group['offerings'])
+            ->mapWithKeys(function (string $offering) use ($academicProspectuses): array {
+                $prospectusUrl = $academicProspectuses->get(
+                    $this->normalizedProgramTitle($offering),
+                );
+
+                return $prospectusUrl === null
+                    ? []
+                    : [$offering => $prospectusUrl];
+            });
+
+        $configuredProspectuses = collect($campusProfile['prospectuses'])
+            ->map(fn (string $path): string => $this->prospectusUrl($path));
+
+        return $configuredProspectuses
+            ->merge($reusedProspectuses)
+            ->all();
+    }
+
+    private function normalizedProgramTitle(string $program): string
+    {
+        return Str::of($program)
+            ->lower()
+            ->replaceMatches('/\s*[–—-]\s*level\s+[ivx]+\s+accredited$/u', '')
+            ->replaceMatches('/\((?:bsed|btled|btvted|bscrim\.?|bsba|bshm|bstm|bscpe|bscs|bs\s+info\.?\s+tech\.?|bindtech|bsf|bsa)\)/iu', '')
+            ->replace('(electrical technology)', 'major in electrical technology')
+            ->replace('major in general education', '')
+            ->replace('apparel and fashion technology', 'fashion and apparel technology')
+            ->replace('&', 'and')
+            ->replaceMatches('/[^a-z0-9]+/', ' ')
+            ->squish()
+            ->toString();
     }
 }

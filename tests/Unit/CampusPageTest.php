@@ -123,17 +123,17 @@ test('bislig campus groups its accredited program offerings by college', functio
 
     expect(config('campus_profiles.bislig.programs'))
         ->toBe($programs)
-        ->and(config('campus_profiles.bislig.stats.2'))
+        ->and(config('campus_profiles.bislig.stats.3'))
         ->toMatchArray([
             'label' => 'Program Offerings',
-            'value' => '6',
+            'value' => '7',
         ]);
 
     $this->get(route('campuses.show', 'bislig'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->where('campus.programs', $programs)
-            ->where('campus.stats.2.value', '6')
+            ->where('campus.stats.3.value', '7')
         );
 });
 

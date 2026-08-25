@@ -10,20 +10,24 @@ import {
     FileText,
     Mail,
     Newspaper,
-    ScrollText,
-    ShieldCheck,
 } from 'lucide-vue-next';
 import { show as officeShow } from '@/actions/App/Http/Controllers/OvprieOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
+import { index as publicationIndex } from '@/routes/research/rie/publications';
 
 type Leader = {
     name: string;
     role: string;
     email: string;
-    image: string;
+    image: string | null;
     alt: string;
     summary: string;
+};
+
+type OfficeUnit = {
+    title: string;
+    acronym?: string;
 };
 
 type OfficeGroup = {
@@ -32,6 +36,7 @@ type OfficeGroup = {
     title: string;
     acronym: string;
     director: Leader;
+    units: OfficeUnit[];
 };
 
 type NewsUpdate = {
@@ -47,6 +52,7 @@ type RegistryRecord = {
 };
 
 type RegistryDocument = {
+    id: string;
     category: string;
     count: string;
     description: string;
@@ -62,6 +68,22 @@ type FeaturedInnovation = {
     href: string;
     image?: string;
     fileType: 'Image' | 'PDF';
+};
+
+type ResearchCenter = {
+    name: string;
+    acronym: string;
+    campus: string;
+    established: string;
+    summary: string;
+};
+
+type ResourceLink = {
+    id: string;
+    title: string;
+    description: string;
+    href: string;
+    download?: boolean;
 };
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
@@ -82,31 +104,31 @@ const vicePresident: Leader = {
 };
 
 const researchDirector: Leader = {
-    name: 'Erwin B. Berry, EdD',
-    role: 'Director, Research and Innovation',
+    name: 'Arturo G. Gracia, Jr., MSci',
+    role: 'Director, Research and Innovation / University Researcher V',
     email: 'research@nemsu.edu.ph',
-    image: '/images/administration/ovprie/director-research.jpg',
-    alt: 'Erwin B. Berry, EdD',
+    image: null,
+    alt: 'Arturo G. Gracia, Jr., MSci',
     summary:
         'RIDO supports University researchers through research programs, policy recommendations, funded project development, inter-campus collaboration, dissemination, and ethical compliance coordination.',
 };
 
 const kttoDirector: Leader = {
-    name: 'Engr. Luzminda S. Bacquial',
-    role: 'Director, KTTO',
+    name: 'Engr. Luzminda S. Bacquial, PhD',
+    role: 'Director, KTTO / ITSO Manager',
     email: 'itso@nemsu.edu.ph',
     image: '/images/administration/ovprie/director-ktto.jpg',
-    alt: 'Engr. Luzminda S. Bacquial',
+    alt: 'Engr. Luzminda S. Bacquial, PhD',
     summary:
         'KTTO identifies, protects, manages, and commercializes intellectual property so research outputs can become viable technologies and market-ready solutions.',
 };
 
 const extensionDirector: Leader = {
-    name: 'Ma. Cristina S. Dela Cerna, PhD',
-    role: 'Director, Extension Services and Linkages',
+    name: 'Abundio C. Miralles, EdD',
+    role: 'Director, Extension Services and Linkages / University Extension Specialist V',
     email: 'extension@nemsu.edu.ph',
-    image: '/images/administration/ovprie/director-extension.jpg',
-    alt: 'Ma. Cristina S. Dela Cerna, PhD',
+    image: null,
+    alt: 'Abundio C. Miralles, EdD',
     summary:
         'ESLO bridges the University and broader community through education, training, technical assistance, sustainable development partnerships, and community empowerment.',
 };
@@ -118,6 +140,12 @@ const officeGroups: OfficeGroup[] = [
         title: 'University Research and Innovation Office',
         acronym: 'RIDO',
         director: researchDirector,
+        units: [
+            { title: 'Research Centers' },
+            { title: 'Research Operation Office' },
+            { title: 'Creative Works Management Office' },
+            { title: 'Publication and Printing Office' },
+        ],
     },
     {
         id: 'innovation',
@@ -125,6 +153,16 @@ const officeGroups: OfficeGroup[] = [
         title: 'Knowledge and Technology Transfer Office',
         acronym: 'KTTO',
         director: kttoDirector,
+        units: [
+            {
+                title: 'Innovation and Technology Support Office',
+                acronym: 'ITSO',
+            },
+            {
+                title: 'Intellectual Property and Technology Business Management Office',
+            },
+            { title: 'Technology Business Incubation Office', acronym: 'TBI' },
+        ],
     },
     {
         id: 'extension',
@@ -132,13 +170,64 @@ const officeGroups: OfficeGroup[] = [
         title: 'Extension Services and Linkages Office',
         acronym: 'ESLO',
         director: extensionDirector,
+        units: [
+            {
+                title: 'Extension Planning and Implementation Office',
+                acronym: 'EPIO',
+            },
+            { title: 'Monitoring and Impact Assessment Office' },
+        ],
     },
 ];
 
-const officeLinks = officeGroups;
+const researchResources: ResourceLink[] = [
+    {
+        id: 'rie-manual',
+        title: 'RIE Manual',
+        description:
+            'Policies and operating guidance for University RIE programs.',
+        href: manualUrl,
+    },
+    {
+        id: 'scopus-publication-records',
+        title: 'Scopus Indexed Publications',
+        description: 'University publications indexed in the Scopus database.',
+        href: '/files/administration/ovprie/research/scopus-indexed-publications.xlsx',
+        download: true,
+    },
+    {
+        id: 'completed-research-projects',
+        title: 'Completed Research Projects',
+        description: 'Directory of completed research projects across NEMSU.',
+        href: '/files/administration/ovprie/research/completed-research-projects.xlsx',
+        download: true,
+    },
+];
+
+const publicationPreviewImages = [
+    '/images/administration/ovprie/research/scopus/2026/1.png',
+    '/images/administration/ovprie/research/scopus/2026/2.png',
+    '/images/administration/ovprie/research/scopus/new-template/5.png',
+];
+
+const extensionResources: ResourceLink[] = [
+    {
+        id: 'extension-projects',
+        title: 'Extension Projects',
+        description: 'University extension programs and project records.',
+        href: 'https://docs.google.com/spreadsheets/d/1fJRlzFi2CkeiezyFPHAASUPs8c3R4Phz/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
+    },
+    {
+        id: 'extension-activities',
+        title: 'Extension Activities',
+        description: 'Updates and documentation from extension activities.',
+        href: 'https://docs.google.com/document/d/1ZZlCGjtZiM44-SO8C9u91X2KxuPqDvaI/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
+    },
+];
 
 const innovationRegistryDocuments: RegistryDocument[] = [
     {
+        id: 'patents',
         category: 'Patents',
         count: '2',
         description:
@@ -158,6 +247,7 @@ const innovationRegistryDocuments: RegistryDocument[] = [
         ],
     },
     {
+        id: 'utility-models',
         category: 'Utility Models',
         count: '17',
         description:
@@ -177,6 +267,7 @@ const innovationRegistryDocuments: RegistryDocument[] = [
         ],
     },
     {
+        id: 'copyrights',
         category: 'Copyrights',
         count: '65',
         description:
@@ -196,6 +287,7 @@ const innovationRegistryDocuments: RegistryDocument[] = [
         ],
     },
     {
+        id: 'industrial-designs',
         category: 'Industrial Designs',
         count: '9',
         description:
@@ -215,6 +307,7 @@ const innovationRegistryDocuments: RegistryDocument[] = [
         ],
     },
     {
+        id: 'trademarks',
         category: 'Trademarks',
         count: '6',
         description:
@@ -295,42 +388,135 @@ const featuredInnovations: FeaturedInnovation[] = [
     },
 ];
 
-const researchHighlights = [
-    { title: 'Research Centers', icon: Building2 },
-    { title: 'Scopus Indexed Publications', icon: ScrollText },
-    { title: 'Completed Research Projects', icon: ShieldCheck },
+const researchCenters: ResearchCenter[] = [
+    {
+        name: 'Research Center for Continuing Education and Professional Development',
+        acronym: 'RCCEPD',
+        campus: 'Tandag Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Advances lifelong learning, professional development, and applied research for priority regional sectors.',
+    },
+    {
+        name: 'Center for Local Leadership and Governance',
+        acronym: 'CLLG',
+        campus: 'Tandag Campus',
+        established: 'October 14, 2025',
+        summary:
+            'Promotes evidence-based governance, leadership development, and technical assistance for public and community institutions.',
+    },
+    {
+        name: 'Center for Instructional Innovation and Development',
+        acronym: 'CIID',
+        campus: 'Tandag Campus',
+        established: 'October 14, 2025',
+        summary:
+            'Supports instructional innovation, educational technology, and the development of high-quality learning resources.',
+    },
+    {
+        name: 'Society, Human Interaction, Nature and Environment Research Center',
+        acronym: 'SHINE',
+        campus: 'Tandag Campus',
+        established: 'October 14, 2025',
+        summary:
+            'Advances interdisciplinary research on society, biodiversity, sustainability, and human-environment interactions.',
+    },
+    {
+        name: 'Research Center for Industrial Technology and Renewable Energy',
+        acronym: 'RCITRE',
+        campus: 'Cantilan Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Develops practical industrial and clean-energy solutions that support green industries and regional competitiveness.',
+    },
+    {
+        name: 'Food Innovation Center',
+        acronym: 'FIC',
+        campus: 'Cantilan Campus',
+        established: 'October 14, 2025',
+        summary:
+            'Supports food product development, processing, quality assurance, technology transfer, and entrepreneurship.',
+    },
+    {
+        name: 'Research Center for Climate-Smart Agriculture',
+        acronym: 'RCC-SA',
+        campus: 'San Miguel Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Develops climate-smart agricultural practices that improve productivity, resilience, and food security.',
+    },
+    {
+        name: 'Tourism and SMEs Innovation Research Center',
+        acronym: 'TSMEIRC',
+        campus: 'Cagwait Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Strengthens sustainable tourism, entrepreneurship, local products, and community-based industries.',
+    },
+    {
+        name: 'Center of Research for Aquamarine Life Sustainability',
+        acronym: 'CoRALS',
+        campus: 'Lianga Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Advances sustainable fisheries, marine biodiversity, aquaculture, and integrated coastal resource management.',
+    },
+    {
+        name: 'Center for Aquasilviculture and Seaweed Advancement',
+        acronym: 'AQUASEA',
+        campus: 'Lianga Campus',
+        established: 'October 14, 2025',
+        summary:
+            'Integrates aquasilviculture, seaweed development, mangrove restoration, and coastal ecosystem management.',
+    },
+    {
+        name: 'Food and Farming Technology Research Center',
+        acronym: 'FFTRC',
+        campus: 'Tagbina Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Improves agricultural productivity, food innovation, value addition, and sustainable farming systems.',
+    },
+    {
+        name: 'Agro-Forestry Industrial Research Center',
+        acronym: 'AFIRC',
+        campus: 'Bislig Campus',
+        established: 'December 19, 2023',
+        summary:
+            'Advances agroforestry, sustainable natural resource management, and agro-industrial innovation.',
+    },
 ];
 
 const newsUpdates: NewsUpdate[] = [
     {
-        tag: '#NEMSURICallForResearchProposals',
-        title: '2027 and 2028 funding call for research proposals',
-        href: 'https://www.facebook.com/reel/1644974993391176',
+        tag: '#NEMSURIE',
+        title: 'Research That Reaches the Field: NEMSU at the 3rd CRAFTE 2026',
+        href: 'https://www.facebook.com/share/p/18D1f4b5xR/',
     },
     {
-        tag: '#NEMSURIPeerMentoring',
-        title: 'RIE peer mentoring activity',
-        href: 'https://www.facebook.com/share/p/1DB8mBqxQh/',
+        tag: '#NEMSURIBenchmarking',
+        title: 'Research and innovation benchmarking update',
+        href: 'https://www.facebook.com/share/p/1BPM9L2QAf/',
     },
     {
-        tag: '#NEMSUCITEScopusMentoring',
-        title: 'Scopus mentoring for CITE researchers',
-        href: 'https://www.facebook.com/share/p/1BMjB2CJPp/',
+        tag: '#NEMSUInnovation',
+        title: 'University innovation activity and milestone',
+        href: 'https://www.facebook.com/share/p/18ynyZpEoZ/',
     },
     {
-        tag: '#NEMSUITSOInnovationAward',
-        title: 'Innovation award update from ITSO',
-        href: 'https://www.facebook.com/share/p/1bBhmcVPqu/',
+        tag: '#ResearchCallDeadlineExtended',
+        title: 'Research call deadline extension announcement',
+        href: 'https://www.facebook.com/share/p/1BqrbDjUhm/',
     },
     {
-        tag: '#SDG17PartnershipsfortheGoals',
-        title: 'Partnerships for research, innovation, and extension',
-        href: 'https://www.facebook.com/share/p/19DfbRmK8W/',
+        tag: '#NEMSUScopus',
+        title: 'NEMSU surpasses its 2026 Scopus publication target',
+        href: 'https://www.facebook.com/share/p/1YVbRjKecJ/',
     },
     {
-        tag: '#NEMSUTBI',
-        title: 'Technology Business Incubation update',
-        href: 'https://www.facebook.com/share/p/1GGAXSkTrn/',
+        tag: '#NEMSURIPerformanceManagement',
+        title: 'RIE performance management update',
+        href: 'https://www.facebook.com/share/p/18xPV9tbzQ/',
     },
 ];
 
@@ -358,6 +544,14 @@ const setSectionVisibility = (section: string, isVisible: boolean): void => {
 
 const isSectionVisible = (section: string): boolean =>
     visibleSections.value.has(section);
+
+const leaderInitials = (name: string): string =>
+    name
+        .split(/\s+/)
+        .filter((part) => /^[A-Za-z]/.test(part))
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join('');
 
 const revealClasses = (
     section: string,
@@ -519,11 +713,10 @@ onBeforeUnmount(() => {
                             class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
                         >
                             The Office of the Vice President for Research,
-                            Innovation, and Extension formulates and implements
-                            strategic policies, oversees research, innovation,
-                            and extension programs, facilitates collaborations,
-                            manages grants and funding, and ensures compliance
-                            with regulatory requirements.
+                            Innovation, and Extension steers the University's
+                            RIE agenda in alignment with national development
+                            priorities and the thrusts of CHED, DOST, DA, NEDA,
+                            DBM, and other relevant institutions.
                         </p>
                         <p
                             class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
@@ -533,6 +726,55 @@ onBeforeUnmount(() => {
                             the NEMSU system in alignment with national
                             development priorities.
                         </p>
+
+                        <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                            <a
+                                v-for="resource in researchResources"
+                                :id="resource.id"
+                                :key="resource.href"
+                                :href="resource.href"
+                                :download="resource.download ? '' : undefined"
+                                :target="
+                                    resource.download ? undefined : '_blank'
+                                "
+                                :rel="
+                                    resource.download ? undefined : 'noreferrer'
+                                "
+                                class="group scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-4 transition hover:border-[#1711d4]/30 hover:bg-white dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-300/30"
+                            >
+                                <FileText
+                                    class="size-5 text-[#0b6680] dark:text-sky-300"
+                                    aria-hidden="true"
+                                />
+                                <h3 class="mt-3 text-sm font-semibold">
+                                    {{ resource.title }}
+                                </h3>
+                                <p
+                                    class="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400"
+                                >
+                                    {{ resource.description }}
+                                </p>
+                                <span
+                                    class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#1711d4] dark:text-sky-200"
+                                >
+                                    {{
+                                        resource.download
+                                            ? 'Download workbook'
+                                            : 'Open resource'
+                                    }}
+                                    <Download
+                                        v-if="resource.download"
+                                        class="size-3.5"
+                                        aria-hidden="true"
+                                    />
+                                    <ArrowUpRight
+                                        v-else
+                                        class="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            </a>
+                        </div>
                     </div>
 
                     <article
@@ -542,10 +784,21 @@ onBeforeUnmount(() => {
                     >
                         <div class="relative overflow-hidden">
                             <img
+                                v-if="vicePresident.image"
                                 :src="vicePresident.image"
                                 :alt="vicePresident.alt"
                                 class="h-96 w-full object-cover object-top [filter:contrast(.96)_saturate(.96)_blur(.2px)]"
                             />
+                            <div
+                                v-else
+                                class="grid h-96 place-items-center bg-[#1711d4] text-white"
+                            >
+                                <span
+                                    class="grid size-24 place-items-center rounded-full bg-white/12 text-3xl font-semibold ring-1 ring-white/20"
+                                >
+                                    {{ leaderInitials(vicePresident.name) }}
+                                </span>
+                            </div>
                             <div
                                 class="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/45 to-transparent"
                                 aria-hidden="true"
@@ -568,6 +821,13 @@ onBeforeUnmount(() => {
                             >
                                 {{ vicePresident.role }}
                             </p>
+                            <a
+                                :href="`mailto:${vicePresident.email}`"
+                                class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
+                            >
+                                <Mail class="size-4" aria-hidden="true" />
+                                {{ vicePresident.email }}
+                            </a>
                         </div>
                     </article>
                 </div>
@@ -592,24 +852,40 @@ onBeforeUnmount(() => {
 
                     <nav
                         aria-label="Offices under OVPRIE"
-                        class="mt-10 grid gap-x-12 gap-y-7 text-left sm:grid-cols-2 lg:grid-cols-3"
+                        class="mt-10 grid gap-5 lg:grid-cols-3"
                     >
-                        <Link
-                            v-for="office in officeLinks"
-                            :key="office.slug"
-                            :href="officeShow.url(office.slug)"
-                            class="group inline-flex items-center justify-start gap-2 text-left text-sm font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705] lg:text-base"
+                        <article
+                            v-for="group in officeGroups"
+                            :key="`${group.slug}-directory`"
+                            class="rounded-md border border-white/15 bg-white/10 p-5 backdrop-blur"
                         >
-                            <span>
-                                {{ office.title }} ({{ office.acronym }})
-                            </span>
-                            <span
-                                class="text-[#f2b705] transition group-hover:translate-x-1"
-                                aria-hidden="true"
+                            <Link
+                                :href="officeShow.url(group.slug)"
+                                class="group inline-flex items-start gap-2 font-bold text-white transition hover:text-[#f2b705] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f2b705]"
                             >
-                                &gt;
-                            </span>
-                        </Link>
+                                <span>
+                                    {{ group.title }} ({{ group.acronym }})
+                                </span>
+                                <ArrowRight
+                                    class="mt-0.5 size-4 shrink-0 text-[#f2b705] transition group-hover:translate-x-1"
+                                    aria-hidden="true"
+                                />
+                            </Link>
+                            <ul
+                                class="mt-5 grid gap-3 border-t border-white/15 pt-4"
+                            >
+                                <li
+                                    v-for="unit in group.units"
+                                    :key="unit.title"
+                                    class="text-sm leading-6 text-white/80"
+                                >
+                                    {{ unit.title }}
+                                    <span v-if="unit.acronym">
+                                        ({{ unit.acronym }})
+                                    </span>
+                                </li>
+                            </ul>
+                        </article>
                     </nav>
                 </div>
             </section>
@@ -629,10 +905,28 @@ onBeforeUnmount(() => {
                             "
                         >
                             <img
+                                v-if="group.director.image"
                                 :src="group.director.image"
                                 :alt="group.director.alt"
                                 class="aspect-[4/5] w-full rounded-md object-cover shadow-lg shadow-slate-900/10"
                             />
+                            <div
+                                v-else
+                                class="grid aspect-[4/5] w-full place-items-center rounded-md bg-[#1711d4] text-white shadow-lg shadow-slate-900/10"
+                            >
+                                <div class="text-center">
+                                    <span
+                                        class="mx-auto grid size-24 place-items-center rounded-full bg-white/12 text-3xl font-semibold ring-1 ring-white/20"
+                                    >
+                                        {{
+                                            leaderInitials(group.director.name)
+                                        }}
+                                    </span>
+                                    <p class="mt-4 text-sm text-white/70">
+                                        Official photo pending
+                                    </p>
+                                </div>
+                            </div>
                             <div class="mt-5">
                                 <p
                                     class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
@@ -678,22 +972,133 @@ onBeforeUnmount(() => {
 
                             <div
                                 v-if="group.id === 'research'"
-                                class="mt-8 grid gap-4 md:grid-cols-3"
+                                class="mt-8 space-y-6"
                             >
-                                <article
-                                    v-for="highlight in researchHighlights"
-                                    :key="highlight.title"
-                                    class="rounded-md border border-slate-200 bg-white p-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                <section
+                                    id="research-centers"
+                                    class="rounded-md bg-[#061b49] p-6 text-white"
                                 >
-                                    <component
-                                        :is="highlight.icon"
-                                        class="size-6 text-[#0b6680] dark:text-sky-300"
+                                    <Building2
+                                        class="size-7 text-[#f2b705]"
                                         aria-hidden="true"
                                     />
-                                    <h4 class="mt-4 font-semibold">
-                                        {{ highlight.title }}
+                                    <p
+                                        class="mt-4 text-xs font-semibold tracking-wide text-sky-100 uppercase"
+                                    >
+                                        Research Centers
+                                    </p>
+                                    <h4 class="mt-2 text-xl font-semibold">
+                                        Hussein M. Alawi
                                     </h4>
-                                </article>
+                                    <p class="mt-1 text-sm text-sky-100">
+                                        Director, Research Centers / University
+                                        Researcher IV
+                                    </p>
+                                    <a
+                                        href="mailto:hmalawi@nemsu.edu.ph"
+                                        class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#f2b705]"
+                                    >
+                                        <Mail
+                                            class="size-4"
+                                            aria-hidden="true"
+                                        />
+                                        hmalawi@nemsu.edu.ph
+                                    </a>
+                                </section>
+
+                                <div class="grid gap-4 md:grid-cols-2">
+                                    <article
+                                        v-for="center in researchCenters"
+                                        :key="`${center.campus}-${center.acronym}`"
+                                        class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                    >
+                                        <div
+                                            class="flex flex-wrap items-center gap-2"
+                                        >
+                                            <span
+                                                class="rounded bg-[#e7f3fb] px-2.5 py-1 text-xs font-semibold text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
+                                            >
+                                                {{ center.acronym }}
+                                            </span>
+                                            <span
+                                                class="text-xs font-semibold text-[#9b1c31] dark:text-rose-300"
+                                            >
+                                                {{ center.campus }}
+                                            </span>
+                                        </div>
+                                        <h4 class="mt-3 font-semibold">
+                                            {{ center.name }}
+                                        </h4>
+                                        <p
+                                            class="mt-2 text-xs text-slate-500 dark:text-slate-400"
+                                        >
+                                            Established {{ center.established }}
+                                        </p>
+                                        <p
+                                            class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                        >
+                                            {{ center.summary }}
+                                        </p>
+                                    </article>
+                                </div>
+
+                                <section
+                                    id="publication"
+                                    class="scroll-mt-28 overflow-hidden rounded-md border border-slate-200 bg-[#f7f8f5] dark:border-white/10 dark:bg-white/[0.04]"
+                                >
+                                    <div
+                                        class="grid grid-cols-3 gap-2 bg-slate-100 p-3 sm:gap-3 sm:p-4 dark:bg-slate-900"
+                                    >
+                                        <div
+                                            v-for="(
+                                                image, index
+                                            ) in publicationPreviewImages"
+                                            :key="image"
+                                            class="grid aspect-4/5 place-items-center overflow-hidden rounded-sm bg-white p-1.5 shadow-sm sm:p-2 dark:bg-slate-950"
+                                        >
+                                            <img
+                                                :src="image"
+                                                :alt="`NEMSU publication poster preview ${index + 1}`"
+                                                loading="lazy"
+                                                class="max-h-full max-w-full object-contain"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6"
+                                    >
+                                        <div>
+                                            <p
+                                                class="text-xs font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
+                                            >
+                                                Published Articles
+                                            </p>
+                                            <h4
+                                                class="mt-2 text-xl font-semibold text-slate-950 dark:text-white"
+                                            >
+                                                Explore NEMSU's Scopus
+                                                publication posters
+                                            </h4>
+                                            <p
+                                                class="mt-2 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300"
+                                            >
+                                                Browse the current poster
+                                                gallery or download the complete
+                                                publication workbook above.
+                                            </p>
+                                        </div>
+                                        <Link
+                                            :href="publicationIndex().url"
+                                            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-[#1711d4] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0b3d91]"
+                                        >
+                                            View all publications
+                                            <ArrowRight
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </Link>
+                                    </div>
+                                </section>
                             </div>
 
                             <div
@@ -935,6 +1340,7 @@ onBeforeUnmount(() => {
                                             v-for="(
                                                 document, index
                                             ) in innovationRegistryDocuments"
+                                            :id="document.id"
                                             :key="document.href"
                                             :data-scroll-section="`innovation-registry-${index}`"
                                             :class="
@@ -943,7 +1349,7 @@ onBeforeUnmount(() => {
                                                     'up',
                                                 )
                                             "
-                                            class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                            class="scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
                                         >
                                             <div
                                                 class="flex items-start justify-between gap-4"
@@ -1017,22 +1423,39 @@ onBeforeUnmount(() => {
 
                             <div
                                 v-if="group.id === 'extension'"
-                                class="mt-8 rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
+                                class="mt-8 grid gap-4 sm:grid-cols-2"
                             >
-                                <BookOpenText
-                                    class="size-6 text-[#0b6680] dark:text-sky-300"
-                                    aria-hidden="true"
-                                />
-                                <h4 class="mt-4 text-lg font-semibold">
-                                    Extension Projects
-                                </h4>
-                                <p
-                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                <a
+                                    v-for="resource in extensionResources"
+                                    :id="resource.id"
+                                    :key="resource.href"
+                                    :href="resource.href"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    class="group scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-5 transition hover:border-[#1711d4]/30 hover:bg-white dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-300/30"
                                 >
-                                    Extension projects are monitored for
-                                    relevance, inclusivity, sustainability, and
-                                    measurable community benefit.
-                                </p>
+                                    <BookOpenText
+                                        class="size-6 text-[#0b6680] dark:text-sky-300"
+                                        aria-hidden="true"
+                                    />
+                                    <h4 class="mt-4 text-lg font-semibold">
+                                        {{ resource.title }}
+                                    </h4>
+                                    <p
+                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                    >
+                                        {{ resource.description }}
+                                    </p>
+                                    <span
+                                        class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
+                                    >
+                                        Open resource
+                                        <ArrowUpRight
+                                            class="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>

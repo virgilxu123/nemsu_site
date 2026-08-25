@@ -40,6 +40,12 @@ TEXT,
     'email' => 'nemsulianga@nemsu.edu.ph',
     'phone' => '0956-831-0202',
     'focus' => 'Coastal resource learning',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '6,996', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '6,740', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '208', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '9', 'note' => 'Academic programs'],
+    ],
     'facilities' => [
         'Learning resource center',
         'Computer and innovation laboratories',

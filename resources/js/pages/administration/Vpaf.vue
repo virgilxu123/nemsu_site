@@ -7,8 +7,7 @@ import { home } from '@/routes';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -254,61 +253,35 @@ onBeforeUnmount(() => {
                             Stewarding Administrative and Financial Excellence
                         </h4>
                         <p
-                            class="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-5 text-justify text-lg leading-8 text-slate-600 dark:text-slate-300"
                         >
-                            This section will contain the official profile of
-                            the Office of the Vice President for Administration
-                            and Finance. Placeholder text is shown here while
-                            the final office profile, leadership statement, and
-                            service overview are being prepared.
+                            The Office of the Vice President for Administration
+                            and Finance provides strategic leadership for the
+                            University's administrative and financial
+                            operations. It helps ensure that institutional
+                            resources, personnel, facilities, and support
+                            systems are managed responsibly, efficiently, and in
+                            accordance with applicable policies.
                         </p>
                         <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-4 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
+                            Through its administrative and finance divisions and
+                            specialized offices, OVPAF coordinates budgeting,
+                            accounting, cash management, human resource
+                            services, property and supply management, auxiliary
+                            services, disaster preparedness, and energy
+                            conservation across the NEMSU system.
                         </p>
                         <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-4 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
-                        </p>
-                        <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
-                        >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
-                        </p>
-                        <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
-                        >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
-                        </p>
-                        <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify "
-                        >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
-                        </p>
-                        <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
-                        >
-                            The OVPAF supports the University through responsive
-                            administrative systems, sound financial stewardship,
-                            personnel services, property management, and
-                            coordinated operational support across campuses.
+                            By promoting sound stewardship, transparent
+                            processes, and responsive service, the Office
+                            enables academic and operational units to carry out
+                            their programs effectively while sustaining a safe,
+                            resilient, and student-centered University
+                            environment.
                         </p>
                     </div>
 
@@ -316,7 +289,7 @@ onBeforeUnmount(() => {
                         id="ovpaf-profile"
                         data-scroll-section="ovpaf-profile"
                         :class="revealClasses('ovpaf-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:sticky lg:top-24 lg:order-none lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img

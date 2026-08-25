@@ -10,6 +10,7 @@ import { show as graduateProfessionalStudyShow } from '@/routes/academics/academ
 import { goodGovernance, vpaf, vppsi } from '@/routes/administration';
 import { show as campusShow } from '@/routes/campuses';
 import { rie } from '@/routes/research';
+import { index as publicationIndex } from '@/routes/research/rie/publications';
 import { index as servicesIndex } from '@/routes/services';
 import type {
     PublicSiteLinkItem,
@@ -152,16 +153,16 @@ export const publicSiteNavigationGroups: PublicSiteNavigationGroup[] = [
                         href: rie().url,
                     },
                     {
-                        label: 'OVPRIE Offices',
-                        href: `${rie().url}#ovprie-offices`,
+                        label: 'Research Centers',
+                        href: `${rie().url}#research-centers`,
                     },
                     {
                         label: 'Published Articles',
-                        href: `${rie().url}#publication`,
+                        href: publicationIndex().url,
                     },
                     {
                         label: 'Patents',
-                        href: `${rie().url}#intellectual-property`,
+                        href: `${rie().url}#patents`,
                     },
                 ],
             },

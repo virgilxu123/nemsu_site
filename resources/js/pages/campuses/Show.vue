@@ -860,7 +860,7 @@ onBeforeUnmount(() => {
                                                     offering
                                                 }}</span>
                                                 <span
-                                                    class="hidden shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[0.6rem] font-semibold tracking-wide text-[#9b1c31] uppercase transition-colors group-hover/offering:bg-[#9b1c31] group-hover/offering:text-white sm:inline-flex dark:bg-white/10 dark:text-rose-200"
+                                                    class="hidden shrink-0 items-center gap-1 rounded-full bg-[#eef2ff] px-2.5 py-1 text-[0.6rem] font-semibold tracking-wide text-[#1711d4] uppercase transition-colors group-hover/offering:bg-[#1711d4] group-hover/offering:text-white sm:inline-flex dark:bg-sky-300/10 dark:text-sky-300 dark:group-hover/offering:bg-sky-300 dark:group-hover/offering:text-slate-950"
                                                 >
                                                     Prospectus PDF
                                                     <ExternalLink
@@ -869,7 +869,7 @@ onBeforeUnmount(() => {
                                                     />
                                                 </span>
                                                 <ExternalLink
-                                                    class="size-3.5 shrink-0 text-[#9b1c31] sm:hidden dark:text-rose-300"
+                                                    class="size-3.5 shrink-0 text-[#1711d4] sm:hidden dark:text-sky-300"
                                                     aria-hidden="true"
                                                 />
                                             </a>

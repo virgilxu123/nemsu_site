@@ -25,6 +25,12 @@ TEXT,
     'directorPhone' => '09457390082',
     'directorPhoto' => '/images/campuses/cagwait/campus-director.jpg',
     'focus' => 'Accessible education, institutional development, and community service',
+    'stats' => [
+        ['label' => 'Student Population (1st Semester)', 'value' => '1,107', 'note' => 'AY 2025–2026'],
+        ['label' => 'Student Population (2nd Semester)', 'value' => '1,028', 'note' => 'AY 2025–2026'],
+        ['label' => 'Faculty and Staff', 'value' => '79', 'note' => 'As of December 31, 2025'],
+        ['label' => 'Program Offerings', 'value' => '6', 'note' => 'Academic programs'],
+    ],
     'campusLife' => [
         'The Coastal Chronicles',
         'Malaya Dance Troupe',

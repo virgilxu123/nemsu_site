@@ -573,6 +573,31 @@ class CollegeController extends Controller
     }
 
     /**
+     * @return array<string, string>
+     */
+    public static function prospectusUrlsForCampus(string $campusName): array
+    {
+        return collect(self::COLLEGES)
+            ->flatMap(function (array $college) use ($campusName): array {
+                $programDetails = $college['programDetails'] ?? [];
+
+                return collect($college['campuses'])
+                    ->where('name', $campusName)
+                    ->flatMap(fn (array $campus): array => collect($campus['courses'])
+                        ->mapWithKeys(function (string $course) use ($programDetails): array {
+                            $prospectusUrl = $programDetails[$course]['prospectusUrl'] ?? null;
+
+                            return $prospectusUrl === null
+                                ? []
+                                : [$course => $prospectusUrl];
+                        })
+                        ->all())
+                    ->all();
+            })
+            ->all();
+    }
+
+    /**
      * @param  array{
      *     title: string,
      *     photo: string,
