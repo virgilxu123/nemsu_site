@@ -294,7 +294,7 @@ onBeforeUnmount(() => {
                             <p
                                 class="text-xs font-medium text-slate-500 dark:text-slate-400"
                             >
-                                SUC President III, NEMSU
+                                SUC President III
                             </p>
                         </div>
                     </div>

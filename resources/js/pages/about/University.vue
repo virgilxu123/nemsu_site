@@ -657,7 +657,7 @@ onBeforeUnmount(() => {
                                 </p>
                             </article>
 
-                            <article>
+                            <!-- <article>
                                 <h3
                                     class="font-black tracking-tight text-[#1711d4] uppercase sm:text-4xl dark:text-[#f2b705]"
                                 >
@@ -669,7 +669,7 @@ onBeforeUnmount(() => {
                                     Compassion, Accountability, Responsiveness,
                                     Excellence, and Service.
                                 </p>
-                            </article>
+                            </article> -->
 
                             <article>
                                 <h3

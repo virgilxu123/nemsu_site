@@ -159,7 +159,7 @@ test('each campus page uses its corresponding local hero image', function (
     $this->get(route('campuses.show', $campus))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->where('campus.heroImage', Storage::disk('public')->url($imagePath))
+            ->where('campus.heroImage', '/storage/'.$imagePath)
         );
 })->with([
     'Tandag' => ['tandag', 'images/campuses/tandag/6I3A5798.JPG'],
@@ -170,6 +170,20 @@ test('each campus page uses its corresponding local hero image', function (
     'Tagbina' => ['tagbina', 'images/campuses/tagbina/Tagbina.jpg'],
     'Bislig' => ['bislig', 'images/campuses/bislig/Bislig.jpg'],
 ]);
+
+test('the campus hero image URL uses the current request origin', function () {
+    $this->withServerVariables([
+        'HTTP_HOST' => '127.0.0.1:8001',
+        'SERVER_PORT' => '8001',
+    ])->get('/campuses/tandag')
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where(
+                'campus.heroImage',
+                '/storage/images/campuses/tandag/6I3A5798.JPG',
+            )
+        );
+});
 
 test('the campus hero renders the configured image as a cover image', function () {
     $campusPage = file_get_contents(

@@ -5,6 +5,8 @@ import type { PublicNewsTickerItem } from '@/types/public-site';
 declare module 'vite/client' {
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
+        readonly VITE_PSBRS_VACANCIES_API_URL?: string;
+        readonly VITE_PSBRS_VACANCIES_URL?: string;
         [key: string]: string | boolean | undefined;
     }
 
