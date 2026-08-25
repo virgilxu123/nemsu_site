@@ -48,9 +48,10 @@ class UpdateNewsRequest extends FormRequest
     {
         $title = (string) $this->input('title');
         $slug = (string) $this->input('slug');
+        $normalizedSlug = Str::slug($slug);
 
         $this->merge([
-            'slug' => Str::slug($slug !== '' ? $slug : $title),
+            'slug' => $normalizedSlug !== '' ? $normalizedSlug : Str::slug($title),
             'is_published' => $this->boolean('is_published'),
             'featured' => $this->boolean('featured'),
             'remove_photo' => $this->boolean('remove_photo'),

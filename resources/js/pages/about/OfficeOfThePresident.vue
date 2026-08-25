@@ -196,7 +196,7 @@ onBeforeUnmount(() => {
             <!-- SECTION 1: President Portrait & Message Layout (Top Alignment Rule) -->
             <section
                 id="presidents-message"
-                class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16"
+                class="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16 text-lg"
             >
                 <div
                     data-scroll-section="president-message-section"
@@ -219,14 +219,14 @@ onBeforeUnmount(() => {
                         class="prose prose-slate dark:prose-invert max-w-none text-justify font-sans"
                     >
                         <p
-                            class="text-sm font-semibold text-slate-700 italic dark:text-slate-300"
+                            class=" font-semibold text-slate-700 italic dark:text-slate-300"
                         >
                             Dear Corporate Partners, Faculty, Staff, Students,
                             and the NEMSU community,
                         </p>
 
                         <p
-                            class="mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 leading-7 text-slate-600 dark:text-slate-300"
                         >
                             As the President of North Eastern Mindanao State
                             University (NEMSU), I am delighted to present the
@@ -237,7 +237,7 @@ onBeforeUnmount(() => {
                         </p>
 
                         <p
-                            class="mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 leading-7 text-slate-600 dark:text-slate-300"
                         >
                             This plan serves as our guiding compass in pursuing
                             our university's mission to provide quality
@@ -248,7 +248,7 @@ onBeforeUnmount(() => {
                         </p>
 
                         <p
-                            class="mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 leading-7 text-slate-600 dark:text-slate-300"
                         >
                             By fostering collaboration among faculty, staff,
                             students, alumni, and stakeholders, we can achieve
@@ -265,7 +265,7 @@ onBeforeUnmount(() => {
                         </p>
 
                         <p
-                            class="mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 leading-7 text-slate-600 dark:text-slate-300"
                         >
                             In line with this spirit, let us draw inspiration
                             from Philippians 4:13, "I can do all things through
@@ -277,7 +277,7 @@ onBeforeUnmount(() => {
                         </p>
 
                         <p
-                            class="mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-300"
+                            class="mt-4 leading-7 text-slate-600 dark:text-slate-300"
                         >
                             Together, let us embrace the opportunities that
                             await us and work tirelessly to build a brighter
@@ -314,7 +314,7 @@ onBeforeUnmount(() => {
                     <h2
                         class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white"
                     >
-                        Executives' Corner
+                        Executive's Corner
                     </h2>
                     <span
                         aria-hidden="true"

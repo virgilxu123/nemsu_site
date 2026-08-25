@@ -121,6 +121,20 @@ test('admins can store news with normalized data', function () {
         ->and($news->content)->not->toContain('onclick');
 });
 
+test('storing news falls back to the title when a legacy unicode slug cannot be normalized', function () {
+    $admin = newsAdminUser();
+
+    $this->actingAs($admin)
+        ->post(route('admin.news.store'), newsPayload([
+            'title' => 'Global Connections NEMSU Partnership',
+            'slug' => '𝐍𝐄𝐌𝐒𝐔-𝐏𝐚𝐫𝐭𝐧𝐞𝐫𝐬𝐡𝐢𝐩',
+        ]))
+        ->assertSessionHasNoErrors();
+
+    expect(News::query()->firstOrFail()->slug)
+        ->toBe('global-connections-nemsu-partnership');
+});
+
 test('admins can upload a lead photo and inline content images', function () {
     Storage::fake('public');
     $admin = newsAdminUser();
@@ -195,6 +209,23 @@ test('admins can update news while keeping the current slug valid', function () 
         ]))
         ->assertRedirect(route('admin.news.edit', $news))
         ->assertSessionHasErrors('slug');
+});
+
+test('updating news falls back to the title when a legacy unicode slug cannot be normalized', function () {
+    $admin = newsAdminUser();
+    $news = News::factory()->create([
+        'slug' => '𝐍𝐄𝐌𝐒𝐔-𝐏𝐚𝐫𝐭𝐧𝐞𝐫𝐬𝐡𝐢𝐩',
+    ]);
+
+    $this->actingAs($admin)
+        ->patch(route('admin.news.update', $news), newsPayload([
+            'title' => 'Global Connections NEMSU Partnership',
+            'slug' => '𝐍𝐄𝐌𝐒𝐔-𝐏𝐚𝐫𝐭𝐧𝐞𝐫𝐬𝐡𝐢𝐩',
+        ]))
+        ->assertSessionHasNoErrors();
+
+    expect($news->refresh()->slug)
+        ->toBe('global-connections-nemsu-partnership');
 });
 
 test('updating news preserves legacy photos and replaces managed uploads', function () {

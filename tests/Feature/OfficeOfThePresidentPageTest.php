@@ -1,18 +1,64 @@
 <?php
 
 use App\Models\News;
+use App\Models\Office;
 use Illuminate\Support\Facades\Route;
 use Inertia\Testing\AssertableInertia as Assert;
 
-test('office of the president page can be viewed', function () {
+test('office of the president page only displays news assigned to the president office', function () {
+    $presidentOfficeById = Office::query()->forceCreate([
+        'id' => 17,
+        'code' => 'OP-ID',
+        'name' => 'Office matched by ID',
+        'slug' => 'office-matched-by-id',
+        'campus_id' => 1,
+    ]);
+    $presidentOfficeByName = Office::query()->forceCreate([
+        'id' => 18,
+        'code' => 'OP-NAME',
+        'name' => 'President Office',
+        'slug' => 'president-office',
+        'campus_id' => 1,
+    ]);
+    $unrelatedOffice = Office::query()->forceCreate([
+        'id' => 19,
+        'code' => 'OTHER',
+        'name' => 'Other Office',
+        'slug' => 'other-office',
+        'campus_id' => 1,
+    ]);
+
     News::factory()->published()->create([
-        'title' => 'Latest presidential press release',
-        'slug' => 'latest-presidential-press-release',
+        'title' => 'President news matched by office ID',
+        'slug' => 'president-news-matched-by-office-id',
+        'office_id' => $presidentOfficeById->id,
         'type' => 'news',
+        'date' => now(),
+    ]);
+
+    News::factory()->published()->create([
+        'title' => 'President news matched by office name',
+        'slug' => 'president-news-matched-by-office-name',
+        'office_id' => $presidentOfficeByName->id,
+        'type' => 'news',
+        'date' => now()->subDay(),
     ]);
 
     News::factory()->draft()->create([
         'title' => 'Draft presidential press release',
+        'office_id' => $presidentOfficeById->id,
+        'type' => 'news',
+    ]);
+
+    News::factory()->published()->create([
+        'title' => 'President office announcement',
+        'office_id' => $presidentOfficeById->id,
+        'type' => 'announcement',
+    ]);
+
+    News::factory()->published()->create([
+        'title' => 'Unrelated office news',
+        'office_id' => $unrelatedOffice->id,
         'type' => 'news',
     ]);
 
@@ -20,9 +66,11 @@ test('office of the president page can be viewed', function () {
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('about/OfficeOfThePresident')
-            ->has('pressReleases', 1)
-            ->where('pressReleases.0.title', 'Latest presidential press release')
-            ->where('pressReleases.0.slug', 'latest-presidential-press-release')
+            ->has('pressReleases', 2)
+            ->where('pressReleases.0.title', 'President news matched by office ID')
+            ->where('pressReleases.0.slug', 'president-news-matched-by-office-id')
+            ->where('pressReleases.1.title', 'President news matched by office name')
+            ->where('pressReleases.1.slug', 'president-news-matched-by-office-name')
         );
 });
 
