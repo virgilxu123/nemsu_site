@@ -65,6 +65,10 @@ const professionalStudyLinks: PublicSiteLinkItem[] = [
         href: graduateProfessionalStudyShow.url('college-of-law'),
     },
     {
+        label: 'College of Medicine',
+        href: graduateProfessionalStudyShow.url('college-of-medicine'),
+    },
+    {
         label: 'Graduate School',
         href: graduateProfessionalStudyShow.url('graduate-school'),
     },
