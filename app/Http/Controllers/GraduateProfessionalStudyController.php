@@ -158,7 +158,7 @@ class GraduateProfessionalStudyController extends Controller
         'college-of-medicine' => [
             'title' => 'College of Medicine',
             'photo' => '',
-            'overview' => 'The College of Medicine provides comprehensive medical education and training in various fields of healthcare, preparing students to become competent and ethical healthcare professionals.',
+            'overview' => 'The College of Medicine provides quality medical education and clinical training that develop competent, compassionate, and ethical healthcare professionals committed to addressing the healthcare needs of local communities and producing homegrown doctors who will serve the province of Surigao del Sur and the region.',
             'campuses' => [
                 [
                     'name' => 'Tandag Campus',
@@ -169,7 +169,7 @@ class GraduateProfessionalStudyController extends Controller
             ],
             'programDetails' => [
                 'Doctor of Medicine (MD)' => [
-                    'description' => 'The Doctor of Medicine (MD) program provides comprehensive training in medical science and clinical practice, preparing students for careers in healthcare and patient care.',
+                    'description' => 'The Doctor of Medicine (MD) program provides comprehensive education in medical sciences and clinical practice, preparing students to become competent, ethical, and socially responsible physicians equipped to serve their communities and contribute to improving local healthcare.',
                     'prospectusUrl' => '',
                 ]
             ]
