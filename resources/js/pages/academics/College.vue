@@ -184,7 +184,7 @@ onBeforeUnmount(() => {
                                             v-if="props.college.photo"
                                             :src="props.college.photo"
                                             :alt="`${props.college.title} featured photo`"
-                                            class="h-full w-full object-cover"
+                                            class="h-full w-full object-contain"
                                         />
                                         <div
                                             v-else
