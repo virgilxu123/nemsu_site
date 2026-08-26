@@ -191,26 +191,14 @@ onBeforeUnmount(() => {
                     class="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-24 sm:px-6 sm:pb-28 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:pb-12"
                 >
                     <div>
-                        <p
-                            class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                        >
-                            Administration
-                        </p>
-                        <h3
-                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                        >
-                            Office of the Vice President for Administration and
-                            Finance
-                        </h3>
-
                         <nav
                             aria-label="Breadcrumb"
-                            class="mt-8 text-sm font-semibold"
+                            class="ps-1 text-sm font-semibold"
                         >
                             <ol class="flex flex-wrap items-center gap-2">
                                 <li>
                                     <Link
-                                        :href="home()"
+                                        :href="home().url"
                                         class="text-white/80 transition hover:text-[#f2b705]"
                                     >
                                         Home
@@ -224,6 +212,12 @@ onBeforeUnmount(() => {
                                 </li>
                             </ol>
                         </nav>
+                        <h3
+                            class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                        >
+                            Office of the Vice President for Administration and
+                            Finance
+                        </h3>
                     </div>
 
                     <div aria-hidden="true" class="hidden lg:block"></div>

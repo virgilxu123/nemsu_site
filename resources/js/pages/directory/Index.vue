@@ -2,9 +2,9 @@
 import { Head } from '@inertiajs/vue3';
 import { Mail, Search } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
-import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import type { BreadcrumbItem } from '@/types';
+import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { home } from '@/routes';
 
 type DirectoryEntry = {
     name: string;
@@ -21,11 +21,6 @@ type DirectorySection = {
 const props = defineProps<{
     directorySections: DirectorySection[];
 }>();
-
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Home', href: '/' },
-    { title: 'Directory', href: '/directory' },
-];
 
 const searchTerm = ref('');
 
@@ -85,49 +80,17 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
         <main
             class="bg-white font-sans text-slate-900 dark:bg-slate-950 dark:text-white"
         >
-            <div class="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-                <Breadcrumbs :breadcrumbs="breadcrumbs" />
-            </div>
-
-            <!-- Page Header -->
-            <section class="pt-8">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-5xl">
-                        <header
-                            class="border-b border-slate-200 pb-4 dark:border-white/10"
-                        >
-                            <h1
-                                class="text-[28px] font-normal leading-tight tracking-tight text-slate-900 sm:text-[32px] dark:text-white"
-                            >
-                                University Directory
-                            </h1>
-                        </header>
-
-                        <div class="max-w-3xl py-7">
-                            <p
-                                class="text-[15px] leading-7 text-slate-700 dark:text-slate-300"
-                            >
-                                The University Directory provides official
-                                contact information for North Eastern Mindanao
-                                State University offices, academic units,
-                                administrative divisions, and designated
-                                university personnel.
-                            </p>
-
-                            <p
-                                class="mt-4 text-[15px] leading-7 text-slate-700 dark:text-slate-300"
-                            >
-                                Use this directory to locate offices and
-                                personnel by name, designation, contact number,
-                                or email address.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <PageHero
+                title="University Directory"
+                description="The University Directory provides official contact information for North Eastern Mindanao State University offices, academic units, administrative divisions, and designated university personnel. Use this directory to locate offices and personnel by name, designation, contact number, or email address."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'Directory' },
+                ]"
+            />
 
             <!-- Search and Directory Listings -->
-            <section class="pb-14 sm:pb-16">
+            <section class="py-14 sm:py-16">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="max-w-5xl">
                         <div
@@ -189,15 +152,23 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                     class="text-sm text-slate-500 dark:text-slate-400"
                                 >
                                     {{ section.entries.length }}
-                                    {{ section.entries.length === 1 ? 'entry' : 'entries' }}
+                                    {{
+                                        section.entries.length === 1
+                                            ? 'entry'
+                                            : 'entries'
+                                    }}
                                 </p>
                             </div>
 
                             <!-- Desktop Table -->
                             <div class="hidden overflow-x-auto md:block">
-                                <table class="min-w-full border-y border-slate-200 dark:border-white/10">
+                                <table
+                                    class="min-w-full border-y border-slate-200 dark:border-white/10"
+                                >
                                     <thead>
-                                        <tr class="border-b border-slate-200 dark:border-white/10">
+                                        <tr
+                                            class="border-b border-slate-200 dark:border-white/10"
+                                        >
                                             <th
                                                 scope="col"
                                                 class="w-[24%] px-0 py-3 pr-4 text-left text-xs font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400"
@@ -225,7 +196,9 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                         </tr>
                                     </thead>
 
-                                    <tbody class="divide-y divide-slate-200 dark:divide-white/10">
+                                    <tbody
+                                        class="divide-y divide-slate-200 dark:divide-white/10"
+                                    >
                                         <tr
                                             v-for="entry in section.entries"
                                             :key="`${section.heading}-${entry.name}-${entry.designation}`"
@@ -239,13 +212,19 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                             <td
                                                 class="px-4 py-4 align-top text-sm leading-6 text-slate-700 dark:text-slate-300"
                                             >
-                                                {{ displayValue(entry.designation) }}
+                                                {{
+                                                    displayValue(
+                                                        entry.designation,
+                                                    )
+                                                }}
                                             </td>
 
                                             <td
                                                 class="px-4 py-4 align-top text-sm leading-6 text-slate-700 dark:text-slate-300"
                                             >
-                                                {{ displayValue(entry.contact) }}
+                                                {{
+                                                    displayValue(entry.contact)
+                                                }}
                                             </td>
 
                                             <td
@@ -253,8 +232,10 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                             >
                                                 <a
                                                     v-if="hasEmail(entry.email)"
-                                                    :href="mailHref(entry.email)"
-                                                    class="inline-flex items-start gap-2 break-all font-medium text-[#1711d4] hover:underline dark:text-sky-300"
+                                                    :href="
+                                                        mailHref(entry.email)
+                                                    "
+                                                    class="inline-flex items-start gap-2 font-medium break-all text-[#1711d4] hover:underline dark:text-sky-300"
                                                 >
                                                     <Mail
                                                         class="mt-0.5 size-4 shrink-0"
@@ -267,7 +248,11 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                                     v-else
                                                     class="text-slate-500 dark:text-slate-400"
                                                 >
-                                                    {{ displayValue(entry.email) }}
+                                                    {{
+                                                        displayValue(
+                                                            entry.email,
+                                                        )
+                                                    }}
                                                 </span>
                                             </td>
                                         </tr>
@@ -285,7 +270,7 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                     class="py-5"
                                 >
                                     <p
-                                        class="text-[15px] font-medium leading-6 text-slate-900 dark:text-white"
+                                        class="text-[15px] leading-6 font-medium text-slate-900 dark:text-white"
                                     >
                                         {{ displayValue(entry.name) }}
                                     </p>
@@ -306,7 +291,9 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                             <dd
                                                 class="mt-0.5 text-slate-700 dark:text-slate-300"
                                             >
-                                                {{ displayValue(entry.contact) }}
+                                                {{
+                                                    displayValue(entry.contact)
+                                                }}
                                             </dd>
                                         </div>
 
@@ -319,8 +306,10 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                             <dd class="mt-0.5">
                                                 <a
                                                     v-if="hasEmail(entry.email)"
-                                                    :href="mailHref(entry.email)"
-                                                    class="inline-flex items-start gap-2 break-all font-medium text-[#1711d4] dark:text-sky-300"
+                                                    :href="
+                                                        mailHref(entry.email)
+                                                    "
+                                                    class="inline-flex items-start gap-2 font-medium break-all text-[#1711d4] dark:text-sky-300"
                                                 >
                                                     <Mail
                                                         class="mt-0.5 size-4 shrink-0"
@@ -333,7 +322,11 @@ const mailHref = (email: string): string => `mailto:${email.trim()}`;
                                                     v-else
                                                     class="text-slate-700 dark:text-slate-300"
                                                 >
-                                                    {{ displayValue(entry.email) }}
+                                                    {{
+                                                        displayValue(
+                                                            entry.email,
+                                                        )
+                                                    }}
                                                 </span>
                                             </dd>
                                         </div>

@@ -24,3 +24,17 @@ test('directory page can be viewed', function () {
             ->where('directorySections.1.entries.0.email', 'lsbacquial@nemsu.edu.ph')
         );
 });
+
+test('directory page uses the shared page hero', function () {
+    $page = file_get_contents(resource_path('js/pages/directory/Index.vue'));
+
+    expect($page)
+        ->toContain("import PageHero from '@/components/PageHero.vue'")
+        ->toContain('<PageHero')
+        ->toContain('title="University Directory"')
+        ->toContain('The University Directory provides official contact information')
+        ->toContain("{ title: 'Home', href: home().url }")
+        ->toContain("{ title: 'Directory' }")
+        ->not->toContain("import Breadcrumbs from '@/components/Breadcrumbs.vue'")
+        ->not->toContain('<Breadcrumbs');
+});

@@ -30,8 +30,7 @@ const props = defineProps<{
     offices: OfficeLink[];
 }>();
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -158,15 +157,9 @@ onBeforeUnmount(() => {
                     :class="revealClasses('office-hero')"
                     class="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-12"
                 >
-                    <h3
-                        class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                    >
-                        {{ props.office.title }}
-                    </h3>
-
                     <nav
                         aria-label="Breadcrumb"
-                        class="mt-8 text-sm font-semibold"
+                        class="ps-1 text-sm font-semibold"
                     >
                         <ol class="flex flex-wrap items-center gap-2">
                             <li>
@@ -192,6 +185,12 @@ onBeforeUnmount(() => {
                             </li>
                         </ol>
                     </nav>
+
+                    <h3
+                        class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                    >
+                        {{ props.office.title }}
+                    </h3>
                 </div>
             </section>
 
@@ -247,7 +246,7 @@ onBeforeUnmount(() => {
                             {{ props.office.title }}
                         </h4>
                         <p
-                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-5 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
                             {{ props.office.description }}
                         </p>
@@ -264,7 +263,7 @@ onBeforeUnmount(() => {
                     <aside
                         data-scroll-section="office-profile"
                         :class="revealClasses('office-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 md:order-none md:sticky md:top-24 md:mt-[-8.5rem] md:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 md:sticky md:top-24 md:order-none md:mt-[-8.5rem] md:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img
