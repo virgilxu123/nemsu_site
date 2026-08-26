@@ -21,8 +21,7 @@ class CollegeController extends Controller
         'college-of-accountancy' => [
             'title' => 'College of Accountancy',
             'photo' => '/images/academics/colleges/Official NEMSU Logo.png',
-            'overview' => 'The College of Accountancy develops competent, ethical, and globally competitive accounting professionals equipped with technical expertise, analytical skills, and a strong commitment to integrity and public accountability. It prepares future accountants and financial professionals through quality instruction, research, and community engagement, fostering excellence in accounting practice and responsible stewardship of financial resources.
-',
+            'overview' => 'The College of Accountancy develops competent, ethical, and globally competitive accounting professionals equipped with technical expertise, analytical skills, and a strong commitment to integrity and public accountability. It prepares future accountants and financial professionals through quality instruction, research, and community engagement, fostering excellence in accounting practice and responsible stewardship of financial resources.',
             'campuses' => [
                 [
                     'name' => 'Tandag Campus',
@@ -40,7 +39,7 @@ class CollegeController extends Controller
         ],
         'college-of-agriculture-and-forestry' => [
             'title' => 'College of Agriculture and Forestry',
-            'photo' => '/images/academics/colleges/CAF.png',
+            'photo' => '/images/academics/colleges/caf.png',
             'overview' => 'The College of Agriculture and Forestry promotes sustainable agriculture, forestry, environmental stewardship, and natural resource management through instruction, research, and extension services. It prepares graduates to contribute to food security, climate resilience, ecological sustainability, and rural development.',
             'campuses' => [
                 [
@@ -85,7 +84,7 @@ class CollegeController extends Controller
         ],
         'college-of-arts-and-sciences' => [
             'title' => 'College of Arts and Sciences',
-            'photo' => '/images/academics/colleges/CAS.png',
+            'photo' => '/images/academics/colleges/cas.png',
             'overview' => 'The College of Arts and Sciences provides interdisciplinary and foundational education in the humanities, social sciences, natural sciences, and mathematics. It develops critical thinking, communication skills, scientific inquiry, research competence, and social awareness essential for academic, professional, and community engagement.',
             'campuses' => [
                 [
@@ -150,7 +149,7 @@ class CollegeController extends Controller
         ],
         'college-of-business-and-management' => [
             'title' => 'College of Business and Management',
-            'photo' => '/images/academics/colleges/CBM.png',
+            'photo' => '/images/academics/colleges/cbm.png',
             'overview' => 'The College of Business and Management prepares students for careers in entrepreneurship, business administration, finance, marketing, operations, and organizational management. It promotes innovation, ethical leadership, strategic thinking, and sustainable economic development through quality business education and industry-responsive programs.',
             'campuses' => [
                 [
@@ -232,7 +231,7 @@ class CollegeController extends Controller
         ],
         'college-of-criminal-justice-education' => [
             'title' => 'College of Criminal Justice Education',
-            'photo' => '/images/academics/colleges/CCJE.png',
+            'photo' => '/images/academics/colleges/ccje.png',
             'overview' => 'The College of Criminal Justice Education prepares students for careers in criminology, law enforcement, correctional administration, forensic investigation, and public safety services. It promotes discipline, integrity, professionalism, and respect for human rights and justice systems.',
             'campuses' => [
                 [
@@ -251,7 +250,7 @@ class CollegeController extends Controller
         ],
         'college-of-engineering-and-technology' => [
             'title' => 'College of Engineering and Technology',
-            'photo' => '/images/academics/colleges/CET.png',
+            'photo' => '/images/academics/colleges/cet.png',
             'overview' => 'The College of Engineering and Technology provides quality education and training in engineering, industrial, and technological fields through instruction, research, innovation, and extension services. It equips students with technical expertise, problem-solving abilities, practical skills, and ethical values necessary for professional practice, technological advancement, sustainable development, and industry responsiveness in local and global settings.',
             'campuses' => [
                 [
@@ -356,7 +355,7 @@ class CollegeController extends Controller
         ],
         'college-of-fisheries-and-aquatic-sciences' => [
             'title' => 'College of Fisheries and Aquatic Sciences',
-            'photo' => '/images/academics/colleges/CFAS.png',
+            'photo' => '/images/academics/colleges/cfas.png',
             'overview' => 'The College of Fisheries and Aquatic Sciences advances education, research, and innovation in fisheries, aquaculture, marine biodiversity, and aquatic resource management. It supports the sustainable utilization, conservation, and protection of aquatic ecosystems and coastal communities.',
             'campuses' => [
                 [
@@ -380,7 +379,7 @@ class CollegeController extends Controller
         ],
         'college-of-information-technology-education' => [
             'title' => 'College of Information Technology Education',
-            'photo' => '/images/academics/colleges/CITE.png',
+            'photo' => '/images/academics/colleges/cite.png',
             'overview' => 'The College of Information Technology Education provides quality instruction in computing, information systems, software development, networking, multimedia, and emerging digital technologies. It equips students with technical competencies, problem-solving skills, and innovation capabilities necessary in the rapidly evolving digital and technological environment.',
             'campuses' => [
                 [
@@ -433,7 +432,7 @@ class CollegeController extends Controller
         ],
         'college-of-teacher-education' => [
             'title' => 'College of Teacher Education',
-            'photo' => '/images/academics/colleges/CTE.png',
+            'photo' => '/images/academics/colleges/cte.png',
             'overview' => 'The College of Teacher Education develops competent, innovative, research-oriented, and values-driven educators equipped with pedagogical expertise and professional ethics. It prepares future teachers and education leaders committed to transformative, inclusive, and quality education.',
             'campuses' => [
                 [

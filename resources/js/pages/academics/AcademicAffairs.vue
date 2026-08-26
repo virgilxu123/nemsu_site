@@ -327,7 +327,7 @@ defineProps<{
                         >
                             <Link
                                 :href="collegeShow.url(college.slug)"
-                                class="font-semibold text-[#0b6680] transition hover:text-[#9b1c31] dark:text-sky-200 dark:hover:text-rose-200"
+                                class="font-semibold text-[#0742b7] transition hover:text-[#003171] dark:text-sky-200 dark:hover:text-rose-200"
                             >
                                 {{ college.title }}
                             </Link>
@@ -346,7 +346,7 @@ defineProps<{
                         >
                             <Link
                                 :href="studyShow.url(study.slug)"
-                                class="font-semibold text-[#0b6680] transition hover:text-[#9b1c31] dark:text-sky-200 dark:hover:text-rose-200"
+                                class="font-semibold text-[#0742b7] transition hover:text-[#003171] dark:text-sky-200 dark:hover:text-rose-200"
                             >
                                 {{ study.title }}
                             </Link>
