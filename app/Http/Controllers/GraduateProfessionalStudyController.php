@@ -155,6 +155,25 @@ class GraduateProfessionalStudyController extends Controller
                 ],
             ]
         ],
+        'college-of-medicine' => [
+            'title' => 'College of Medicine',
+            'photo' => '',
+            'overview' => 'The College of Medicine provides comprehensive medical education and training in various fields of healthcare, preparing students to become competent and ethical healthcare professionals.',
+            'campuses' => [
+                [
+                    'name' => 'Tandag Campus',
+                    'courses' => [
+                        'Doctor of Medicine (MD)',
+                    ],
+                ],
+            ],
+            'programDetails' => [
+                'Doctor of Medicine (MD)' => [
+                    'description' => 'The Doctor of Medicine (MD) program provides comprehensive training in medical science and clinical practice, preparing students for careers in healthcare and patient care.',
+                    'prospectusUrl' => '',
+                ]
+            ]
+        ],
     ];
 
     /**
