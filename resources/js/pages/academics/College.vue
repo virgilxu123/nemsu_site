@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
                                     class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
                                 >
                                     <div
-                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-slate-900"
+                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900"
                                     >
                                         <img
                                             v-if="props.college.photo"
@@ -186,11 +186,13 @@ onBeforeUnmount(() => {
                                             :alt="`${props.college.title} featured photo`"
                                             class="h-full w-full object-contain"
                                         />
+
                                         <div
                                             v-else
                                             class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
                                             aria-hidden="true"
                                         ></div>
+
                                         <div
                                             v-if="!props.college.photo"
                                             class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
@@ -209,12 +211,14 @@ onBeforeUnmount(() => {
                                                     d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"
                                                 />
                                             </svg>
+
                                             <div>
                                                 <p
                                                     class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white"
                                                 >
                                                     Featured photo
                                                 </p>
+
                                                 <p
                                                     class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400"
                                                 >

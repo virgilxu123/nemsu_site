@@ -821,7 +821,7 @@ onBeforeUnmount(() => {
                         <p
                             class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-[#f2b705]"
                         >
-                            Core Values & Quality Policy
+                            Core Values
                         </p>
                         <h2
                             class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"

@@ -42,7 +42,7 @@ class CampusController extends Controller
 
     private function heroImageUrl(string $campus): string
     {
-        return Storage::disk('public')->url(self::HERO_IMAGE_PATHS[$campus]);
+        return '/storage/'.self::HERO_IMAGE_PATHS[$campus];
     }
 
     private function prospectusUrl(string $path): string
