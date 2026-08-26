@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
                                     class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
                                 >
                                     <div
-                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-900"
+                                        class="relative aspect-[4/3] overflow-hidden bg-white dark:border-white/10 dark:bg-slate-900"
                                     >
                                         <img
                                             v-if="props.college.photo"
