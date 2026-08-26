@@ -266,7 +266,7 @@ class CollegeController extends Controller
                     'courses' => [
                         'Bachelor of Science in Industrial Technology major in Automotive Technology',
                         'Bachelor of Science in Industrial Technology major in Electrical Technology',
-                        'Bachelor of Science in Industrial Technology major in Culinary Technology',
+                        'Bachelor of Industrial Technology (BIndTech) major in Culinary Technology',
                         'Bachelor of Science in Industrial Technology major in Computer Technology',
                     ],
                 ],
@@ -311,10 +311,10 @@ class CollegeController extends Controller
                     'description' => 'The Bachelor of Science in Industrial Technology major in Electrical Technology program equips students with competencies in electrical installation, maintenance, troubleshooting, and operation of electrical systems and equipment. The program develops skilled and industry-ready graduates capable of applying electrical principles, technical standards, and safety practices in industrial, commercial, and community settings.',
                     'prospectusUrl' => null,
                 ],
-                'Bachelor of Science in Industrial Technology major in Culinary Technology' => [
-                    'description' => 'The Bachelor of Science in Industrial Technology major in Culinary Technology program develops students’ knowledge and practical skills in food preparation, culinary arts, kitchen operations, food safety, nutrition, and hospitality services. It prepares graduates for careers in the culinary and food service industries by promoting creativity, professionalism, technical expertise, and entrepreneurship in culinary practices.',
-                    'prospectusUrl' => null,
-                ],
+                // 'Bachelor of Science in Industrial Technology major in Culinary Technology' => [
+                //     'description' => 'The Bachelor of Science in Industrial Technology major in Culinary Technology program develops students’ knowledge and practical skills in food preparation, culinary arts, kitchen operations, food safety, nutrition, and hospitality services. It prepares graduates for careers in the culinary and food service industries by promoting creativity, professionalism, technical expertise, and entrepreneurship in culinary practices.',
+                //     'prospectusUrl' => null,
+                // ],
                 'Bachelor of Science in Industrial Technology major in Computer Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Computer Technology program provides students with technical competencies in computer systems servicing, networking, hardware and software installation, computer programming, and information technology support services. The program prepares graduates to become skilled technology practitioners capable of addressing technological and digital challenges in various industrial and organizational environments.',
                     'prospectusUrl' => null,
