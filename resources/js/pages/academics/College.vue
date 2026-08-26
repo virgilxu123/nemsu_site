@@ -184,7 +184,7 @@ onBeforeUnmount(() => {
     class="h-full w-full object-contain"
 />
 
-<div
+<!-- <div
     v-else
     class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
 >
@@ -199,7 +199,7 @@ onBeforeUnmount(() => {
         :stroke-width="1.5"
     />
 
-    <!-- <div>
+    <div>
         <p class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white">
             No featured photo
         </p>
@@ -207,8 +207,8 @@ onBeforeUnmount(() => {
         <p class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400">
             {{ props.college.title }}
         </p>
-    </div> -->
-</div>
+    </div>
+</div> -->
                                 </figure>
 
                                 <p
