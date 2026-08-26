@@ -290,7 +290,7 @@ onBeforeUnmount(() => {
                                                 About the program
                                             </h3>
                                             <p
-                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300"
+                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300 text-justify"
                                             >
                                                 {{ program.description }}
                                             </p>
