@@ -177,56 +177,38 @@ onBeforeUnmount(() => {
                                 <figure
                                     class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
                                 >
-                                    <div
-                                        class="relative aspect-[4/3] overflow-hidden bg-white dark:border-white/10 dark:bg-slate-900"
-                                    >
-                                        <img
-                                            v-if="props.college.photo"
-                                            :src="props.college.photo"
-                                            :alt="`${props.college.title} featured photo`"
-                                            class="h-full w-full object-contain"
-                                        />
+<img
+    v-if="props.college.photo"
+    :src="props.college.photo"
+    :alt="`${props.college.title} featured photo`"
+    class="h-full w-full object-contain"
+/>
 
-                                        <div
-                                            v-else
-                                            class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
-                                            aria-hidden="true"
-                                        ></div>
+<div
+    v-else
+    class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
+>
+</div>
 
-                                        <div
-                                            v-if="!props.college.photo"
-                                            class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
-                                        >
-                                            <svg
-                                                class="size-10 text-[#1711d4] dark:text-sky-300"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="1.5"
-                                                aria-hidden="true"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"
-                                                />
-                                            </svg>
+<div
+    v-if="!props.college.photo"
+    class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
+>
+    <ImageOff
+        class="size-10 text-[#1711d4] dark:text-sky-300"
+        :stroke-width="1.5"
+    />
 
-                                            <div>
-                                                <p
-                                                    class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white"
-                                                >
-                                                    Featured photo
-                                                </p>
+    <!-- <div>
+        <p class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white">
+            No featured photo
+        </p>
 
-                                                <p
-                                                    class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400"
-                                                >
-                                                    {{ props.college.title }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
+        <p class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400">
+            {{ props.college.title }}
+        </p>
+    </div> -->
+</div>
                                 </figure>
 
                                 <p

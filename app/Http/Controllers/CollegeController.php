@@ -20,7 +20,7 @@ class CollegeController extends Controller
     public const COLLEGES = [
         'college-of-accountancy' => [
             'title' => 'College of Accountancy',
-            'photo' => '/images/academics/colleges/Official NEMSU Logo.png',
+            'photo' => '',
             'overview' => 'The College of Accountancy develops competent, ethical, and globally competitive accounting professionals equipped with technical expertise, analytical skills, and a strong commitment to integrity and public accountability. It prepares future accountants and financial professionals through quality instruction, research, and community engagement, fostering excellence in accounting practice and responsible stewardship of financial resources.',
             'campuses' => [
                 [
