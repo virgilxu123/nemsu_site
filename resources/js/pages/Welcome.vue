@@ -136,10 +136,7 @@ const sustainableDevelopmentArticles = computed<SdgArticle[]>(() =>
             :reveal-classes="revealClasses"
         />
 
-        <WelcomeJobs
-            :job-opportunities="props.jobOpportunities"
-            :reveal-classes="revealClasses"
-        />
+        <WelcomeJobs :reveal-classes="revealClasses" />
 
         <WelcomeBAC
             :bac-documents="props.bacDocuments"

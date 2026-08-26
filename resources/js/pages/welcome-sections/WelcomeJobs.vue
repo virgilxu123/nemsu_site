@@ -1,64 +1,189 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { useHttp } from '@inertiajs/vue3';
 import { ArrowRight, MapPin } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
-import { index as servicesIndex } from '@/routes/services';
-import type { JobOpportunity, RevealClasses } from '@/types';
+import type { RevealClasses } from '@/types';
+
+type PsbrsVacancy = {
+    id: string;
+    position_name: string;
+    description: string | null;
+    salary_grade: number | null;
+    monthly_salary: string | null;
+    experience: string | null;
+    appointment_type: string | null;
+    campus: string | null;
+    deadline: string | null;
+    application_url: string;
+};
+
+type PsbrsVacanciesResponse = {
+    data: PsbrsVacancy[];
+};
+
+type Vacancy = {
+    id: string;
+    position: string;
+    details: string | null;
+    salaryGrade: string | null;
+    monthlySalary: string | null;
+    experience: string | null;
+    employmentType: string | null;
+    campus: string | null;
+    deadline: string | null;
+    applicationUrl: string;
+};
 
 type JobMetadata = {
     label: string;
-    showIcon: boolean;
+    icon: 'hash' | 'location';
 };
 
-const props = withDefaults(
-    defineProps<{
-        jobOpportunities?: JobOpportunity[];
-        revealClasses: RevealClasses;
-    }>(),
-    {
-        jobOpportunities: () => [],
-    },
+defineProps<{
+    revealClasses: RevealClasses;
+}>();
+
+const vacanciesApiUrl =
+    import.meta.env.VITE_PSBRS_VACANCIES_API_URL
+const vacanciesPageUrl =
+    import.meta.env.VITE_PSBRS_VACANCIES_URL;
+const vacanciesRequest = useHttp<Record<string, never>, PsbrsVacanciesResponse>(
+    {},
+);
+const vacancies = ref<Vacancy[]>([]);
+const hasLoaded = ref(false);
+const errorMessage = ref<string | null>(null);
+
+const isSafeWebUrl = (value: string): boolean => {
+    try {
+        const url = new URL(value);
+
+        return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+        return false;
+    }
+};
+
+const mapVacancy = (vacancy: PsbrsVacancy): Vacancy => ({
+    id: vacancy.id,
+    position: vacancy.position_name,
+    details: vacancy.description,
+    salaryGrade:
+        vacancy.salary_grade === null ? null : String(vacancy.salary_grade),
+    monthlySalary: vacancy.monthly_salary,
+    experience: vacancy.experience,
+    employmentType: vacancy.appointment_type,
+    campus: vacancy.campus,
+    deadline: vacancy.deadline,
+    applicationUrl: isSafeWebUrl(vacancy.application_url)
+        ? vacancy.application_url
+        : vacanciesPageUrl,
+});
+
+const loadVacancies = async (): Promise<void> => {
+    errorMessage.value = null;
+
+    try {
+        await vacanciesRequest.get(vacanciesApiUrl, {
+            onSuccess: (response) => {
+                if (!Array.isArray(response.data)) {
+                    vacancies.value = [];
+                    errorMessage.value =
+                        'The PSBRS vacancies response could not be read.';
+
+                    return;
+                }
+
+                vacancies.value = response.data.map(mapVacancy);
+            },
+            onHttpException: () => {
+                errorMessage.value =
+                    'Job opportunities are temporarily unavailable.';
+            },
+            onNetworkError: () => {
+                errorMessage.value =
+                    'Job opportunities are temporarily unavailable.';
+            },
+        });
+    } catch {
+        errorMessage.value = 'Job opportunities are temporarily unavailable.';
+    } finally {
+        hasLoaded.value = true;
+    }
+};
+
+const displayedJobOpportunities = computed(() => vacancies.value.slice(0, 6));
+const isLoading = computed(
+    () => !hasLoaded.value || vacanciesRequest.processing,
 );
 
-const displayedJobOpportunities = computed(() =>
-    props.jobOpportunities.slice(0, 6),
-);
+const salaryFormatter = new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP',
+    maximumFractionDigits: 0,
+});
 
-const jobSummary = (job: JobOpportunity): string => {
+const deadlineFormatter = new Intl.DateTimeFormat('en-PH', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+});
+
+const formatDeadline = (deadline: string): string => {
+    const [year, month, day] = deadline.split('-').map(Number);
+
+    if (!year || !month || !day) {
+        return deadline;
+    }
+
+    return deadlineFormatter.format(new Date(year, month - 1, day));
+};
+
+const jobSummary = (job: Vacancy): string => {
     const compensation = [
         job.salaryGrade ? `Salary Grade: ${job.salaryGrade}` : null,
-        job.monthlySalary ? `${job.monthlySalary}/month` : null,
+        job.monthlySalary
+            ? `${salaryFormatter.format(Number(job.monthlySalary))}/month`
+            : null,
     ].filter((value): value is string => Boolean(value));
 
     if (compensation.length > 0) {
         return compensation.join(' · ');
     }
 
-    return job.details || `Posted ${job.postedAt || 'date not specified'}`;
+    return job.details || 'See the vacancy details for requirements.';
 };
 
-const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
+const jobMetadata = (job: Vacancy): JobMetadata[] =>
     [
         {
-            label: job.employmentType || (job.isHiring ? 'Hiring' : 'Closed'),
-            showIcon: Boolean(job.employmentType),
+            label: job.employmentType || 'Hiring',
+            icon: 'hash',
         },
         {
             label:
                 job.experience ||
-                (job.postedAt
-                    ? `Posted ${job.postedAt}`
-                    : 'Date not specified'),
-            showIcon: Boolean(job.experience),
+                (job.deadline
+                    ? `Deadline ${formatDeadline(job.deadline)}`
+                    : 'Deadline not specified'),
+            icon: 'hash',
         },
         job.campus
             ? {
                   label: job.campus,
-                  showIcon: true,
+                  icon: 'location',
               }
             : null,
     ].filter((value): value is JobMetadata => value !== null);
+
+onMounted(() => {
+    void loadVacancies();
+});
+
+onBeforeUnmount(() => {
+    vacanciesRequest.cancel();
+});
 </script>
 
 <template>
@@ -120,7 +245,25 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                 </header>
 
                 <div
-                    v-if="displayedJobOpportunities.length"
+                    v-if="isLoading"
+                    class="mt-9 grid w-full gap-4 md:grid-cols-2 lg:gap-3"
+                    role="status"
+                    aria-label="Loading job opportunities"
+                >
+                    <div
+                        v-for="placeholder in 6"
+                        :key="placeholder"
+                        class="min-h-32 animate-pulse rounded-md bg-[#09005B] p-4 ring-1 ring-white/5 dark:bg-[#06033A]"
+                        aria-hidden="true"
+                    >
+                        <div class="h-5 w-2/3 rounded bg-white/15"></div>
+                        <div class="mt-3 h-4 w-1/2 rounded bg-white/10"></div>
+                        <div class="mt-8 h-3 w-3/4 rounded bg-white/10"></div>
+                    </div>
+                </div>
+
+                <div
+                    v-else-if="displayedJobOpportunities.length"
                     class="mt-9 grid w-full gap-4 md:grid-cols-2 lg:gap-3"
                 >
                     <article
@@ -134,8 +277,10 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                             >
                                 {{ job.position }}
                             </h3>
-                            <Link
-                                :href="servicesIndex()"
+                            <a
+                                :href="job.applicationUrl"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 class="group inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-white/90 transition-colors hover:text-[#F2B900] focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900]"
                                 :aria-label="`View job: ${job.position}`"
                             >
@@ -144,7 +289,7 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                                     class="size-3.5 transition-transform group-hover:translate-x-0.5"
                                     aria-hidden="true"
                                 />
-                            </Link>
+                            </a>
                         </div>
 
                         <p
@@ -164,10 +309,16 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                                 class="inline-flex min-w-0 items-center gap-1"
                             >
                                 <MapPin
-                                    v-if="metadata.showIcon"
+                                    v-if="metadata.icon === 'location'"
                                     class="size-3 shrink-0 fill-[#F2B900] text-[#F2B900]"
                                     aria-hidden="true"
                                 />
+                                <span
+                                    v-else
+                                    class="shrink-0 font-semibold text-[#F2B900]"
+                                    aria-hidden="true"
+                                    >#</span
+                                >
                                 <span class="truncate">{{
                                     metadata.label
                                 }}</span>
@@ -177,15 +328,32 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                 </div>
 
                 <p
-                    v-else
+                    v-else-if="!errorMessage"
                     class="mt-9 w-full rounded-md bg-[#09005B] px-5 py-10 text-center text-base leading-7 text-white/75 ring-1 ring-white/5"
                 >
                     No published job opportunities are currently available.
                 </p>
 
+                <div
+                    v-else
+                    class="mt-9 w-full rounded-md bg-[#09005B] px-5 py-8 text-center text-base leading-7 text-white/75 ring-1 ring-white/5"
+                    role="alert"
+                >
+                    <p>{{ errorMessage }}</p>
+                    <button
+                        type="button"
+                        class="mt-3 min-h-11 rounded-md border border-white/40 px-5 py-2 text-sm font-semibold text-white transition-colors hover:border-[#F2B900] hover:text-[#F2B900] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900]"
+                        @click="loadVacancies"
+                    >
+                        Try Again
+                    </button>
+                </div>
+
                 <div class="mt-7 text-center">
-                    <Link
-                        :href="servicesIndex()"
+                    <a
+                        :href="vacanciesPageUrl"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         class="group inline-flex min-h-11 items-center justify-center gap-3 rounded-md bg-white px-7 py-2.5 text-sm font-semibold text-[#1C0ED7] shadow-sm transition-colors hover:bg-[#FFF7D6] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#F2B900]"
                     >
                         View All
@@ -193,7 +361,7 @@ const jobMetadata = (job: JobOpportunity): JobMetadata[] =>
                             class="size-4 transition-transform group-hover:translate-x-0.5"
                             aria-hidden="true"
                         />
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>

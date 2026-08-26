@@ -5,6 +5,14 @@ import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { academicAffairs } from '@/routes/academics';
 
+type Program = {
+    id: string;
+    title: string;
+    campuses: string[];
+    description: string | null;
+    prospectusUrl: string | null;
+};
+
 type CampusOffering = {
     name: string;
     courses: string[];
@@ -13,8 +21,10 @@ type CampusOffering = {
 type Study = {
     slug: string;
     title: string;
+    photo: string | null;
     overview: string;
     campuses: CampusOffering[];
+    programs: Program[];
 };
 
 type StudyLink = {
@@ -99,7 +109,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                         class="border-t border-slate-200 pt-8 md:sticky md:top-24 md:self-start dark:border-white/10"
                     >
                         <p
-                            class="text-sm font-light tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                            class="text-sm font-light tracking-wide text-[#1711d4] uppercase dark:text-sky-300"
                         >
                             Graduate and Professional Studies
                         </p>
@@ -111,7 +121,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                                 v-for="studyLink in props.studies"
                                 :key="studyLink.slug"
                                 :href="studyShow.url(studyLink.slug)"
-                                class="border-b border-slate-200 py-3 text-sm leading-none font-light text-slate-700 transition hover:text-[#0b6680] dark:border-white/10 dark:text-slate-300 dark:hover:text-sky-200"
+                                class="border-b border-slate-200 py-3 text-sm leading-none font-light text-slate-700 transition hover:text-[#1711d4] dark:border-white/10 dark:text-slate-300 dark:hover:text-sky-200"
                                 :class="
                                     studyLink.slug === props.study.slug
                                         ? 'font-semibold text-[#9b1c31] dark:text-rose-200'
@@ -124,61 +134,166 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                     </aside>
 
                     <div>
-                        <article class="max-w-4xl">
+                        <article>
                             <p
-                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-300"
                             >
                                 Overview
                             </p>
-                            <h2
-                                class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                            <div
+                                class="mt-3 grid gap-x-10 lg:grid-cols-[minmax(0,3fr)_minmax(16rem,2fr)] lg:items-start"
                             >
-                                {{ props.study.title }}
-                            </h2>
-                            <p
-                                class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
-                            >
-                                {{ props.study.overview }}
-                            </p>
+                                <h2
+                                    class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
+                                >
+                                    {{ props.study.title }}
+                                </h2>
+                                <figure
+                                    class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
+                                >
+                                    <div
+                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-slate-900"
+                                    >
+                                        <img
+                                            v-if="props.study.photo"
+                                            :src="props.study.photo"
+                                            :alt="`${props.study.title} featured photo`"
+                                            class="h-full w-full object-contain"
+                                        />
+                                        <div
+                                            v-else
+                                            class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
+                                            aria-hidden="true"
+                                        ></div>
+                                        <div
+                                            v-if="!props.study.photo"
+                                            class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
+                                        >
+                                            <svg
+                                                class="size-10 text-[#1711d4] dark:text-sky-300"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Z"
+                                                />
+                                            </svg>
+                                            <div>
+                                                <p
+                                                    class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white"
+                                                >
+                                                    Featured photo
+                                                </p>
+                                                <p
+                                                    class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400"
+                                                >
+                                                    {{ props.study.title }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </figure>
+                                <p
+                                    class="mt-5 text-justify text-lg/8 text-slate-600 lg:col-start-1 lg:row-start-2 dark:text-slate-300"
+                                >
+                                    {{ props.study.overview }}
+                                </p>
+                            </div>
                         </article>
 
-                        <div class="mt-12 grid gap-8">
-                            <section
-                                v-for="campus in props.study.campuses"
-                                :key="campus.name"
-                                class="border-t border-slate-200 pt-8 dark:border-white/10"
+                        <section class="mt-12">
+                            <p
+                                class="text-sm font-semibold tracking-wide text-[#1711d4] uppercase dark:text-sky-300"
                             >
-                                <div
-                                    class="grid gap-5 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-10"
-                                >
-                                    <div>
-                                        <h3
-                                            class="text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
-                                        >
-                                            {{ campus.name }}
-                                        </h3>
-                                    </div>
+                                Programs Offered
+                            </p>
 
-                                    <div>
-                                        <ul
-                                            class="grid gap-3 text-uni-body text-slate-700 dark:text-slate-300"
-                                        >
-                                            <li
-                                                v-for="course in campus.courses"
-                                                :key="course"
-                                                class="flex gap-3"
+                            <div
+                                class="mt-8 border-y border-slate-200 dark:border-white/10"
+                            >
+                                <details
+                                    v-for="program in props.study.programs"
+                                    :id="program.id"
+                                    :key="program.id"
+                                    name="college-programs"
+                                    class="group scroll-mt-28 border-b border-slate-200 last:border-b-0 dark:border-white/10"
+                                >
+                                    <summary
+                                        class="flex cursor-pointer list-none items-start justify-between gap-6 py-6 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1711d4] [&::-webkit-details-marker]:hidden"
+                                    >
+                                        <span class="min-w-0">
+                                            <span
+                                                class="block text-lg/7 font-semibold tracking-normal text-slate-950 dark:text-white"
                                             >
-                                                <span
-                                                    class="mt-3 size-1.5 shrink-0 rounded-full bg-[#9b1c31]"
-                                                    aria-hidden="true"
-                                                ></span>
-                                                <span>{{ course }}</span>
-                                            </li>
-                                        </ul>
+                                                {{ program.title }}
+                                            </span>
+                                            <span
+                                                class="mt-2 block text-sm/6 text-slate-500 dark:text-slate-400"
+                                            >
+                                                Offered at
+                                                {{
+                                                    program.campuses.join(', ')
+                                                }}
+                                            </span>
+                                        </span>
+                                        <span
+                                            class="mt-1 text-2xl/7 font-light text-[#1711d4] transition-transform duration-200 group-open:rotate-45 dark:text-sky-300"
+                                            aria-hidden="true"
+                                        >
+                                            +
+                                        </span>
+                                    </summary>
+
+                                    <div
+                                        class="grid gap-8 pr-10 pb-8 md:grid-cols-[minmax(0,1fr)_15rem] md:gap-12"
+                                    >
+                                        <div v-if="program.description">
+                                            <h3
+                                                class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white"
+                                            >
+                                                About the program
+                                            </h3>
+                                            <p
+                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300"
+                                            >
+                                                {{ program.description }}
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            class="border-l-2 border-[#1711d4] pl-5 dark:border-sky-300"
+                                        >
+                                            <h3
+                                                class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white"
+                                            >
+                                                Prospectus
+                                            </h3>
+                                            <a
+                                                v-if="program.prospectusUrl"
+                                                :href="program.prospectusUrl"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="mt-3 inline-flex text-sm/6 font-semibold text-[#1711d4] underline decoration-[#1711d4]/35 underline-offset-4 transition hover:text-[#0f0ab8] dark:text-sky-300 dark:hover:text-sky-100"
+                                            >
+                                                View program prospectus (PDF)
+                                            </a>
+                                            <p
+                                                v-else
+                                                class="mt-3 text-sm/6 text-slate-500 dark:text-slate-400"
+                                            >
+                                                The program prospectus will be
+                                                available here soon.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
-                        </div>
+                                </details>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </section>
