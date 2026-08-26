@@ -33,7 +33,7 @@ class CollegeController extends Controller
             'programDetails' => [
                 'Bachelor of Science in Accountancy' => [
                     'description' => 'The Bachelor of Science in Accountancy program prepares students to become competent accounting professionals equipped with knowledge and skills in financial accounting, auditing, taxation, management accounting, business law, and accounting information systems. It develops analytical thinking, ethical decision-making, and professional competence necessary for the preparation, analysis, and assurance of financial information. The program promotes integrity, accountability, lifelong learning, and excellence in the accounting profession, enabling graduates to contribute effectively to business, government, and public service.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1yaWc2kF5mo1DjmrNG3JbF4SgC7WIXv09/view?usp=sharing',
                 ],
             ],
         ],
@@ -131,7 +131,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Psychology' => [
                     'description' => 'The Bachelor of Science in Psychology program prepares students to become competent and ethical professionals equipped with a strong foundation in psychological theories, human behavior, mental processes, research methods, and psychological assessment. It develops critical thinking, scientific inquiry, interpersonal communication, and evidence-based problem-solving skills necessary for understanding individuals and communities across diverse settings. The program promotes mental health, psychological well-being, social responsibility, and lifelong learning, enabling graduates to contribute meaningfully to education, healthcare, industry, research, community development, and other fields of professional practice.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/13gIeDXtlqaqin6U11MqaNDwDZTmi52gb/view?usp=sharing',
                 ],
                 'Bachelor of Science in Biology' => [
                     'description' => 'The Bachelor of Science in Biology program provides students with comprehensive knowledge and scientific competencies in biological sciences, including genetics, ecology, microbiology, physiology, and biodiversity. It develops research-oriented and environmentally conscious graduates capable of contributing to scientific advancement, healthcare, environmental conservation, and sustainable development.',
@@ -551,7 +551,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Secondary Education Major in Social Studies' => [
                     'description' => 'The Bachelor of Secondary Education Major in Social Studies program prepares students to become competent, ethical, and socially responsive educators equipped with comprehensive knowledge and pedagogical skills in history, geography, political science, economics, sociology, anthropology, and other social sciences. It develops critical thinking, civic consciousness, cultural appreciation, and research competencies necessary for effective Social Studies instruction. The program promotes lifelong learning, democratic values, global awareness, and active citizenship, enabling graduates to contribute meaningfully to quality education, community development, and nation-building.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1l_dgmri9Ksk61o5d0GrY5cl0OmAO4MkQ/view?usp=sharing',
                 ],
             ],
         ],
