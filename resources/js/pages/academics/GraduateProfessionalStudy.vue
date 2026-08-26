@@ -63,16 +63,12 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                     aria-hidden="true"
                 ></div>
 
-                <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h1
-                        class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                    >
-                        {{ props.study.title }}
-                    </h1>
-
+                <div
+                    class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+                >
                     <nav
                         aria-label="Breadcrumb"
-                        class="mt-8 text-sm font-semibold"
+                        class="ps-1 text-sm font-semibold"
                     >
                         <ol class="flex flex-wrap items-center gap-2">
                             <li>
@@ -98,6 +94,12 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                             </li>
                         </ol>
                     </nav>
+
+                    <h1
+                        class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                    >
+                        {{ props.study.title }}
+                    </h1>
                 </div>
             </section>
 

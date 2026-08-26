@@ -56,3 +56,14 @@ test('graduate professional study page renders overview campuses and courses', f
         ->not->toContain('>Campus<')
         ->not->toContain('>Courses<');
 });
+
+test('graduate professional study hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/academics/GraduateProfessionalStudy.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h1');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+});

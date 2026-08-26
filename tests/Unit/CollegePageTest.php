@@ -175,3 +175,14 @@ test('college page renders an editorial program accordion', function () {
         ->not->toContain('>Courses<')
         ->not->toContain('Back to Undergraduate Programs');
 });
+
+test('college hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/academics/College.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h1');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+});

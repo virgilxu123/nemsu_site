@@ -56,3 +56,14 @@ test('ovpaa office page uses the reusable office layout', function () {
         ->toContain('Back to OVPAA offices')
         ->toContain('officeShow.url');
 });
+
+test('ovpaa office hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/academics/OvpaaOffice.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h1');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+});

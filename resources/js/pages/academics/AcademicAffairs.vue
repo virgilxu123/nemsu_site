@@ -98,7 +98,7 @@ defineProps<{
                 class="relative isolate z-10 overflow-visible bg-slate-950 text-white"
             >
                 <div
-                    class="pointer-events-none absolute inset-0 z-0 bg-cover bg-center bg-fixed bg-no-repeat opacity-60 select-none"
+                    class="pointer-events-none absolute inset-0 z-0 bg-cover bg-fixed bg-center bg-no-repeat opacity-60 select-none"
                     :style="{
                         backgroundImage: `url('${academicAffairs.profile.heroImage}')`,
                     }"
@@ -126,15 +126,9 @@ defineProps<{
                     class="relative z-10 mx-auto grid min-h-[34rem] max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1fr_24rem] lg:px-8 lg:py-20"
                 >
                     <div class="flex flex-col justify-center">
-                        <h1
-                            class="mt-5 max-w-4xl text-4xl leading-tight font-semibold tracking-normal sm:text-6xl"
-                        >
-                            {{ academicAffairs.profile.title }}
-                        </h1>
-
                         <nav
                             aria-label="Breadcrumb"
-                            class="mt-8 text-sm font-semibold"
+                            class="ps-1 text-sm font-semibold"
                         >
                             <ol class="flex flex-wrap items-center gap-2">
                                 <li>
@@ -153,6 +147,12 @@ defineProps<{
                                 </li>
                             </ol>
                         </nav>
+
+                        <h1
+                            class="mt-6 max-w-4xl text-4xl leading-tight font-semibold tracking-normal sm:text-6xl"
+                        >
+                            {{ academicAffairs.profile.title }}
+                        </h1>
                     </div>
                 </div>
             </section>
@@ -176,18 +176,18 @@ defineProps<{
                             Leading Academic Excellence Across NEMSU
                         </h2>
                         <p
-                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-5 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
                             {{ academicAffairs.profile.summary }}
                         </p>
                         <p
-                            v-for="paragraph in academicAffairs.profile.description"
+                            v-for="paragraph in academicAffairs.profile
+                                .description"
                             :key="paragraph"
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-4 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
                             {{ paragraph }}
                         </p>
-
 
                         <div class="mt-10">
                             <p
@@ -201,9 +201,10 @@ defineProps<{
                                 {{ academicAffairs.profile.unitHead }}
                             </h3>
                             <p
-                                v-for="paragraph in academicAffairs.profile.biography"
+                                v-for="paragraph in academicAffairs.profile
+                                    .biography"
                                 :key="paragraph"
-                                class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                                class="mt-4 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                             >
                                 {{ paragraph }}
                             </p>
@@ -211,7 +212,7 @@ defineProps<{
                     </div>
 
                     <article
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:sticky lg:top-24 lg:order-none lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img

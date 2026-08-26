@@ -4,13 +4,12 @@ import {
     CalendarDays,
     ChevronLeft,
     ChevronRight,
-    ClipboardCheck,
     ExternalLink,
     FileText,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { show as officeShow } from '@/actions/App/Http/Controllers/VppsiOfficeController';
+import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
 import { vppsi } from '@/routes/administration';
 
@@ -60,8 +59,7 @@ defineProps<{
     matters: PaginatedBacMatters;
 }>();
 
-const heroBackgroundImage =
-    '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
 
 const vicePresidentImage =
     '/images/administration/ovpaf/Reso of URBIZTONDO, FLORIFE, O SFFB NEMSU_4532 copy.jpg';
@@ -256,26 +254,14 @@ onBeforeUnmount(() => {
                     class="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-24 sm:px-6 sm:pb-28 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:pb-12"
                 >
                     <div>
-                        <p
-                            class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                        >
-                            Planning and Strategic Initiatives
-                        </p>
-                        <h3
-                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                        >
-                            Office of the Vice President for Planning and
-                            Strategic Initiatives
-                        </h3>
-
                         <nav
                             aria-label="Breadcrumb"
-                            class="mt-8 text-sm font-semibold"
+                            class="ps-1 text-sm font-semibold"
                         >
                             <ol class="flex flex-wrap items-center gap-2">
                                 <li>
                                     <Link
-                                        :href="home()"
+                                        :href="home().url"
                                         class="text-white/80 transition hover:text-[#f2b705]"
                                     >
                                         Home
@@ -289,6 +275,12 @@ onBeforeUnmount(() => {
                                 </li>
                             </ol>
                         </nav>
+                        <h3
+                            class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                        >
+                            Office of the Vice President for Planning and
+                            Strategic Initiatives
+                        </h3>
                     </div>
 
                     <div aria-hidden="true" class="hidden lg:block"></div>
@@ -318,7 +310,7 @@ onBeforeUnmount(() => {
                             Aligning Plans, Quality, and Institutional Growth
                         </h3>
                         <p
-                            class="mt-5 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-5 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
                             The Office of the Vice President for Planning and
                             Strategic Initiatives leads strategic planning,
@@ -328,7 +320,7 @@ onBeforeUnmount(() => {
                             essential support services.
                         </p>
                         <p
-                            class="mt-4 text-lg/8 text-slate-600 dark:text-slate-300 text-justify"
+                            class="mt-4 text-justify text-lg/8 text-slate-600 dark:text-slate-300"
                         >
                             OVPPSI strengthens evidence-based planning,
                             transparent operations, and responsive service
@@ -342,7 +334,7 @@ onBeforeUnmount(() => {
                         id="ovppsi-profile"
                         data-scroll-section="ovppsi-profile"
                         :class="revealClasses('ovppsi-profile', 'left')"
-                        class="order-first z-20 mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:order-none lg:sticky lg:top-24 lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
+                        class="z-20 order-first mx-auto -mt-24 w-full max-w-sm overflow-hidden bg-white/30 text-slate-950 shadow-[0_24px_70px_rgba(15,23,42,0.28)] ring-1 ring-white/45 backdrop-blur-2xl sm:-mt-28 lg:sticky lg:top-24 lg:order-none lg:mt-[-8.5rem] lg:self-start dark:bg-slate-950/35 dark:text-white dark:ring-white/15"
                     >
                         <div class="relative overflow-hidden">
                             <img

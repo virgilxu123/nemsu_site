@@ -29,3 +29,18 @@ test('vppsi page contains the supplied planning and strategy directory', functio
         ->toContain('data-scroll-section="bac-matters"')
         ->toContain('preserve-state');
 });
+
+test('vppsi hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/administration/Vppsi.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h3');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+
+    expect($page)->not->toContain(
+        'class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"'
+    );
+});
