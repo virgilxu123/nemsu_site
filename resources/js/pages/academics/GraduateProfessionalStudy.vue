@@ -63,16 +63,12 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                     aria-hidden="true"
                 ></div>
 
-                <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <h1
-                        class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                    >
-                        {{ props.study.title }}
-                    </h1>
-
+                <div
+                    class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+                >
                     <nav
                         aria-label="Breadcrumb"
-                        class="mt-8 text-sm font-semibold"
+                        class="ps-1 text-sm font-semibold"
                     >
                         <ol class="flex flex-wrap items-center gap-2">
                             <li>
@@ -98,6 +94,12 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                             </li>
                         </ol>
                     </nav>
+
+                    <h1
+                        class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                    >
+                        {{ props.study.title }}
+                    </h1>
                 </div>
             </section>
 
@@ -152,7 +154,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                                     class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
                                 >
                                     <div
-                                        class="relative aspect-[4/3] overflow-hidden border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-slate-900"
+                                        class="relative aspect-[4/3] overflow-hidden bg-white dark:border-white/10 dark:bg-slate-900"
                                     >
                                         <img
                                             v-if="props.study.photo"
@@ -259,7 +261,7 @@ const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
                                                 About the program
                                             </h3>
                                             <p
-                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300"
+                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300 text-justify"
                                             >
                                                 {{ program.description }}
                                             </p>

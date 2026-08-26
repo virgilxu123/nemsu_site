@@ -77,3 +77,14 @@ test('academic affairs page renders academic program categories', function () {
     expect(preg_match("/slug:\\s*'graduate-school-programs'/", $page))->toBe(0);
     expect(preg_match("/slug:\\s*'college-of-law'/", $page))->toBe(0);
 });
+
+test('academic affairs hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/academics/AcademicAffairs.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h1');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+});

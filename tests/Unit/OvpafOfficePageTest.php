@@ -44,3 +44,14 @@ test('ovpaf office page uses the reusable office layout', function () {
         ->toContain('Back to OVPAF offices')
         ->toContain('officeShow.url');
 });
+
+test('ovpaf office hero displays its breadcrumb above the title', function () {
+    $page = file_get_contents(resource_path('js/pages/administration/OvpafOffice.vue'));
+    $breadcrumbPosition = strpos($page, 'aria-label="Breadcrumb"');
+    $heroHeadingPosition = strpos($page, '<h3');
+
+    expect($breadcrumbPosition)->not->toBeFalse();
+    expect($heroHeadingPosition)->not->toBeFalse();
+    expect($breadcrumbPosition)->toBeLessThan($heroHeadingPosition);
+    expect(substr_count($page, 'aria-label="Breadcrumb"'))->toBe(1);
+});
