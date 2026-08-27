@@ -96,7 +96,7 @@ const vicePresident: Leader = {
 };
 
 const researchDirector: Leader = {
-    name: 'Arturo G. Gracia, Jr., MSci',
+    name: 'Arturo G. Gracia, Jr., MSc',
     role: 'Director, Research and Innovation / University Researcher V',
     email: 'research@nemsu.edu.ph',
     image: '/images/administration/ovprie/director-research.png',

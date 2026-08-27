@@ -27,7 +27,7 @@ const director = {
     name: 'Hussein M. Alawi',
     role: 'Director, Research Centers / University Researcher IV',
     email: 'hmalawi@nemsu.edu.ph',
-    image: null,
+    image: '/images/administration/ovprie/director-research-center.png',
 };
 
 const researchCenters: ResearchCenter[] = [
@@ -144,6 +144,14 @@ const selectedCampus = ref('All Campuses');
 const searchQuery = ref('');
 
 
+const leaderInitials = (name: string): string =>
+    name
+        .split(/\s+/)
+        .filter((part) => /^[A-Za-z]/.test(part))
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join('');
+
 const filteredCenters = computed(() => {
     return researchCenters.filter((center) => {
         const matchesCampus =
@@ -253,185 +261,179 @@ const filteredCenters = computed(() => {
                 </div>
             </section>
 
-            <!-- Director Profile & Search Controls -->
+            <!-- Main Content: Director & Centers Grid -->
             <section
-                class="border-b border-slate-200 bg-slate-50 py-10 dark:border-white/10 dark:bg-slate-900/50"
+                class="border-b border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        class="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center"
-                    >
-                        <!-- Director Leadership Card -->
-                        <div
-                            class="flex flex-col gap-4 rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs sm:flex-row sm:items-center sm:gap-6 dark:border-white/10 dark:bg-slate-950"
-                        >
+                    <div class="grid gap-8 lg:grid-cols-[22rem_1fr]">
+                        <!-- Director Sidebar -->
+                        <aside class="self-start lg:sticky lg:top-24">
+                            <img
+                                v-if="director.image"
+                                :src="director.image"
+                                :alt="director.name"
+                                class="aspect-[4/5] w-full rounded-md object-cover shadow-lg shadow-slate-900/10"
+                            />
                             <div
-                                class="flex size-16 shrink-0 items-center justify-center rounded-xl bg-[#061b49] text-xl font-bold text-white shadow-md ring-2 ring-[#f2b705]/50"
+                                v-else
+                                class="grid aspect-[4/5] w-full place-items-center rounded-md bg-[#1711d4] text-white shadow-lg shadow-slate-900/10"
                             >
-                                HA
+                                <div class="text-center">
+                                    <span
+                                        class="mx-auto grid size-24 place-items-center rounded-full bg-white/12 text-3xl font-semibold ring-1 ring-white/20"
+                                    >
+                                        {{ leaderInitials(director.name) }}
+                                    </span>
+                                    <p class="mt-4 text-sm text-white/70">
+                                        Official photo pending
+                                    </p>
+                                </div>
                             </div>
-                            <div>
+                            <div class="mt-5">
                                 <p
-                                    class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
-                                >
-                                    Office of the Director
-                                </p>
-                                <h2
-                                    class="mt-1 text-xl font-bold text-slate-950 dark:text-white"
-                                >
-                                    {{ director.name }}
-                                </h2>
-                                <p
-                                    class="text-xs leading-5 text-slate-600 dark:text-slate-400"
+                                    class="text-xs font-semibold leading-relaxed tracking-wide text-[#9b1c31] uppercase text-pretty dark:text-rose-300"
                                 >
                                     {{ director.role }}
                                 </p>
+                                <h2
+                                    class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white"
+                                >
+                                    {{ director.name }}
+                                </h2>
                                 <a
                                     :href="`mailto:${director.email}`"
-                                    class="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-[#1711d4] transition hover:underline dark:text-sky-300"
+                                    class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
                                 >
-                                    <Mail class="size-3.5" aria-hidden="true" />
+                                    <Mail class="size-4" aria-hidden="true" />
                                     {{ director.email }}
                                 </a>
                             </div>
-                        </div>
+                        </aside>
 
-                        <!-- Search and Campus Filter -->
-                        <div class="space-y-4">
-                            <div class="relative">
-                                <Search
-                                    class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400"
-                                    aria-hidden="true"
-                                />
-                                <input
-                                    v-model="searchQuery"
-                                    type="search"
-                                    placeholder="Search center by name, acronym, or field..."
-                                    class="w-full rounded-lg border border-slate-300 bg-white py-2.5 pr-4 pl-9 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1711d4] focus:outline-hidden focus:ring-1 focus:ring-[#1711d4] dark:border-white/15 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
-                                />
-                            </div>
-
-                            <div class="flex flex-wrap items-center gap-2">
-                                <button
-                                    v-for="campus in campuses"
-                                    :key="campus"
-                                    type="button"
-                                    @click="selectedCampus = campus"
-                                    class="rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer"
-                                    :class="
-                                        selectedCampus === campus
-                                            ? 'bg-[#1711d4] text-white shadow-xs dark:bg-sky-500 dark:text-slate-950'
-                                            : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-300 dark:ring-white/10 dark:hover:bg-white/10'
-                                    "
-                                >
-                                    {{ campus }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Centers Grid -->
-            <section class="py-14 sm:py-18">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        v-if="filteredCenters.length > 0"
-                        class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                    >
-                        <article
-                            v-for="center in filteredCenters"
-                            :key="center.acronym"
-                            class="group relative flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-[#1711d4]/40 hover:shadow-lg hover:shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-sky-400/40"
-                        >
-                            <div>
-                                <!-- Top Bar: Campus & Acronym -->
-                                <div
-                                    class="flex items-center justify-between gap-2"
-                                >
-                                    <span
-                                        class="inline-flex items-center gap-1 text-xs font-semibold text-[#9b1c31] dark:text-rose-300"
-                                    >
-                                        <MapPin
-                                            class="size-3.5 shrink-0"
-                                            aria-hidden="true"
-                                        />
-                                        {{ center.campus }}
-                                    </span>
-                                    <span
-                                        class="rounded-md bg-[#e7f3fb] px-2.5 py-0.5 text-xs font-bold tracking-wide text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
-                                    >
-                                        {{ center.acronym }}
-                                    </span>
-                                </div>
-
-                                <!-- Center Name -->
-                                <h3
-                                    class="mt-4 text-lg font-bold leading-snug text-slate-950 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
-                                >
-                                    {{ center.name }}
-                                </h3>
-
-                                <!-- Established Date -->
-                                <p
-                                    class="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400"
-                                >
-                                    <Calendar
-                                        class="size-3.5"
+                        <!-- Centers Content & Grid -->
+                        <div>
+                            <!-- Search and Campus Filter Controls -->
+                            <div class="space-y-4">
+                                <div class="relative w-full">
+                                    <Search
+                                        class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400"
                                         aria-hidden="true"
                                     />
-                                    Established {{ center.established }}
-                                </p>
+                                    <input
+                                        v-model="searchQuery"
+                                        type="search"
+                                        placeholder="Search center by name, acronym, or field..."
+                                        class="w-full rounded-lg border border-slate-300 bg-white py-2.5 pr-4 pl-9 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1711d4] focus:outline-hidden focus:ring-1 focus:ring-[#1711d4] dark:border-white/15 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
+                                    />
+                                </div>
 
-                                <!-- Summary -->
-                                <p
-                                    class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
-                                >
-                                    {{ center.summary }}
-                                </p>
+                                <!-- Campus Filter Badges -->
+                                <div class="mt-6 flex flex-wrap items-center gap-2">
+                                    <button
+                                        v-for="campus in campuses"
+                                        :key="campus"
+                                        type="button"
+                                        @click="selectedCampus = campus"
+                                        class="rounded-full px-3 py-1 text-xs font-semibold transition cursor-pointer"
+                                        :class="
+                                            selectedCampus === campus
+                                                ? 'bg-[#1711d4] text-white shadow-xs dark:bg-sky-500 dark:text-slate-950'
+                                                : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-slate-100 dark:bg-white/5 dark:text-slate-300 dark:ring-white/10 dark:hover:bg-white/10'
+                                        "
+                                    >
+                                        {{ campus }}
+                                    </button>
+                                </div>
                             </div>
-<!-- 
-                            <div
-                                class="mt-6 border-t border-slate-100 pt-4 dark:border-white/5"
-                            >
-                                <span
-                                    class="text-xs font-semibold text-[#1711d4] dark:text-sky-300"
-                                >
-                                    NEMSU Research Center
-                                </span>
-                            </div> -->
-                        </article>
-                    </div>
 
-                    <!-- Empty State -->
-                    <div
-                        v-else
-                        class="rounded-xl border border-dashed border-slate-300 p-12 text-center dark:border-white/15"
-                    >
-                        <Building2
-                            class="mx-auto size-12 text-slate-400 dark:text-slate-500"
-                            aria-hidden="true"
-                        />
-                        <h3
-                            class="mt-4 text-base font-semibold text-slate-900 dark:text-white"
-                        >
-                            No research centers found
-                        </h3>
-                        <p
-                            class="mt-1 text-sm text-slate-500 dark:text-slate-400"
-                        >
-                            Try adjusting your search terms or campus filter.
-                        </p>
-                        <button
-                            type="button"
-                            @click="
-                                selectedCampus = 'All Campuses';
-                                searchQuery = '';
-                            "
-                            class="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#1711d4] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#0b3d91]"
-                        >
-                            Reset filters
-                        </button>
+                            <!-- Centers Grid -->
+                            <div class="mt-8">
+                                <div
+                                    v-if="filteredCenters.length > 0"
+                                    class="grid gap-6 sm:grid-cols-2"
+                                >
+                                    <article
+                                        v-for="center in filteredCenters"
+                                        :key="center.acronym"
+                                        class="group relative flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-[#1711d4]/40 hover:shadow-lg hover:shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-sky-400/40"
+                                    >
+                                        <div>
+                                            <!-- Top Bar: Campus & Acronym -->
+                                            <div
+                                                class="flex items-center justify-between gap-2"
+                                            >
+                                                <span
+                                                    class="inline-flex items-center gap-1 text-xs font-semibold text-[#9b1c31] dark:text-rose-300"
+                                                >
+                                                    <MapPin
+                                                        class="size-3.5 shrink-0"
+                                                        aria-hidden="true"
+                                                    />
+                                                    {{ center.campus }}
+                                                </span>
+                                            </div>
+
+                                            <!-- Center Name -->
+                                            <h3
+                                                class="mt-4 text-lg font-bold leading-snug text-slate-950 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
+                                            >
+                                                {{ center.name }} ({{ center.acronym }})
+                                            </h3>
+
+                                            <!-- Established Date -->
+                                            <p
+                                                class="mt-2 inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400"
+                                            >
+                                                <Calendar
+                                                    class="size-3.5"
+                                                    aria-hidden="true"
+                                                />
+                                                Established {{ center.established }}
+                                            </p>
+
+                                            <!-- Summary -->
+                                            <p
+                                                class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
+                                            >
+                                                {{ center.summary }}
+                                            </p>
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <!-- Empty State -->
+                                <div
+                                    v-else
+                                    class="rounded-xl border border-dashed border-slate-300 p-12 text-center dark:border-white/15"
+                                >
+                                    <Building2
+                                        class="mx-auto size-12 text-slate-400 dark:text-slate-500"
+                                        aria-hidden="true"
+                                    />
+                                    <h3
+                                        class="mt-4 text-base font-semibold text-slate-900 dark:text-white"
+                                    >
+                                        No research centers found
+                                    </h3>
+                                    <p
+                                        class="mt-1 text-sm text-slate-500 dark:text-slate-400"
+                                    >
+                                        Try adjusting your search terms or campus filter.
+                                    </p>
+                                    <button
+                                        type="button"
+                                        @click="
+                                            selectedCampus = 'All Campuses';
+                                            searchQuery = '';
+                                        "
+                                        class="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#1711d4] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#0b3d91]"
+                                    >
+                                        Reset filters
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
