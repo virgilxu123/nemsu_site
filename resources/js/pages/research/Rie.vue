@@ -212,12 +212,116 @@ const extensionResources: ResourceLink[] = [
             'University extension programs and project records.',
         href: 'https://docs.google.com/spreadsheets/d/1fJRlzFi2CkeiezyFPHAASUPs8c3R4Phz/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
     },
+];
+
+type ExtensionActivity = {
+    title: string;
+    image: string;
+    href: string;
+};
+
+const showAllExtensionActivities = ref(false);
+
+const extensionActivities: ExtensionActivity[] = [
     {
-        id: 'extension-activities',
-        title: 'Extension Activities',
-        description:
-            'Updates and documentation from extension activities.',
-        href: 'https://docs.google.com/document/d/1ZZlCGjtZiM44-SO8C9u91X2KxuPqDvaI/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
+        title: 'Going digital for stronger communities',
+        image: '/images/administration/ovprie/extension/activity-1.jpg',
+        href: 'https://www.facebook.com/share/p/1HXBC7UXz4/',
+    },
+    {
+        title: 'Empowering education through technology',
+        image: '/images/administration/ovprie/extension/activity-2.jpg',
+        href: 'https://www.facebook.com/share/p/1bWnY922ZQ/',
+    },
+    {
+        title: 'Project Mobilization, Partnership Building, and Team Formation',
+        image: '/images/administration/ovprie/extension/activity-3.jpg',
+        href: 'https://www.facebook.com/share/p/1CubWSy6Qw/',
+    },
+    {
+        title: 'Training Needs Assessment for the Beneficiaries of Barangay Tigao, Cortes',
+        image: '/images/administration/ovprie/extension/activity-4.jpg',
+        href: 'https://www.facebook.com/share/p/18jt7Ny2rd/',
+    },
+    {
+        title: 'Seminar on Youth Challenges and Solutions for Barangay Balete, Bayabas',
+        image: '/images/administration/ovprie/extension/activity-5.jpg',
+        href: 'https://www.facebook.com/share/p/1CfkmYLmKb/',
+    },
+    {
+        title: 'Artificial Intelligence (AI) Business Essentials Seminar',
+        image: '/images/administration/ovprie/extension/activity-6.jpg',
+        href: 'https://www.facebook.com/share/p/1ehiPeC98Q/',
+    },
+    {
+        title: 'Empowering communities through financial stewardship',
+        image: '/images/administration/ovprie/extension/activity-7.jpg',
+        href: 'https://www.facebook.com/share/p/1PcfT2c12K/',
+    },
+    {
+        title: 'Training on Good Governance and Environmental Management System',
+        image: '/images/administration/ovprie/extension/activity-8.jpg',
+        href: 'https://www.facebook.com/share/p/1CkQPND3vy/',
+    },
+    {
+        title: 'Strengthening community capacity through education',
+        image: '/images/administration/ovprie/extension/activity-9.jpg',
+        href: 'https://www.facebook.com/share/p/1BnbJdRV82/',
+    },
+    {
+        title: 'Strengthening local governance through technology',
+        image: '/images/administration/ovprie/extension/activity-10.jpg',
+        href: 'https://www.facebook.com/share/p/14iPj8q4dw1/',
+    },
+    {
+        title: 'Nurturing skills for sustainable enterprise',
+        image: '/images/administration/ovprie/extension/activity-11.jpg',
+        href: 'https://www.facebook.com/share/p/1GLFaXjrNk/',
+    },
+    {
+        title: 'Strengthening financial stewardship',
+        image: '/images/administration/ovprie/extension/activity-12.jpg',
+        href: 'https://www.facebook.com/share/p/1HHQNG8tQu/',
+    },
+    {
+        title: 'Building stronger communities through leadership',
+        image: '/images/administration/ovprie/extension/activity-13.jpg',
+        href: 'https://www.facebook.com/share/p/1BpcSHYGVY/',
+    },
+    {
+        title: 'Crafting creativity into sustainable enterprise',
+        image: '/images/administration/ovprie/extension/activity-14.jpg',
+        href: 'https://www.facebook.com/share/p/18ibid4LVQ/',
+    },
+    {
+        title: 'Fostering financial empowerment',
+        image: '/images/administration/ovprie/extension/activity-15.jpg',
+        href: 'https://www.facebook.com/share/p/1CqBjaM4V6/',
+    },
+    {
+        title: 'Empowering local governance through technology',
+        image: '/images/administration/ovprie/extension/activity-16.jpg',
+        href: 'https://www.facebook.com/share/p/18frSmgupb/',
+    },
+    {
+        title: 'College of Teacher Education, Barangay San Agustin Sur and DepEd Tandag City Division',
+        image: '/images/administration/ovprie/extension/activity-17.jpg',
+        href: 'https://www.facebook.com/share/p/18YZqpHgkC/',
+    },
+    {
+        title: '1-Day Action Research Implementation Support (EduTech Forge Project)',
+        image: '/images/administration/ovprie/extension/activity-18.jpg',
+        href: 'https://www.facebook.com/share/p/18vKQ6ndr2/',
+    },
+    {
+        title: 'Strengthening digital readiness',
+        image: '/images/administration/ovprie/extension/activity-19.jpg',
+        href: 'https://www.facebook.com/share/p/1D8bS52LFx/',
+    },
+    {
+        title: 'Empowering communities through knowledge and skills',
+        image: '/images/administration/ovprie/extension/activity-20.jpg',
+        href: 'https://www.facebook.com/share/p/18VcUPaw5t/',
     },
 ];
 
@@ -638,7 +742,7 @@ onBeforeUnmount(() => {
                                 Key Documents & Repositories
                             </p>
 
-                            <div class="mt-5 grid gap-5 sm:grid-cols-3">
+                            <div class="mt-5 grid gap-6 sm:grid-cols-3">
                                 <a
                                     v-for="resource in researchResources"
                                     :id="resource.id"
@@ -657,11 +761,19 @@ onBeforeUnmount(() => {
                                             ? undefined
                                             : 'noreferrer'
                                     "
-                                    class="group block border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
+                                    class="group flex flex-col justify-start border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
                                 >
-                                    
+                                    <h4
+                                        class="flex min-h-[2.6rem] items-start text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-[#1711d4] sm:text-[0.925rem] dark:text-white dark:group-hover:text-sky-300"
+                                    >
+                                        <span>{{ resource.title }}&nbsp;<span
+                                            class="inline-block transition-transform duration-200 group-hover:translate-x-1"
+                                            aria-hidden="true"
+                                            >&rarr;</span
+                                        ></span>
+                                    </h4>
                                     <p
-                                        class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                                        class="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
                                     >
                                         {{ resource.description }}
                                     </p>
@@ -1408,33 +1520,93 @@ onBeforeUnmount(() => {
 
                             <div
                                 v-if="group.id === 'extension'"
-                                class="mt-8 grid gap-6 sm:grid-cols-2"
+                                class="mt-8 space-y-10"
                             >
-                                <a
-                                    v-for="resource in extensionResources"
-                                    :id="resource.id"
-                                    :key="resource.href"
-                                    :href="resource.href"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    class="group block border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
-                                >
-                                    <h4
-                                        class="text-base font-semibold text-slate-900 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
+                                <!-- Core Extension Repositories -->
+                                <div class="grid gap-6 sm:grid-cols-2">
+                                    <a
+                                        v-for="resource in extensionResources"
+                                        :id="resource.id"
+                                        :key="resource.href"
+                                        :href="resource.href"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        class="group flex flex-col justify-start border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
                                     >
-                                        {{ resource.title }}
-                                        <span
-                                            class="inline-block transition-transform duration-200 group-hover:translate-x-1"
-                                            aria-hidden="true"
-                                            >&rarr;</span
+                                        <h4
+                                            class="text-base font-semibold text-slate-900 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
                                         >
-                                    </h4>
-                                    <p
-                                        class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
-                                    >
-                                        {{ resource.description }}
-                                    </p>
-                                </a>
+                                            {{ resource.title }}&nbsp;<span
+                                                class="inline-block transition-transform duration-200 group-hover:translate-x-1"
+                                                aria-hidden="true"
+                                                >&rarr;</span
+                                            >
+                                        </h4>
+                                        <p
+                                            class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                                        >
+                                            {{ resource.description }}
+                                        </p>
+                                    </a>
+                                </div>
+
+                                <!-- Extension Activities & Community Initiatives Cards -->
+                                <div class="border-t border-slate-200 pt-8 dark:border-white/10">
+                                    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                                        <div>
+                                            <p class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300">
+                                                Community Outreach & Engagements
+                                            </p>
+                                            <h4 class="mt-1 text-xl font-bold tracking-normal text-slate-950 dark:text-white">
+                                                Recent Extension Activities
+                                            </h4>
+                                        </div>
+                                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                            20 Community Updates
+                                        </span>
+                                    </div>
+
+                                    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                        <a
+                                            v-for="activity in (showAllExtensionActivities ? extensionActivities : extensionActivities.slice(0, 6))"
+                                            :key="activity.href"
+                                            :href="activity.href"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            class="group relative overflow-hidden rounded-2xl ring-1 ring-slate-900/10 shadow-lg shadow-slate-900/10 transition-all duration-500 hover:ring-[#f2b705] hover:shadow-xl dark:ring-white/15 dark:shadow-black/30"
+                                        >
+                                            <img
+                                                :src="activity.image"
+                                                :alt="activity.title"
+                                                class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                                            />
+                                            <div
+                                                class="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/5"
+                                            ></div>
+                                            <div
+                                                class="relative flex min-h-52 flex-col justify-end p-5 sm:min-h-56"
+                                            >
+                                                <h4
+                                                    class="text-sm font-bold text-white transition-colors group-hover:text-[#f2b705]"
+                                                >
+                                                    {{ activity.title }}
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <!-- Show More / Show Less Toggle Button -->
+                                    <div class="mt-6 flex justify-center">
+                                        <button
+                                            type="button"
+                                            @click="showAllExtensionActivities = !showAllExtensionActivities"
+                                            class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-[#1711d4] hover:bg-slate-50 hover:text-[#1711d4] dark:border-white/20 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-300 dark:hover:text-sky-300"
+                                        >
+                                            <span>{{ showAllExtensionActivities ? 'Show Fewer Activities' : 'View All 20 Extension Activities' }}</span>
+                                            <span aria-hidden="true">{{ showAllExtensionActivities ? '↑' : '↓' }}</span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

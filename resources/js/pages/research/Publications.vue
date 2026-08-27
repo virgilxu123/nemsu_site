@@ -266,7 +266,7 @@ const visibleCollections = computed(() => {
                                     :href="poster.image"
                                     target="_blank"
                                     rel="noreferrer"
-                                    class="relative grid aspect-4/5 place-items-center overflow-hidden bg-slate-100 p-2 sm:p-3 dark:bg-slate-900"
+                                    class="relative grid aspect-4/5 place-items-center overflow-hidden p-2 sm:p-3 bg-slate-100 dark:bg-slate-900"
                                     :title="'View ' + poster.title + ' image'"
                                 >
                                     <img
@@ -278,13 +278,13 @@ const visibleCollections = computed(() => {
                                     />
                                 </a>
                                 <div
-                                    class="border-t border-slate-200/80 p-3 dark:border-white/10"
+                                    class="p-3 bg-slate-100 dark:bg-slate-900"
                                 >
                                     <a
                                         :href="poster.url || poster.image"
                                         target="_blank"
                                         rel="noreferrer"
-                                        class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-4 py-2 text-xs font-semibold text-brand-navy shadow-xs transition hover:bg-brand-navy/80 sm:text-sm dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                                        class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-4 py-3 text-xs font-semibold text-brand-navy shadow-xs transition hover:bg-brand-navy/80 sm:text-sm dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
                                         :title="poster.url ? 'Go to research study: ' + poster.title : 'View publication: ' + poster.title"
                                     >
                                         <span>View Article</span>
