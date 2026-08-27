@@ -146,9 +146,19 @@ class ResearchPublicationController extends Controller
 
     public function index(): Response
     {
+        return $this->renderPublications('research/Publications');
+    }
+
+    public function contentPreview(): Response
+    {
+        return $this->renderPublications('research/content-preview/Publications');
+    }
+
+    private function renderPublications(string $component): Response
+    {
         $collections = $this->publicationCollections();
 
-        return Inertia::render('research/Publications', [
+        return Inertia::render($component, [
             'collections' => $collections,
             'totalPosters' => array_sum(array_column($collections, 'count')),
             'downloads' => [

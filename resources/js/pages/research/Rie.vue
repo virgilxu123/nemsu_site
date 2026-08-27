@@ -102,7 +102,7 @@ const researchDirector: Leader = {
     image: '/images/administration/ovprie/director-research.png',
     alt: 'Arturo G. Gracia, Jr., MSci',
     summary:
-        'RIDO supports University researchers through research programs, policy recommendations, funded project development, inter-campus collaboration, dissemination, and ethical compliance coordination.',
+        'The University Research and Innovation Office, led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), supports university researchers by overseeing research programs, projects, and activities, recommending policies, and implementing strategic initiatives. The RIDO leads the development of project proposals for funding, fosters inter-campus collaboration, and facilitates the publication, dissemination, and application of research outputs. It also monitors ongoing research, ensures ethical compliance in 4 coordination with the University Research Ethics Committee (UREC), prepares reports, and handles other research-related tasks assigned by the VPRIE.',
 };
 
 const kttoDirector: Leader = {
@@ -714,19 +714,29 @@ onBeforeUnmount(() => {
                             class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             The Office of the Vice President for Research,
-                            Innovation, and Extension steers the University's
-                            RIE agenda in alignment with national development
-                            priorities and the thrusts of CHED, DOST, DA, NEDA,
-                            DBM, and other relevant institutions.
+                            Innovation, and Extension (OVPRIE) is responsible
+                            for steering the University's research, innovation,
+                            and extension agenda in alignment with national
+                            development priorities and the thrusts of key
+                            agencies such as CHED, DOST, DA, NEDA, DBM, and
+                            other relevant institutions. It formulates and
+                            implements strategic policies, oversees research,
+                            innovation and extension programs, facilitates
+                            collaborations, manages grants and funding, and
+                            ensures compliance with regulatory requirements.
+                            Through its leadership, OVPRIE fosters a dynamic
+                            research and innovation ecosystem that advances
+                            knowledge generation, technology transfer, and
+                            meaningful community engagement.
                         </p>
-                        <p
+                        <!-- <p
                             class="mt-4 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             OVPRIE advances knowledge generation, technology
                             transfer, and meaningful community engagement across
                             the NEMSU system in alignment with national
                             development priorities.
-                        </p>
+                        </p> -->
 
                         <!-- Key Documents & Repositories -->
                         <div
@@ -1016,7 +1026,7 @@ onBeforeUnmount(() => {
                 class="scroll-mt-28 border-b border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-8 lg:grid-cols-[22rem_1fr]">
+                    <div class="grid gap-8 lg:grid-cols-[24rem_1fr]">
                         <aside
                             :data-scroll-section="`${group.id}-director`"
                             :class="
@@ -1053,7 +1063,7 @@ onBeforeUnmount(() => {
                                     {{ group.director.role }}
                                 </p>
                                 <h2
-                                    class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white"
+                                    class="mt-2 text-xl font-semibold text-slate-950 sm:text-2xl lg:text-[1.35rem] xl:text-2xl dark:text-white"
                                 >
                                     {{ group.director.name }}
                                 </h2>

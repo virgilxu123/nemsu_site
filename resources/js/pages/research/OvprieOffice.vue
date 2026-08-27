@@ -364,7 +364,7 @@ onBeforeUnmount(() => {
                                 Office Head
                             </p>
                             <h3
-                                class="mt-2 text-2xl leading-tight font-semibold text-slate-950 dark:text-white"
+                                class="mt-2 text-xl leading-tight font-semibold text-slate-950 sm:text-2xl lg:text-xl xl:text-2xl dark:text-white"
                             >
                                 {{ props.office.head }}
                             </h3>

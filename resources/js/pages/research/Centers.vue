@@ -3,6 +3,8 @@ import { Head, Link } from '@inertiajs/vue3';
 import {
     Building2,
     Calendar,
+    ChevronDown,
+    ChevronUp,
     Mail,
     MapPin,
     Search,
@@ -18,6 +20,7 @@ type ResearchCenter = {
     campus: string;
     established: string;
     summary: string;
+    sdgs: string[];
 };
 
 const heroBackgroundImage =
@@ -27,7 +30,11 @@ const director = {
     name: 'Hussein M. Alawi',
     role: 'Director, Research Centers / University Researcher IV',
     email: 'hmalawi@nemsu.edu.ph',
+    address:
+        'North Eastern Mindanao State University, Rosario, Tandag City, 8300, Surigao del Sur, Philippines',
     image: '/images/administration/ovprie/director-research-center.png',
+    summary:
+        'Research Centers are integral to advancing the University’s research goals by managing activities, resources, and personnel in alignment with institutional priorities. They foster interdisciplinary collaboration, support grant proposals, and ensure research compliance with ethical and regulatory standards. The centers provide professional development for researchers, track research performance, and advocate for resources and recognition, strengthening their impact within the academic community and beyond.',
 };
 
 const researchCenters: ResearchCenter[] = [
@@ -37,7 +44,14 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Tandag Campus',
         established: 'December 19, 2023',
         summary:
-            'Advances lifelong learning, professional development, and applied research for priority regional sectors.',
+            'RCCEPD serves as NEMSU’s hub for lifelong learning, professional development, and applied research that strengthens workforce competencies and responds to the evolving needs of the region. It develops research-based training programs, specialized courses, and capacity-building initiatives that enhance the skills of professionals in agriculture, fisheries, education, eco-tourism, and other priority sectors. Through strong partnerships with government agencies, industry, and community stakeholders, the center promotes innovation, knowledge exchange, and sustainable regional development while advancing the University\'s commitment to continuous learning and global competitiveness.',
+        sdgs: [
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Center for Local Leadership and Governance',
@@ -45,7 +59,16 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Tandag Campus',
         established: 'October 14, 2025',
         summary:
-            'Promotes evidence-based governance, leadership development, and technical assistance for public and community institutions.',
+            'The Center for Local Leadership and Governance promotes evidence-based governance by conducting policy research, leadership development, and technical assistance for local government units, civil society organizations, and community leaders. It supports responsive, transparent, and accountable governance through research-driven solutions, digital innovation, and capacity-building programs aligned with national development priorities and sustainable development goals. The center strengthens NEMSU’s role as a strategic partner in improving local governance and public service delivery.',
+        sdgs: [
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 10 – Reduced Inequalities',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 16 – Peace, Justice and Strong Institutions',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Center for Instructional Innovation and Development',
@@ -53,7 +76,16 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Tandag Campus',
         established: 'October 14, 2025',
         summary:
-            'Supports instructional innovation, educational technology, and the development of high-quality learning resources.',
+            'CIID serves as the University\'s center for instructional innovation, educational technology, and learning resource development. It supports faculty in the creation, evaluation, production, and dissemination of high-quality instructional materials while promoting innovative teaching practices and technology-enhanced learning. The center also provides facilities for educational technology training, creative learning spaces, and instructional media production to improve teaching effectiveness, student learning experiences, and institutional quality standards.',
+        sdgs: [
+            'SDG 3 – Good Health and Well-being',
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 10 – Reduced Inequalities',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Society, Human Interaction, Nature and Environment Research Center',
@@ -61,7 +93,19 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Tandag Campus',
         established: 'October 14, 2025',
         summary:
-            'Advances interdisciplinary research on society, biodiversity, sustainability, and human-environment interactions.',
+            'The SHINE Research Center advances interdisciplinary research on society, culture, biodiversity, environmental sustainability, and human-environment interactions to address complex regional challenges. By integrating the social sciences, natural sciences, and emerging technologies, it generates evidence-based knowledge that supports biodiversity conservation, climate resilience, inclusive development, and informed public policy. The center strengthens collaboration among researchers, communities, and stakeholders to promote sustainable development in the Caraga Region.',
+        sdgs: [
+            'SDG 3 – Good Health and Well-being',
+            'SDG 4 – Quality Education',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 10 – Reduced Inequalities',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 13 – Climate Action',
+            'SDG 14 – Life Below Water',
+            'SDG 15 – Life on Land',
+            'SDG 16 – Peace, Justice and Strong Institutions',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Research Center for Industrial Technology and Renewable Energy',
@@ -69,7 +113,16 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Cantilan Campus',
         established: 'December 19, 2023',
         summary:
-            'Develops practical industrial and clean-energy solutions that support green industries and regional competitiveness.',
+            'RCITRE promotes research and innovation in industrial technology and renewable energy to address regional development needs while advancing environmental sustainability. The center develops practical solutions that support clean energy, green industries, technology transfer, and livelihood generation through strong collaboration among academia, industry, government, and local communities. It aims to enhance regional competitiveness by transforming research into technologies and innovations with social and economic impact.',
+        sdgs: [
+            'SDG 7 – Affordable and Clean Energy',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Food Innovation Center',
@@ -77,7 +130,17 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Cantilan Campus',
         established: 'October 14, 2025',
         summary:
-            'Supports food product development, processing, quality assurance, technology transfer, and entrepreneurship.',
+            'The Food Innovation Center serves as a research and innovation hub for food product development, processing technologies, quality assurance, and entrepreneurship. It supports farmers, fisherfolk, MSMEs, and local industries through value addition, technology transfer, product commercialization, and business incubation. By maximizing local agricultural resources and promoting food safety and innovation, the center contributes to food security, economic growth, and sustainable regional development.',
+        sdgs: [
+            'SDG 1 – No Poverty',
+            'SDG 2 – Zero Hunger',
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 14 – Life Below Water',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Research Center for Climate-Smart Agriculture',
@@ -85,7 +148,17 @@ const researchCenters: ResearchCenter[] = [
         campus: 'San Miguel Campus',
         established: 'December 19, 2023',
         summary:
-            'Develops climate-smart agricultural practices that improve productivity, resilience, and food security.',
+            'RCC-SA conducts research, innovation, and extension programs that promote climate-smart agricultural practices to improve productivity, resilience, and environmental sustainability. The center develops science-based solutions that enhance food security, climate adaptation, and sustainable resource management while empowering farming communities through research, technology transfer, and capacity-building initiatives.',
+        sdgs: [
+            'SDG 1 – No Poverty',
+            'SDG 2 – Zero Hunger',
+            'SDG 6 – Clean Water and Sanitation',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 15 – Life on Land',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Tourism and SMEs Innovation Research Center',
@@ -93,7 +166,17 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Cagwait Campus',
         established: 'December 19, 2023',
         summary:
-            'Strengthens sustainable tourism, entrepreneurship, local products, and community-based industries.',
+            'TSMEIRC advances research and innovation that strengthen tourism development and the growth of small and medium enterprises. The center supports the improvement of hospitality services, local products, entrepreneurship, and sustainable tourism practices through research, technology, training, and collaborative partnerships. It contributes to local economic development by enhancing the competitiveness of tourism enterprises and community-based industries.',
+        sdgs: [
+            'SDG 1 – No Poverty',
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Center of Research for Aquamarine Life Sustainability',
@@ -101,7 +184,17 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Lianga Campus',
         established: 'December 19, 2023',
         summary:
-            'Advances sustainable fisheries, marine biodiversity, aquaculture, and integrated coastal resource management.',
+            'CoRALS conducts research on aquasilviculture, marine biodiversity, fish health, hatchery technologies, and integrated coastal resource management to promote sustainable fisheries and marine ecosystem conservation. The center develops innovative technologies and scientific knowledge that improve aquaculture productivity, strengthen food security, enhance climate resilience, and support the sustainable management of coastal and marine resources.',
+        sdgs: [
+            'SDG 2 – Zero Hunger',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 14 – Life Below Water',
+            'SDG 15 – Life on Land',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Center for Aquasilviculture and Seaweed Advancement',
@@ -109,7 +202,18 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Lianga Campus',
         established: 'October 14, 2025',
         summary:
-            'Integrates aquasilviculture, seaweed development, mangrove restoration, and coastal ecosystem management.',
+            'AQUASEA serves as an interdisciplinary research center dedicated to aquasilviculture, seaweed development, mangrove restoration, and coastal ecosystem management. It integrates research, innovation, extension, and policy support to promote biodiversity conservation, blue economy initiatives, climate resilience, and sustainable livelihoods for coastal communities through science-based and community-centered solutions.',
+        sdgs: [
+            'SDG 1 – No Poverty',
+            'SDG 2 – Zero Hunger',
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 13 – Climate Action',
+            'SDG 14 – Life Below Water',
+            'SDG 15 – Life on Land',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Food and Farming Technology Research Center',
@@ -117,7 +221,17 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Tagbina Campus',
         established: 'December 19, 2023',
         summary:
-            'Improves agricultural productivity, food innovation, value addition, and sustainable farming systems.',
+            'FFTRC promotes research and technology development that improve agricultural productivity, food innovation, value addition, and sustainable farming systems. The center supports farmers through studies on modern agricultural technologies, digitalization, food security, climate resilience, and circular economy practices while strengthening partnerships that enhance rural livelihoods and regional agricultural development.',
+        sdgs: [
+            'SDG 1 – No Poverty',
+            'SDG 2 – Zero Hunger',
+            'SDG 4 – Quality Education',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
     {
         name: 'Agro-Forestry Industrial Research Center',
@@ -125,7 +239,18 @@ const researchCenters: ResearchCenter[] = [
         campus: 'Bislig Campus',
         established: 'December 19, 2023',
         summary:
-            'Advances agroforestry, sustainable natural resource management, and agro-industrial innovation.',
+            'AFIRC advances research on agroforestry, sustainable natural resource management, and agro-industrial innovation to support resilient economic development and environmental conservation. It promotes the sustainable utilization of forest, agricultural, and coastal resources through technology development, industry collaboration, and community engagement while contributing to green growth and regional competitiveness.',
+        sdgs: [
+            'SDG 4 – Quality Education',
+            'SDG 7 – Affordable and Clean Energy',
+            'SDG 8 – Decent Work and Economic Growth',
+            'SDG 9 – Industry, Innovation, and Infrastructure',
+            'SDG 11 – Sustainable Cities and Communities',
+            'SDG 12 – Responsible Consumption and Production',
+            'SDG 13 – Climate Action',
+            'SDG 15 – Life on Land',
+            'SDG 17 – Partnerships for the Goals',
+        ],
     },
 ];
 
@@ -142,7 +267,60 @@ const campuses = [
 
 const selectedCampus = ref('All Campuses');
 const searchQuery = ref('');
+const expandedSummaries = ref<Record<string, boolean>>({});
 
+const toggleSummary = (acronym: string) => {
+    expandedSummaries.value[acronym] = !expandedSummaries.value[acronym];
+};
+
+const isExpanded = (acronym: string): boolean => {
+    return !!expandedSummaries.value[acronym];
+};
+
+type SdgInfo = {
+    number: number;
+    name: string;
+    image: string;
+};
+
+const SDG_DIRECTORY: Record<number, { name: string }> = {
+    1: { name: 'No Poverty' },
+    2: { name: 'Zero Hunger' },
+    3: { name: 'Good Health and Well-being' },
+    4: { name: 'Quality Education' },
+    5: { name: 'Gender Equality' },
+    6: { name: 'Clean Water and Sanitation' },
+    7: { name: 'Affordable and Clean Energy' },
+    8: { name: 'Decent Work and Economic Growth' },
+    9: { name: 'Industry, Innovation, and Infrastructure' },
+    10: { name: 'Reduced Inequalities' },
+    11: { name: 'Sustainable Cities and Communities' },
+    12: { name: 'Responsible Consumption and Production' },
+    13: { name: 'Climate Action' },
+    14: { name: 'Life Below Water' },
+    15: { name: 'Life on Land' },
+    16: { name: 'Peace, Justice and Strong Institutions' },
+    17: { name: 'Partnerships for the Goals' },
+};
+
+const getCenterSdgs = (sdgStrings: string[]): SdgInfo[] => {
+    return sdgStrings
+        .map((str) => {
+            const match = str.match(/SDG\s*(\d+)/i);
+            if (!match) return null;
+            const num = parseInt(match[1], 10);
+            const info = SDG_DIRECTORY[num];
+            if (!info) return null;
+            const padded = String(num).padStart(2, '0');
+            return {
+                number: num,
+                name: info.name,
+                image: `/images/administration/ovprie/research/sdgs/E-WEB-Goal-${padded}.png`,
+            };
+        })
+        .filter((item): item is SdgInfo => item !== null)
+        .sort((a, b) => a.number - b.number);
+};
 
 const leaderInitials = (name: string): string =>
     name
@@ -157,20 +335,14 @@ const filteredCenters = computed(() => {
         const matchesCampus =
             selectedCampus.value === 'All Campuses' ||
             center.campus === selectedCampus.value;
+        const q = searchQuery.value.trim().toLowerCase();
         const matchesSearch =
-            searchQuery.value.trim() === '' ||
-            center.name
-                .toLowerCase()
-                .includes(searchQuery.value.toLowerCase()) ||
-            center.acronym
-                .toLowerCase()
-                .includes(searchQuery.value.toLowerCase()) ||
-            center.summary
-                .toLowerCase()
-                .includes(searchQuery.value.toLowerCase()) ||
-            center.campus
-                .toLowerCase()
-                .includes(searchQuery.value.toLowerCase());
+            q === '' ||
+            center.name.toLowerCase().includes(q) ||
+            center.acronym.toLowerCase().includes(q) ||
+            center.summary.toLowerCase().includes(q) ||
+            center.campus.toLowerCase().includes(q) ||
+            center.sdgs.some((sdg) => sdg.toLowerCase().includes(q));
 
         return matchesCampus && matchesSearch;
     });
@@ -301,20 +473,48 @@ const filteredCenters = computed(() => {
                                 >
                                     {{ director.name }}
                                 </h2>
-                                <a
-                                    :href="`mailto:${director.email}`"
-                                    class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
-                                >
-                                    <Mail class="size-4" aria-hidden="true" />
-                                    {{ director.email }}
-                                </a>
+                                <div class="mt-3 flex flex-col gap-2">
+                                    <a
+                                        :href="`mailto:${director.email}`"
+                                        class="inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] transition hover:underline dark:text-sky-200"
+                                    >
+                                        <Mail class="size-4 shrink-0" aria-hidden="true" />
+                                        <span>{{ director.email }}</span>
+                                    </a>
+                                    <div
+                                        v-if="director.address"
+                                        class="inline-flex items-start gap-2 text-xs leading-relaxed text-slate-600 dark:text-slate-300"
+                                    >
+                                        <MapPin class="mt-0.5 size-4 shrink-0 text-slate-400 dark:text-slate-500" aria-hidden="true" />
+                                        <span>{{ director.address }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </aside>
 
                         <!-- Centers Content & Grid -->
                         <div>
+                            <!-- Service Overview -->
+                            <div>
+                                <p
+                                    class="text-sm font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
+                                >
+                                    Research Centers
+                                </p>
+                                <h3
+                                    class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                >
+                                    Service Overview
+                                </h3>
+                                <p
+                                    class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                >
+                                    {{ director.summary }}
+                                </p>
+                            </div>
+
                             <!-- Search and Campus Filter Controls -->
-                            <div class="space-y-4">
+                            <div class="mt-10 space-y-4">
                                 <div class="relative w-full">
                                     <Search
                                         class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-slate-400"
@@ -323,7 +523,7 @@ const filteredCenters = computed(() => {
                                     <input
                                         v-model="searchQuery"
                                         type="search"
-                                        placeholder="Search center by name, acronym, or field..."
+                                        placeholder="Search center by name, acronym, campus, or SDG (e.g. SDG 4, Climate)..."
                                         class="w-full rounded-lg border border-slate-300 bg-white py-2.5 pr-4 pl-9 text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#1711d4] focus:outline-hidden focus:ring-1 focus:ring-[#1711d4] dark:border-white/15 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
                                     />
                                 </div>
@@ -359,7 +559,7 @@ const filteredCenters = computed(() => {
                                         class="group relative flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-[#1711d4]/40 hover:shadow-lg hover:shadow-slate-900/5 dark:border-white/10 dark:bg-slate-900/40 dark:hover:border-sky-400/40"
                                     >
                                         <div>
-                                            <!-- Top Bar: Campus & Acronym -->
+                                            <!-- Top Bar: Campus -->
                                             <div
                                                 class="flex items-center justify-between gap-2"
                                             >
@@ -392,12 +592,65 @@ const filteredCenters = computed(() => {
                                                 Established {{ center.established }}
                                             </p>
 
-                                            <!-- Summary -->
-                                            <p
-                                                class="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
-                                            >
-                                                {{ center.summary }}
-                                            </p>
+                                            <!-- Summary with See more / See less -->
+                                            <div class="mt-4">
+                                                <p
+                                                    class="text-sm leading-relaxed text-slate-600 transition-all dark:text-slate-300"
+                                                    :class="isExpanded(center.acronym) ? '' : 'line-clamp-3'"
+                                                >
+                                                    {{ center.summary }}
+                                                </p>
+                                                <button
+                                                    v-if="center.summary.length > 150"
+                                                    type="button"
+                                                    @click="toggleSummary(center.acronym)"
+                                                    class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#1711d4] hover:underline cursor-pointer dark:text-sky-300"
+                                                >
+                                                    <span>{{ isExpanded(center.acronym) ? 'See less' : 'See more' }}</span>
+                                                    <ChevronUp v-if="isExpanded(center.acronym)" class="size-3.5" aria-hidden="true" />
+                                                    <ChevronDown v-else class="size-3.5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Addressed SDGs (Official Badges) -->
+                                        <div
+                                            v-if="center.sdgs && center.sdgs.length > 0"
+                                            class="mt-6 border-t border-slate-100 pt-4 dark:border-white/10"
+                                        >
+                                            <div class="flex items-center justify-between gap-2">
+                                                <p
+                                                    class="text-[0.7rem] font-bold tracking-wider text-slate-400 uppercase dark:text-slate-500"
+                                                >
+                                                    Addressed SDGs
+                                                </p>
+                                                <!-- <span class="text-[0.65rem] font-medium text-slate-400 dark:text-slate-500">
+                                                    {{ getCenterSdgs(center.sdgs).length }} Goals
+                                                </span> -->
+                                            </div>
+                                            <div class="mt-3 flex flex-wrap gap-2">
+                                                <div
+                                                    v-for="sdg in getCenterSdgs(center.sdgs)"
+                                                    :key="sdg.number"
+                                                    class="group/sdg relative flex aspect-square w-12 sm:w-14 shrink-0 items-center justify-center overflow-hidden rounded-md shadow-xs transition-all duration-200 hover:-translate-y-1 hover:scale-105 hover:shadow-md hover:z-20 cursor-default select-none bg-slate-100 dark:bg-slate-800"
+                                                    :aria-label="`SDG ${sdg.number}: ${sdg.name}`"
+                                                >
+                                                    <img
+                                                        :src="sdg.image"
+                                                        :alt="`SDG ${sdg.number}: ${sdg.name}`"
+                                                        class="h-full w-full object-cover"
+                                                        loading="lazy"
+                                                    />
+
+                                                    <!-- Tooltip on hover -->
+                                                    <div
+                                                        class="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 opacity-0 transition-opacity duration-200 group-hover/sdg:opacity-100 z-30 whitespace-nowrap rounded-md bg-slate-950 px-2.5 py-1 text-xs font-medium text-white shadow-xl ring-1 ring-white/20 dark:bg-slate-900"
+                                                    >
+                                                        <span class="font-bold text-[#f2b705]">SDG {{ sdg.number }}:</span>
+                                                        {{ sdg.name }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </article>
                                 </div>
