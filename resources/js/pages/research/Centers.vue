@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
-    ArrowLeft,
+    ArrowRight,
     Building2,
     Calendar,
+    Clock,
     Mail,
     MapPin,
     Search,
@@ -11,6 +12,7 @@ import {
 import { computed, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
+import { index as newsIndex } from '@/routes/news';
 import { rie } from '@/routes/research';
 
 type ResearchCenter = {
@@ -140,6 +142,69 @@ const campuses = [
 
 const selectedCampus = ref('All Campuses');
 const searchQuery = ref('');
+
+type NewsCard = {
+    id: number;
+    category: string;
+    categoryColor: string;
+    title: string;
+    excerpt?: string;
+    date: string;
+    image: string;
+};
+
+const newsItems: NewsCard[] = [
+    {
+        id: 1,
+        category: 'Research',
+        categoryColor: 'bg-[#1711d4]',
+        title: 'NEMSU researchers advance climate-smart agriculture initiatives across Surigao del Sur',
+        excerpt:
+            'The Research Center for Climate-Smart Agriculture (RCC-SA) has launched new field trials across partner communities to develop drought-resistant crop varieties suited to the Caraga region.',
+        date: '2 Months Ago',
+        image: 'https://picsum.photos/seed/nemsu-news1/800/600',
+    },
+    {
+        id: 2,
+        category: 'Research',
+        categoryColor: 'bg-[#1711d4]',
+        title: 'NEMSU joins DLSU in biomedical engineering and health research collaboration',
+        date: '3 Months Ago',
+        image: 'https://picsum.photos/seed/nemsu-news2/600/400',
+    },
+    {
+        id: 3,
+        category: 'Innovation',
+        categoryColor: 'bg-[#9b1c31]',
+        title: 'Exploring sustainable solutions: VP Dellosa leads assessments at research centers',
+        date: '1 Month Ago',
+        image: 'https://picsum.photos/seed/nemsu-news3/600/400',
+    },
+    {
+        id: 4,
+        category: 'Extension',
+        categoryColor: 'bg-[#0b6680]',
+        title: 'NEMSU President Dr. Daguit urged for strengthened community partnerships',
+        date: '3 Weeks Ago',
+        image: 'https://picsum.photos/seed/nemsu-news4/600/400',
+    },
+    {
+        id: 5,
+        category: 'Events',
+        categoryColor: 'bg-[#9b1c31]',
+        title: 'Meet our keynote speakers for the 3rd LIKHA Summit 2025!',
+        date: '2 Weeks Ago',
+        image: 'https://picsum.photos/seed/nemsu-news5/600/400',
+    },
+    {
+        id: 6,
+        category: 'Research',
+        categoryColor: 'bg-[#1711d4]',
+        title: 'CoRALS showcases lasting gains from Balik Scientist Program partnership',
+        date: '1 Week Ago',
+        image: 'https://picsum.photos/seed/nemsu-news6/600/400',
+    },
+];
 
 const filteredCenters = computed(() => {
     return researchCenters.filter((center) => {
@@ -435,6 +500,163 @@ const filteredCenters = computed(() => {
                         >
                             Reset filters
                         </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News and Updates Bento Grid -->
+            <section
+                class="border-t border-slate-200 bg-slate-50 py-14 sm:py-18 dark:border-white/10 dark:bg-slate-900/50"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div
+                        class="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+                    >
+                        <div>
+                            <p
+                                class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
+                            >
+                                Stay Informed
+                            </p>
+                            <h2
+                                class="mt-2 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl dark:text-white"
+                            >
+                                News &amp; Updates
+                            </h2>
+                        </div>
+                        <Link
+                            :href="newsIndex().url"
+                            class="group inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] transition hover:text-[#0b3d91] dark:text-sky-300 dark:hover:text-sky-200"
+                        >
+                            View all news
+                            <ArrowRight
+                                class="size-4 transition-transform group-hover:translate-x-1"
+                                aria-hidden="true"
+                            />
+                        </Link>
+                    </div>
+
+                    <!-- Bento Grid -->
+                    <div
+                        class="grid gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:grid-rows-2"
+                    >
+                        <!-- Featured (Large Left Card) - Spans 2 rows -->
+                        <a
+                            v-if="newsItems[0]"
+                            href="#"
+                            class="group relative row-span-1 overflow-hidden rounded-xl lg:row-span-2"
+                        >
+                            <img
+                                :src="newsItems[0].image"
+                                :alt="newsItems[0].title"
+                                class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                            />
+                            <div
+                                class="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-black/10"
+                            ></div>
+                            <div
+                                class="relative flex h-full min-h-[28rem] flex-col justify-end p-6 sm:p-8 lg:min-h-full"
+                            >
+                                <div
+                                    class="flex flex-wrap items-center gap-2"
+                                >
+                                    <span
+                                        :class="newsItems[0].categoryColor"
+                                        class="rounded px-2.5 py-1 text-[0.65rem] font-bold tracking-wide text-white uppercase"
+                                    >
+                                        {{ newsItems[0].category }}
+                                    </span>
+                                    <span
+                                        class="inline-flex items-center gap-1.5 text-xs font-medium text-white/70"
+                                    >
+                                        <Clock
+                                            class="size-3"
+                                            aria-hidden="true"
+                                        />
+                                        {{ newsItems[0].date }}
+                                    </span>
+                                </div>
+                                <h3
+                                    class="mt-3 text-2xl leading-tight font-bold text-white transition-colors group-hover:text-[#f2b705] sm:text-3xl"
+                                >
+                                    {{ newsItems[0].title }}
+                                </h3>
+                                <p
+                                    v-if="newsItems[0].excerpt"
+                                    class="mt-3 line-clamp-3 text-sm leading-relaxed text-white/75"
+                                >
+                                    {{ newsItems[0].excerpt }}
+                                </p>
+                            </div>
+                        </a>
+
+                        <!-- Right Column: Top Row (2 medium cards) -->
+                        <div class="grid gap-3 sm:grid-cols-2">
+                            <a
+                                v-for="item in newsItems.slice(1, 3)"
+                                :key="item.id"
+                                href="#"
+                                class="group relative overflow-hidden rounded-xl"
+                            >
+                                <img
+                                    :src="item.image"
+                                    :alt="item.title"
+                                    class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                                />
+                                <div
+                                    class="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/5"
+                                ></div>
+                                <div
+                                    class="relative flex min-h-52 flex-col justify-end p-4 sm:min-h-56"
+                                >
+                                    <span
+                                        :class="item.categoryColor"
+                                        class="mb-2 w-fit rounded px-2 py-0.5 text-[0.6rem] font-bold tracking-wide text-white uppercase"
+                                    >
+                                        {{ item.category }}
+                                    </span>
+                                    <h3
+                                        class="line-clamp-2 text-sm leading-snug font-bold text-white transition-colors group-hover:text-[#f2b705]"
+                                    >
+                                        {{ item.title }}
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Right Column: Bottom Row (3 smaller cards) -->
+                        <div class="grid gap-3 sm:grid-cols-3">
+                            <a
+                                v-for="item in newsItems.slice(3, 6)"
+                                :key="item.id"
+                                href="#"
+                                class="group relative overflow-hidden rounded-xl"
+                            >
+                                <img
+                                    :src="item.image"
+                                    :alt="item.title"
+                                    class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                                />
+                                <div
+                                    class="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/5"
+                                ></div>
+                                <div
+                                    class="relative flex min-h-44 flex-col justify-end p-3.5 sm:min-h-48"
+                                >
+                                    <span
+                                        :class="item.categoryColor"
+                                        class="mb-2 w-fit rounded px-2 py-0.5 text-[0.6rem] font-bold tracking-wide text-white uppercase"
+                                    >
+                                        {{ item.category }}
+                                    </span>
+                                    <h3
+                                        class="line-clamp-2 text-[0.8rem] leading-snug font-bold text-white transition-colors group-hover:text-[#f2b705]"
+                                    >
+                                        {{ item.title }}
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
