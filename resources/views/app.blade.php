@@ -34,6 +34,9 @@
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
@@ -136,6 +139,12 @@
             .bg-pink-light {
                 background-color: var(--color-bg-pink-light);
             }
+            .font-allura {
+                font-family: "Allura", cursive;
+                font-weight: 400;
+                font-style: normal;
+            }
+
         </style>
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>

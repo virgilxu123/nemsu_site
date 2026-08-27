@@ -162,7 +162,7 @@ onBeforeUnmount(() => {
         >
             <header class="mx-auto mb-10 max-w-2xl text-center">
                 <h2
-                    class="font-serif text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+                    class="text-3xl font-bold tracking-tight leading-[1.08] text-white sm:text-4xl"
                 >
                     Campuses
                 </h2>

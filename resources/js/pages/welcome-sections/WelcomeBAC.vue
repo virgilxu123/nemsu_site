@@ -62,7 +62,7 @@ const displayedBacDocuments = computed(() => props.bacDocuments.slice(0, 5));
             <header class="mb-9 text-center">
                 <h2
                     id="bac-matters-heading"
-                    class="font-serif text-3xl font-semibold tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
+                    class="font-academic text-3xl leading-[1.08] font-bold tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
                 >
                     BAC Matters
                 </h2>
@@ -100,7 +100,7 @@ const displayedBacDocuments = computed(() => props.bacDocuments.slice(0, 5));
                     </span>
 
                     <h3
-                        class="mt-3 line-clamp-3 font-serif text-sm leading-5 font-semibold text-white sm:text-base"
+                        class="mt-3 line-clamp-3 text-sm leading-5 text-white fw-normal sm:text-base"
                         :title="document.title"
                     >
                         {{ document.title }}
