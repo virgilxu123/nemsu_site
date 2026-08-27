@@ -124,7 +124,7 @@ class GraduateProfessionalStudyController extends Controller
                     'description' => 'The Master in Public Administration program equips students with advanced knowledge and skills in public governance, policy analysis, organizational leadership, public finance, and public sector management. It prepares graduates for leadership roles in government agencies, non-government organizations, and public institutions while promoting ethical governance, accountability, and responsive public service.',
                     'prospectusUrl' => 'https://drive.google.com/file/d/159Fo4Nn5uWOka9xIgVDKQhbe7aZl9p-3/view?usp=sharing',
                 ],
-            ]
+            ],
         ],
         'college-of-law' => [
             'title' => 'College of Law',
@@ -153,7 +153,7 @@ class GraduateProfessionalStudyController extends Controller
                     'description' => 'The Ladderized Master of Legal Studies – Juris Doctor Degree program combines foundational legal studies with advanced professional legal education through a ladderized academic structure. It equips students with competencies in legal research, policy analysis, governance, advocacy, and legal practice while preparing them for careers in law, public administration, academia, and related fields. The program promotes flexibility in legal education while fostering ethical leadership, critical analysis, and commitment to justice and public service.',
                     'prospectusUrl' => 'https://drive.google.com/file/d/1sSYxnxSZ_Ypj_I9vKUjycMSPCgprjydi/view?usp=sharing',
                 ],
-            ]
+            ],
         ],
         'college-of-medicine' => [
             'title' => 'College of Medicine',
@@ -171,8 +171,8 @@ class GraduateProfessionalStudyController extends Controller
                 'Doctor of Medicine (MD)' => [
                     'description' => 'The Doctor of Medicine (MD) program provides comprehensive education in medical sciences and clinical practice, preparing students to become competent, ethical, and socially responsible physicians equipped to serve their communities and contribute to improving local healthcare.',
                     'prospectusUrl' => '',
-                ]
-            ]
+                ],
+            ],
         ],
     ];
 
@@ -190,7 +190,7 @@ class GraduateProfessionalStudyController extends Controller
             ->all();
     }
 
-     /**
+    /**
      * @param  array{
      *     title: string,
      *     photo: string,
@@ -204,6 +204,7 @@ class GraduateProfessionalStudyController extends Controller
     {
 
         $programDetails = $study['programDetails'] ?? [];
+
         return collect($study['campuses'])
             ->flatMap(fn (array $campus): array => collect($campus['courses'])
                 ->map(fn (string $course): array => [
@@ -214,7 +215,7 @@ class GraduateProfessionalStudyController extends Controller
                 ->all()
             )
             ->groupBy('title')
-            ->map(fn ($offerings,  string $title): array => [
+            ->map(fn ($offerings, string $title): array => [
                 'id' => 'program-'.Str::slug($title),
                 'title' => $title,
                 'campuses' => $offerings->pluck('campus')->unique()->values()->all(),

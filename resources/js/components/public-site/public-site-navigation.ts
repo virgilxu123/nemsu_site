@@ -10,6 +10,7 @@ import { show as graduateProfessionalStudyShow } from '@/routes/academics/academ
 import { goodGovernance, vpaf, vppsi } from '@/routes/administration';
 import { show as campusShow } from '@/routes/campuses';
 import { rie } from '@/routes/research';
+import { centers as researchCentersRoute } from '@/routes/research/rie';
 import { index as publicationIndex } from '@/routes/research/rie/publications';
 import { index as servicesIndex } from '@/routes/services';
 import type {
@@ -158,7 +159,7 @@ export const publicSiteNavigationGroups: PublicSiteNavigationGroup[] = [
                     },
                     {
                         label: 'Research Centers',
-                        href: `${rie().url}#research-centers`,
+                        href: researchCentersRoute().url,
                     },
                     {
                         label: 'Published Articles',
