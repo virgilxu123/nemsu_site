@@ -305,7 +305,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Industrial Technology major in Automotive Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Automotive Technology program provides students with technical knowledge and practical skills in automotive servicing, vehicle diagnostics, maintenance, repair, and operation of automotive systems. It prepares graduates for careers in the automotive industry by developing competencies in modern automotive technologies, troubleshooting, workplace safety, and technical problem-solving.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1mczgQCRzSUFGMgq46bCT1j-7SmN8Xa_Y/view?usp=sharing',
                 ],
                 'Bachelor of Science in Industrial Technology major in Electrical Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Electrical Technology program equips students with competencies in electrical installation, maintenance, troubleshooting, and operation of electrical systems and equipment. The program develops skilled and industry-ready graduates capable of applying electrical principles, technical standards, and safety practices in industrial, commercial, and community settings.',
@@ -317,7 +317,7 @@ class CollegeController extends Controller
                 // ],
                 'Bachelor of Science in Industrial Technology major in Computer Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Computer Technology program provides students with technical competencies in computer systems servicing, networking, hardware and software installation, computer programming, and information technology support services. The program prepares graduates to become skilled technology practitioners capable of addressing technological and digital challenges in various industrial and organizational environments.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1WbE9mObO6nK1U2aZpv8ERrfUqbxiKkUO/view?usp=sharing',
                 ],
                 'Bachelor of Industrial Technology (BIndTech) major in Architectural Drafting Technology' => [
                     'description' => 'The Bachelor of Industrial Technology major in Architectural Drafting Technology program equips students with technical competencies in architectural drafting, computer-aided design (CAD), building plans preparation, construction detailing, and drafting standards. It develops skilled professionals capable of producing accurate technical drawings and design layouts for architectural and construction projects while promoting creativity, precision, and technical proficiency.',
