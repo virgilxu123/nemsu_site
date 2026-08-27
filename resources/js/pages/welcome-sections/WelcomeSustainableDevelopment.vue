@@ -120,7 +120,7 @@ const articleUrl = (article: SdgArticle): string =>
                             v-for="article in articles.slice(0, 4)"
                             :key="article.id"
                             :href="articleUrl(article)"
-                            class="group relative flex min-h-22 overflow-hidden rounded-md border border-white/15 bg-[#100A69] shadow-[0_16px_28px_-16px_rgba(8,4,95,0.65)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_34px_-16px_rgba(8,4,95,0.75)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1C0ED7] lg:h-[5.6875rem] lg:min-h-0 dark:border-white/10"
+                            class="group relative flex min-h-32 overflow-hidden rounded-md border border-white/15 bg-[#100A69] shadow-[0_16px_28px_-16px_rgba(8,4,95,0.65)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_34px_-16px_rgba(8,4,95,0.75)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1C0ED7] lg:h-[7.8=9875rem] lg:min-h-0 dark:border-white/10"
                         >
                             <img
                                 v-if="article.photoUrl"
@@ -141,7 +141,7 @@ const articleUrl = (article: SdgArticle): string =>
                                     {{ article.title }}
                                 </h4>
                                 <p
-                                    class="mt-2 text-[0.65rem] leading-4 font-medium text-white/60"
+                                    class="mt-2 text-sm text-white/60"
                                 >
                                     {{ article.date || article.category }}
                                 </p>
