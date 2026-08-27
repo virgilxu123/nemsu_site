@@ -11,6 +11,14 @@ test('research innovation and extension page can be viewed', function () {
         );
 });
 
+test('research centers page can be viewed', function () {
+    $this->get(route('research.rie.centers'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('research/Centers')
+        );
+});
+
 test('published articles page exposes the curated research poster collections', function () {
     $this->get(route('research.rie.publications.index'))
         ->assertOk()

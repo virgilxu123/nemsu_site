@@ -44,6 +44,7 @@ Route::get('/administration/vppsi/offices/{office}', [VppsiOfficeController::cla
 Route::inertia('/administration/citizens-charter', 'administration/CitizensCharter')->name('administration.citizens-charter');
 Route::inertia('/administration/transparency-seal', 'administration/TransparencySeal')->name('administration.transparency-seal');
 Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');
+Route::inertia('/research-innovation-extension/research-centers', 'research/Centers')->name('research.rie.centers');
 Route::get('/research-innovation-extension/publications', [ResearchPublicationController::class, 'index'])->name('research.rie.publications.index');
 Route::get('/research-innovation-extension/offices/{office}', [OvprieOfficeController::class, 'show'])->name('research.rie.offices.show');
 Route::inertia('/services', 'services/Index')->name('services.index');

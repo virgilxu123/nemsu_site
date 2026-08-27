@@ -3,7 +3,6 @@ import { Head, Link } from '@inertiajs/vue3';
 import {
     ArrowRight,
     ArrowUpRight,
-    BookOpenText,
     Building2,
     Download,
     FileText,
@@ -14,6 +13,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue';
 import { show as officeShow } from '@/actions/App/Http/Controllers/OvprieOfficeController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
+import { centers as researchCentersRoute } from '@/routes/research/rie';
 import { index as publicationIndex } from '@/routes/research/rie/publications';
 
 type Leader = {
@@ -68,14 +68,6 @@ type FeaturedInnovation = {
     href: string;
     image?: string;
     fileType: 'Image' | 'PDF';
-};
-
-type ResearchCenter = {
-    name: string;
-    acronym: string;
-    campus: string;
-    established: string;
-    summary: string;
 };
 
 type ResourceLink = {
@@ -191,14 +183,16 @@ const researchResources: ResourceLink[] = [
     {
         id: 'scopus-publication-records',
         title: 'Scopus Indexed Publications',
-        description: 'University publications indexed in the Scopus database.',
+        description:
+            'University publications indexed in the Scopus database.',
         href: '/files/administration/ovprie/research/scopus-indexed-publications.xlsx',
         download: true,
     },
     {
         id: 'completed-research-projects',
         title: 'Completed Research Projects',
-        description: 'Directory of completed research projects across NEMSU.',
+        description:
+            'Directory of completed research projects across NEMSU.',
         href: '/files/administration/ovprie/research/completed-research-projects.xlsx',
         download: true,
     },
@@ -214,13 +208,15 @@ const extensionResources: ResourceLink[] = [
     {
         id: 'extension-projects',
         title: 'Extension Projects',
-        description: 'University extension programs and project records.',
+        description:
+            'University extension programs and project records.',
         href: 'https://docs.google.com/spreadsheets/d/1fJRlzFi2CkeiezyFPHAASUPs8c3R4Phz/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
     },
     {
         id: 'extension-activities',
         title: 'Extension Activities',
-        description: 'Updates and documentation from extension activities.',
+        description:
+            'Updates and documentation from extension activities.',
         href: 'https://docs.google.com/document/d/1ZZlCGjtZiM44-SO8C9u91X2KxuPqDvaI/edit?usp=drive_link&ouid=112351263826680098086&rtpof=true&sd=true',
     },
 ];
@@ -385,105 +381,6 @@ const featuredInnovations: FeaturedInnovation[] = [
             'A protected product poster highlighting a campus-developed food innovation.',
         href: '/files/administration/ovprie/innovation/tagbina-coffee-jam.pdf',
         fileType: 'PDF',
-    },
-];
-
-const researchCenters: ResearchCenter[] = [
-    {
-        name: 'Research Center for Continuing Education and Professional Development',
-        acronym: 'RCCEPD',
-        campus: 'Tandag Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Advances lifelong learning, professional development, and applied research for priority regional sectors.',
-    },
-    {
-        name: 'Center for Local Leadership and Governance',
-        acronym: 'CLLG',
-        campus: 'Tandag Campus',
-        established: 'October 14, 2025',
-        summary:
-            'Promotes evidence-based governance, leadership development, and technical assistance for public and community institutions.',
-    },
-    {
-        name: 'Center for Instructional Innovation and Development',
-        acronym: 'CIID',
-        campus: 'Tandag Campus',
-        established: 'October 14, 2025',
-        summary:
-            'Supports instructional innovation, educational technology, and the development of high-quality learning resources.',
-    },
-    {
-        name: 'Society, Human Interaction, Nature and Environment Research Center',
-        acronym: 'SHINE',
-        campus: 'Tandag Campus',
-        established: 'October 14, 2025',
-        summary:
-            'Advances interdisciplinary research on society, biodiversity, sustainability, and human-environment interactions.',
-    },
-    {
-        name: 'Research Center for Industrial Technology and Renewable Energy',
-        acronym: 'RCITRE',
-        campus: 'Cantilan Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Develops practical industrial and clean-energy solutions that support green industries and regional competitiveness.',
-    },
-    {
-        name: 'Food Innovation Center',
-        acronym: 'FIC',
-        campus: 'Cantilan Campus',
-        established: 'October 14, 2025',
-        summary:
-            'Supports food product development, processing, quality assurance, technology transfer, and entrepreneurship.',
-    },
-    {
-        name: 'Research Center for Climate-Smart Agriculture',
-        acronym: 'RCC-SA',
-        campus: 'San Miguel Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Develops climate-smart agricultural practices that improve productivity, resilience, and food security.',
-    },
-    {
-        name: 'Tourism and SMEs Innovation Research Center',
-        acronym: 'TSMEIRC',
-        campus: 'Cagwait Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Strengthens sustainable tourism, entrepreneurship, local products, and community-based industries.',
-    },
-    {
-        name: 'Center of Research for Aquamarine Life Sustainability',
-        acronym: 'CoRALS',
-        campus: 'Lianga Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Advances sustainable fisheries, marine biodiversity, aquaculture, and integrated coastal resource management.',
-    },
-    {
-        name: 'Center for Aquasilviculture and Seaweed Advancement',
-        acronym: 'AQUASEA',
-        campus: 'Lianga Campus',
-        established: 'October 14, 2025',
-        summary:
-            'Integrates aquasilviculture, seaweed development, mangrove restoration, and coastal ecosystem management.',
-    },
-    {
-        name: 'Food and Farming Technology Research Center',
-        acronym: 'FFTRC',
-        campus: 'Tagbina Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Improves agricultural productivity, food innovation, value addition, and sustainable farming systems.',
-    },
-    {
-        name: 'Agro-Forestry Industrial Research Center',
-        acronym: 'AFIRC',
-        campus: 'Bislig Campus',
-        established: 'December 19, 2023',
-        summary:
-            'Advances agroforestry, sustainable natural resource management, and agro-industrial innovation.',
     },
 ];
 
@@ -710,7 +607,7 @@ onBeforeUnmount(() => {
                             University-wide RIE leadership
                         </h2>
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             The Office of the Vice President for Research,
                             Innovation, and Extension steers the University's
@@ -719,7 +616,7 @@ onBeforeUnmount(() => {
                             DBM, and other relevant institutions.
                         </p>
                         <p
-                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-4 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             OVPRIE advances knowledge generation, technology
                             transfer, and meaningful community engagement across
@@ -727,53 +624,54 @@ onBeforeUnmount(() => {
                             development priorities.
                         </p>
 
-                        <div class="mt-8 grid gap-4 sm:grid-cols-3">
-                            <a
-                                v-for="resource in researchResources"
-                                :id="resource.id"
-                                :key="resource.href"
-                                :href="resource.href"
-                                :download="resource.download ? '' : undefined"
-                                :target="
-                                    resource.download ? undefined : '_blank'
-                                "
-                                :rel="
-                                    resource.download ? undefined : 'noreferrer'
-                                "
-                                class="group scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-4 transition hover:border-[#1711d4]/30 hover:bg-white dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-300/30"
+                        <!-- Key Documents & Repositories -->
+                        <div
+                            class="mt-10 border-t border-slate-200 pt-7 dark:border-white/10"
+                        >
+                            <p
+                                class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
                             >
-                                <FileText
-                                    class="size-5 text-[#0b6680] dark:text-sky-300"
-                                    aria-hidden="true"
-                                />
-                                <h3 class="mt-3 text-sm font-semibold">
-                                    {{ resource.title }}
-                                </h3>
-                                <p
-                                    class="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400"
-                                >
-                                    {{ resource.description }}
-                                </p>
-                                <span
-                                    class="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#1711d4] dark:text-sky-200"
-                                >
-                                    {{
+                                Key Documents & Repositories
+                            </p>
+
+                            <div class="mt-5 grid gap-5 sm:grid-cols-3">
+                                <a
+                                    v-for="resource in researchResources"
+                                    :id="resource.id"
+                                    :key="resource.href"
+                                    :href="resource.href"
+                                    :download="
+                                        resource.download ? '' : undefined
+                                    "
+                                    :target="
                                         resource.download
-                                            ? 'Download workbook'
-                                            : 'Open resource'
-                                    }}
-                                    <Download
-                                        v-if="resource.download"
-                                        class="size-3.5"
-                                        aria-hidden="true"
-                                    />
-                                    <ArrowUpRight
-                                        v-else
-                                        class="size-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                        aria-hidden="true"
-                                    />
-                                </span>
-                            </a>
+                                            ? undefined
+                                            : '_blank'
+                                    "
+                                    :rel="
+                                        resource.download
+                                            ? undefined
+                                            : 'noreferrer'
+                                    "
+                                    class="group block border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
+                                >
+                                    <h3
+                                        class="text-sm font-semibold text-slate-900 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
+                                    >
+                                        {{ resource.title }}
+                                        <span
+                                            class="inline-block transition-transform duration-200 group-hover:translate-x-1"
+                                            aria-hidden="true"
+                                            >&rarr;</span
+                                        >
+                                    </h3>
+                                    <p
+                                        class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                                    >
+                                        {{ resource.description }}
+                                    </p>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -960,71 +858,45 @@ onBeforeUnmount(() => {
                             >
                                 <section
                                     id="research-centers"
-                                    class="rounded-md bg-[#061b49] p-6 text-white"
+                                    class="relative overflow-hidden rounded-xl border border-slate-200/80 bg-linear-to-br from-[#061b49] via-[#0b2566] to-[#1711d4] p-6 text-white shadow-md sm:p-8"
                                 >
-                                    <Building2
-                                        class="size-7 text-[#f2b705]"
-                                        aria-hidden="true"
-                                    />
-                                    <p
-                                        class="mt-4 text-xs font-semibold tracking-wide text-sky-100 uppercase"
+                                    <div
+                                        class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between"
                                     >
-                                        Research Centers
-                                    </p>
-                                    <h4 class="mt-2 text-xl font-semibold">
-                                        Hussein M. Alawi
-                                    </h4>
-                                    <p class="mt-1 text-sm text-sky-100">
-                                        Director, Research Centers / University
-                                        Researcher IV
-                                    </p>
-                                    <a
-                                        href="mailto:hmalawi@nemsu.edu.ph"
-                                        class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#f2b705]"
-                                    >
-                                        <Mail
-                                            class="size-4"
-                                            aria-hidden="true"
-                                        />
-                                        hmalawi@nemsu.edu.ph
-                                    </a>
-                                </section>
-
-                                <div class="grid gap-4 md:grid-cols-2">
-                                    <article
-                                        v-for="center in researchCenters"
-                                        :key="`${center.campus}-${center.acronym}`"
-                                        class="rounded-md border border-slate-200 bg-[#f7f8f5] p-5 dark:border-white/10 dark:bg-white/[0.04]"
-                                    >
-                                        <div
-                                            class="flex flex-wrap items-center gap-2"
-                                        >
-                                            <span
-                                                class="rounded bg-[#e7f3fb] px-2.5 py-1 text-xs font-semibold text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
+                                        <div class="max-w-xl">
+                                            <p
+                                                class="text-xs font-bold tracking-widest text-[#f2b705] uppercase"
                                             >
-                                                {{ center.acronym }}
-                                            </span>
-                                            <span
-                                                class="text-xs font-semibold text-[#9b1c31] dark:text-rose-300"
+                                                University Research Centers
+                                            </p>
+                                            <h4
+                                                class="mt-2 text-2xl font-bold tracking-normal text-white sm:text-3xl"
                                             >
-                                                {{ center.campus }}
-                                            </span>
+                                                12 Specialized Research Centers
+                                            </h4>
+                                            <p
+                                                class="mt-3 text-sm leading-relaxed text-sky-100"
+                                            >
+                                                Discover our specialized
+                                                research centers across all 7
+                                                NEMSU campuses focused on
+                                                agriculture, biodiversity,
+                                                renewable energy, and
+                                                instructional innovation.
+                                            </p>
                                         </div>
-                                        <h4 class="mt-3 font-semibold">
-                                            {{ center.name }}
-                                        </h4>
-                                        <p
-                                            class="mt-2 text-xs text-slate-500 dark:text-slate-400"
+                                        <Link
+                                            :href="researchCentersRoute().url"
+                                            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#f2b705] px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-white hover:text-[#061b49]"
                                         >
-                                            Established {{ center.established }}
-                                        </p>
-                                        <p
-                                            class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                        >
-                                            {{ center.summary }}
-                                        </p>
-                                    </article>
-                                </div>
+                                            Explore Research Centers
+                                            <ArrowRight
+                                                class="size-4"
+                                                aria-hidden="true"
+                                            />
+                                        </Link>
+                                    </div>
+                                </section>
 
                                 <section
                                     id="publication"
@@ -1407,7 +1279,7 @@ onBeforeUnmount(() => {
 
                             <div
                                 v-if="group.id === 'extension'"
-                                class="mt-8 grid gap-4 sm:grid-cols-2"
+                                class="mt-8 grid gap-6 sm:grid-cols-2"
                             >
                                 <a
                                     v-for="resource in extensionResources"
@@ -1416,29 +1288,23 @@ onBeforeUnmount(() => {
                                     :href="resource.href"
                                     target="_blank"
                                     rel="noreferrer"
-                                    class="group scroll-mt-28 rounded-md border border-slate-200 bg-[#f7f8f5] p-5 transition hover:border-[#1711d4]/30 hover:bg-white dark:border-white/10 dark:bg-white/[0.04] dark:hover:border-sky-300/30"
+                                    class="group block border-l-2 border-slate-300 pl-4 transition-all hover:border-[#1711d4] dark:border-white/20 dark:hover:border-sky-300"
                                 >
-                                    <BookOpenText
-                                        class="size-6 text-[#0b6680] dark:text-sky-300"
-                                        aria-hidden="true"
-                                    />
-                                    <h4 class="mt-4 text-lg font-semibold">
+                                    <h4
+                                        class="text-base font-semibold text-slate-900 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
+                                    >
                                         {{ resource.title }}
+                                        <span
+                                            class="inline-block transition-transform duration-200 group-hover:translate-x-1"
+                                            aria-hidden="true"
+                                            >&rarr;</span
+                                        >
                                     </h4>
                                     <p
-                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-1.5 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
                                     >
                                         {{ resource.description }}
                                     </p>
-                                    <span
-                                        class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
-                                    >
-                                        Open resource
-                                        <ArrowUpRight
-                                            class="size-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                            aria-hidden="true"
-                                        />
-                                    </span>
                                 </a>
                             </div>
                         </div>
