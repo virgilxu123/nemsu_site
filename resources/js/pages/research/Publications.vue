@@ -18,7 +18,6 @@ type PublicationPoster = {
     id: string;
     title: string;
     image: string;
-    url?: string | null;
 };
 
 type PublicationCollection = {
@@ -42,6 +41,25 @@ const props = defineProps<{
 }>();
 
 const activeCollection = ref('all');
+const visibleCounts = ref<Record<string, number>>({});
+
+const getVisibleCount = (slug: string): number => {
+    return visibleCounts.value[slug] ?? 10;
+};
+
+const showMore = (collection: PublicationCollection) => {
+    const current = getVisibleCount(collection.slug);
+    visibleCounts.value[collection.slug] = current + 10;
+};
+
+const showLess = (collection: PublicationCollection) => {
+    visibleCounts.value[collection.slug] = 10;
+};
+
+const getVisiblePosters = (collection: PublicationCollection) => {
+    const count = getVisibleCount(collection.slug);
+    return collection.posters.slice(0, count);
+};
 
 const visibleCollections = computed(() => {
     if (activeCollection.value === 'all') {
@@ -255,19 +273,18 @@ const visibleCollections = computed(() => {
                         </div>
 
                         <div
-                            class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
+                            class="mt-6 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 xl:grid-cols-4"
                         >
-                            <div
-                                v-for="poster in collection.posters"
+                            <a
+                                v-for="poster in getVisiblePosters(collection)"
                                 :key="poster.id"
-                                class="group flex flex-col overflow-hidden rounded-md border border-slate-200 bg-[#f7f8f5] shadow-sm transition hover:-translate-y-1 hover:border-[#1711d4]/30 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.04]"
+                                :href="poster.image"
+                                target="_blank"
+                                rel="noreferrer"
+                                class="group overflow-hidden rounded-md border border-slate-200 bg-[#f7f8f5] shadow-sm transition hover:-translate-y-1 hover:border-[#1711d4]/30 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.04]"
                             >
-                                <a
-                                    :href="poster.image"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    class="relative grid aspect-4/5 place-items-center overflow-hidden p-2 sm:p-3 bg-slate-100 dark:bg-slate-900"
-                                    :title="'View ' + poster.title + ' image'"
+                                <span
+                                    class="grid aspect-4/5 place-items-center overflow-hidden bg-slate-100 p-2 sm:p-3 dark:bg-slate-900"
                                 >
                                     <img
                                         :src="poster.image"
@@ -276,25 +293,56 @@ const visibleCollections = computed(() => {
                                         decoding="async"
                                         class="max-h-full max-w-full object-contain transition duration-300 group-hover:scale-[1.02]"
                                     />
-                                </a>
-                                <div
-                                    class="p-3 bg-slate-100 dark:bg-slate-900"
+                                </span>
+                                <span
+                                    class="flex items-center justify-between gap-2 px-3 py-3 text-xs font-semibold text-slate-700 sm:px-4 sm:text-sm dark:text-slate-200"
                                 >
-                                    <a
-                                        :href="poster.url || poster.image"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-white px-4 py-3 text-xs font-semibold text-brand-navy shadow-xs transition hover:bg-brand-navy/80 sm:text-sm dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
-                                        :title="poster.url ? 'Go to research study: ' + poster.title : 'View publication: ' + poster.title"
-                                    >
-                                        <span>View Article</span>
-                                        <ArrowUpRight
-                                            class="size-4 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                                            aria-hidden="true"
-                                        />
-                                    </a>
-                                </div>
-                            </div>
+                                    <span class="truncate">{{
+                                        poster.title
+                                    }}</span>
+                                    <ArrowUpRight
+                                        class="size-4 shrink-0 text-[#1711d4] dark:text-sky-200"
+                                        aria-hidden="true"
+                                    />
+                                </span>
+                            </a>
+                        </div>
+
+                        <!-- Show More / Show Less Buttons -->
+                        <div
+                            v-if="collection.posters.length > 10"
+                            class="mt-8 flex flex-wrap items-center justify-center gap-3"
+                        >
+                            <button
+                                v-if="
+                                    getVisibleCount(collection.slug) <
+                                    collection.posters.length
+                                "
+                                type="button"
+                                @click="showMore(collection)"
+                                class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-[#1711d4] hover:bg-slate-50 hover:text-[#1711d4] dark:border-white/20 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-300 dark:hover:text-sky-300"
+                            >
+                                <span>
+                                    Show 10 More Posters ({{
+                                        Math.min(
+                                            getVisibleCount(collection.slug),
+                                            collection.posters.length,
+                                        )
+                                    }}
+                                    of {{ collection.posters.length }})
+                                </span>
+                                <span aria-hidden="true">&darr;</span>
+                            </button>
+
+                            <button
+                                v-if="getVisibleCount(collection.slug) > 10"
+                                type="button"
+                                @click="showLess(collection)"
+                                class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-[#1711d4] hover:bg-slate-50 hover:text-[#1711d4] dark:border-white/20 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-300 dark:hover:text-sky-300"
+                            >
+                                <span>Show Less</span>
+                                <span aria-hidden="true">&uarr;</span>
+                            </button>
                         </div>
                     </section>
                 </div>

@@ -428,63 +428,59 @@ const innovationRegistryDocuments: RegistryDocument[] = [
     },
 ];
 
-const featuredInnovations: FeaturedInnovation[] = [
+type KttoTechnology = {
+    title: string;
+    image: string;
+    href: string;
+};
+
+const showAllKttoTechnologies = ref(false);
+
+const kttoTechnologies: KttoTechnology[] = [
+    {
+        title: 'Fruit Juicer',
+        image: '/images/administration/ovprie/ktto/tech-1.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=1036389065800932&set=pb.100082895454339.-2207520000&type=3',
+    },
+    {
+        title: 'Crown Cork Opener and Resealer',
+        image: '/images/administration/ovprie/ktto/tech-2.jpg',
+        href: 'https://www.facebook.com/photo/?fbid=1036392092467296&set=pb.100082895454339.-2207520000',
+    },
+    {
+        title: 'Process of Producing a Cucumber (Cucumis sativus) Ice Cream',
+        image: '/images/administration/ovprie/ktto/tech-3.jpg',
+        href: 'https://www.facebook.com/photo/?fbid=1036394629133709&set=pb.100082895454339.-2207520000',
+    },
     {
         title: 'Aerial Seed Planting Device',
-        category: 'Technology Poster',
-        campus: 'NEMSU Bislig',
-        summary:
-            'A reforestation device designed to improve soil-to-seed contact through a winged, self-drilling mechanism.',
-        href: '/images/administration/ovprie/innovation/aerial-seed-planting-device.png',
-        image: '/images/administration/ovprie/innovation/aerial-seed-planting-device.png',
-        fileType: 'Image',
+        image: '/images/administration/ovprie/ktto/tech-4.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=1011948111578361&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'SeaScoops Co. Product Brochure',
-        category: 'Commercialization Flyer',
-        campus: 'NEMSU Lianga',
-        summary:
-            'A market-facing brochure for dried fish danggit ice cream and related product offerings.',
-        href: '/images/administration/ovprie/innovation/danggit-flyer.png',
-        image: '/images/administration/ovprie/innovation/danggit-flyer.png',
-        fileType: 'Image',
+        title: 'Composition of a Wild Sugarcane (Saccharum spontaneum) Nutritional Bar',
+        image: '/images/administration/ovprie/ktto/tech-5.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985706904202482&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Dried Fish Danggit Ice Cream',
-        category: 'Product Poster',
-        campus: 'NEMSU Lianga',
-        summary:
-            'A product communication asset for a local agri-aqua innovation developed with regional support.',
-        href: '/images/administration/ovprie/innovation/dried-fish-ice-cream-poster.png',
-        image: '/images/administration/ovprie/innovation/dried-fish-ice-cream-poster.png',
-        fileType: 'Image',
+        title: 'A Composition for Loaf Bread Utilizing Cardava (Musa acuminata var. Cardava) Flour',
+        image: '/images/administration/ovprie/ktto/tech-6.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985642437542262&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Banana Loaf Bread Flyer',
-        category: 'Copyright Poster',
-        campus: 'NEMSU Innovation Portfolio',
-        summary:
-            'A copyright-supported product flyer prepared for public presentation and promotion.',
-        href: '/files/administration/ovprie/innovation/banana-loaf-bread-flyer.pdf',
-        fileType: 'PDF',
+        title: 'The Formulation of Making Food Seasoning with Dried Fish Danggit (Siganus Spp.) Powder',
+        image: '/images/administration/ovprie/ktto/tech-7.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985633210876518&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Lato Biofertilizer',
-        category: 'Copyright Poster',
-        campus: 'Tagbina Campus',
-        summary:
-            'A protected communication asset for a liquid foliar biofertilizer technology.',
-        href: '/files/administration/ovprie/innovation/lato-biofertilizer.pdf',
-        fileType: 'PDF',
+        title: 'Soya Milk Ice Cream and The Process of Making Thereof',
+        image: '/images/administration/ovprie/ktto/tech-8.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985631204210052&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Tagbina Coffee Jam',
-        category: 'Copyright Poster',
-        campus: 'Tagbina Campus',
-        summary:
-            'A protected product poster highlighting a campus-developed food innovation.',
-        href: '/files/administration/ovprie/innovation/tagbina-coffee-jam.pdf',
-        fileType: 'PDF',
+        title: 'Aerial Seed Planting Device (Component System)',
+        image: '/images/administration/ovprie/ktto/tech-9.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=980579224715250&set=pb.100082895454339.-2207520000&type=3',
     },
 ];
 
@@ -712,7 +708,7 @@ onBeforeUnmount(() => {
                         <h2
                             class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
                         >
-                            University-wide RIE leadership
+                            University-wide RIE Leadership
                         </h2>
                         <p
                             class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
@@ -1085,7 +1081,7 @@ onBeforeUnmount(() => {
                             <h3
                                 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                Service overview
+                                Service Overview
                             </h3>
                             <p
                                 class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
@@ -1283,7 +1279,7 @@ onBeforeUnmount(() => {
                                     </div>
                                 </section>
 
-                                <section>
+                                <section class="scroll-mt-28">
                                     <div
                                         data-scroll-section="innovation-featured-heading"
                                         :class="
@@ -1296,22 +1292,21 @@ onBeforeUnmount(() => {
                                     >
                                         <div>
                                             <p
-                                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                                class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
                                             >
-                                                Featured technologies and
-                                                creative works
+                                                Commercialization & Technology Transfer
                                             </p>
                                             <h4
-                                                class="mt-2 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                                class="mt-1 text-xl font-bold tracking-normal text-slate-950 dark:text-white"
                                             >
-                                                Public-ready posters and flyers
+                                                Featured Technologies & Innovations
                                             </h4>
                                         </div>
                                         <a
                                             href="#ip-registry"
                                             class="inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
                                         >
-                                            View registry documents
+                                            View IP registry documents
                                             <ArrowRight
                                                 class="size-4"
                                                 aria-hidden="true"
@@ -1320,93 +1315,46 @@ onBeforeUnmount(() => {
                                     </div>
 
                                     <div
-                                        class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+                                        class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
                                     >
-                                        <article
-                                            v-for="(
-                                                innovation, index
-                                            ) in featuredInnovations"
-                                            :key="innovation.href"
-                                            :data-scroll-section="`innovation-featured-${index}`"
-                                            :class="
-                                                revealClasses(
-                                                    `innovation-featured-${index}`,
-                                                    'up',
-                                                )
-                                            "
-                                            class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                                        <a
+                                            v-for="tech in (showAllKttoTechnologies ? kttoTechnologies : kttoTechnologies.slice(0, 6))"
+                                            :key="tech.href"
+                                            :href="tech.href"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            class="group relative overflow-hidden rounded-2xl ring-1 ring-slate-900/10 shadow-lg shadow-slate-900/10 transition-all duration-500 hover:ring-[#f2b705] hover:shadow-xl dark:ring-white/15 dark:shadow-black/30"
                                         >
-                                            <a
-                                                :href="innovation.href"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                class="block bg-slate-100 dark:bg-white/5"
+                                            <img
+                                                :src="tech.image"
+                                                :alt="tech.title"
+                                                class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                                            />
+                                            <div
+                                                class="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/5"
+                                            ></div>
+                                            <div
+                                                class="relative flex min-h-52 flex-col justify-end p-5 sm:min-h-56"
                                             >
-                                                <img
-                                                    v-if="innovation.image"
-                                                    :src="innovation.image"
-                                                    :alt="innovation.title"
-                                                    class="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-[1.02]"
-                                                />
-                                                <div
-                                                    v-else
-                                                    class="flex aspect-[4/3] w-full items-center justify-center"
+                                                <h4
+                                                    class="text-sm font-bold text-white transition-colors group-hover:text-[#f2b705]"
                                                 >
-                                                    <FileText
-                                                        class="size-12 text-[#1711d4] dark:text-sky-200"
-                                                        aria-hidden="true"
-                                                    />
-                                                </div>
-                                            </a>
-
-                                            <div class="p-5">
-                                                <div
-                                                    class="flex flex-wrap items-center gap-2"
-                                                >
-                                                    <span
-                                                        class="rounded bg-[#e7f3fb] px-2.5 py-1 text-xs font-semibold tracking-wide text-[#0b3d91] uppercase dark:bg-sky-400/10 dark:text-sky-200"
-                                                    >
-                                                        {{
-                                                            innovation.category
-                                                        }}
-                                                    </span>
-                                                    <span
-                                                        class="rounded bg-[#fff4cc] px-2.5 py-1 text-xs font-semibold tracking-wide text-[#795200] uppercase dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                                                    >
-                                                        {{
-                                                            innovation.fileType
-                                                        }}
-                                                    </span>
-                                                </div>
-                                                <h5
-                                                    class="mt-4 text-lg font-semibold text-slate-950 dark:text-white"
-                                                >
-                                                    {{ innovation.title }}
-                                                </h5>
-                                                <p
-                                                    class="mt-1 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
-                                                >
-                                                    {{ innovation.campus }}
-                                                </p>
-                                                <p
-                                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                                >
-                                                    {{ innovation.summary }}
-                                                </p>
-                                                <a
-                                                    :href="innovation.href"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
-                                                >
-                                                    Open material
-                                                    <ArrowUpRight
-                                                        class="size-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                </a>
+                                                    {{ tech.title }}
+                                                </h4>
                                             </div>
-                                        </article>
+                                        </a>
+                                    </div>
+
+                                    <!-- Show More / Show Less Toggle Button -->
+                                    <div class="mt-6 flex justify-center">
+                                        <button
+                                            type="button"
+                                            @click="showAllKttoTechnologies = !showAllKttoTechnologies"
+                                            class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-[#1711d4] hover:bg-slate-50 hover:text-[#1711d4] dark:border-white/20 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-300 dark:hover:text-sky-300"
+                                        >
+                                            <span>{{ showAllKttoTechnologies ? 'Show Fewer Technologies' : 'View All 9 Protected Technologies' }}</span>
+                                            <span aria-hidden="true">{{ showAllKttoTechnologies ? '↑' : '↓' }}</span>
+                                        </button>
                                     </div>
                                 </section>
 
