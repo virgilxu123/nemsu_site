@@ -5,11 +5,14 @@ import {
     ArrowUpRight,
     Download,
     FileSpreadsheet,
-    Images,
 } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import { home } from '@/routes';
 import { rie } from '@/routes/research';
+
+const heroBackgroundImage =
+    '/images/administration/ovprie/research/research-centers-hero.jpg';
 
 type PublicationPoster = {
     id: string;
@@ -56,62 +59,78 @@ const visibleCollections = computed(() => {
 
         <main class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
             <section
-                class="relative isolate overflow-hidden bg-[#061b49] text-white"
+                class="relative isolate z-10 overflow-hidden bg-slate-950 py-16 text-white sm:py-20"
             >
+                <img
+                    :src="heroBackgroundImage"
+                    alt="Research and Development Office"
+                    class="hero-zoom-image pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[52%_18%] opacity-70 select-none"
+                    aria-hidden="true"
+                />
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.28),transparent_38%),linear-gradient(135deg,rgba(23,17,212,0.28),transparent_62%)]"
+                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
                     aria-hidden="true"
                 ></div>
                 <div
-                    class="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
+                    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                    aria-hidden="true"
                 >
-                    <Link
-                        :href="rie().url"
-                        class="inline-flex items-center gap-2 text-sm font-semibold text-sky-100 transition hover:text-white"
-                    >
-                        <ArrowLeft class="size-4" aria-hidden="true" />
-                        Back to Research, Innovation, and Extension
-                    </Link>
-
                     <div
-                        class="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"
+                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
+                    ></div>
+                    <div
+                        class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
+                    ></div>
+                    <div
+                        class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
+                    ></div>
+                </div>
+                <div
+                    class="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-12"
+                >
+                    <!-- Breadcrumbs -->
+                    <nav
+                        aria-label="Breadcrumb"
+                        class="ps-1 text-sm font-semibold"
                     >
-                        <div class="max-w-3xl">
-                            <p
-                                class="text-sm font-semibold tracking-[0.18em] text-[#f2b705] uppercase"
-                            >
-                                Office of Research and Innovation
-                            </p>
-                            <h1
-                                class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
-                            >
+                        <ol class="flex flex-wrap items-center gap-2">
+                            <li>
+                                <Link
+                                    :href="home().url"
+                                    class="text-white/80 transition hover:text-[#f2b705]"
+                                >
+                                    Home
+                                </Link>
+                            </li>
+                            <li class="text-white/45" aria-hidden="true">/</li>
+                            <li>
+                                <Link
+                                    :href="rie().url"
+                                    class="text-white/80 transition hover:text-[#f2b705]"
+                                >
+                                    Research, Innovation, and Extension
+                                </Link>
+                            </li>
+                            <li class="text-white/45" aria-hidden="true">/</li>
+                            <li class="text-[#f2b705]" aria-current="page">
                                 Published Articles
-                            </h1>
-                            <p
-                                class="mt-6 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
-                            >
-                                Explore NEMSU researchers and their recognized
-                                Scopus-indexed journal and conference
-                                publications.
-                            </p>
-                        </div>
+                            </li>
+                        </ol>
+                    </nav>
 
-                        <div
-                            class="flex w-fit items-center gap-4 rounded-md border border-white/15 bg-white/10 px-5 py-4 backdrop-blur"
+                    <div class="mt-6 max-w-3xl">
+                        <h1
+                            class="text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
                         >
-                            <Images
-                                class="size-8 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            <div>
-                                <p class="text-3xl font-semibold">
-                                    {{ totalPosters }}
-                                </p>
-                                <p class="text-sm text-sky-100">
-                                    publication posters
-                                </p>
-                            </div>
-                        </div>
+                            Published Articles
+                        </h1>
+                        <p
+                            class="mt-5 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
+                        >
+                            Explore NEMSU researchers and their recognized
+                            Scopus-indexed journal and conference
+                            publications.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -275,3 +294,29 @@ const visibleCollections = computed(() => {
         </main>
     </PublicSiteLayout>
 </template>
+
+<style scoped>
+.hero-zoom-image {
+    animation: hero-zoom 15s ease-in-out infinite alternate;
+    transform: scale(1.03);
+    transform-origin: 52% 18%;
+    will-change: transform;
+}
+
+@keyframes hero-zoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.12);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-zoom-image {
+        animation: none;
+        transform: scale(1.03);
+    }
+}
+</style>

@@ -1,5 +1,5 @@
 import { Facebook, Mail, Music2, Phone, Youtube } from 'lucide-vue-next';
-import { transparencySeal, vpaf } from '@/routes/administration';
+import { goodGovernance, transparencySeal, vpaf } from '@/routes/administration';
 import type {
     PublicSiteFooterContactItem,
     PublicSiteFooterImageLink,
@@ -17,8 +17,8 @@ export const publicSiteFooterContactItems: PublicSiteFooterContactItem[] = [
 const publicSiteFooterOfficeContacts: PublicSiteFooterOfficeContact[] = [
     {
         office: 'Office of the President',
-        value: '(086) 214-0001',
-        href: 'tel:+63862140001',
+        value: '(086) 214-4221',
+        href: '#',
         icon: Phone,
     },
     {
@@ -27,24 +27,24 @@ const publicSiteFooterOfficeContacts: PublicSiteFooterOfficeContact[] = [
         href: 'mailto:info@nemsu.edu.ph',
         icon: Mail,
     },
-    {
-        office: "Registrar's Office",
-        value: '(086) 214-0002',
-        href: 'tel:+63862140002',
-        icon: Phone,
-    },
-    {
-        office: 'Admission Office',
-        value: '(086) 214-0003',
-        href: 'tel:+63862140003',
-        icon: Phone,
-    },
-    {
-        office: 'Guidance Office',
-        value: '(086) 214-0004',
-        href: 'tel:+63862140004',
-        icon: Phone,
-    },
+    // {
+    //     office: "Registrar's Office",
+    //     value: '(086) 214-0002',
+    //     href: 'tel:+63862140002',
+    //     icon: Phone,
+    // },
+    // {
+    //     office: 'Admission Office',
+    //     value: '(086) 214-0003',
+    //     href: 'tel:+63862140003',
+    //     icon: Phone,
+    // },
+    // {
+    //     office: 'Guidance Office',
+    //     value: '(086) 214-0004',
+    //     href: 'tel:+63862140004',
+    //     icon: Phone,
+    // },
 ];
 
 export const publicSiteFooterOfficeContactColumns = [
@@ -87,7 +87,7 @@ export const publicSiteGovernanceSealLinks: PublicSiteFooterImageLink[] = [
     },
     {
         label: 'Freedom of Information',
-        href: `${vpaf().url}#freedom-of-information`,
+        href: `${goodGovernance().url}#freedom-of-information`,
         image: '/storage/images/compliance/freedom-of-information/FOI-Logo_0-150x150.png',
         imageAlt: 'Freedom of Information seal',
     },

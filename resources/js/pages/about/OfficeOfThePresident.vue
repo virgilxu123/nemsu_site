@@ -35,7 +35,7 @@ defineProps<{
 }>();
 
 const presidentPhoto =
-    '/storage/images/governance/university-president/LOAYON, NEMESIO G SFTG NEMSU_6302.jpg';
+    '/storage/images/governance/university-president/v2LOAYON, NEMESIO G SFFR NEMSU_1812 copy.jpg';
 
 const strategicAgendaItems: StrategicAgendaItem[] = [
     {
@@ -205,11 +205,11 @@ onBeforeUnmount(() => {
                 >
                     <!-- Left Column: Portrait Box & Action Links Panel -->
                     <div class="flex flex-col items-center lg:items-start">
-                        <div class="w-full max-w-[260px] overflow-hidden">
+                        <div class="w-full max-w-[290px] overflow-hidden rounded">
                             <img
                                 :src="presidentPhoto"
                                 alt="Dr. Nemesio G. Loayon"
-                                class="aspect-[3/4] w-full rounded object-cover"
+                                class="aspect-[3/4] w-full scale-110 object-cover"
                             />
                         </div>
                     </div>

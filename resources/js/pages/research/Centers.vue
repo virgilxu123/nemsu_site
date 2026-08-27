@@ -23,6 +23,9 @@ type ResearchCenter = {
     summary: string;
 };
 
+const heroBackgroundImage =
+    '/images/administration/ovprie/research/research-centers-hero.jpg';
+
 const director = {
     name: 'Hussein M. Alawi',
     role: 'Director, Research Centers / University Researcher IV',
@@ -238,19 +241,39 @@ const filteredCenters = computed(() => {
         <main class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
             <!-- Hero Section -->
             <section
-                class="relative isolate overflow-hidden bg-[#061b49] text-white"
+                class="relative isolate z-10 overflow-hidden bg-slate-950 py-16 text-white sm:py-20"
             >
+                <img
+                    :src="heroBackgroundImage"
+                    alt="Research and Development Office"
+                    class="hero-zoom-image pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[52%_18%] opacity-70 select-none"
+                    aria-hidden="true"
+                />
                 <div
-                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(14,165,233,0.28),transparent_38%),linear-gradient(135deg,rgba(23,17,212,0.28),transparent_62%)]"
+                    class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
                     aria-hidden="true"
                 ></div>
                 <div
-                    class="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-20"
+                    class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                    aria-hidden="true"
+                >
+                    <div
+                        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
+                    ></div>
+                    <div
+                        class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
+                    ></div>
+                    <div
+                        class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
+                    ></div>
+                </div>
+                <div
+                    class="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-12"
                 >
                     <!-- Breadcrumbs -->
                     <nav
                         aria-label="Breadcrumb"
-                        class="mb-6 text-sm font-semibold"
+                        class="ps-1 text-sm font-semibold"
                     >
                         <ol class="flex flex-wrap items-center gap-2">
                             <li>
@@ -277,46 +300,20 @@ const filteredCenters = computed(() => {
                         </ol>
                     </nav>
 
-                    <div
-                        class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end"
-                    >
-                        <div class="max-w-3xl">
-                            <p
-                                class="text-xs font-bold tracking-widest text-[#f2b705] uppercase"
-                            >
-                                Office of Research and Innovation
-                            </p>
-                            <h1
-                                class="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
-                            >
-                                University Research Centers
-                            </h1>
-                            <p
-                                class="mt-5 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
-                            >
-                                Specialized institutional research centers
-                                driving innovation, sustainable regional
-                                development, biodiversity conservation, and
-                                community empowerment across NEMSU campuses.
-                            </p>
-                        </div>
-
-                        <div
-                            class="flex w-fit items-center gap-4 rounded-lg border border-white/15 bg-white/10 px-6 py-5 backdrop-blur"
+                    <div class="mt-6 max-w-3xl">
+                        <h1
+                            class="text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
                         >
-                            <Building2
-                                class="size-8 text-[#f2b705]"
-                                aria-hidden="true"
-                            />
-                            <div>
-                                <p class="text-3xl font-bold">
-                                    {{ researchCenters.length }}
-                                </p>
-                                <p class="text-xs font-medium tracking-wide text-sky-100 uppercase">
-                                    Research Centers
-                                </p>
-                            </div>
-                        </div>
+                            University Research Centers
+                        </h1>
+                        <p
+                            class="mt-5 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
+                        >
+                            Specialized institutional research centers
+                            driving innovation, sustainable regional
+                            development, biodiversity conservation, and
+                            community empowerment across NEMSU campuses.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -663,3 +660,29 @@ const filteredCenters = computed(() => {
         </main>
     </PublicSiteLayout>
 </template>
+
+<style scoped>
+.hero-zoom-image {
+    animation: hero-zoom 15s ease-in-out infinite alternate;
+    transform: scale(1.03);
+    transform-origin: 52% 18%;
+    will-change: transform;
+}
+
+@keyframes hero-zoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.12);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-zoom-image {
+        animation: none;
+        transform: scale(1.03);
+    }
+}
+</style>

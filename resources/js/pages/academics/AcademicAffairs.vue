@@ -218,7 +218,7 @@ defineProps<{
                             <img
                                 :src="academicAffairs.profile.image"
                                 alt="Maria Lady Sol A. Suazo, Ph.D."
-                                class="h-96 w-full object-cover object-top [filter:contrast(.96)_saturate(.96)_blur(.2px)]"
+                                class="h-96 w-full object-cover object-top"
                             />
                             <div
                                 class="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-slate-950/45 to-transparent"
