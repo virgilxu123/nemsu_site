@@ -308,7 +308,7 @@ onBeforeUnmount(() => {
                         </p> -->
 
                         <ul
-                            class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs leading-4 text-white/70"
+                            class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm leading-4 text-white/50"
                             :aria-label="`${job.position} details`"
                         >
                             <li

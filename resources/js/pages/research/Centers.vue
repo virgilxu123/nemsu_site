@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
-    ArrowLeft,
     Building2,
     Calendar,
     Mail,
@@ -143,6 +142,7 @@ const campuses = [
 
 const selectedCampus = ref('All Campuses');
 const searchQuery = ref('');
+
 
 const filteredCenters = computed(() => {
     return researchCenters.filter((center) => {
@@ -358,18 +358,18 @@ const filteredCenters = computed(() => {
                                         />
                                         {{ center.campus }}
                                     </span>
-                                    <span
+                                    <!-- <span
                                         class="rounded-md bg-[#e7f3fb] px-2.5 py-0.5 text-xs font-bold tracking-wide text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200"
                                     >
                                         {{ center.acronym }}
-                                    </span>
+                                    </span> -->
                                 </div>
 
                                 <!-- Center Name -->
                                 <h3
                                     class="mt-4 text-lg font-bold leading-snug text-slate-950 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
                                 >
-                                    {{ center.name }}
+                                    {{ center.name }} ({{ center.acronym }})
                                 </h3>
 
                                 <!-- Established Date -->
@@ -390,7 +390,7 @@ const filteredCenters = computed(() => {
                                     {{ center.summary }}
                                 </p>
                             </div>
-
+<!-- 
                             <div
                                 class="mt-6 border-t border-slate-100 pt-4 dark:border-white/5"
                             >
@@ -399,7 +399,7 @@ const filteredCenters = computed(() => {
                                 >
                                     NEMSU Research Center
                                 </span>
-                            </div>
+                            </div> -->
                         </article>
                     </div>
 
