@@ -269,38 +269,46 @@ onBeforeUnmount(() => {
                     <article
                         v-for="job in displayedJobOpportunities"
                         :key="job.id"
-                        class="flex min-h-32 min-w-0 flex-col rounded-md bg-[#09005B] p-4 shadow-[0_8px_18px_rgba(4,0,55,0.18)] ring-1 ring-white/5 dark:bg-[#06033A]"
+                        class="flex min-h-26 min-w-0 flex-col rounded-md bg-[#09005B] p-4 shadow-[0_8px_18px_rgba(4,0,55,0.18)] ring-1 ring-white/5 dark:bg-[#06033A]"
                     >
-                        <div class="flex items-start justify-between gap-3">
-                            <h3
-                                class="min-w-0 font-academic text-sm leading-snug font-bold text-white sm:text-base"
-                            >
-                                {{ job.position }}
-                            </h3>
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3
+                                    class="min-w-0 font-academic text-sm leading-snug font-bold text-white sm:text-base"
+                                >
+                                    {{ job.position }}
+                                </h3>
+                                <p
+                                    class="mt-1 line-clamp-2 text-sm leading-6 text-white/70"
+                                    :title="jobSummary(job)"
+                                >
+                                    {{ jobSummary(job) }}
+                                </p>
+                            </div>
                             <a
                                 :href="job.applicationUrl"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="group inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-semibold text-white/90 transition-colors hover:text-[#F2B900] focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900]"
+                                class="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-white/90 transition-colors hover:text-[#F2B900] focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F2B900]"
                                 :aria-label="`View job: ${job.position}`"
                             >
                                 View Job
                                 <ArrowRight
-                                    class="size-3.5 transition-transform group-hover:translate-x-0.5"
+                                    class="transition-transform group-hover:translate-x-0.5"
                                     aria-hidden="true"
                                 />
                             </a>
                         </div>
 
-                        <p
+                        <!-- <p
                             class="mt-1 line-clamp-2 text-sm leading-6 text-white/70"
                             :title="jobSummary(job)"
                         >
                             {{ jobSummary(job) }}
-                        </p>
+                        </p> -->
 
                         <ul
-                            class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 pt-3 text-xs leading-4 text-white/70"
+                            class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs leading-4 text-white/70"
                             :aria-label="`${job.position} details`"
                         >
                             <li

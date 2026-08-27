@@ -125,22 +125,24 @@ watch(
                     Research University for Sustainable Development
                 </p> -->
                 <h2
-                    class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
+                    class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl font-serif"
                 >
-                    {{
+                    <!-- {{
                         fallbackHeroSlide.title ||
                         'North Eastern Mindanao State University'
-                    }}
+                    }} -->
+                        North Eastern Mindanao <br>
+                        State University
                 </h2>
-                <Link
-                    :href="home()"
-                    class="mt-6 block max-w-2xl text-base leading-8 font-bold text-sky-50 transition hover:text-white hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:text-lg"
+                <span
+                    class="mt-8 block max-w-2xl text-2xl text-sky-50 transition"
                 >
-                    {{
+                    <!-- {{
                         fallbackHeroSlide.summary ||
                         'Walk a Journey of Excellence and Success'
-                    }}
-                </Link>
+                    }} -->
+                        Walk a Journey of Excellence and Success
+                </span>
                 <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                         href="#academics"
