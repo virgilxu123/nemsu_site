@@ -390,7 +390,7 @@ const filteredCenters = computed(() => {
                                     {{ center.summary }}
                                 </p>
                             </div>
-
+<!-- 
                             <div
                                 class="mt-6 border-t border-slate-100 pt-4 dark:border-white/5"
                             >
@@ -399,7 +399,7 @@ const filteredCenters = computed(() => {
                                 >
                                     NEMSU Research Center
                                 </span>
-                            </div>
+                            </div> -->
                         </article>
                     </div>
 

@@ -99,7 +99,7 @@ const researchDirector: Leader = {
     name: 'Arturo G. Gracia, Jr., MSci',
     role: 'Director, Research and Innovation / University Researcher V',
     email: 'research@nemsu.edu.ph',
-    image: null,
+    image: '/images/administration/ovprie/director-research.png',
     alt: 'Arturo G. Gracia, Jr., MSci',
     summary:
         'RIDO supports University researchers through research programs, policy recommendations, funded project development, inter-campus collaboration, dissemination, and ethical compliance coordination.',
@@ -119,7 +119,7 @@ const extensionDirector: Leader = {
     name: 'Abundio C. Miralles, EdD',
     role: 'Director, Extension Services and Linkages / University Extension Specialist V',
     email: 'extension@nemsu.edu.ph',
-    image: null,
+    image: '/images/administration/ovprie/director-extension_.jpg',
     alt: 'Abundio C. Miralles, EdD',
     summary:
         'ESLO bridges the University and broader community through education, training, technical assistance, sustainable development partnerships, and community empowerment.',
@@ -940,7 +940,7 @@ onBeforeUnmount(() => {
                             </div>
                             <div class="mt-5">
                                 <p
-                                    class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                    class="text-xs font-semibold leading-relaxed tracking-wide text-[#9b1c31] uppercase text-pretty dark:text-rose-300"
                                 >
                                     {{ group.director.role }}
                                 </p>
