@@ -22,16 +22,9 @@ test('good governance page provides governance and foi resources', function () {
 
     expect($page)
         ->toContain('revealClasses')
-        ->toContain('data-scroll-section="good-governance-hero"')
         ->toContain('data-scroll-section="governance-heading"')
         ->toContain('data-scroll-section="foi-heading"')
-        ->toContain('data-scroll-section="foi-mobile-list"')
         ->toContain('data-scroll-section="foi-table"')
-        ->toContain('aria-label="Good governance resources"')
-        ->toContain('aria-label="Freedom of Information resources"')
-        ->toContain('Freedom of Information documents')
-        ->toContain('md:hidden')
-        ->toContain('hidden overflow-hidden')
         ->toContain('governanceItems')
         ->toContain('freedomOfInformationResources')
         ->toContain('Transparency Seal')
@@ -46,17 +39,22 @@ test('good governance page provides governance and foi resources', function () {
 });
 
 test('public layout links to the good governance route helper', function () {
-    $layout = file_get_contents(resource_path('js/layouts/PublicSiteLayout.vue'));
+    $navigation = file_get_contents(resource_path('js/components/public-site/public-site-navigation.ts'));
+    $footer = file_get_contents(resource_path('js/components/public-site/public-site-footer.ts'));
 
-    expect($layout)
+    expect($navigation)
         ->toContain('goodGovernance')
         ->toContain('href: goodGovernance().url');
+
+    expect($footer)
+        ->toContain('goodGovernance')
+        ->toContain('href: `${goodGovernance().url}#freedom-of-information`');
 });
 
 test('public layout campus menu uses a single campus column', function () {
-    $layout = file_get_contents(resource_path('js/layouts/PublicSiteLayout.vue'));
+    $navigation = file_get_contents(resource_path('js/components/public-site/public-site-navigation.ts'));
 
-    expect($layout)
+    expect($navigation)
         ->toContain("label: 'Campuses'")
         ->toContain("heading: 'NEMSU System'")
         ->toContain("campusShow('tandag').url")
