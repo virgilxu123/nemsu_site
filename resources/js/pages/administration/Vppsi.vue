@@ -218,7 +218,7 @@ onBeforeUnmount(() => {
 
 <template>
     <PublicSiteLayout>
-        <Head title="Planning and Strategic Initiatives" />
+        <Head title="Planning and Strategic Initiatives | BAC Matters" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
             <section
