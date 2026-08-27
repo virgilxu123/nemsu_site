@@ -369,7 +369,7 @@ const filteredCenters = computed(() => {
                                 <h3
                                     class="mt-4 text-lg font-bold leading-snug text-slate-950 transition-colors group-hover:text-[#1711d4] dark:text-white dark:group-hover:text-sky-300"
                                 >
-                                    {{ center.name }} ({{ center.acronym }})
+                                    {{ center.name }} <span class="font-normal">({{ center.acronym }})</span>
                                 </h3>
 
                                 <!-- Established Date -->
