@@ -83,7 +83,8 @@ type RevealDirection = 'down' | 'left' | 'right' | 'up';
 const manualUrl =
     'https://drive.google.com/file/d/1N_PgfkGK7-k68JBKqrNCW4BuOzhmHsXv/view?usp=sharing';
 
-const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
+const heroBackgroundImage =
+    '/images/administration/ovprie/research/research-centers-hero.jpg';
 
 const vicePresident: Leader = {
     name: 'Rolly G. Salvaleon, PhD',
@@ -513,12 +514,12 @@ onBeforeUnmount(() => {
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
             <section
-                class="relative isolate z-10 overflow-visible bg-slate-950 py-16 text-white sm:py-20"
+                class="relative isolate z-10 overflow-hidden bg-slate-950 py-16 text-white sm:py-20"
             >
                 <img
                     :src="heroBackgroundImage"
-                    alt=""
-                    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-60 select-none"
+                    alt="Research and Development Office"
+                    class="hero-zoom-image pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-[52%_18%] opacity-70 select-none"
                     aria-hidden="true"
                 />
                 <div
@@ -545,26 +546,14 @@ onBeforeUnmount(() => {
                     class="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 pb-24 sm:px-6 sm:pb-28 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:pb-12"
                 >
                     <div>
-                        <p
-                            class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                        >
-                            Research, Innovation, and Extension
-                        </p>
-                        <h1
-                            class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                        >
-                            Office of the Vice President for Research,
-                            Innovation, and Extension
-                        </h1>
-
                         <nav
                             aria-label="Breadcrumb"
-                            class="mt-8 text-sm font-semibold"
+                            class="ps-1 text-sm font-semibold"
                         >
                             <ol class="flex flex-wrap items-center gap-2">
                                 <li>
                                     <Link
-                                        :href="home()"
+                                        :href="home().url"
                                         class="text-white/80 transition hover:text-[#f2b705]"
                                     >
                                         Home
@@ -578,6 +567,12 @@ onBeforeUnmount(() => {
                                 </li>
                             </ol>
                         </nav>
+                        <h1
+                            class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                        >
+                            Office of the Vice President for Research,
+                            Innovation, and Extension
+                        </h1>
                     </div>
 
                     <div aria-hidden="true" class="hidden lg:block"></div>
@@ -1388,3 +1383,29 @@ onBeforeUnmount(() => {
         </div>
     </PublicSiteLayout>
 </template>
+
+<style scoped>
+.hero-zoom-image {
+    animation: hero-zoom 15s ease-in-out infinite alternate;
+    transform: scale(1.03);
+    transform-origin: 52% 18%;
+    will-change: transform;
+}
+
+@keyframes hero-zoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.12);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-zoom-image {
+        animation: none;
+        transform: scale(1.03);
+    }
+}
+</style>

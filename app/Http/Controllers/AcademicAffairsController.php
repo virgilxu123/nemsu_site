@@ -74,7 +74,7 @@ class AcademicAffairsController extends Controller
                 'phone' => '(086) 214-0005',
                 'office' => 'OVPAA Office, NEMSU Tandag Campus',
                 'heroImage' => '/images/administration/ovpaf/6I3A7029(1).jpg',
-                'image' => '/images/administration/ovpaa/SUAZO,%20MARIA%20LADY%20SOL,%20A%20SFFB%20NEMSU_4187%20copy.jpg',
+                'image' => '/images/administration/ovpaa/VPAA.webp',
                 'priorities' => [
                     'Curriculum development and academic quality assurance',
                     'Faculty instruction support and program monitoring',

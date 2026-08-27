@@ -1,5 +1,5 @@
 import { Facebook, Mail, Music2, Phone, Youtube } from 'lucide-vue-next';
-import { transparencySeal, vpaf } from '@/routes/administration';
+import { goodGovernance, transparencySeal, vpaf } from '@/routes/administration';
 import type {
     PublicSiteFooterContactItem,
     PublicSiteFooterImageLink,
@@ -87,7 +87,7 @@ export const publicSiteGovernanceSealLinks: PublicSiteFooterImageLink[] = [
     },
     {
         label: 'Freedom of Information',
-        href: `${vpaf().url}#freedom-of-information`,
+        href: `${goodGovernance().url}#freedom-of-information`,
         image: '/storage/images/compliance/freedom-of-information/FOI-Logo_0-150x150.png',
         imageAlt: 'Freedom of Information seal',
     },
