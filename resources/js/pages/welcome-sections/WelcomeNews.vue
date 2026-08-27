@@ -67,7 +67,7 @@ const announcementItems = computed<AnnouncementDisplay[]>(() =>
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <header class="mb-9 text-center">
                 <h2
-                    class="font-serif text-3xl font-semibold tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
+                    class="text-3xl font-bold leading-[1.08] tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
                 >
                     News and Announcements
                 </h2>

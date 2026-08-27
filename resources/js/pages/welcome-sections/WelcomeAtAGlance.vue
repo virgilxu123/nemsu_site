@@ -63,15 +63,15 @@ defineProps<{
                                 class="flex flex-wrap items-baseline text-3xl leading-[1.08] text-[#08045F] sm:text-4xl dark:text-white"
                             >
                                 <span
-                                    class="font-serif font-bold tracking-tight"
+                                    class="font-bold tracking-tight"
                                 >
                                     NEMSU
                                 </span>
-                                <span class="ml-1 font-serif font-normal">
+                                <small class="ml-2 font-normal italic">
                                     at a
-                                </span>
+                                </small>
                                 <span
-                                    class="ml-2 font-sans text-[3.5rem] font-normal italic"
+                                    class="ml-2 font-allura font-bold text-[4rem] italic"
                                 >
                                     Glance
                                 </span>
