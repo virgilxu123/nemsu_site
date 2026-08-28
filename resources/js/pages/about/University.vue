@@ -3,14 +3,9 @@ import { Head } from '@inertiajs/vue3';
 import { home } from '@/routes';
 
 import {
-    BookOpen,
     ChevronLeft,
     ChevronRight,
-    Circle,
-    Flame,
     Music2,
-    Shield,
-    TreePine,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
@@ -35,6 +30,69 @@ type CoreValue = {
 };
 
 const sealImage = 'https://nemsu.edu.ph/assets/images/NEMSU.png';
+
+const sealElements = [
+    {
+        title: 'Torch',
+        image: '/storage/images/university-seal/Torch.png',
+        meaning: 'Stands for guidance and enlightenment through knowledge.',
+    },
+    {
+        title: 'Shield',
+        image: '/storage/images/university-seal/Shield.png',
+        meaning: 'Represents protection, academic freedom, and a safe, inclusive learning environment.',
+    },
+    {
+        title: 'Book',
+        image: '/storage/images/university-seal/Book.png',
+        meaning: 'Represents the various fields of specialization offered by the university.',
+    },
+    {
+        title: 'Outer Circle (Blue)',
+        image: '/storage/images/university-seal/Circle blue.png',
+        meaning: 'Symbolizes continuity and the continuous journey of learning.',
+    },
+    {
+        title: 'Laurel',
+        image: '/storage/images/university-seal/Laurel.png',
+        meaning: 'Represents excellence, one of the core values of the institution.',
+    },
+    {
+        title: '1982',
+        image: '/storage/images/university-seal/1982.png',
+        meaning: 'Marks the founding year and the university\'s growth from a polytechnic institution.',
+    },
+    {
+        title: 'Surigao del Sur',
+        image: '/storage/images/university-seal/Surigao del sur.png',
+        meaning: 'Emphasizes NEMSU\'s presence as the sole SUC-HEI in the province.',
+    },
+    {
+        title: 'Business',
+        image: '/storage/images/university-seal/Business.png',
+        meaning: 'Represents the College of Business and Accountancy and related fields.',
+    },
+    {
+        title: 'Science',
+        image: '/storage/images/university-seal/Science.png',
+        meaning: 'Represents the College of Science and Mathematics and the pursuit of scientific knowledge.',
+    },
+    {
+        title: 'Technology',
+        image: '/storage/images/university-seal/Technology.png',
+        meaning: 'Represents the College of Technology and engineering disciplines.',
+    },
+    {
+        title: 'Farm',
+        image: '/storage/images/university-seal/Farm.png',
+        meaning: 'Represents agriculture and environmental stewardship as part of NEMSU\'s programs.',
+    },
+    {
+        title: 'Inner Circle (White)',
+        image: '/storage/images/university-seal/circle 1.png',
+        meaning: 'Additional symbolic circle element representing unity and wholeness.',
+    },
+];
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
     left: 'translate-x-8',
@@ -974,82 +1032,78 @@ onBeforeUnmount(() => {
                 class="scroll-mt-28 bg-[#1711d4] py-14 text-white sm:py-16"
             >
                 <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-                    <div
-                        data-scroll-section="seal-heading"
-                        :class="revealClasses('seal-heading')"
-                    >
+                    <div class="mt-18 grid gap-10 text-left lg:grid-cols-[1fr_1.5fr]">
                         <p
                             class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
                         >
                             University Seal
                         </p>
+                        <h2
+                            class="mt-3 text-3xl font-semibold tracking-normal text-white sm:text-4xl"
+                        >
+                            Symbol of Identity and Excellence
+                        </h2>
+                        <!-- <p class="mt-4 max-w-3xl mx-auto text-justify text-base leading-7 text-slate-200 lg:hidden">
+                            The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider.
+                        </p> -->
                     </div>
 
-                    <div
-                        data-scroll-section="seal-visual"
-                        :class="revealClasses('seal-visual')"
-                        class="mx-auto mt-10 grid max-w-5xl items-center gap-10 text-left lg:grid-cols-[1fr_20rem_1fr]"
-                    >
+                    <div class="mt-18 grid gap-10 text-left lg:grid-cols-[1fr_1.5fr]">
+                        <div>
+                            <p
+                                data-scroll-section="seal-desc-mobile"
+                                :class="revealClasses('seal-desc-mobile')"
+                                class="text-justify text-base leading-7 text-slate-200 mb-8 block lg:hidden"
+                            >
+                                The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider.
+                            </p>
+                            <div
+                                data-scroll-section="seal-image"
+                                :class="revealClasses('seal-image')"
+                                class="flex justify-center"
+                            >
+                                <img
+                                    :src="sealImage"
+                                    alt="NEMSU University Seal"
+                                    class="size-80 object-contain drop-shadow-2xl sm:size-100"
+                                />
+                            </div>
+                            <p
+                                data-scroll-section="seal-desc-desktop"
+                                :class="revealClasses('seal-desc-desktop', 'left')"
+                                class="mt-8 text-justify text-base leading-7 text-slate-200 hidden lg:block"
+                            >
+                                The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider.
+                            </p>
+                        </div>
+
                         <div
-                            class="grid gap-6"
-                            aria-label="University seal symbols"
+                            data-scroll-section="seal-symbols"
+                            :class="revealClasses('seal-symbols', 'left')"
                         >
-                            <span
-                                class="inline-flex items-center gap-3 text-sm font-semibold"
-                            >
-                                <Circle
-                                    class="size-5 text-[#f2b705]"
-                                    aria-hidden="true"
-                                />
-                                Continuity
-                            </span>
-                            <span
-                                class="inline-flex items-center gap-3 text-sm font-semibold"
-                            >
-                                <Shield
-                                    class="size-5 text-[#f2b705]"
-                                    aria-hidden="true"
-                                />
-                                Purpose
-                            </span>
-                            <span
-                                class="inline-flex items-center gap-3 text-sm font-semibold"
-                            >
-                                <BookOpen
-                                    class="size-5 text-[#f2b705]"
-                                    aria-hidden="true"
-                                />
-                                Knowledge
-                            </span>
-                        </div>
+                         
 
-                        <div class="grid justify-items-center">
-                            <img
-                                :src="sealImage"
-                                alt="NEMSU University Seal"
-                                class="size-64 object-contain drop-shadow-2xl sm:size-80"
-                            />
-                        </div>
-
-                        <div class="grid gap-6">
-                            <span
-                                class="inline-flex items-center gap-3 text-sm font-semibold"
-                            >
-                                <Flame
-                                    class="size-5 text-[#f2b705]"
-                                    aria-hidden="true"
-                                />
-                                Guiding light
-                            </span>
-                            <span
-                                class="inline-flex items-center gap-3 text-sm font-semibold"
-                            >
-                                <TreePine
-                                    class="size-5 text-[#f2b705]"
-                                    aria-hidden="true"
-                                />
-                                Growth
-                            </span>
+                            <div class="grid gap-4 sm:grid-cols-3">
+                                <div
+                                    v-for="element in sealElements"
+                                    :key="element.title"
+                                    class="flex flex-col gap-4 items-start rounded-lg bg-white/16 border border-white/15 p-4 text-left transition-transform duration-200 hover:scale-105"
+                                >
+                                    <img
+                                        :src="element.image"
+                                        :alt="element.title"
+                                        class="size-16 shrink-0 object-contain rounded"
+                                    />
+                                    <div>
+                                        <h3 class="text-base font-semibold text-white">
+                                            {{ element.title }}
+                                        </h3>
+                                        <p class="mt-1 text-xs leading-5 text-slate-300">
+                                            {{ element.meaning }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
