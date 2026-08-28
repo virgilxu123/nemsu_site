@@ -115,7 +115,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Arts in Economics' => [
                     'description' => 'The Bachelor of Arts in Economics program provides students with knowledge and analytical skills in economic theory, public policy, market systems, development planning, and socio-economic analysis. It prepares graduates to evaluate economic issues, formulate policy recommendations, and contribute to sustainable economic development, governance, and community advancement.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1CPmqdFJwpDlVeMTVOoA3QCQ3q4kGXPZJ/view?usp=sharing',
                 ],
                 'Bachelor of Arts in English Language' => [
                     'description' => 'The Bachelor of Arts in English Language program develops students’ competencies in language, linguistics, communication, literature, and critical discourse analysis. It prepares graduates for careers in education, communication, research, media, public service, and related fields by enhancing their proficiency in written and oral communication, critical thinking, and cultural understanding.',
