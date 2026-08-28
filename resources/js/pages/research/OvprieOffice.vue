@@ -300,7 +300,7 @@ onBeforeUnmount(() => {
                                         </span>
                                     </h4>
                                     <p
-                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                        class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300 text-justify"
                                     >
                                         {{ suboffice.description }}
                                     </p>
