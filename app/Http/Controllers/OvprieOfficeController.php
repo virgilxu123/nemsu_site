@@ -61,7 +61,7 @@ class OvprieOfficeController extends Controller
             'head' => 'Engr. Luzminda S. Bacquial, PhD',
             'email' => 'itso@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => '/images/administration/ovprie/director-ktto.jpg',
+            'headImage' => '/images/administration/ovprie/director-ktto-1.jpg',
             'suboffices' => [
                 [
                     'title' => 'Innovation and Technology Support Office',
