@@ -1032,7 +1032,8 @@ onBeforeUnmount(() => {
                 class="scroll-mt-28 bg-[#1711d4] py-14 text-white sm:py-16"
             >
                 <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-                    <div class="mt-18 grid gap-10 text-left lg:grid-cols-[1fr_1.5fr]">
+                    <!-- <div class="mt-18 grid gap-10 text-left lg:grid-cols-[1fr_1.5fr]"> -->
+                    <div class="mt-10">
                         <p
                             class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase"
                         >
