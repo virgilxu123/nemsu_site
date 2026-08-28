@@ -21,6 +21,13 @@ class CampusController extends Controller
         'bislig' => 'images/campuses/bislig/Bislig.jpg',
     ];
 
+    /** @var array<string, string> */
+    private const array PROGRAM_TITLE_ALIASES = [
+        'doctor of education major in educational management' => 'doctor of education in educational management',
+        'doctor of education major in english language teaching' => 'doctor of education in english language teaching',
+        'master in teaching technology education mtte major in architectural drafting technology' => 'master in teaching technology education mtte major in drafting technology',
+    ];
+
     /**
      * Display a public campus profile.
      */
@@ -64,11 +71,15 @@ class CampusController extends Controller
      */
     private function prospectusesFor(array $campusProfile): array
     {
-        $academicProspectuses = collect(
-            CollegeController::prospectusUrlsForCampus($campusProfile['name']),
-        )->mapWithKeys(fn (string $url, string $program): array => [
-            $this->normalizedProgramTitle($program) => $url,
-        ]);
+        $academicProspectuses = collect(CollegeController::prospectusUrlsForCampus(
+            $campusProfile['name'],
+        ))
+            ->merge(GraduateProfessionalStudyController::prospectusUrlsForCampus(
+                $campusProfile['name'],
+            ))
+            ->mapWithKeys(fn (string $url, string $program): array => [
+                $this->normalizedProgramTitle($program) => $url,
+            ]);
 
         $reusedProspectuses = collect($campusProfile['programs'])
             ->flatMap(fn (array $group): array => $group['offerings'])
@@ -92,7 +103,7 @@ class CampusController extends Controller
 
     private function normalizedProgramTitle(string $program): string
     {
-        return Str::of($program)
+        $normalizedProgramTitle = Str::of($program)
             ->lower()
             ->replaceMatches('/\s*[–—-]\s*level\s+[ivx]+\s+accredited$/u', '')
             ->replaceMatches('/\((?:bsed|btled|btvted|bscrim\.?|bsba|bshm|bstm|bscpe|bscs|bs\s+info\.?\s+tech\.?|bindtech|bsf|bsa)\)/iu', '')
@@ -103,5 +114,8 @@ class CampusController extends Controller
             ->replaceMatches('/[^a-z0-9]+/', ' ')
             ->squish()
             ->toString();
+
+        return self::PROGRAM_TITLE_ALIASES[$normalizedProgramTitle]
+            ?? $normalizedProgramTitle;
     }
 }

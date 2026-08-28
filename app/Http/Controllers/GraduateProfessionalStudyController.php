@@ -191,6 +191,31 @@ class GraduateProfessionalStudyController extends Controller
     }
 
     /**
+     * @return array<string, string>
+     */
+    public static function prospectusUrlsForCampus(string $campusName): array
+    {
+        return collect(self::STUDIES)
+            ->flatMap(function (array $study) use ($campusName): array {
+                $programDetails = $study['programDetails'] ?? [];
+
+                return collect($study['campuses'])
+                    ->where('name', $campusName)
+                    ->flatMap(fn (array $campus): array => collect($campus['courses'])
+                        ->mapWithKeys(function (string $course) use ($programDetails): array {
+                            $prospectusUrl = $programDetails[$course]['prospectusUrl'] ?? null;
+
+                            return filled($prospectusUrl)
+                                ? [$course => $prospectusUrl]
+                                : [];
+                        })
+                        ->all())
+                    ->all();
+            })
+            ->all();
+    }
+
+    /**
      * @param  array{
      *     title: string,
      *     photo: string,
@@ -202,7 +227,6 @@ class GraduateProfessionalStudyController extends Controller
      */
     private static function programsFor(array $study): array
     {
-
         $programDetails = $study['programDetails'] ?? [];
 
         return collect($study['campuses'])

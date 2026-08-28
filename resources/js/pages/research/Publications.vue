@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
-    ArrowLeft,
     ArrowUpRight,
     ChevronLeft,
     ChevronRight,
@@ -46,9 +45,47 @@ const props = defineProps<{
     downloads: PublicationDownload[];
 }>();
 
-const activeCollection = ref('all');
 const visibleCounts = ref<Record<string, number>>({});
 const selectedPoster = ref<PublicationPoster | null>(null);
+
+const getPosterFileNumber = (poster: PublicationPoster): number => {
+    const fileName = poster.image.split('/').pop() ?? '';
+    const match = fileName.match(/^(\d+)(?=\.[^.]+$)/);
+
+    return match ? Number(match[1]) : Number.NEGATIVE_INFINITY;
+};
+
+const combinedCollection = computed<PublicationCollection>(() => {
+    const posters = props.collections
+        .flatMap((collection) => collection.posters)
+        .toSorted((firstPoster, secondPoster) => {
+            const numberDifference =
+                getPosterFileNumber(secondPoster) -
+                getPosterFileNumber(firstPoster);
+
+            if (numberDifference !== 0) {
+                return numberDifference;
+            }
+
+            return secondPoster.image.localeCompare(
+                firstPoster.image,
+                undefined,
+                {
+                    numeric: true,
+                    sensitivity: 'base',
+                },
+            );
+        });
+
+    return {
+        slug: 'scopus-publications',
+        title: 'Scopus Publications',
+        description:
+            'All Scopus-indexed publication posters in one collection, ordered by filename from the largest number to the lowest.',
+        count: posters.length,
+        posters,
+    };
+});
 
 const getVisibleCount = (slug: string): number => {
     return visibleCounts.value[slug] ?? 10;
@@ -65,18 +102,11 @@ const showLess = (collection: PublicationCollection) => {
 
 const getVisiblePosters = (collection: PublicationCollection) => {
     const count = getVisibleCount(collection.slug);
+
     return collection.posters.slice(0, count);
 };
 
-const visibleCollections = computed(() => {
-    if (activeCollection.value === 'all') {
-        return props.collections;
-    }
-
-    return props.collections.filter(
-        (collection) => collection.slug === activeCollection.value,
-    );
-});
+const visibleCollections = computed(() => [combinedCollection.value]);
 
 const openImageViewer = (poster: PublicationPoster) => {
     selectedPoster.value = poster;
@@ -87,15 +117,14 @@ const closeImageViewer = () => {
 };
 
 const currentPosterList = computed(() => {
-    if (!selectedPoster.value) return [];
-    const collection = props.collections.find((col) =>
-        col.posters.some((p) => p.id === selectedPoster.value?.id),
-    );
-    return collection ? collection.posters : [];
+    return selectedPoster.value ? combinedCollection.value.posters : [];
 });
 
 const currentPosterIndex = computed(() => {
-    if (!selectedPoster.value) return -1;
+    if (!selectedPoster.value) {
+        return -1;
+    }
+
     return currentPosterList.value.findIndex(
         (p) => p.id === selectedPoster.value?.id,
     );
@@ -119,7 +148,10 @@ const nextPoster = () => {
 };
 
 const handleKeyDown = (event: KeyboardEvent) => {
-    if (!selectedPoster.value) return;
+    if (!selectedPoster.value) {
+        return;
+    }
+
     if (event.key === 'Escape') {
         closeImageViewer();
     } else if (event.key === 'ArrowLeft') {
@@ -145,6 +177,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener('keydown', handleKeyDown);
+
     if (typeof window !== 'undefined') {
         document.body.style.overflow = '';
     }
@@ -226,8 +259,7 @@ onUnmounted(() => {
                             class="mt-5 max-w-2xl text-base leading-8 text-sky-50 sm:text-lg"
                         >
                             Explore NEMSU researchers and their recognized
-                            Scopus-indexed journal and conference
-                            publications.
+                            Scopus-indexed journal and conference publications.
                         </p>
                     </div>
                 </div>
@@ -287,41 +319,15 @@ onUnmounted(() => {
                         <h2
                             class="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl"
                         >
-                            Scopus publication collections
+                            Scopus Publication Collections
                         </h2>
                     </div>
 
-                    <div
-                        class="flex max-w-full gap-2 overflow-x-auto pb-1"
-                        aria-label="Filter publication collections"
+                    <p
+                        class="shrink-0 rounded-full border border-[#1711d4]/20 bg-[#1711d4]/5 px-4 py-2 text-sm font-semibold text-[#1711d4] dark:border-sky-300/20 dark:bg-sky-300/10 dark:text-sky-200"
                     >
-                        <button
-                            type="button"
-                            class="shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition"
-                            :class="
-                                activeCollection === 'all'
-                                    ? 'border-[#1711d4] bg-[#1711d4] text-white'
-                                    : 'border-slate-300 bg-white text-slate-700 hover:border-[#1711d4]/40 dark:border-white/15 dark:bg-slate-900 dark:text-slate-200'
-                            "
-                            @click="activeCollection = 'all'"
-                        >
-                            All ({{ totalPosters }})
-                        </button>
-                        <button
-                            v-for="collection in collections"
-                            :key="collection.slug"
-                            type="button"
-                            class="shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition"
-                            :class="
-                                activeCollection === collection.slug
-                                    ? 'border-[#1711d4] bg-[#1711d4] text-white'
-                                    : 'border-slate-300 bg-white text-slate-700 hover:border-[#1711d4]/40 dark:border-white/15 dark:bg-slate-900 dark:text-slate-200'
-                            "
-                            @click="activeCollection = collection.slug"
-                        >
-                            {{ collection.title }} ({{ collection.count }})
-                        </button>
-                    </div>
+                        {{ totalPosters }} posters
+                    </p>
                 </div>
 
                 <div class="mt-10 space-y-16">
@@ -331,25 +337,7 @@ onUnmounted(() => {
                         :key="collection.slug"
                         class="scroll-mt-28"
                     >
-                        <div
-                            class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"
-                        >
-                            <div>
-                                <h3 class="text-2xl font-semibold">
-                                    {{ collection.title }}
-                                </h3>
-                                <p
-                                    class="mt-2 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300"
-                                >
-                                    {{ collection.description }}
-                                </p>
-                            </div>
-                            <p
-                                class="shrink-0 text-sm font-semibold text-[#9b1c31] dark:text-rose-300"
-                            >
-                                {{ collection.count }} posters
-                            </p>
-                        </div>
+                       
 
                         <div
                             class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
@@ -362,7 +350,7 @@ onUnmounted(() => {
                                 <button
                                     type="button"
                                     @click="openImageViewer(poster)"
-                                    class="group/img relative grid aspect-4/5 w-full place-items-center overflow-hidden bg-slate-100 p-2 focus:outline-hidden focus:ring-2 focus:ring-[#1711d4]/50 sm:p-3 dark:bg-slate-950"
+                                    class="group/img relative grid aspect-4/5 w-full place-items-center overflow-hidden bg-slate-100 p-2 focus:ring-2 focus:ring-[#1711d4]/50 focus:outline-hidden sm:p-3 dark:bg-slate-950"
                                     :title="'View full poster image'"
                                 >
                                     <img
