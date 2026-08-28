@@ -142,6 +142,12 @@ TEXT,
     ],
     'programs' => [
         [
+            'college' => 'College of Medicine',
+            'offerings' => [
+                'Doctor of Medicine',
+            ],
+        ],
+        [
             'college' => 'College of Law',
             'offerings' => [
                 'Juris Doctor (4 Years)',
@@ -154,16 +160,17 @@ TEXT,
             'offerings' => [
                 'Doctor of Education major in Educational Management',
                 'Doctor of Education major in English Language Teaching',
-                'Doctor of Education major in Science Education',
-                'Doctor of Education major in Mathematics Education',
+                'Doctor of Philosophy in Science Education',
+                'Doctor of Philosophy in Mathematics Education',
                 'Master of Arts in Education major in Educational Management',
                 'Master of Arts in English Language Teaching',
                 'Master of Arts in Filipino Language Teaching',
                 'Master of Arts in Home Economics Teaching',
+                'Master of Arts in Social Sciences Teaching',
                 'Master of Science in Teaching Mathematics',
                 'Master of Science in Teaching Science',
                 'Master of Science in Computer Science',
-                'Master of Business Management',
+                'Master in Business Administration',
                 'Master in Public Administration',
             ],
         ],
