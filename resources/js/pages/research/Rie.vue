@@ -109,7 +109,7 @@ const kttoDirector: Leader = {
     name: 'Engr. Luzminda S. Bacquial, PhD',
     role: 'Director, KTTO / ITSO Manager',
     email: 'itso@nemsu.edu.ph',
-    image: '/images/administration/ovprie/director-ktto.jpg',
+    image: '/images/administration/ovprie/director-ktto-1.jpg',
     alt: 'Engr. Luzminda S. Bacquial, PhD',
     summary:
         'The Knowledge and Technology Transfer Office (KTTO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as a key driver of innovation and commercialization within the university. It identifies, protects, and manages intellectual property, ensuring that research outputs are transformed into viable technologies and market-ready solutions. By fostering partnerships with industry, government agencies, and other institutions, KTTO facilitates the commercialization of research through licensing agreements, technology transfer, and entrepreneurial initiatives. Beyond commercialization, it promotes a culture of innovation, knowledge sharing, and interdisciplinary collaboration. Ultimately, KTTO translates research discoveries into tangible societal benefits, contributing to economic growth, technological advancement, and the university’s broader mission of knowledge generation and impact.',
@@ -119,7 +119,7 @@ const extensionDirector: Leader = {
     name: 'Abundio C. Miralles, EdD',
     role: 'Director, Extension Services and Linkages / University Extension Specialist V',
     email: 'extension@nemsu.edu.ph',
-    image: '/images/administration/ovprie/director-extension_.jpg',
+    image: '/images/administration/ovprie/director-extension_.jpeg',
     alt: 'Abundio C. Miralles, EdD',
     summary:
         'The Extension Services and Linkages Office (ESLO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as the bridge between the University and the broader community, ensuring that academic expertise translates into meaningful societal impact. It delivers education, training, and technical assistance tailored to address pressing community needs while fostering sustainable development. By establishing strong linkages with the community, the office facilitates the application of research-based solutions that enhance livelihoods and drive social progress. Through active collaboration and knowledge exchange, UESLO advances the university’s commitment to community empowerment, capacity building, and inclusive development.',

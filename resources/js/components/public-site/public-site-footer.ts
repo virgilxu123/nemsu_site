@@ -14,6 +14,17 @@ export const publicSiteFooterContactItems: PublicSiteFooterContactItem[] = [
     },
 ];
 
+
+// Bislig - 086-645-6452
+// Cagwait - 09457390082 
+// Cantilan - 086-212-5484 (shared landline with Registrar) 
+// Lianga - 09568310202 (based sa campuses na page)
+// San Miguel - 086-212-5132
+// Tagbina - no landline, but nag provide sila nan email : aoronquillo@nemsu.edu.ph
+// Tandag - 086-214-6381
+// Compose
+
+
 const publicSiteFooterOfficeContacts: PublicSiteFooterOfficeContact[] = [
     {
         office: 'Office of the President',
@@ -26,6 +37,48 @@ const publicSiteFooterOfficeContacts: PublicSiteFooterOfficeContact[] = [
         value: 'info@nemsu.edu.ph',
         href: 'mailto:info@nemsu.edu.ph',
         icon: Mail,
+    }, 
+    {
+        office: 'Bislig Campus',
+        value: '(086) 645-6452',
+        href: '#',
+        icon: Phone,
+    },
+    {
+        office: 'Cagwait Campus',
+        value: '(086) 645-6452',
+        href: '#',
+        icon: Phone,
+    },
+    {
+        office: 'Cantilan Campus',
+        value: '(086) 212-5484',
+        href: '#',
+        icon: Phone,
+    },
+    {
+        office: 'Lianga Campus',
+        value: '0956-831-0202',
+        href: '#',
+        icon: Phone,
+    },
+    {
+        office: 'San Miguel Campus',
+        value: '(086) 212-5132',
+        href: '#',
+        icon: Phone,
+    },
+    {
+        office: 'Tagbina Campus',
+        value: 'aoronquillo@nemsu.edu.ph',
+        href: 'mailto:aoronquillo@nemsu.edu.ph',
+        icon: Mail,
+    },
+    {
+        office: 'Tandag Campus',
+        value: '086-214-6381',
+        href: '#',
+        icon: Phone,
     },
     // {
     //     office: "Registrar's Office",
@@ -48,8 +101,8 @@ const publicSiteFooterOfficeContacts: PublicSiteFooterOfficeContact[] = [
 ];
 
 export const publicSiteFooterOfficeContactColumns = [
-    publicSiteFooterOfficeContacts.slice(0, 3),
-    publicSiteFooterOfficeContacts.slice(3),
+    publicSiteFooterOfficeContacts.slice(0, 5),
+    publicSiteFooterOfficeContacts.slice(5),
 ];
 
 export const publicSiteFooterSocialLinks: PublicSiteFooterSocialLink[] = [

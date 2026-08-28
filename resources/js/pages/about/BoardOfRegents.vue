@@ -59,7 +59,7 @@ const boardMembers: BoardMember[] = [
         name: 'HON. NEMESIO G. LOAYON, PhD',
         designation: 'SUC President III, NEMSU',
         boardRole: 'Vice Chairperson, NEMSU Board of Regents',
-        photoUrl: boardMemberPhoto('loayon.jpg'),
+        photoUrl: boardMemberPhoto('loayon.png'),
     },
     {
         id: 'senate-representative',
