@@ -166,25 +166,14 @@ onBeforeUnmount(() => {
                     :class="revealClasses('office-hero')"
                     class="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 sm:pb-28 lg:px-8 lg:pb-12"
                 >
-                    <p
-                        class="inline-flex rounded bg-white/10 px-3 py-1 text-sm font-semibold tracking-wide text-[#f2b705] uppercase ring-1 ring-white/15"
-                    >
-                        {{ props.office.parent }}
-                    </p>
-                    <h1
-                        class="mt-5 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
-                    >
-                        {{ props.office.title }}
-                    </h1>
-
                     <nav
                         aria-label="Breadcrumb"
-                        class="mt-8 text-sm font-semibold"
+                        class="ps-1 text-sm font-semibold"
                     >
                         <ol class="flex flex-wrap items-center gap-2">
                             <li>
                                 <Link
-                                    :href="home()"
+                                    :href="home().url"
                                     class="text-white/80 transition hover:text-[#f2b705]"
                                 >
                                     Home
@@ -193,7 +182,7 @@ onBeforeUnmount(() => {
                             <li class="text-white/45" aria-hidden="true">/</li>
                             <li>
                                 <Link
-                                    :href="rie()"
+                                    :href="rie().url"
                                     class="text-white/80 transition hover:text-[#f2b705]"
                                 >
                                     Research, Innovation, and Extension
@@ -205,6 +194,12 @@ onBeforeUnmount(() => {
                             </li>
                         </ol>
                     </nav>
+
+                    <h1
+                        class="mt-6 max-w-4xl text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl"
+                    >
+                        {{ props.office.title }}
+                    </h1>
                 </div>
             </section>
 
@@ -262,13 +257,13 @@ onBeforeUnmount(() => {
                         >
                             {{ props.office.title }}
                         </h2>
-                        <p
+                        <!-- <p
                             class="mt-3 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
                         >
                             {{ props.office.acronym }}
-                        </p>
+                        </p> -->
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             {{ props.office.description }}
                         </p>
@@ -344,11 +339,11 @@ onBeforeUnmount(() => {
                                     >
                                         {{ headInitials || 'OV' }}
                                     </span>
-                                    <p
+                                    <!-- <p
                                         class="mt-4 text-sm font-semibold text-white/70"
                                     >
                                         Head photo pending
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div
@@ -394,13 +389,13 @@ onBeforeUnmount(() => {
                                     <Phone class="size-4" aria-hidden="true" />
                                     {{ props.office.phone }}
                                 </a>
-                                <span
+                                <!-- <span
                                     v-else
                                     class="inline-flex items-center gap-3 text-slate-400 dark:text-slate-500"
                                 >
                                     <Phone class="size-4" aria-hidden="true" />
                                     Contact number not provided
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                     </aside>
