@@ -262,13 +262,13 @@ onBeforeUnmount(() => {
                         >
                             {{ props.office.title }}
                         </h2>
-                        <p
+                        <!-- <p
                             class="mt-3 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
                         >
                             {{ props.office.acronym }}
-                        </p>
+                        </p> -->
                         <p
-                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300"
+                            class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             {{ props.office.description }}
                         </p>
@@ -344,11 +344,11 @@ onBeforeUnmount(() => {
                                     >
                                         {{ headInitials || 'OV' }}
                                     </span>
-                                    <p
+                                    <!-- <p
                                         class="mt-4 text-sm font-semibold text-white/70"
                                     >
                                         Head photo pending
-                                    </p>
+                                    </p> -->
                                 </div>
                             </div>
                             <div
@@ -394,13 +394,13 @@ onBeforeUnmount(() => {
                                     <Phone class="size-4" aria-hidden="true" />
                                     {{ props.office.phone }}
                                 </a>
-                                <span
+                                <!-- <span
                                     v-else
                                     class="inline-flex items-center gap-3 text-slate-400 dark:text-slate-500"
                                 >
                                     <Phone class="size-4" aria-hidden="true" />
                                     Contact number not provided
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                     </aside>
