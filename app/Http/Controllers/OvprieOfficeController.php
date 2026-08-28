@@ -88,7 +88,7 @@ class OvprieOfficeController extends Controller
             'head' => 'Abundio C. Miralles, EdD',
             'email' => 'extension@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => '/images/administration/ovprie/director-extension_.jpeg',
+            'headImage' => '/images/administration/ovprie/Director Extension 2.png',
             'suboffices' => [
                 [
                     'title' => 'Extension Planning and Implementation Office',

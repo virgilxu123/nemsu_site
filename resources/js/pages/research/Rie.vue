@@ -119,7 +119,7 @@ const extensionDirector: Leader = {
     name: 'Abundio C. Miralles, EdD',
     role: 'Director, Extension Services and Linkages / University Extension Specialist V',
     email: 'extension@nemsu.edu.ph',
-    image: '/images/administration/ovprie/director-extension_.jpeg',
+    image: '/images/administration/ovprie/Director Extension 2.png',
     alt: 'Abundio C. Miralles, EdD',
     summary:
         'The Extension Services and Linkages Office (ESLO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as the bridge between the University and the broader community, ensuring that academic expertise translates into meaningful societal impact. It delivers education, training, and technical assistance tailored to address pressing community needs while fostering sustainable development. By establishing strong linkages with the community, the office facilitates the application of research-based solutions that enhance livelihoods and drive social progress. Through active collaboration and knowledge exchange, UESLO advances the university’s commitment to community empowerment, capacity building, and inclusive development.',
