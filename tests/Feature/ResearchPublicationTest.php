@@ -11,6 +11,6 @@ test('research publications page can be rendered with poster study urls', functi
             ->has('collections')
             ->has('totalPosters')
             ->has('downloads')
-            ->where('collections.0.posters.0.url', 'https://doi.org/10.32479/irmm.23351')
+            ->where('collections.0.posters.0.url', 'https://doi.org/10.1109/ICMLAS67792.2026.11483666')
         );
 });

@@ -6,7 +6,7 @@ return [
     'label' => 'Community-Based Education',
     'location' => 'Poblacion, Tagbina, Surigao del Sur, 8308, Philippines',
     'email' => 'aoronquillo@nemsu.edu.ph',
-    'phone' => '086-628-0714',
+    'phone' => null,
     'officeHours' => 'Monday to Friday, 8:00 AM - 5:00 PM',
     'headline' => 'A vital educational hub serving the southern municipalities of Surigao del Sur.',
     'overview' => <<<'TEXT'

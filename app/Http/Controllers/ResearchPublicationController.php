@@ -17,14 +17,14 @@ class ResearchPublicationController extends Controller
      */
     private const array COLLECTIONS = [
         [
-            'slug' => '2026',
-            'title' => '2026 Scopus Publications',
-            'description' => 'The latest publication posters submitted for the 2026 Scopus collection.',
-        ],
-        [
             'slug' => 'new-template',
             'title' => 'Featured Scopus Publications',
             'description' => 'Featured journal and conference publications in the current landscape format.',
+        ],
+        [
+            'slug' => '2026',
+            'title' => '2026 Scopus Publications',
+            'description' => 'The latest publication posters submitted for the 2026 Scopus collection.',
         ],
         [
             'slug' => 'research-posters',
@@ -69,16 +69,16 @@ class ResearchPublicationController extends Controller
             '27' => 'https://www.researchgate.net/publication/403900109_Decision_Support_QR-Code_Based_Visitor_Log_System_with_Data_Analytics',
         ],
         'new-template' => [
-            '3' => 'https://ieeexplore.ieee.org/document/11483666',
-            '4' => 'https://ieeexplore.ieee.org/document/11483815',
-            '5' => 'https://ieeexplore.ieee.org/document/11484005',
-            '6' => 'https://ieeexplore.ieee.org/document/11483819',
-            '7' => 'https://ieeexplore.ieee.org/document/11483664',
-            '8' => 'https://api.fspublishers.org/viewPaper/Paper-7944156293-2025-07-01.pdf',
-            '9' => 'https://ieeexplore.ieee.org/document/11411143',
-            '10' => 'https://ieeexplore.ieee.org/document/11483654',
-            '11' => 'https://link.springer.com/chapter/10.1007/978-981-95-6075-2_1',
-            '12' => 'https://www.frontiersin.org/journals/sustainable-tourism/articles/10.3389/frsut.2026.1752569/full',
+            '3' => 'https://doi.org/10.1109/ICMLAS67792.2026.11483666',
+            '4' => 'https://doi.org/10.1109/ICMLAS67792.2026.11483815',
+            '5' => 'https://doi.org/10.1109/ICMLAS67792.2026.11484005',
+            '6' => 'https://doi.org/10.1109/ICMLAS67792.2026.11483819',
+            '7' => 'https://doi.org/10.1109/ICMLAS67792.2026.11483664',
+            '8' => 'https://doi.org/10.17957/IJAB/15.2383',
+            '9' => 'https://doi.org/10.1109/APCIT65661.2025.11411143',
+            '10' => 'https://doi.org/10.1109/ICMLAS67792.2026.11483654',
+            '11' => 'https://doi.org/10.1007/978-981-95-6075-2_1',
+            '12' => 'https://doi.org/10.3389/frsut.2026.1752569',
             '13' => 'https://ieeexplore.ieee.org/document/11483952',
             '14' => 'https://www.tandfonline.com/doi/full/10.1080/17451000.2025.2512450#',
             '15' => 'https://www.ijiet.org/show-240-3257-1.html',
@@ -146,9 +146,19 @@ class ResearchPublicationController extends Controller
 
     public function index(): Response
     {
+        return $this->renderPublications('research/Publications');
+    }
+
+    public function contentPreview(): Response
+    {
+        return $this->renderPublications('research/content-preview/Publications');
+    }
+
+    private function renderPublications(string $component): Response
+    {
         $collections = $this->publicationCollections();
 
-        return Inertia::render('research/Publications', [
+        return Inertia::render($component, [
             'collections' => $collections,
             'totalPosters' => array_sum(array_column($collections, 'count')),
             'downloads' => [

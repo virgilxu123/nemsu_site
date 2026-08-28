@@ -96,13 +96,13 @@ const vicePresident: Leader = {
 };
 
 const researchDirector: Leader = {
-    name: 'Arturo G. Gracia, Jr., MSci',
+    name: 'Arturo G. Gracia, Jr., MSc',
     role: 'Director, Research and Innovation / University Researcher V',
     email: 'research@nemsu.edu.ph',
     image: '/images/administration/ovprie/director-research.png',
     alt: 'Arturo G. Gracia, Jr., MSci',
     summary:
-        'RIDO supports University researchers through research programs, policy recommendations, funded project development, inter-campus collaboration, dissemination, and ethical compliance coordination.',
+        'The University Research and Innovation Office, led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), supports university researchers by overseeing research programs, projects, and activities, recommending policies, and implementing strategic initiatives. The RIDO leads the development of project proposals for funding, fosters inter-campus collaboration, and facilitates the publication, dissemination, and application of research outputs. It also monitors ongoing research, ensures ethical compliance in 4 coordination with the University Research Ethics Committee (UREC), prepares reports, and handles other research-related tasks assigned by the VPRIE.',
 };
 
 const kttoDirector: Leader = {
@@ -112,7 +112,7 @@ const kttoDirector: Leader = {
     image: '/images/administration/ovprie/director-ktto.jpg',
     alt: 'Engr. Luzminda S. Bacquial, PhD',
     summary:
-        'KTTO identifies, protects, manages, and commercializes intellectual property so research outputs can become viable technologies and market-ready solutions.',
+        'The Knowledge and Technology Transfer Office (KTTO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as a key driver of innovation and commercialization within the university. It identifies, protects, and manages intellectual property, ensuring that research outputs are transformed into viable technologies and market-ready solutions. By fostering partnerships with industry, government agencies, and other institutions, KTTO facilitates the commercialization of research through licensing agreements, technology transfer, and entrepreneurial initiatives. Beyond commercialization, it promotes a culture of innovation, knowledge sharing, and interdisciplinary collaboration. Ultimately, KTTO translates research discoveries into tangible societal benefits, contributing to economic growth, technological advancement, and the university’s broader mission of knowledge generation and impact.',
 };
 
 const extensionDirector: Leader = {
@@ -122,7 +122,7 @@ const extensionDirector: Leader = {
     image: '/images/administration/ovprie/director-extension_.jpg',
     alt: 'Abundio C. Miralles, EdD',
     summary:
-        'ESLO bridges the University and broader community through education, training, technical assistance, sustainable development partnerships, and community empowerment.',
+        'The Extension Services and Linkages Office (ESLO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as the bridge between the University and the broader community, ensuring that academic expertise translates into meaningful societal impact. It delivers education, training, and technical assistance tailored to address pressing community needs while fostering sustainable development. By establishing strong linkages with the community, the office facilitates the application of research-based solutions that enhance livelihoods and drive social progress. Through active collaboration and knowledge exchange, UESLO advances the university’s commitment to community empowerment, capacity building, and inclusive development.',
 };
 
 const officeGroups: OfficeGroup[] = [
@@ -428,63 +428,59 @@ const innovationRegistryDocuments: RegistryDocument[] = [
     },
 ];
 
-const featuredInnovations: FeaturedInnovation[] = [
+type KttoTechnology = {
+    title: string;
+    image: string;
+    href: string;
+};
+
+const showAllKttoTechnologies = ref(false);
+
+const kttoTechnologies: KttoTechnology[] = [
+    {
+        title: 'Fruit Juicer',
+        image: '/images/administration/ovprie/ktto/tech-1.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=1036389065800932&set=pb.100082895454339.-2207520000&type=3',
+    },
+    {
+        title: 'Crown Cork Opener and Resealer',
+        image: '/images/administration/ovprie/ktto/tech-2.jpg',
+        href: 'https://www.facebook.com/photo/?fbid=1036392092467296&set=pb.100082895454339.-2207520000',
+    },
+    {
+        title: 'Process of Producing a Cucumber (Cucumis sativus) Ice Cream',
+        image: '/images/administration/ovprie/ktto/tech-3.jpg',
+        href: 'https://www.facebook.com/photo/?fbid=1036394629133709&set=pb.100082895454339.-2207520000',
+    },
     {
         title: 'Aerial Seed Planting Device',
-        category: 'Technology Poster',
-        campus: 'NEMSU Bislig',
-        summary:
-            'A reforestation device designed to improve soil-to-seed contact through a winged, self-drilling mechanism.',
-        href: '/images/administration/ovprie/innovation/aerial-seed-planting-device.png',
-        image: '/images/administration/ovprie/innovation/aerial-seed-planting-device.png',
-        fileType: 'Image',
+        image: '/images/administration/ovprie/ktto/tech-4.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=1011948111578361&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'SeaScoops Co. Product Brochure',
-        category: 'Commercialization Flyer',
-        campus: 'NEMSU Lianga',
-        summary:
-            'A market-facing brochure for dried fish danggit ice cream and related product offerings.',
-        href: '/images/administration/ovprie/innovation/danggit-flyer.png',
-        image: '/images/administration/ovprie/innovation/danggit-flyer.png',
-        fileType: 'Image',
+        title: 'Composition of a Wild Sugarcane (Saccharum spontaneum) Nutritional Bar',
+        image: '/images/administration/ovprie/ktto/tech-5.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985706904202482&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Dried Fish Danggit Ice Cream',
-        category: 'Product Poster',
-        campus: 'NEMSU Lianga',
-        summary:
-            'A product communication asset for a local agri-aqua innovation developed with regional support.',
-        href: '/images/administration/ovprie/innovation/dried-fish-ice-cream-poster.png',
-        image: '/images/administration/ovprie/innovation/dried-fish-ice-cream-poster.png',
-        fileType: 'Image',
+        title: 'A Composition for Loaf Bread Utilizing Cardava (Musa acuminata var. Cardava) Flour',
+        image: '/images/administration/ovprie/ktto/tech-6.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985642437542262&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Banana Loaf Bread Flyer',
-        category: 'Copyright Poster',
-        campus: 'NEMSU Innovation Portfolio',
-        summary:
-            'A copyright-supported product flyer prepared for public presentation and promotion.',
-        href: '/files/administration/ovprie/innovation/banana-loaf-bread-flyer.pdf',
-        fileType: 'PDF',
+        title: 'The Formulation of Making Food Seasoning with Dried Fish Danggit (Siganus Spp.) Powder',
+        image: '/images/administration/ovprie/ktto/tech-7.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985633210876518&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Lato Biofertilizer',
-        category: 'Copyright Poster',
-        campus: 'Tagbina Campus',
-        summary:
-            'A protected communication asset for a liquid foliar biofertilizer technology.',
-        href: '/files/administration/ovprie/innovation/lato-biofertilizer.pdf',
-        fileType: 'PDF',
+        title: 'Soya Milk Ice Cream and The Process of Making Thereof',
+        image: '/images/administration/ovprie/ktto/tech-8.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=985631204210052&set=pb.100082895454339.-2207520000&type=3',
     },
     {
-        title: 'Tagbina Coffee Jam',
-        category: 'Copyright Poster',
-        campus: 'Tagbina Campus',
-        summary:
-            'A protected product poster highlighting a campus-developed food innovation.',
-        href: '/files/administration/ovprie/innovation/tagbina-coffee-jam.pdf',
-        fileType: 'PDF',
+        title: 'Aerial Seed Planting Device (Component System)',
+        image: '/images/administration/ovprie/ktto/tech-9.jpg',
+        href: 'https://www.facebook.com/photo.php?fbid=980579224715250&set=pb.100082895454339.-2207520000&type=3',
     },
 ];
 
@@ -712,25 +708,35 @@ onBeforeUnmount(() => {
                         <h2
                             class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 sm:text-4xl dark:text-white"
                         >
-                            University-wide RIE leadership
+                            University-wide RIE Leadership
                         </h2>
                         <p
                             class="mt-5 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             The Office of the Vice President for Research,
-                            Innovation, and Extension steers the University's
-                            RIE agenda in alignment with national development
-                            priorities and the thrusts of CHED, DOST, DA, NEDA,
-                            DBM, and other relevant institutions.
+                            Innovation, and Extension (OVPRIE) is responsible
+                            for steering the University's research, innovation,
+                            and extension agenda in alignment with national
+                            development priorities and the thrusts of key
+                            agencies such as CHED, DOST, DA, NEDA, DBM, and
+                            other relevant institutions. It formulates and
+                            implements strategic policies, oversees research,
+                            innovation and extension programs, facilitates
+                            collaborations, manages grants and funding, and
+                            ensures compliance with regulatory requirements.
+                            Through its leadership, OVPRIE fosters a dynamic
+                            research and innovation ecosystem that advances
+                            knowledge generation, technology transfer, and
+                            meaningful community engagement.
                         </p>
-                        <p
+                        <!-- <p
                             class="mt-4 text-uni-body text-slate-600 dark:text-slate-300 text-justify"
                         >
                             OVPRIE advances knowledge generation, technology
                             transfer, and meaningful community engagement across
                             the NEMSU system in alignment with national
                             development priorities.
-                        </p>
+                        </p> -->
 
                         <!-- Key Documents & Repositories -->
                         <div
@@ -1020,7 +1026,7 @@ onBeforeUnmount(() => {
                 class="scroll-mt-28 border-b border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950"
             >
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="grid gap-8 lg:grid-cols-[22rem_1fr]">
+                    <div class="grid gap-8 lg:grid-cols-[24rem_1fr]">
                         <aside
                             :data-scroll-section="`${group.id}-director`"
                             :class="
@@ -1057,7 +1063,7 @@ onBeforeUnmount(() => {
                                     {{ group.director.role }}
                                 </p>
                                 <h2
-                                    class="mt-2 text-2xl font-semibold text-slate-950 dark:text-white"
+                                    class="mt-2 text-xl font-semibold text-slate-950 sm:text-2xl lg:text-[1.35rem] xl:text-2xl dark:text-white"
                                 >
                                     {{ group.director.name }}
                                 </h2>
@@ -1085,10 +1091,10 @@ onBeforeUnmount(() => {
                             <h3
                                 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white"
                             >
-                                Service overview
+                                Service Overview
                             </h3>
                             <p
-                                class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300 text-justify"
                             >
                                 {{ group.director.summary }}
                             </p>
@@ -1221,7 +1227,7 @@ onBeforeUnmount(() => {
                                             works, and technology showcases
                                         </h4>
                                         <p
-                                            class="mt-4 text-sm leading-7 text-sky-50"
+                                            class="mt-4 text-sm leading-7 text-sky-50 text-justify"
                                         >
                                             KTTO presents registry documents and
                                             selected public-facing materials
@@ -1283,7 +1289,7 @@ onBeforeUnmount(() => {
                                     </div>
                                 </section>
 
-                                <section>
+                                <section class="scroll-mt-28">
                                     <div
                                         data-scroll-section="innovation-featured-heading"
                                         :class="
@@ -1296,22 +1302,21 @@ onBeforeUnmount(() => {
                                     >
                                         <div>
                                             <p
-                                                class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300"
+                                                class="text-xs font-bold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300"
                                             >
-                                                Featured technologies and
-                                                creative works
+                                                Commercialization & Technology Transfer
                                             </p>
                                             <h4
-                                                class="mt-2 text-2xl font-semibold tracking-normal text-slate-950 dark:text-white"
+                                                class="mt-1 text-xl font-bold tracking-normal text-slate-950 dark:text-white"
                                             >
-                                                Public-ready posters and flyers
+                                                Featured Technologies & Innovations
                                             </h4>
                                         </div>
                                         <a
                                             href="#ip-registry"
                                             class="inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
                                         >
-                                            View registry documents
+                                            View IP registry documents
                                             <ArrowRight
                                                 class="size-4"
                                                 aria-hidden="true"
@@ -1320,93 +1325,46 @@ onBeforeUnmount(() => {
                                     </div>
 
                                     <div
-                                        class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+                                        class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
                                     >
-                                        <article
-                                            v-for="(
-                                                innovation, index
-                                            ) in featuredInnovations"
-                                            :key="innovation.href"
-                                            :data-scroll-section="`innovation-featured-${index}`"
-                                            :class="
-                                                revealClasses(
-                                                    `innovation-featured-${index}`,
-                                                    'up',
-                                                )
-                                            "
-                                            class="overflow-hidden rounded-md border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/[0.04]"
+                                        <a
+                                            v-for="tech in (showAllKttoTechnologies ? kttoTechnologies : kttoTechnologies.slice(0, 6))"
+                                            :key="tech.href"
+                                            :href="tech.href"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            class="group relative overflow-hidden rounded-2xl ring-1 ring-slate-900/10 shadow-lg shadow-slate-900/10 transition-all duration-500 hover:ring-[#f2b705] hover:shadow-xl dark:ring-white/15 dark:shadow-black/30"
                                         >
-                                            <a
-                                                :href="innovation.href"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                class="block bg-slate-100 dark:bg-white/5"
+                                            <img
+                                                :src="tech.image"
+                                                :alt="tech.title"
+                                                class="absolute inset-0 size-full object-cover transition duration-700 group-hover:scale-105"
+                                            />
+                                            <div
+                                                class="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/5"
+                                            ></div>
+                                            <div
+                                                class="relative flex min-h-52 flex-col justify-end p-5 sm:min-h-56"
                                             >
-                                                <img
-                                                    v-if="innovation.image"
-                                                    :src="innovation.image"
-                                                    :alt="innovation.title"
-                                                    class="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-[1.02]"
-                                                />
-                                                <div
-                                                    v-else
-                                                    class="flex aspect-[4/3] w-full items-center justify-center"
+                                                <h4
+                                                    class="text-sm font-bold text-white transition-colors group-hover:text-[#f2b705]"
                                                 >
-                                                    <FileText
-                                                        class="size-12 text-[#1711d4] dark:text-sky-200"
-                                                        aria-hidden="true"
-                                                    />
-                                                </div>
-                                            </a>
-
-                                            <div class="p-5">
-                                                <div
-                                                    class="flex flex-wrap items-center gap-2"
-                                                >
-                                                    <span
-                                                        class="rounded bg-[#e7f3fb] px-2.5 py-1 text-xs font-semibold tracking-wide text-[#0b3d91] uppercase dark:bg-sky-400/10 dark:text-sky-200"
-                                                    >
-                                                        {{
-                                                            innovation.category
-                                                        }}
-                                                    </span>
-                                                    <span
-                                                        class="rounded bg-[#fff4cc] px-2.5 py-1 text-xs font-semibold tracking-wide text-[#795200] uppercase dark:bg-[#f2b705]/15 dark:text-[#f2b705]"
-                                                    >
-                                                        {{
-                                                            innovation.fileType
-                                                        }}
-                                                    </span>
-                                                </div>
-                                                <h5
-                                                    class="mt-4 text-lg font-semibold text-slate-950 dark:text-white"
-                                                >
-                                                    {{ innovation.title }}
-                                                </h5>
-                                                <p
-                                                    class="mt-1 text-sm font-semibold text-[#0b6680] dark:text-sky-300"
-                                                >
-                                                    {{ innovation.campus }}
-                                                </p>
-                                                <p
-                                                    class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
-                                                >
-                                                    {{ innovation.summary }}
-                                                </p>
-                                                <a
-                                                    :href="innovation.href"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200"
-                                                >
-                                                    Open material
-                                                    <ArrowUpRight
-                                                        class="size-4"
-                                                        aria-hidden="true"
-                                                    />
-                                                </a>
+                                                    {{ tech.title }}
+                                                </h4>
                                             </div>
-                                        </article>
+                                        </a>
+                                    </div>
+
+                                    <!-- Show More / Show Less Toggle Button -->
+                                    <div class="mt-6 flex justify-center">
+                                        <button
+                                            type="button"
+                                            @click="showAllKttoTechnologies = !showAllKttoTechnologies"
+                                            class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-800 shadow-xs transition hover:border-[#1711d4] hover:bg-slate-50 hover:text-[#1711d4] dark:border-white/20 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-300 dark:hover:text-sky-300"
+                                        >
+                                            <span>{{ showAllKttoTechnologies ? 'Show Fewer Technologies' : 'View All 9 Protected Technologies' }}</span>
+                                            <span aria-hidden="true">{{ showAllKttoTechnologies ? '↑' : '↓' }}</span>
+                                        </button>
                                     </div>
                                 </section>
 
@@ -1452,22 +1410,22 @@ onBeforeUnmount(() => {
                                                 class="flex items-start justify-between gap-4"
                                             >
                                                 <div>
-                                                    <p
+                                                    <!-- <p
                                                         class="text-xs font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
                                                     >
                                                         {{ document.count }}
                                                         records
-                                                    </p>
+                                                    </p> -->
                                                     <h5
                                                         class="mt-2 text-lg font-semibold text-slate-950 dark:text-white"
                                                     >
                                                         {{ document.category }}
                                                     </h5>
                                                 </div>
-                                                <FileText
+                                                <!-- <FileText
                                                     class="size-7 shrink-0 text-[#1711d4] dark:text-sky-200"
                                                     aria-hidden="true"
-                                                />
+                                                /> -->
                                             </div>
                                             <p
                                                 class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
@@ -1561,9 +1519,9 @@ onBeforeUnmount(() => {
                                                 Recent Extension Activities
                                             </h4>
                                         </div>
-                                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                        <!-- <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
                                             20 Community Updates
-                                        </span>
+                                        </span> -->
                                     </div>
 
                                     <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

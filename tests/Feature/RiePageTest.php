@@ -24,14 +24,14 @@ test('published articles page exposes the curated research poster collections', 
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('research/Publications')
-            ->where('totalPosters', 97)
+            ->where('totalPosters', 131)
             ->has('collections', 3)
-            ->where('collections.0.slug', '2026')
-            ->where('collections.0.count', 27)
-            ->has('collections.0.posters', 27)
-            ->where('collections.0.posters.0.image', '/images/administration/ovprie/research/scopus/2026/1.png')
-            ->where('collections.1.slug', 'new-template')
-            ->where('collections.1.count', 13)
+            ->where('collections.0.slug', 'new-template')
+            ->where('collections.0.count', 13)
+            ->has('collections.0.posters', 13)
+            ->where('collections.0.posters.0.image', '/images/administration/ovprie/research/scopus/new-template/3.png')
+            ->where('collections.1.slug', '2026')
+            ->where('collections.1.count', 61)
             ->where('collections.2.slug', 'research-posters')
             ->where('collections.2.count', 57)
             ->has('downloads', 2)
@@ -42,7 +42,7 @@ test('published articles page exposes the curated research poster collections', 
 
 test('published article posters and research workbooks exist in the public directory', function () {
     $posterCollections = [
-        'images/administration/ovprie/research/scopus/2026' => 27,
+        'images/administration/ovprie/research/scopus/2026' => 61,
         'images/administration/ovprie/research/scopus/new-template' => 13,
         'images/administration/ovprie/research/scopus/research-posters' => 57,
     ];

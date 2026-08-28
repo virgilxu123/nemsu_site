@@ -144,8 +144,9 @@ TEXT,
         [
             'college' => 'College of Law',
             'offerings' => [
-                'Juris Doctor',
-                'Master of Legal Studies',
+                'Juris Doctor (4 Years)',
+                'Juris Doctor (5 Years)',
+                'Ladderized Master of Legal Studies - Juris Doctor Degree',
             ],
         ],
         [

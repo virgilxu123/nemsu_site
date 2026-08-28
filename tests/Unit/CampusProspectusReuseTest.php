@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\GraduateProfessionalStudyController;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -83,6 +84,79 @@ test('Academic Affairs prospectuses override campus-specific links', function ()
         ->not->toBe(Storage::disk('public')->url('programs/BSCE.pdf'));
 });
 
+test('campus programs reuse matching graduate school prospectus links', function (
+    string $campus,
+    string $campusName,
+    array $programMatches,
+) {
+    $this->withoutMiddleware(HandleInertiaRequests::class);
+
+    $academicProspectuses = GraduateProfessionalStudyController::prospectusUrlsForCampus(
+        $campusName,
+    );
+    $campusProspectuses = $this->get(route('campuses.show', $campus))
+        ->assertOk()
+        ->inertiaProps('campus.prospectuses');
+
+    foreach ($programMatches as $campusOffering => $academicOffering) {
+        expect($campusProspectuses[$campusOffering])->toBe(
+            $academicProspectuses[$academicOffering],
+        );
+    }
+})->with([
+    'Tandag graduate programs' => [
+        'tandag',
+        'Tandag Campus',
+        [
+            'Doctor of Education major in Educational Management' => 'Doctor of Education in Educational Management',
+            'Doctor of Education major in English Language Teaching' => 'Doctor of Education in English Language Teaching',
+            'Master of Arts in Education major in Educational Management' => 'Master of Arts in Education major in Educational Management',
+            'Master of Arts in English Language Teaching' => 'Master of Arts in English Language Teaching',
+            'Master of Arts in Filipino Language Teaching' => 'Master of Arts in Filipino Language Teaching',
+            'Master of Arts in Home Economics Teaching' => 'Master of Arts in Home Economics Teaching',
+            'Master of Science in Teaching Mathematics' => 'Master of Science in Teaching Mathematics',
+            'Master of Science in Teaching Science' => 'Master of Science in Teaching Science',
+            'Master of Science in Computer Science' => 'Master of Science in Computer Science',
+            'Master in Public Administration' => 'Master in Public Administration',
+        ],
+    ],
+    'Cantilan graduate programs' => [
+        'cantilan',
+        'Cantilan Campus',
+        [
+            'Master in Teaching Technology Education (MTTE) major in Architectural Drafting Technology' => 'Master in Teaching Technology Education (MTTE) major in Drafting Technology',
+            'Master in Teaching Technology Education (MTTE) major in Automotive Technology' => 'Master in Teaching Technology Education (MTTE) major in Automotive Technology',
+            'Master in Teaching Technology Education (MTTE) major in Electrical Technology' => 'Master in Teaching Technology Education (MTTE) major in Electrical Technology',
+            'Master in Teaching Technology Education (MTTE) major in Food Technology' => 'Master in Teaching Technology Education (MTTE) major in Food Technology',
+            'Master in Teaching Technology Education (MTTE) major in Garments Technology' => 'Master in Teaching Technology Education (MTTE) major in Garments Technology',
+        ],
+    ],
+    'Tandag College of Law programs' => [
+        'tandag',
+        'Tandag Campus',
+        [
+            'Juris Doctor (4 Years)' => 'Juris Doctor (4 Years)',
+            'Juris Doctor (5 Years)' => 'Juris Doctor (5 Years)',
+            'Ladderized Master of Legal Studies - Juris Doctor Degree' => 'Ladderized Master of Legal Studies - Juris Doctor Degree',
+        ],
+    ],
+]);
+
+test('Tandag campus lists all three College of Law programs', function () {
+    $this->withoutMiddleware(HandleInertiaRequests::class);
+
+    $programGroups = $this->get(route('campuses.show', 'tandag'))
+        ->assertOk()
+        ->inertiaProps('campus.programs');
+    $lawPrograms = collect($programGroups)->firstWhere('college', 'College of Law');
+
+    expect($lawPrograms['offerings'])->toBe([
+        'Juris Doctor (4 Years)',
+        'Juris Doctor (5 Years)',
+        'Ladderized Master of Legal Studies - Juris Doctor Degree',
+    ]);
+});
+
 test('ambiguous or unavailable program prospectuses remain unlinked', function (
     string $campus,
     string $offering,
@@ -106,5 +180,17 @@ test('ambiguous or unavailable program prospectuses remain unlinked', function (
     'Tagbina Agricultural Technology has no Academic Affairs prospectus' => [
         'tagbina',
         'Bachelor of Agricultural Technology',
+    ],
+    'Tandag EdD Science is not PhD Science Education' => [
+        'tandag',
+        'Doctor of Education major in Science Education',
+    ],
+    'Tandag EdD Mathematics is not PhD Mathematics Education' => [
+        'tandag',
+        'Doctor of Education major in Mathematics Education',
+    ],
+    'Tandag Business Management is not Business Administration' => [
+        'tandag',
+        'Master of Business Management',
     ],
 ]);

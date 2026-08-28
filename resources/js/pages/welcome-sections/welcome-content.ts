@@ -1,5 +1,3 @@
-import { academicAffairs } from '@/routes/academics';
-import { index as servicesIndex } from '@/routes/services';
 import type {
     BannerItem,
     Campus,
@@ -21,17 +19,17 @@ export const quickActions: QuickAction[] = [
     {
         title: 'Apply Now',
         description: 'Admission requirements and application procedures.',
-        href: academicAffairs.url(),
+        href: 'https://sis.nemsu.edu.ph',
     },
     {
         title: 'Enrollment',
         description: 'Enrollment schedules, requirements, and student guides.',
-        href: servicesIndex.url(),
+        href: 'https://sis.nemsu.edu.ph',
     },
     {
         title: 'Student Services',
         description: 'Access academic and student support services.',
-        href: servicesIndex.url(),
+        href: 'https://sis.nemsu.edu.ph',
     },
 ];
 

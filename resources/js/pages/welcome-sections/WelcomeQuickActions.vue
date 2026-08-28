@@ -27,6 +27,8 @@ defineProps<{
                     v-for="(action, index) in actions"
                     :key="action.title"
                     :href="action.href"
+                    :target="action.href.startsWith('http') ? '_blank' : undefined"
+                    :rel="action.href.startsWith('http') ? 'noopener noreferrer' : undefined"
                     :style="staggerDelay('quick-actions', index)"
                     :class="
                         index === 1

@@ -46,6 +46,9 @@ Route::inertia('/administration/transparency-seal', 'administration/Transparency
 Route::inertia('/research-innovation-extension', 'research/Rie')->name('research.rie');
 Route::inertia('/research-innovation-extension/research-centers', 'research/Centers')->name('research.rie.centers');
 Route::get('/research-innovation-extension/publications', [ResearchPublicationController::class, 'index'])->name('research.rie.publications.index');
+Route::inertia('/research-innovation-extension/content-preview', 'research/content-preview/Rie')->name('research.rie.content_preview');
+Route::inertia('/research-innovation-extension/content-preview/research-centers', 'research/content-preview/Centers')->name('research.rie.centers.content_preview');
+Route::get('/research-innovation-extension/content-preview/publications', [ResearchPublicationController::class, 'contentPreview'])->name('research.rie.publications.content_preview');
 Route::get('/research-innovation-extension/offices/{office}', [OvprieOfficeController::class, 'show'])->name('research.rie.offices.show');
 Route::inertia('/services', 'services/Index')->name('services.index');
 Route::get('/directory', DirectoryController::class)->name('directory');
