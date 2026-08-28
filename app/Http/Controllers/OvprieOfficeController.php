@@ -29,7 +29,7 @@ class OvprieOfficeController extends Controller
             'head' => 'Arturo G. Gracia, Jr., MSci',
             'email' => 'research@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovprie/director-research.png',
             'suboffices' => [
                 [
                     'title' => 'Research Centers',
@@ -88,7 +88,7 @@ class OvprieOfficeController extends Controller
             'head' => 'Abundio C. Miralles, EdD',
             'email' => 'extension@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovprie/director-extension_.jpg',
             'suboffices' => [
                 [
                     'title' => 'Extension Planning and Implementation Office',
