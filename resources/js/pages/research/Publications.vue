@@ -375,7 +375,7 @@ onUnmounted(() => {
                                     </div>
                                 </button>
                                 <div
-                                    class="border-t border-slate-200 bg-white p-3 dark:border-white/10 dark:bg-slate-900"
+                                    class="p-3 bg-slate-100"
                                 >
                                     <a
                                         v-if="poster.url"
