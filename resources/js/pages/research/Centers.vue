@@ -31,7 +31,7 @@ const director = {
     role: 'Director, Research Centers / University Researcher IV',
     email: 'hmalawi@nemsu.edu.ph',
     address:
-        'North Eastern Mindanao State University, Rosario, Tandag City, 8300, Surigao del Sur, Philippines',
+        '',
     image: '/images/administration/ovprie/director-research-center.png',
     summary:
         'Research Centers are integral to advancing the University’s research goals by managing activities, resources, and personnel in alignment with institutional priorities. They foster interdisciplinary collaboration, support grant proposals, and ensure research compliance with ethical and regulatory standards. The centers provide professional development for researchers, track research performance, and advocate for resources and recognition, strengthening their impact within the academic community and beyond.',

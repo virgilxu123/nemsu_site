@@ -112,7 +112,7 @@ const kttoDirector: Leader = {
     image: '/images/administration/ovprie/director-ktto.jpg',
     alt: 'Engr. Luzminda S. Bacquial, PhD',
     summary:
-        'KTTO identifies, protects, manages, and commercializes intellectual property so research outputs can become viable technologies and market-ready solutions.',
+        'The Knowledge and Technology Transfer Office (KTTO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as a key driver of innovation and commercialization within the university. It identifies, protects, and manages intellectual property, ensuring that research outputs are transformed into viable technologies and market-ready solutions. By fostering partnerships with industry, government agencies, and other institutions, KTTO facilitates the commercialization of research through licensing agreements, technology transfer, and entrepreneurial initiatives. Beyond commercialization, it promotes a culture of innovation, knowledge sharing, and interdisciplinary collaboration. Ultimately, KTTO translates research discoveries into tangible societal benefits, contributing to economic growth, technological advancement, and the university’s broader mission of knowledge generation and impact.',
 };
 
 const extensionDirector: Leader = {
@@ -122,7 +122,7 @@ const extensionDirector: Leader = {
     image: '/images/administration/ovprie/director-extension_.jpg',
     alt: 'Abundio C. Miralles, EdD',
     summary:
-        'ESLO bridges the University and broader community through education, training, technical assistance, sustainable development partnerships, and community empowerment.',
+        'The Extension Services and Linkages Office (ESLO), led by the Director and in coordination with the Office of the Vice President for Research, Innovation, and Extension (OVPRIE), serves as the bridge between the University and the broader community, ensuring that academic expertise translates into meaningful societal impact. It delivers education, training, and technical assistance tailored to address pressing community needs while fostering sustainable development. By establishing strong linkages with the community, the office facilitates the application of research-based solutions that enhance livelihoods and drive social progress. Through active collaboration and knowledge exchange, UESLO advances the university’s commitment to community empowerment, capacity building, and inclusive development.',
 };
 
 const officeGroups: OfficeGroup[] = [
@@ -1094,7 +1094,7 @@ onBeforeUnmount(() => {
                                 Service Overview
                             </h3>
                             <p
-                                class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300"
+                                class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300 text-justify"
                             >
                                 {{ group.director.summary }}
                             </p>
@@ -1227,7 +1227,7 @@ onBeforeUnmount(() => {
                                             works, and technology showcases
                                         </h4>
                                         <p
-                                            class="mt-4 text-sm leading-7 text-sky-50"
+                                            class="mt-4 text-sm leading-7 text-sky-50 text-justify"
                                         >
                                             KTTO presents registry documents and
                                             selected public-facing materials
@@ -1410,22 +1410,22 @@ onBeforeUnmount(() => {
                                                 class="flex items-start justify-between gap-4"
                                             >
                                                 <div>
-                                                    <p
+                                                    <!-- <p
                                                         class="text-xs font-semibold tracking-wide text-[#0b6680] uppercase dark:text-sky-300"
                                                     >
                                                         {{ document.count }}
                                                         records
-                                                    </p>
+                                                    </p> -->
                                                     <h5
                                                         class="mt-2 text-lg font-semibold text-slate-950 dark:text-white"
                                                     >
                                                         {{ document.category }}
                                                     </h5>
                                                 </div>
-                                                <FileText
+                                                <!-- <FileText
                                                     class="size-7 shrink-0 text-[#1711d4] dark:text-sky-200"
                                                     aria-hidden="true"
-                                                />
+                                                /> -->
                                             </div>
                                             <p
                                                 class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300"
@@ -1519,9 +1519,9 @@ onBeforeUnmount(() => {
                                                 Recent Extension Activities
                                             </h4>
                                         </div>
-                                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                        <!-- <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">
                                             20 Community Updates
-                                        </span>
+                                        </span> -->
                                     </div>
 
                                     <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
