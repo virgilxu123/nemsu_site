@@ -108,7 +108,7 @@ const currentYear = new Date().getFullYear();
                             v-for="contact in contactColumn"
                             :key="contact.office"
                             :href="contact.href"
-                            class="group flex items-center gap-2.5 rounded-sm text-sm text-slate-600 transition hover:text-[#1711d4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:text-slate-300 dark:hover:text-sky-200"
+                            class="group flex items-start gap-2.5 rounded-sm text-sm text-slate-600 transition hover:text-[#1711d4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:text-slate-300 dark:hover:text-sky-200"
                         >
                             <span
                                 class="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-[#efefff] text-[#1711d4] transition group-hover:bg-[#1711d4] group-hover:text-white dark:bg-white/10 dark:text-sky-200"
