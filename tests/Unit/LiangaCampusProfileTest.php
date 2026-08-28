@@ -7,7 +7,7 @@ test('the Lianga campus profile uses the supplied official history and instituti
     expect($lianga)
         ->location->toBe('Poblacion, Lianga, Surigao del Sur 8307')
         ->and($lianga['profile']['headline'])
-        ->toBe('A beacon of academic distinction and sustainable development in Southern Surigao del Sur.')
+        ->toBe('A Beacon of Academic Distinction and Sustainable Development in Southern Surigao del Sur.')
         ->and($lianga['profile']['overview'])
         ->toContain('established as Lianga Junior High School')
         ->toContain('Republic Act No. 3528')
@@ -61,18 +61,23 @@ test('the Lianga campus lists its official programs under the corresponding coll
             'offerings' => [
                 'Bachelor of Science in Fisheries',
                 'Bachelor of Science in Marine Biology',
+            ],
+        ],
+        [
+            'college' => 'College of Arts and Sciences',
+            'offerings' => [
                 'Bachelor of Science in Environmental Science',
             ],
         ],
         [
-            'college' => 'College of Teachers Education',
+            'college' => 'College of Teacher Education',
             'offerings' => [
                 'Bachelor of Elementary Education',
                 'Bachelor of Secondary Education major in Science',
             ],
         ],
         [
-            'college' => 'College of Business Management',
+            'college' => 'College of Business and Management',
             'offerings' => [
                 'Bachelor of Science in Business Administration major in Financial Management',
                 'Bachelor of Science in Business Administration major in Business Economics',

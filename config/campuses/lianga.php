@@ -285,18 +285,23 @@ TEXT,
             'offerings' => [
                 'Bachelor of Science in Fisheries',
                 'Bachelor of Science in Marine Biology',
+            ],
+        ],
+        [
+            'college' => 'College of Arts and Sciences',
+            'offerings' => [
                 'Bachelor of Science in Environmental Science',
             ],
         ],
         [
-            'college' => 'College of Teachers Education',
+            'college' => 'College of Teacher Education',
             'offerings' => [
                 'Bachelor of Elementary Education',
                 'Bachelor of Secondary Education major in Science',
             ],
         ],
         [
-            'college' => 'College of Business Management',
+            'college' => 'College of Business and Management',
             'offerings' => [
                 'Bachelor of Science in Business Administration major in Financial Management',
                 'Bachelor of Science in Business Administration major in Business Economics',
