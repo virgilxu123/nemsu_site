@@ -1049,15 +1049,31 @@ onBeforeUnmount(() => {
                         </p> -->
                     </div>
 
+                    <!-- <div class="mt-18 grid gap-10 text-left lg:grid-cols-2">
+                        <div class="flex justify-center">
+                            <img
+                                :src="sealImage"
+                                alt="NEMSU University Seal"
+                                class="size-80 object-contain drop-shadow-2xl sm:size-100"
+                            />
+                        </div>
+                        <div>
+                            <p class="text-justify text-base leading-7 text-slate-200">
+                                The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university’s growth from a polytechnic institution to a comprehensive higher education provider. The elements in the logo carry deep meanings—the torch stands for guidance and enlightenment through knowledge, while the shield represents protection, academic freedom, and a safe, inclusive learning environment. The bold letters display the university’s full name, emphasizing its presence as the sole SUC-HEI in Surigao del Sur.
+                                The pillars, depicted as vertical blue and white lines, represent NEMSU’s seven campuses and the pillars of education they uphold. These also signify the strong foundation of the institution and the continuous journey of learning. The air spaces reflect the openness to growth and knowledge, while the blue pillars, seen in new university buildings, stand for strength, professionalism, and long-term stability. The colors of the logo hold symbolic value—blue for excellence, white for integrity, yellow for optimism, green for sustainability, and red for commitment to service.
+                            </p>
+                        </div>
+                    </div> -->
+
                     <div class="mt-18 grid gap-10 text-left lg:grid-cols-[1fr_1.5fr]">
                         <div>
-                            <p
+                            <!-- <p
                                 data-scroll-section="seal-desc-mobile"
                                 :class="revealClasses('seal-desc-mobile')"
                                 class="text-justify text-base leading-7 text-slate-200 mb-8 block lg:hidden"
                             >
                                 The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider.
-                            </p>
+                            </p> -->
                             <div
                                 data-scroll-section="seal-image"
                                 :class="revealClasses('seal-image')"
@@ -1069,13 +1085,13 @@ onBeforeUnmount(() => {
                                     class="size-80 object-contain drop-shadow-2xl sm:size-100"
                                 />
                             </div>
-                            <p
+                            <!-- <p
                                 data-scroll-section="seal-desc-desktop"
                                 :class="revealClasses('seal-desc-desktop', 'left')"
                                 class="mt-8 text-justify text-base leading-7 text-slate-200 hidden lg:block"
                             >
                                 The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider.
-                            </p>
+                            </p> -->
                         </div>
 
                         <div
@@ -1083,12 +1099,21 @@ onBeforeUnmount(() => {
                             :class="revealClasses('seal-symbols', 'left')"
                         >
                          
+<p
+                                data-scroll-section="seal-desc-mobile"
+                                :class="revealClasses('seal-desc-mobile')"
+                                class="text-justify text-base leading-7 text-slate-200"
+                            >
+                                <!-- The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university's growth from a polytechnic institution to a comprehensive higher education provider. -->
+                                 The University Logo reflects the identity of North Eastern Mindanao State University (NEMSU) as the pioneering state university in the province, committed to providing quality education across various fields of specialization. It symbolizes the university’s growth from a polytechnic institution to a comprehensive higher education provider. The elements in the logo carry deep meanings—the torch stands for guidance and enlightenment through knowledge, while the shield represents protection, academic freedom, and a safe, inclusive learning environment. The bold letters display the university’s full name, emphasizing its presence as the sole SUC-HEI in Surigao del Sur.
+                            The pillars, depicted as vertical blue and white lines, represent NEMSU’s seven campuses and the pillars of education they uphold. These also signify the strong foundation of the institution and the continuous journey of learning. The air spaces reflect the openness to growth and knowledge, while the blue pillars, seen in new university buildings, stand for strength, professionalism, and long-term stability. The colors of the logo hold symbolic value—blue for excellence, white for integrity, yellow for optimism, green for sustainability, and red for commitment to service.
 
-                            <div class="grid gap-4 sm:grid-cols-3">
+                            </p>
+                            <div class="grid gap-4 sm:grid-cols-3 mt-8">
                                 <div
                                     v-for="element in sealElements"
                                     :key="element.title"
-                                    class="flex flex-col gap-4 items-start rounded-lg bg-white/16 border border-white/15 p-4 text-left transition-transform duration-200 hover:scale-105"
+                                    class="flex gap-4 items-center rounded-lg bg-white/16 border border-white/15 p-4 text-left transition-transform duration-200 hover:scale-105"
                                 >
                                     <img
                                         :src="element.image"
@@ -1099,9 +1124,9 @@ onBeforeUnmount(() => {
                                         <h3 class="text-base font-semibold text-white">
                                             {{ element.title }}
                                         </h3>
-                                        <p class="mt-1 text-xs leading-5 text-slate-300">
+                                        <!-- <p class="mt-1 text-xs leading-5 text-slate-300">
                                             {{ element.meaning }}
-                                        </p>
+                                        </p> -->
                                     </div>
                                 </div>
                             </div>
