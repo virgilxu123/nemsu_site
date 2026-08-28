@@ -15,10 +15,10 @@ class OvpafOfficeController extends Controller
             'title' => 'Chief Administrative Office - Finance Division',
             'acronym' => 'CAO-Finance',
             'description' => 'The CAO-Finance supervises the Financial Services Unit of the university and ensures the effective implementation of financial operations and services. The office reviews reports required by regulatory agencies such as the DBM, CHED, and CSC, and prepares memoranda, communications, terminal reports, training designs, proposals, and related documents. It also reviews supporting documents for vouchers and Budget Utilization Requests/Obligation Requests, conducts consultations and information services on financial operations, and oversees periodic monitoring and evaluation of the performance of financial units. In addition, the CAO-Finance facilitates workshops, seminars, and training programs, conducts orientations on financial matters across campuses, submits accomplishment reports on supervisory plan implementation, and performs other related functions as directed by the immediate supervisor.',
-            'head' => 'Dr. Camilo Malong',
+            'head' => 'Dr. Camilo D. Malong, Jr',
             'email' => 'chiefAO_FinanceDivision@nemsu.edu.ph',
             'phone' => '09125813688',
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/Dr. Camilo D. Malong, Jr. CAO-Finance.png',
         ],
         'chief-administrative-office-admin-division' => [
             'title' => 'Chief Administrative Office - Admin Division',
@@ -27,7 +27,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Dr. Florife O. Urbiztondo',
             'email' => 'caoad@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => '\images\administration\ovpaf\URBIZTONDO, FLORIFE, O SFFB NEMSU_4532 copy.jpg',
+            'headImage' => '/images/administration/ovpaf/Reso of URBIZTONDO, FLORIFE, O SFFB NEMSU_4532 copy.jpg',
         ],
         'supervising-administrative-office-finance-division' => [
             'title' => 'Supervising Administrative Office - Finance Division',
@@ -36,7 +36,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mrs. Leorilie Kim Estrada',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/estrada.png',
         ],
         'supervising-administrative-office-administration-division' => [
             'title' => 'Supervising Administrative Office - Administration Division',
@@ -45,7 +45,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Engr. Christopher Badayos',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/badayos.png',
         ],
         'accounting-office' => [
             'title' => 'Accounting Office',
@@ -63,7 +63,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mrs. Sandra Jessa S. Trajano',
             'email' => 'budget@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/trajano.png',
         ],
         'human-resource-management-office' => [
             'title' => 'Human Resource Management Office',
@@ -90,7 +90,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mrs. Glesilda L. Canda',
             'email' => null,
             'phone' => null,
-            'headImage' => '\images\administration\ovpaf\CANDA, GLESILDA, L SFFB NEMSU_4705 copy.jpg',
+            'headImage' => '/images/administration/ovpaf/CANDA, GLESILDA, L SFFB NEMSU_4705 copy.jpg',
         ],
         'income-generating-project-and-auxiliary-services-office' => [
             'title' => 'Income-Generating Project and Auxiliary Services Office',
@@ -108,7 +108,7 @@ class OvpafOfficeController extends Controller
             'head' => 'Mr. Robert R. Wariza',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaf/wariza.png',
         ],
         'energy-efficiency-and-conservation-office' => [
             'title' => 'Energy Efficiency and Conservation Office',

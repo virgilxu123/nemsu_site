@@ -19,7 +19,7 @@ class OvpaaOfficeController extends Controller
             'head' => 'Dr. Karla Jeane P. Roz-Estrada',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaa/DR. KARLA JEANE P. ROZ-ESTRADA.png',
         ],
         'university-library-office' => [
             'title' => 'University Library Office',
@@ -49,7 +49,7 @@ class OvpaaOfficeController extends Controller
             'head' => 'Dr. Shyla O. Moreno',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaa/MORENO, SHYLA, O SFFB NEMSU_6372 copy.jpg',
         ],
         'student-welfare-and-development-office' => [
             'title' => 'Student Welfare and Development Office',
@@ -59,7 +59,7 @@ class OvpaaOfficeController extends Controller
             'head' => 'Dr. Evelyn T. Bagood',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaa/bagood.png',
         ],
         'university-registrar-office' => [
             'title' => 'University Registrar Office',
@@ -69,14 +69,14 @@ class OvpaaOfficeController extends Controller
             'head' => 'Ms. Lynnet A. Sarvida',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaa/sarvida.png',
         ],
         'medical-and-dental-office' => [
             'title' => 'Medical and Dental Office',
             'acronym' => null,
             'description' => 'The Medical and Dental University Clinic serves as the primary health service unit of North Eastern Mindanao State University, providing accessible, responsive, and preventive healthcare services to students, faculty, staff, and authorized stakeholders. Headed by the University Physician and supported by the University Dentist, Nurses, Dental Aides, and Administrative Staff, the Clinic oversees medical consultations, treatment, first aid, dental care, health screenings, wellness campaigns, and preventive health programs. It maintains confidential health records, coordinates with hospitals and government health agencies for referrals and emergency response, and provides medical assistance during university activities and emergencies. The Clinic also promotes health education, sanitation, safety, and environmental health awareness within the University community.',
             'headTitle' => 'Unit Head',
-            'head' => 'To be announced',
+            'head' => '',
             'email' => null,
             'phone' => null,
             'headImage' => null,
@@ -86,7 +86,7 @@ class OvpaaOfficeController extends Controller
             'acronym' => 'IMDO',
             'description' => 'The Instructional Materials Development Office promotes and sustains the development of high-quality, research-based instructional materials for use in all academic programs of the University. It ensures that instructional materials developed by faculty members undergo proper review, assessment, and evaluation prior to institutional adoption. The Office revises and updates instructional materials to align with current academic trends, coordinates with subject matter experts to ensure accuracy and relevance, and provides technical assistance and leadership in the development of innovative and technology-based learning resources. It also designs and implements capability-building and training activities related to instructional materials development to optimize student learning and instructional effectiveness.',
             'headTitle' => 'Unit Head',
-            'head' => 'To be announced',
+            'head' => '',
             'email' => null,
             'phone' => null,
             'headImage' => null,
@@ -109,7 +109,7 @@ class OvpaaOfficeController extends Controller
             'head' => 'Ms. Jenevieve P. Babao',
             'email' => null,
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovpaa/BABAO.jpg',
         ],
     ];
 
