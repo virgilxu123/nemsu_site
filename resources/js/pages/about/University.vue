@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { home } from '@/routes';
+
 import {
     BookOpen,
     ChevronLeft,
@@ -12,6 +14,7 @@ import {
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
+import PageHero from '@/components/PageHero.vue';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
 
@@ -262,7 +265,16 @@ onBeforeUnmount(() => {
         <Head title="About the University" />
 
         <div class="bg-white text-slate-950 dark:bg-slate-950 dark:text-white">
-            <section class="bg-white pt-4 pb-10 dark:bg-slate-950">
+                        <PageHero
+                title="About North Eastern Mindanao State University"
+                description="A research university advancing technology, innovation, sustainable development, and public service across North Eastern Mindanao."
+                :breadcrumbs="[
+                    { title: 'Home', href: home().url },
+                    { title: 'About Us' },
+                    { title: 'About the University' },
+                ]"
+            />
+            <!-- <section class="bg-white pt-4 pb-10 dark:bg-slate-950">
                 <div
                     data-scroll-section="university-hero"
                     :class="revealClasses('university-hero')"
@@ -490,7 +502,7 @@ onBeforeUnmount(() => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> -->
 
 
             <section
