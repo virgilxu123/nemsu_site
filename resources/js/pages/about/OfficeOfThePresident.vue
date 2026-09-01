@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { ArrowRight, CalendarDays, Newspaper, User } from 'lucide-vue-next';
+import {
+    ArrowRight,
+    CalendarDays,
+    ChevronLeft,
+    ChevronRight,
+    Maximize2,
+    Newspaper,
+    User,
+    X,
+} from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
@@ -74,27 +83,86 @@ const strategicAgendaItems: StrategicAgendaItem[] = [
 
 const presidentGallery: GalleryPhoto[] = [
     {
-        src: 'https://placehold.net/400x400.png',
-        alt: 'President Nemesio G. Loayon at a NEMSU community project',
-        caption: 'Advancing sustainable livelihoods and marine conservation',
-    },
-    {
-        src: 'https://placehold.net/400x400.png',
-        alt: 'President Nemesio G. Loayon during a university flag ceremony',
-        caption: 'Leading the University community in public service',
-    },
-    {
-        src: 'https://placehold.net/400x400.png',
-        alt: 'President Nemesio G. Loayon with higher education leaders',
-        caption: 'Building partnerships for excellence and equity',
-    },
-    {
-        src: 'https://placehold.net/400x400.png',
-        alt: 'President Nemesio G. Loayon addressing the NEMSU community',
+        src: '/storage/images/op/1.jpg',
+        alt: 'Dr. Nemesio G. Loayon with university officials at the Office of the President',
         caption:
-            'Sharing the University’s direction with the academic community',
+            'NEMSU Administration & Key Leaders during official meeting at the OP Office',
+    },
+    {
+        src: '/storage/images/op/540296135_698286143231386_4935845870183219640_n.jpg',
+        alt: 'President Loayon and delegation with Hon. Romeo S. Momo',
+        caption:
+            'Courtesy visit with Hon. Romeo S. Momo, Representative of 1st District Surigao del Sur at the House of Representatives',
+    },
+    {
+        src: '/storage/images/op/547373498_710274315365902_7112370805895389088_n.jpg',
+        alt: 'Dr. Nemesio G. Loayon and university leadership attending the CHED event',
+        caption:
+            'Higher Education Leaders Gathering under CHED Bagong Pilipinas ACHIEVE initiative',
+    },
+    {
+        src: '/storage/images/op/559313047_730824059977594_8560694946242249261_n.jpg',
+        alt: 'President Nemesio G. Loayon receiving honors at PAFTE convention',
+        caption:
+            'Honoring Our Trailblazers recognition at the PAFTE National Convention',
+    },
+    {
+        src: '/storage/images/op/566209207_739741582419175_147463436556896519_n.jpg',
+        alt: 'President Loayon leading a ribbon-cutting ceremony for extension project launch',
+        caption:
+            'Ribbon cutting and launch of university community extension project',
+    },
+    {
+        src: '/storage/images/op/625900072_822495177477148_1831198748509807631_n.jpg',
+        alt: 'Dr. Nemesio G. Loayon with Magkuno Award recipients',
+        caption:
+            'Magkuno Awards Ceremony honoring outstanding institutional achievers',
+    },
+    {
+        src: '/storage/images/op/656151430_861393053587360_3461954049841534612_n.jpg',
+        alt: 'President Loayon and NEMSU Vice Presidents with excellence trophies',
+        caption:
+            'NEMSU Executives celebrating prestigious regional and national awards',
+    },
+    {
+        src: '/storage/images/op/720031952_925142100545788_8957349188716742116_n.jpg',
+        alt: 'Dr. Nemesio G. Loayon and university officials at CHED event',
+        caption:
+            'CHED Bagong Pilipinas higher education gathering with university key leaders',
     },
 ];
+
+const selectedPhotoIndex = ref<number | null>(null);
+
+const openPhotoModal = (index: number) => {
+    selectedPhotoIndex.value = index;
+};
+
+const closePhotoModal = () => {
+    selectedPhotoIndex.value = null;
+};
+
+const nextPhoto = () => {
+    if (selectedPhotoIndex.value !== null) {
+        selectedPhotoIndex.value =
+            (selectedPhotoIndex.value + 1) % presidentGallery.length;
+    }
+};
+
+const prevPhoto = () => {
+    if (selectedPhotoIndex.value !== null) {
+        selectedPhotoIndex.value =
+            (selectedPhotoIndex.value - 1 + presidentGallery.length) %
+            presidentGallery.length;
+    }
+};
+
+const handleKeyDown = (e: KeyboardEvent) => {
+    if (selectedPhotoIndex.value === null) return;
+    if (e.key === 'Escape') closePhotoModal();
+    if (e.key === 'ArrowRight') nextPhoto();
+    if (e.key === 'ArrowLeft') prevPhoto();
+};
 
 const revealOffset: Record<RevealDirection, string> = {
     down: '-translate-y-8',
@@ -135,6 +203,8 @@ const revealClasses = (
     ].join(' ');
 
 onMounted(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
     const animatedSections = document.querySelectorAll<HTMLElement>(
         '[data-scroll-section]',
     );
@@ -173,6 +243,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+    window.removeEventListener('keydown', handleKeyDown);
     revealObserver?.disconnect();
 });
 </script>
@@ -485,9 +556,9 @@ onBeforeUnmount(() => {
                         ></span>
                     </div>
 
-                    <!-- Layout Carousel Grid System -->
+                    <!-- Layout Gallery Grid System -->
                     <div class="relative mt-8">
-                        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                             <figure
                                 v-for="(photo, index) in presidentGallery"
                                 :key="photo.src"
@@ -495,17 +566,27 @@ onBeforeUnmount(() => {
                                 :class="
                                     revealClasses(`president-gallery-${index}`)
                                 "
-                                class="group relative overflow-hidden rounded border border-slate-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-slate-900"
+                                class="group relative cursor-pointer overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5 shadow-sm transition-all duration-300 hover:border-[#1711d4]/50 hover:shadow-md dark:border-white/10 dark:bg-slate-900 dark:hover:border-sky-400/50"
+                                @click="openPhotoModal(index)"
                             >
                                 <div
-                                    class="aspect-[4/3] overflow-hidden rounded-sm bg-slate-100 dark:bg-slate-800"
+                                    class="relative aspect-[4/3] overflow-hidden rounded bg-slate-100 dark:bg-slate-800"
                                 >
                                     <img
                                         :src="photo.src"
                                         :alt="photo.alt"
                                         loading="lazy"
-                                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-102"
+                                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center bg-slate-950/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                                    >
+                                        <span
+                                            class="inline-flex size-9 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-md backdrop-blur-sm dark:bg-slate-900/90 dark:text-white"
+                                        >
+                                            <Maximize2 class="size-4" />
+                                        </span>
+                                    </div>
                                 </div>
                                 <figcaption
                                     class="line-clamp-2 p-3 text-xs leading-relaxed text-slate-600 dark:text-slate-400"
@@ -514,27 +595,76 @@ onBeforeUnmount(() => {
                                 </figcaption>
                             </figure>
                         </div>
-
-                        <!-- Page Dot Indicator nodes matching layout blueprint references -->
-                        <div
-                            class="mt-6 flex items-center justify-center gap-1.5"
-                        >
-                            <span
-                                class="size-1.5 rounded-full bg-slate-300 dark:bg-slate-700"
-                            ></span>
-                            <span
-                                class="size-1.5 rounded-full bg-[#1711d4] dark:bg-sky-400"
-                            ></span>
-                            <span
-                                class="size-1.5 rounded-full bg-slate-300 dark:bg-slate-700"
-                            ></span>
-                            <span
-                                class="size-1.5 rounded-full bg-slate-300 dark:bg-slate-700"
-                            ></span>
-                        </div>
                     </div>
                 </div>
             </section>
         </main>
+
+        <!-- Lightbox Modal -->
+        <Teleport to="body">
+            <div
+                v-if="selectedPhotoIndex !== null"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-md transition-all duration-300"
+                tabindex="0"
+                @click.self="closePhotoModal"
+            >
+                <div
+                    class="relative flex max-h-[90vh] w-full max-w-5xl flex-col items-center overflow-hidden rounded-xl bg-slate-900 shadow-2xl ring-1 ring-white/10"
+                >
+                    <!-- Close button -->
+                    <button
+                        type="button"
+                        class="absolute top-4 right-4 z-10 rounded-full bg-slate-800/80 p-2 text-slate-300 transition hover:bg-slate-700 hover:text-white focus:outline-none"
+                        @click="closePhotoModal"
+                    >
+                        <X class="size-5" />
+                        <span class="sr-only">Close gallery</span>
+                    </button>
+
+                    <!-- Navigation controls -->
+                    <button
+                        type="button"
+                        class="absolute left-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-slate-800/80 p-2.5 text-slate-300 transition hover:bg-slate-700 hover:text-white focus:outline-none"
+                        @click="prevPhoto"
+                    >
+                        <ChevronLeft class="size-6" />
+                        <span class="sr-only">Previous photo</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-slate-800/80 p-2.5 text-slate-300 transition hover:bg-slate-700 hover:text-white focus:outline-none"
+                        @click="nextPhoto"
+                    >
+                        <ChevronRight class="size-6" />
+                        <span class="sr-only">Next photo</span>
+                    </button>
+
+                    <!-- Image Display -->
+                    <div
+                        class="flex max-h-[75vh] w-full items-center justify-center overflow-hidden bg-black/60 p-4"
+                    >
+                        <img
+                            :src="presidentGallery[selectedPhotoIndex].src"
+                            :alt="presidentGallery[selectedPhotoIndex].alt"
+                            class="max-h-[70vh] w-auto max-w-full rounded object-contain"
+                        />
+                    </div>
+
+                    <!-- Caption & Counter Bar -->
+                    <div
+                        class="flex w-full items-center justify-between border-t border-white/10 bg-slate-900 px-6 py-4 text-white"
+                    >
+                        <p class="text-sm font-medium text-slate-200">
+                            {{ presidentGallery[selectedPhotoIndex].caption }}
+                        </p>
+                        <span class="text-xs font-semibold text-slate-400">
+                            {{ selectedPhotoIndex + 1 }} /
+                            {{ presidentGallery.length }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </Teleport>
     </PublicSiteLayout>
 </template>
