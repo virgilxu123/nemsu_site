@@ -158,7 +158,7 @@ const articleUrl = (article: SdgArticle): string =>
 
                     <Link
                         v-if="articles.length > 0"
-                        :href="newsIndex()"
+                        :href="newsIndex({ query: { office: 'SDG' } })"
                         class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#1C0ED7] hover:text-[#160BB2] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1C0ED7] dark:text-sky-300"
                     >
                         View all SDG initiatives

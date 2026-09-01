@@ -177,38 +177,16 @@ onBeforeUnmount(() => {
                                 <figure
                                     class="mt-6 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:mt-0"
                                 >
-<img
-    v-if="props.college.photo"
-    :src="props.college.photo"
-    :alt="`${props.college.title} featured photo`"
-    class="h-full w-full object-contain"
-/>
-
-<!-- <div
-    v-else
-    class="absolute inset-0 bg-[linear-gradient(135deg,rgba(23,17,212,0.10),transparent_55%,rgba(242,183,5,0.16))] dark:bg-[linear-gradient(135deg,rgba(125,211,252,0.12),transparent_55%,rgba(242,183,5,0.10))]"
->
-</div>
-
-<div
-    v-if="!props.college.photo"
-    class="relative flex h-full flex-col items-center justify-center gap-3 p-6 text-center"
->
-    <ImageOff
-        class="size-10 text-[#1711d4] dark:text-sky-300"
-        :stroke-width="1.5"
-    />
-
-    <div>
-        <p class="text-sm font-semibold tracking-wide text-slate-800 uppercase dark:text-white">
-            No featured photo
-        </p>
-
-        <p class="mt-1 text-sm/6 text-slate-500 dark:text-slate-400">
-            {{ props.college.title }}
-        </p>
-    </div>
-</div> -->
+                                    <div
+                                        class="relative aspect-4/3 overflow-hidden bg-white dark:border-white/10 dark:bg-slate-900"
+                                    >
+                                        <img
+                                            v-if="props.college.photo"
+                                            :src="props.college.photo"
+                                            :alt="`${props.college.title} featured photo`"
+                                            class="h-full w-full object-contain"
+                                        />
+                                    </div>
                                 </figure>
 
                                 <p
@@ -272,7 +250,7 @@ onBeforeUnmount(() => {
                                                 About the program
                                             </h3>
                                             <p
-                                                class="mt-3 text-base/7 text-slate-600 dark:text-slate-300 text-justify"
+                                                class="mt-3 text-justify text-base/7 text-slate-600 dark:text-slate-300"
                                             >
                                                 {{ program.description }}
                                             </p>

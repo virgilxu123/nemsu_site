@@ -61,11 +61,35 @@ test('campus programs reuse matching Academic Affairs prospectus links', functio
         'Bachelor of Technology and Livelihood Education (BTLEd) – Major in Home Economics',
         'Bachelor of Technology and Livelihood Education major in Home Economics',
     ],
+    'San Miguel Crop Science reuses Agronomy prospectus' => [
+        'san-miguel',
+        'San Miguel Campus',
+        'Bachelor of Science in Agriculture (BSA) – Major in Crop Science',
+        'Bachelor of Science in Agriculture – Agronomy',
+    ],
     'Tagbina exact title' => [
         'tagbina',
         'Tagbina Campus',
         'Bachelor of Secondary Education major in Science',
         'Bachelor of Secondary Education major in Science',
+    ],
+    'Tagbina HRM reuses Hospitality Management prospectus' => [
+        'tagbina',
+        'Tagbina Campus',
+        'Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management',
+        'Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management',
+    ],
+    'Cagwait Automotive reuses Industrial Technology prospectus' => [
+        'cagwait',
+        'Cagwait Campus',
+        'Bachelor in Industrial Technology major in Automotive Technology',
+        'Bachelor of Science in Industrial Technology major in Automotive Technology',
+    ],
+    'Cagwait Electrical reuses Industrial Technology prospectus' => [
+        'cagwait',
+        'Cagwait Campus',
+        'Bachelor in Industrial Technology major in Electrical Technology',
+        'Bachelor of Science in Industrial Technology major in Electrical Technology',
     ],
 ]);
 
@@ -173,14 +197,6 @@ test('ambiguous or unavailable program prospectuses remain unlinked', function (
 
     expect($campusProspectuses)->not->toHaveKey($offering);
 })->with([
-    'San Miguel Crop Science is not Agronomy' => [
-        'san-miguel',
-        'Bachelor of Science in Agriculture (BSA) – Major in Crop Science',
-    ],
-    'Tagbina Hotel and Restaurant Management is not generic Hospitality Management' => [
-        'tagbina',
-        'Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management',
-    ],
     'Tagbina Agricultural Technology has no Academic Affairs prospectus' => [
         'tagbina',
         'Bachelor of Agricultural Technology',
