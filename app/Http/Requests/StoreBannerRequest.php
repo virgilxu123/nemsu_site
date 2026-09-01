@@ -18,7 +18,8 @@ class StoreBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => ['required', 'string', 'max:255'],
+            'photo_upload' => ['required_without:photo', 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'photo' => ['nullable', 'string', 'max:255'],
             'link' => ['nullable', 'string', 'max:255'],
             'title' => ['nullable', 'string', 'max:255'],
             'content' => ['nullable', 'string'],

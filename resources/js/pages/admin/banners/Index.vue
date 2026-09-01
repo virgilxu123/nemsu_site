@@ -16,6 +16,7 @@ type BannerItem = {
     id: number;
     title: string | null;
     photo: string;
+    photoUrl?: string | null;
     link: string | null;
     office: string | null;
     isPublished: boolean;
@@ -84,6 +85,10 @@ const bannerPhotoUrl = (photo: string): string => {
         photo.startsWith('/')
     ) {
         return photo;
+    }
+
+    if (photo.startsWith('banners/')) {
+        return `/storage/${photo}`;
     }
 
     return `https://nemsu.edu.ph/files/Banner/${encodeURIComponent(photo)}`;
@@ -205,7 +210,7 @@ const paginationLabel = (label: string): string =>
                     >
                         <td class="px-4 py-4">
                             <img
-                                :src="bannerPhotoUrl(banner.photo)"
+                                :src="banner.photoUrl || bannerPhotoUrl(banner.photo)"
                                 :alt="banner.title || 'Banner preview'"
                                 class="aspect-video w-32 rounded-md object-cover"
                             />
