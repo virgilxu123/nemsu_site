@@ -525,7 +525,6 @@ TEXT,
             'offerings' => [
                 'Master in Teaching Technology Education (MTTE) major in Architectural Drafting Technology',
                 'Master in Teaching Technology Education (MTTE) major in Automotive Technology',
-                'Master in Teaching Technology Education (MTTE) major in Civil Technology',
                 'Master in Teaching Technology Education (MTTE) major in Electrical Technology',
                 'Master in Teaching Technology Education (MTTE) major in Food Technology',
                 'Master in Teaching Technology Education (MTTE) major in Garments Technology',

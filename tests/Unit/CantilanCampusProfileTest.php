@@ -56,7 +56,7 @@ test('the Cantilan campus profile lists its official program offerings', functio
             static fn (array $program): int => count($program['offerings']),
             $programs,
         ))
-        ->toBe([6, 9, 1, 4, 3, 8]);
+        ->toBe([5, 10, 1, 4, 3, 8]);
 
     $offerings = collect($programs)->flatMap(
         static fn (array $program): array => $program['offerings'],
@@ -64,7 +64,7 @@ test('the Cantilan campus profile lists its official program offerings', functio
 
     expect($offerings)
         ->toHaveCount(31)
-        ->toContain('Master in Teaching Technology Education (MTTE) major in Civil Technology')
+        ->toContain('Master in Teaching Technology Education (MTTE) major in Architectural Drafting Technology')
         ->toContain('Bachelor of Secondary Education (BSEd) major in Science')
         ->toContain('Bachelor of Science in Criminology (BSCrim.)')
         ->toContain('Bachelor of Science in Tourism Management (BSTM)')

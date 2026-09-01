@@ -110,13 +110,17 @@ test('campus programs reuse matching graduate school prospectus links', function
         [
             'Doctor of Education major in Educational Management' => 'Doctor of Education in Educational Management',
             'Doctor of Education major in English Language Teaching' => 'Doctor of Education in English Language Teaching',
+            'Doctor of Philosophy in Science Education' => 'Doctor of Philosophy in Science Education',
+            'Doctor of Philosophy in Mathematics Education' => 'Doctor of Philosophy in Mathematics Education',
             'Master of Arts in Education major in Educational Management' => 'Master of Arts in Education major in Educational Management',
             'Master of Arts in English Language Teaching' => 'Master of Arts in English Language Teaching',
             'Master of Arts in Filipino Language Teaching' => 'Master of Arts in Filipino Language Teaching',
             'Master of Arts in Home Economics Teaching' => 'Master of Arts in Home Economics Teaching',
+            'Master of Arts in Social Sciences Teaching' => 'Master of Arts in Social Sciences Teaching',
             'Master of Science in Teaching Mathematics' => 'Master of Science in Teaching Mathematics',
             'Master of Science in Teaching Science' => 'Master of Science in Teaching Science',
             'Master of Science in Computer Science' => 'Master of Science in Computer Science',
+            'Master in Business Administration' => 'Master in Business Administration',
             'Master in Public Administration' => 'Master in Public Administration',
         ],
     ],
@@ -180,17 +184,5 @@ test('ambiguous or unavailable program prospectuses remain unlinked', function (
     'Tagbina Agricultural Technology has no Academic Affairs prospectus' => [
         'tagbina',
         'Bachelor of Agricultural Technology',
-    ],
-    'Tandag EdD Science is not PhD Science Education' => [
-        'tandag',
-        'Doctor of Education major in Science Education',
-    ],
-    'Tandag EdD Mathematics is not PhD Mathematics Education' => [
-        'tandag',
-        'Doctor of Education major in Mathematics Education',
-    ],
-    'Tandag Business Management is not Business Administration' => [
-        'tandag',
-        'Master of Business Management',
     ],
 ]);

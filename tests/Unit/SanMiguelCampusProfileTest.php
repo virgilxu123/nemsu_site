@@ -7,7 +7,7 @@ test('the San Miguel campus profile uses the official campus details', function 
     expect($sanMiguel)
         ->location->toBe('Purok 5, Carromata, San Miguel, Philippines')
         ->and($sanMiguel['profile']['headline'])
-        ->toBe('A premier institution for agriculture and forestry education in Surigao del Sur.')
+        ->toBe('A premier Institution for Agriculture and Forestry Education in Surigao del Sur.')
         ->and($sanMiguel['profile']['overview'])
         ->toContain('Established in 1953 as the Surigao National Agricultural School')
         ->toContain('Republic Act No. 11584')

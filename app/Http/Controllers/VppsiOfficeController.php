@@ -18,7 +18,7 @@ class VppsiOfficeController extends Controller
             'head' => 'Mrs. Ma. Reina S. Acevedo',
             'email' => 'mrsacevedo@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovppsi/acevedo.png',
         ],
         'alumni-affairs-office' => [
             'title' => 'Alumni Affairs Office',
@@ -36,7 +36,7 @@ class VppsiOfficeController extends Controller
             'head' => 'Mr. Joseph B. Cabadonga, Office In-charge',
             'email' => 'records@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovppsi/cabadonga.png',
         ],
         'gad-and-values-restoration-office' => [
             'title' => 'GAD and Values Restoration Office',
@@ -54,16 +54,16 @@ class VppsiOfficeController extends Controller
             'head' => 'Mr. Joseph B. Cabadonga',
             'email' => 'information@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovppsi/cabadonga.png',
         ],
         'quality-assurance-office' => [
             'title' => 'Quality Assurance Office',
             'acronym' => 'QAO',
             'description' => 'The Quality Assurance Office ensures that the University consistently upholds high standards in both academic and administrative operations in line with regulatory requirements and institutional objectives. It manages the implementation and continuous improvement of quality assurance systems, including performance evaluation mechanisms, accreditation activities, and compliance monitoring across all units. The office fosters a culture of excellence by identifying gaps, recommending improvements, and supporting data-driven decision-making. It also ensures adherence to national and global quality standards to enhance institutional credibility and competitiveness. Through sustained monitoring and evaluation, the office strengthens the University commitment to quality, accountability, and continuous institutional advancement.',
-            'head' => 'Engr. Leah Guirimbao',
+            'head' => 'Engr. Leah G. Guirimbao',
             'email' => 'qa@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovppsi/guirimbao.png',
         ],
         'planning-office' => [
             'title' => 'Planning Office',
@@ -81,7 +81,7 @@ class VppsiOfficeController extends Controller
             'head' => 'Engr. McDonald Amparo',
             'email' => 'gsu@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => null,
+            'headImage' => '/images/administration/ovppsi/amparo.png',
         ],
     ];
 

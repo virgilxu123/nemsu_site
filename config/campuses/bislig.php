@@ -180,6 +180,7 @@ TEXT,
             'college' => 'College of Teacher Education',
             'offerings' => [
                 'Bachelor of Secondary Education Major in English – Level III Accredited',
+                'Bachelor of Technical-Vocational Teacher Education major in Automotive Technology',
                 'Bachelor of Technical-Vocational Teacher Education (Electrical Technology) – Level I Accredited',
             ],
         ],

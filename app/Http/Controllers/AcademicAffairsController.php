@@ -71,7 +71,7 @@ class AcademicAffairsController extends Controller
                     'Dr. Suazo earned her Doctor of Philosophy in Applied Linguistics and has consistently contributed to the advancement of academic excellence through effective leadership, innovative educational practices, and collaborative academic initiatives. As a Professor V, she is committed to strengthening instructional quality, fostering research and professional development, and promoting global academic collaboration to support institutional growth and student success. Her leadership reflects the University\'s commitment to transformative education, sustainable development, and globally competitive academic standards.',
                 ],
                 'email' => 'ovpaa@nemsu.edu.ph',
-                'phone' => '(086) 214-0005',
+                'phone' => '(086) 214-3509',
                 'office' => 'OVPAA Office, NEMSU Tandag Campus',
                 'heroImage' => '/images/administration/ovpaf/6I3A7029(1).jpg',
                 'image' => '/images/administration/ovpaa/VPAA.webp',

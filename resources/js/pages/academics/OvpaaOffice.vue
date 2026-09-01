@@ -318,13 +318,13 @@ onBeforeUnmount(() => {
                                     <Mail class="size-4" aria-hidden="true" />
                                     {{ props.office.email }}
                                 </a>
-                                <span
+                                <!-- <span
                                     v-else
                                     class="inline-flex items-center gap-3 text-slate-400 dark:text-slate-500"
                                 >
                                     <Mail class="size-4" aria-hidden="true" />
                                     Email not provided
-                                </span>
+                                </span> -->
                                 <a
                                     v-if="props.office.phone"
                                     :href="`tel:${props.office.phone}`"
@@ -333,13 +333,13 @@ onBeforeUnmount(() => {
                                     <Phone class="size-4" aria-hidden="true" />
                                     {{ props.office.phone }}
                                 </a>
-                                <span
+                                <!-- <span
                                     v-else
                                     class="inline-flex items-center gap-3 text-slate-400 dark:text-slate-500"
                                 >
                                     <Phone class="size-4" aria-hidden="true" />
                                     Contact number not provided
-                                </span>
+                                </span> -->
                             </div>
                         </div>
                     </aside>
