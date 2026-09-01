@@ -18,7 +18,9 @@ class UpdateBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => ['required', 'string', 'max:255'],
+            'photo_upload' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'photo' => ['nullable', 'string', 'max:255'],
+            'remove_photo' => ['sometimes', 'boolean'],
             'link' => ['nullable', 'string', 'max:255'],
             'title' => ['nullable', 'string', 'max:255'],
             'content' => ['nullable', 'string'],
@@ -31,6 +33,7 @@ class UpdateBannerRequest extends FormRequest
     {
         $this->merge([
             'is_published' => $this->boolean('is_published'),
+            'remove_photo' => $this->boolean('remove_photo'),
         ]);
     }
 }

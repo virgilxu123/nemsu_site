@@ -1,6 +1,7 @@
 export type BannerFormData = {
     id?: number;
     photo: string;
+    photoUrl?: string | null;
     link: string | null;
     title: string | null;
     content: string | null;
