@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Banners\ReorderBanners;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReorderBannersRequest;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
 use App\Models\Banner;
@@ -10,6 +12,7 @@ use App\Models\Office;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -24,18 +27,19 @@ class BannerController extends Controller
         $sortFields = [
             'title' => 'title',
             'is_published' => 'is_published',
+            'sequence' => 'sequence',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at',
         ];
-        $sortBy = (string) $request->query('sort_by', 'created_at');
-        $sortDirection = (string) $request->query('sort_direction', 'desc');
+        $sortBy = (string) $request->query('sort_by', 'sequence');
+        $sortDirection = (string) $request->query('sort_direction', 'asc');
 
         if (! array_key_exists($sortBy, $sortFields)) {
-            $sortBy = 'created_at';
+            $sortBy = 'sequence';
         }
 
         if (! in_array($sortDirection, ['asc', 'desc'], true)) {
-            $sortDirection = 'desc';
+            $sortDirection = 'asc';
         }
 
         return Inertia::render('admin/banners/Index', [
@@ -47,14 +51,21 @@ class BannerController extends Controller
             ],
             'banners' => Banner::query()
                 ->with('office:id,name')
-                ->select(['id', 'photo', 'link', 'title', 'content', 'office_id', 'is_published', 'created_at', 'updated_at'])
+                ->select(['id', 'photo', 'link', 'title', 'content', 'office_id', 'is_published', 'sequence', 'created_at', 'updated_at'])
                 ->search($search, ['photo', 'link', 'title', 'content'])
                 ->when($status === 'published', fn ($query) => $query->where('is_published', true))
                 ->when($status === 'draft', fn ($query) => $query->where('is_published', false))
-                ->sort($sortBy, $sortDirection, $sortFields, 'created_at', 'desc')
+                ->sort($sortBy, $sortDirection, $sortFields, 'sequence', 'asc')
+                ->when($sortBy === 'sequence', fn ($query) => $query->latest()->orderByDesc('id'))
                 ->paginate(10)
                 ->withQueryString()
                 ->through(fn (Banner $banner): array => $this->bannerListData($banner)),
+            'bannerOrder' => Banner::query()
+                ->select(['id', 'sequence', 'created_at'])
+                ->orderBy('sequence')
+                ->latest()
+                ->orderByDesc('id')
+                ->pluck('id'),
         ]);
     }
 
@@ -74,7 +85,17 @@ class BannerController extends Controller
             $data['photo'] = basename($path);
         }
 
-        $banner = Banner::query()->create($data);
+        $banner = DB::transaction(function () use ($data): Banner {
+            $lastBanner = Banner::query()
+                ->select(['id', 'sequence'])
+                ->orderByDesc('sequence')
+                ->orderByDesc('id')
+                ->lockForUpdate()
+                ->first();
+            $data['sequence'] = $lastBanner instanceof Banner ? $lastBanner->sequence + 1 : 0;
+
+            return Banner::query()->create($data);
+        }, attempts: 3);
 
         Inertia::flash('toast', [
             'type' => 'success',
@@ -118,6 +139,19 @@ class BannerController extends Controller
         ]);
 
         return to_route('admin.banners.edit', $banner);
+    }
+
+    public function reorder(ReorderBannersRequest $request, ReorderBanners $reorderBanners): RedirectResponse
+    {
+        $validated = $request->validated();
+        $reorderBanners->handle($validated['banner_ids']);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Banner order updated.',
+        ]);
+
+        return back();
     }
 
     public function destroy(Banner $banner): RedirectResponse

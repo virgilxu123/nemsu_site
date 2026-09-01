@@ -81,6 +81,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->names('admin.bac-matters')
         ->middleware('can:manage-cms');
 
+    Route::patch('admin/banners/reorder', [AdminBannerController::class, 'reorder'])
+        ->name('admin.banners.reorder')
+        ->middleware('can:manage-cms');
+
     Route::resource('admin/banners', AdminBannerController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->names('admin.banners')
