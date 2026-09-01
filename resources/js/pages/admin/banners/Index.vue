@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Edit, Plus, RotateCcw, Search, Trash2 } from 'lucide-vue-next';
-import { computed } from 'vue';
-import AdminBannerController from '@/actions/App/Http/Controllers/Admin/BannerController';
+import {
+    Edit,
+    GripVertical,
+    Plus,
+    RotateCcw,
+    Search,
+    Trash2,
+} from 'lucide-vue-next';
+import { computed, ref, watch } from 'vue';
+import {
+    destroy,
+    reorder as reorderBanners,
+} from '@/actions/App/Http/Controllers/Admin/BannerController';
 import Heading from '@/components/Heading.vue';
 import SortableTableHeader from '@/components/SortableTableHeader.vue';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +26,7 @@ type BannerItem = {
     id: number;
     title: string | null;
     photo: string;
+    photoUrl?: string | null;
     link: string | null;
     office: string | null;
     isPublished: boolean;
@@ -47,6 +58,7 @@ type BannerFilters = TableQueryFilters & {
 const props = defineProps<{
     filters: BannerFilters;
     banners: PaginatedBanners;
+    bannerOrder: number[];
 }>();
 
 defineOptions({
@@ -67,14 +79,175 @@ const hasActiveFilters = computed(
     () =>
         filters.search !== '' ||
         filters.status !== 'all' ||
-        filters.sort_by !== undefined ||
-        filters.sort_direction !== undefined,
+        filters.sort_by !== 'sequence' ||
+        filters.sort_direction !== 'asc',
 );
 
 const clearFilters = (): void => {
     resetFilter({
         status: 'all',
+        sort_by: 'sequence',
+        sort_direction: 'asc',
     });
+};
+
+const displayedBanners = ref<BannerItem[]>([...props.banners.data]);
+const draggedBannerId = ref<number | null>(null);
+const dropTargetBannerId = ref<number | null>(null);
+const dropPosition = ref<'before' | 'after'>('before');
+const isReordering = ref(false);
+const canReorder = computed(
+    () =>
+        !isReordering.value &&
+        displayedBanners.value.length > 1 &&
+        filters.search === '' &&
+        filters.status === 'all' &&
+        filters.sort_by === 'sequence' &&
+        filters.sort_direction === 'asc',
+);
+
+watch(
+    () => props.banners.data,
+    (banners) => {
+        displayedBanners.value = [...banners];
+    },
+);
+
+const resetDragState = (): void => {
+    draggedBannerId.value = null;
+    dropTargetBannerId.value = null;
+    dropPosition.value = 'before';
+};
+
+const startDragging = (event: DragEvent, bannerId: number): void => {
+    if (!canReorder.value) {
+        event.preventDefault();
+
+        return;
+    }
+
+    draggedBannerId.value = bannerId;
+
+    if (event.dataTransfer) {
+        event.dataTransfer.effectAllowed = 'move';
+        event.dataTransfer.setData('text/plain', bannerId.toString());
+    }
+};
+
+const dragOverBanner = (event: DragEvent, bannerId: number): void => {
+    if (
+        !canReorder.value ||
+        draggedBannerId.value === null ||
+        draggedBannerId.value === bannerId
+    ) {
+        return;
+    }
+
+    event.preventDefault();
+
+    if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = 'move';
+    }
+
+    const target = event.currentTarget as HTMLElement;
+    const bounds = target.getBoundingClientRect();
+    dropTargetBannerId.value = bannerId;
+    dropPosition.value =
+        event.clientY < bounds.top + bounds.height / 2 ? 'before' : 'after';
+};
+
+const moveBannerId = (
+    bannerIds: number[],
+    sourceBannerId: number,
+    targetBannerId: number,
+    position: 'before' | 'after',
+): number[] => {
+    const reorderedBannerIds = [...bannerIds];
+    const sourceIndex = reorderedBannerIds.indexOf(sourceBannerId);
+
+    if (sourceIndex === -1) {
+        return bannerIds;
+    }
+
+    reorderedBannerIds.splice(sourceIndex, 1);
+    const targetIndex = reorderedBannerIds.indexOf(targetBannerId);
+
+    if (targetIndex === -1) {
+        return bannerIds;
+    }
+
+    const insertionIndex = targetIndex + (position === 'after' ? 1 : 0);
+    reorderedBannerIds.splice(insertionIndex, 0, sourceBannerId);
+
+    return reorderedBannerIds;
+};
+
+const dropBanner = (event: DragEvent, targetBannerId: number): void => {
+    event.preventDefault();
+
+    const sourceBannerId = draggedBannerId.value;
+
+    if (
+        !canReorder.value ||
+        sourceBannerId === null ||
+        sourceBannerId === targetBannerId
+    ) {
+        resetDragState();
+
+        return;
+    }
+
+    const reorderedVisibleBannerIds = moveBannerId(
+        displayedBanners.value.map((banner) => banner.id),
+        sourceBannerId,
+        targetBannerId,
+        dropPosition.value,
+    );
+    const reorderedBannerIds = moveBannerId(
+        props.bannerOrder,
+        sourceBannerId,
+        targetBannerId,
+        dropPosition.value,
+    );
+    const bannersById = new Map(
+        displayedBanners.value.map((banner) => [banner.id, banner]),
+    );
+    const reorderedVisibleBanners = reorderedVisibleBannerIds
+        .map((bannerId) => bannersById.get(bannerId))
+        .filter((banner): banner is BannerItem => banner !== undefined);
+
+    if (
+        reorderedVisibleBanners.length !== displayedBanners.value.length ||
+        reorderedBannerIds.every(
+            (bannerId, index) => bannerId === props.bannerOrder[index],
+        )
+    ) {
+        resetDragState();
+
+        return;
+    }
+
+    displayedBanners.value = reorderedVisibleBanners;
+    isReordering.value = true;
+    resetDragState();
+
+    router.patch(
+        reorderBanners.url(),
+        {
+            banner_ids: reorderedBannerIds,
+        },
+        {
+            preserveScroll: true,
+            preserveState: true,
+            only: ['filters', 'banners', 'bannerOrder'],
+            onError: () => {
+                displayedBanners.value = [...props.banners.data];
+            },
+            onFinish: () => {
+                isReordering.value = false;
+            },
+        },
+    );
 };
 
 const bannerPhotoUrl = (photo: string): string => {
@@ -86,7 +259,11 @@ const bannerPhotoUrl = (photo: string): string => {
         return photo;
     }
 
-    return `https://nemsu.edu.ph/files/Banner/${encodeURIComponent(photo)}`;
+    if (photo.startsWith('banners/')) {
+        return `/storage/${photo}`;
+    }
+
+    return `/storage/images/banners/home/${encodeURIComponent(photo)}`;
 };
 
 const deleteBanner = (banner: BannerItem): void => {
@@ -94,7 +271,7 @@ const deleteBanner = (banner: BannerItem): void => {
         return;
     }
 
-    router.delete(AdminBannerController.destroy.url(banner.id), {
+    router.delete(destroy.url(banner.id), {
         preserveScroll: true,
     });
 };
@@ -156,12 +333,23 @@ const paginationLabel = (label: string): string =>
             </Button>
         </div>
 
+        <p class="text-sm text-muted-foreground" aria-live="polite">
+            {{
+                isReordering
+                    ? 'Saving banner order…'
+                    : canReorder
+                      ? 'Drag rows by the order handle. Draft banners keep their position when published.'
+                      : 'Clear filters and restore the default ordering to enable reordering.'
+            }}
+        </p>
+
         <div
             class="overflow-hidden rounded-md border border-sidebar-border/70 dark:border-sidebar-border"
         >
             <table class="w-full min-w-[58rem] text-sm">
                 <thead class="bg-muted/50 text-left">
                     <tr>
+                        <th class="px-4 py-3 text-left font-medium">Order</th>
                         <th class="px-4 py-3 text-left font-medium">Preview</th>
                         <SortableTableHeader
                             column="title"
@@ -199,14 +387,51 @@ const paginationLabel = (label: string): string =>
                 </thead>
                 <tbody>
                     <tr
-                        v-for="banner in banners.data"
+                        v-for="(banner, position) in displayedBanners"
                         :key="banner.id"
-                        class="border-t border-sidebar-border/70"
+                        class="border-t border-sidebar-border/70 transition-[opacity,background-color]"
+                        :class="{
+                            'opacity-50': draggedBannerId === banner.id,
+                            'bg-muted/50': dropTargetBannerId === banner.id,
+                        }"
+                        @dragover="dragOverBanner($event, banner.id)"
+                        @drop="dropBanner($event, banner.id)"
                     >
                         <td class="px-4 py-4">
+                            <div class="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    :draggable="canReorder"
+                                    :disabled="!canReorder"
+                                    class="inline-flex size-9 shrink-0 cursor-grab items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground active:cursor-grabbing disabled:cursor-not-allowed disabled:opacity-50"
+                                    :title="
+                                        canReorder
+                                            ? 'Drag to reorder'
+                                            : 'Clear filters and restore the default ordering to reorder'
+                                    "
+                                    :aria-label="`Drag ${banner.title || 'untitled banner'} to reorder`"
+                                    @dragstart="
+                                        startDragging($event, banner.id)
+                                    "
+                                    @dragend="resetDragState"
+                                >
+                                    <GripVertical class="size-5" />
+                                </button>
+                                <span
+                                    class="min-w-6 text-center font-medium tabular-nums"
+                                >
+                                    {{ (banners.from ?? 1) + position }}
+                                </span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-4">
                             <img
-                                :src="bannerPhotoUrl(banner.photo)"
+                                :src="
+                                    banner.photoUrl ||
+                                    bannerPhotoUrl(banner.photo)
+                                "
                                 :alt="banner.title || 'Banner preview'"
+                                draggable="false"
                                 class="aspect-video w-32 rounded-md object-cover"
                             />
                         </td>
@@ -255,9 +480,9 @@ const paginationLabel = (label: string): string =>
                             </div>
                         </td>
                     </tr>
-                    <tr v-if="banners.data.length === 0">
+                    <tr v-if="displayedBanners.length === 0">
                         <td
-                            colspan="7"
+                            colspan="8"
                             class="px-4 py-10 text-center text-muted-foreground"
                         >
                             No banners found.

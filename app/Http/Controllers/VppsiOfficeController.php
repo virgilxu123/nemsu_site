@@ -33,10 +33,10 @@ class VppsiOfficeController extends Controller
             'title' => 'Records Management Office',
             'acronym' => 'RMO',
             'description' => 'The Records Management Office is responsible for the systematic organization, safekeeping, and proper disposition of the University official records and documents. It ensures that records are accurately maintained, securely stored, and readily accessible in accordance with established government archival standards, data privacy regulations, and institutional policies. The office supports administrative efficiency by facilitating the timely retrieval and proper management of records needed for decision-making, legal compliance, and institutional reference. It also promotes standardized documentation practices across all offices to ensure consistency, accuracy, and accountability. Through effective records management, the office contributes to transparency, operational order, and the preservation of institutional memory.',
-            'head' => 'Mr. Joseph B. Cabadonga, Office In-charge',
+            'head' => 'Mrs. Concepcion Badayos',
             'email' => 'records@nemsu.edu.ph',
             'phone' => null,
-            'headImage' => '/images/administration/ovppsi/cabadonga.png',
+            'headImage' => '/images/administration/ovppsi/badayos.png',
         ],
         'gad-and-values-restoration-office' => [
             'title' => 'GAD and Values Restoration Office',

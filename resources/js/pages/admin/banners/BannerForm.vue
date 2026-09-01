@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { FormDataConvertible } from '@inertiajs/core';
 import { Form, Link } from '@inertiajs/vue3';
-import { Save } from 'lucide-vue-next';
-import { computed, ref } from 'vue';
+import { ImageOff, Save } from 'lucide-vue-next';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +19,6 @@ const props = defineProps<{
 }>();
 
 type EditableBannerFormData = {
-    photo: string;
     link: string;
     title: string;
     content: string;
@@ -27,7 +27,6 @@ type EditableBannerFormData = {
 };
 
 const blankBanner: EditableBannerFormData = {
-    photo: '',
     link: '',
     title: '',
     content: '',
@@ -36,7 +35,6 @@ const blankBanner: EditableBannerFormData = {
 };
 
 const formData = ref<EditableBannerFormData>({
-    photo: props.banner?.photo ?? blankBanner.photo,
     link: props.banner?.link ?? blankBanner.link,
     title: props.banner?.title ?? blankBanner.title,
     content: props.banner?.content ?? blankBanner.content,
@@ -46,28 +44,62 @@ const formData = ref<EditableBannerFormData>({
 
 const officeValue = computed(() => formData.value.office_id?.toString() ?? '');
 
-const previewUrl = computed(() => {
-    const photo = formData.value.photo.trim();
+const photoInput = ref<HTMLInputElement | null>(null);
+const photoFile = ref<File | null>(null);
+const removePhoto = ref(false);
+const photoPreviewUrl = ref<string | null>(props.banner?.photoUrl ?? null);
+let localPhotoPreviewUrl: string | null = null;
 
-    if (photo === '') {
-        return null;
+const transformForm = (
+    data: Record<string, FormDataConvertible>,
+): Record<string, FormDataConvertible> => ({
+    ...data,
+    photo_upload: photoFile.value,
+    remove_photo: removePhoto.value,
+});
+
+const selectPhoto = (event: Event): void => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0] ?? null;
+
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+        localPhotoPreviewUrl = null;
     }
 
-    if (
-        photo.startsWith('http://') ||
-        photo.startsWith('https://') ||
-        photo.startsWith('/')
-    ) {
-        return photo;
+    photoFile.value = file;
+    removePhoto.value = false;
+    localPhotoPreviewUrl = file ? URL.createObjectURL(file) : null;
+    photoPreviewUrl.value =
+        localPhotoPreviewUrl ?? props.banner?.photoUrl ?? null;
+};
+
+const clearPhoto = (): void => {
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+        localPhotoPreviewUrl = null;
     }
 
-    return `https://nemsu.edu.ph/files/Banner/${encodeURIComponent(photo)}`;
+    if (photoInput.value) {
+        photoInput.value.value = '';
+    }
+
+    photoFile.value = null;
+    photoPreviewUrl.value = null;
+    removePhoto.value = Boolean(props.banner?.photo);
+};
+
+onBeforeUnmount(() => {
+    if (localPhotoPreviewUrl) {
+        URL.revokeObjectURL(localPhotoPreviewUrl);
+    }
 });
 </script>
 
 <template>
     <Form
         v-bind="formAction"
+        :transform="transformForm"
         class="grid gap-6"
         v-slot="{ errors, processing }"
     >
@@ -86,14 +118,26 @@ const previewUrl = computed(() => {
 
                 <div class="grid gap-2">
                     <Label for="photo">Photo</Label>
-                    <Input
+                    <input
                         id="photo"
-                        v-model="formData.photo"
-                        name="photo"
-                        required
-                        placeholder="banner.jpg or https://example.com/banner.jpg"
+                        ref="photoInput"
+                        name="photo_upload"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        class="block w-full text-sm file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-sm file:font-medium"
+                        @change="selectPhoto"
                     />
-                    <InputError :message="errors.photo" />
+                    <input
+                        type="hidden"
+                        name="remove_photo"
+                        :value="removePhoto ? '1' : '0'"
+                    />
+                    <p class="text-xs text-muted-foreground">
+                        JPEG, PNG, or WebP. Maximum 5 MB.
+                    </p>
+                    <InputError
+                        :message="errors.photo_upload || errors.photo"
+                    />
                 </div>
 
                 <div class="grid gap-2">
@@ -165,10 +209,10 @@ const previewUrl = computed(() => {
                 <div
                     class="overflow-hidden rounded-md border border-sidebar-border/70"
                 >
-                    <div v-if="previewUrl" class="aspect-video bg-muted">
+                    <div v-if="photoPreviewUrl" class="aspect-video bg-muted">
                         <img
-                            :src="previewUrl"
-                            alt=""
+                            :src="photoPreviewUrl"
+                            alt="Banner preview"
                             class="h-full w-full object-cover"
                         />
                     </div>
@@ -179,6 +223,18 @@ const previewUrl = computed(() => {
                         Banner preview
                     </div>
                 </div>
+
+                <Button
+                    v-if="photoPreviewUrl || photoFile"
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    class="w-fit"
+                    @click="clearPhoto"
+                >
+                    <ImageOff class="size-4" />
+                    Remove photo
+                </Button>
 
                 <div class="flex flex-wrap items-center gap-3 pt-2">
                     <Button type="submit" :disabled="processing">

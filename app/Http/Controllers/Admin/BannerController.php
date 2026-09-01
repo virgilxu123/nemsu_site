@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Banners\ReorderBanners;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReorderBannersRequest;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
 use App\Models\Banner;
@@ -10,6 +12,9 @@ use App\Models\Office;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,18 +27,19 @@ class BannerController extends Controller
         $sortFields = [
             'title' => 'title',
             'is_published' => 'is_published',
+            'sequence' => 'sequence',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at',
         ];
-        $sortBy = (string) $request->query('sort_by', 'created_at');
-        $sortDirection = (string) $request->query('sort_direction', 'desc');
+        $sortBy = (string) $request->query('sort_by', 'sequence');
+        $sortDirection = (string) $request->query('sort_direction', 'asc');
 
         if (! array_key_exists($sortBy, $sortFields)) {
-            $sortBy = 'created_at';
+            $sortBy = 'sequence';
         }
 
         if (! in_array($sortDirection, ['asc', 'desc'], true)) {
-            $sortDirection = 'desc';
+            $sortDirection = 'asc';
         }
 
         return Inertia::render('admin/banners/Index', [
@@ -45,14 +51,21 @@ class BannerController extends Controller
             ],
             'banners' => Banner::query()
                 ->with('office:id,name')
-                ->select(['id', 'photo', 'link', 'title', 'content', 'office_id', 'is_published', 'created_at', 'updated_at'])
+                ->select(['id', 'photo', 'link', 'title', 'content', 'office_id', 'is_published', 'sequence', 'created_at', 'updated_at'])
                 ->search($search, ['photo', 'link', 'title', 'content'])
                 ->when($status === 'published', fn ($query) => $query->where('is_published', true))
                 ->when($status === 'draft', fn ($query) => $query->where('is_published', false))
-                ->sort($sortBy, $sortDirection, $sortFields, 'created_at', 'desc')
+                ->sort($sortBy, $sortDirection, $sortFields, 'sequence', 'asc')
+                ->when($sortBy === 'sequence', fn ($query) => $query->latest()->orderByDesc('id'))
                 ->paginate(10)
                 ->withQueryString()
                 ->through(fn (Banner $banner): array => $this->bannerListData($banner)),
+            'bannerOrder' => Banner::query()
+                ->select(['id', 'sequence', 'created_at'])
+                ->orderBy('sequence')
+                ->latest()
+                ->orderByDesc('id')
+                ->pluck('id'),
         ]);
     }
 
@@ -65,7 +78,24 @@ class BannerController extends Controller
 
     public function store(StoreBannerRequest $request): RedirectResponse
     {
-        $banner = Banner::query()->create($this->normalizedData($request->validated()));
+        $data = $this->normalizedData($request->validated());
+
+        if ($request->hasFile('photo_upload')) {
+            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $data['photo'] = basename($path);
+        }
+
+        $banner = DB::transaction(function () use ($data): Banner {
+            $lastBanner = Banner::query()
+                ->select(['id', 'sequence'])
+                ->orderByDesc('sequence')
+                ->orderByDesc('id')
+                ->lockForUpdate()
+                ->first();
+            $data['sequence'] = $lastBanner instanceof Banner ? $lastBanner->sequence + 1 : 0;
+
+            return Banner::query()->create($data);
+        }, attempts: 3);
 
         Inertia::flash('toast', [
             'type' => 'success',
@@ -85,7 +115,23 @@ class BannerController extends Controller
 
     public function update(UpdateBannerRequest $request, Banner $banner): RedirectResponse
     {
-        $banner->update($this->normalizedData($request->validated()));
+        $data = $this->normalizedData($request->validated());
+        $oldPhoto = $banner->photo;
+
+        if ($request->boolean('remove_photo')) {
+            $data['photo'] = null;
+        }
+
+        if ($request->hasFile('photo_upload')) {
+            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $data['photo'] = basename($path);
+        }
+
+        $banner->update($data);
+
+        if (array_key_exists('photo', $data) && $data['photo'] !== $oldPhoto) {
+            $this->deleteUploadedPhoto($oldPhoto);
+        }
 
         Inertia::flash('toast', [
             'type' => 'success',
@@ -95,9 +141,24 @@ class BannerController extends Controller
         return to_route('admin.banners.edit', $banner);
     }
 
+    public function reorder(ReorderBannersRequest $request, ReorderBanners $reorderBanners): RedirectResponse
+    {
+        $validated = $request->validated();
+        $reorderBanners->handle($validated['banner_ids']);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Banner order updated.',
+        ]);
+
+        return back();
+    }
+
     public function destroy(Banner $banner): RedirectResponse
     {
+        $photo = $banner->photo;
         $banner->delete();
+        $this->deleteUploadedPhoto($photo);
 
         Inertia::flash('toast', [
             'type' => 'success',
@@ -122,9 +183,14 @@ class BannerController extends Controller
             'is_published',
         ]);
 
-        foreach (['photo', 'link', 'title', 'content'] as $key) {
+        foreach (['link', 'title', 'content'] as $key) {
             $value = $data[$key] ?? null;
             $data[$key] = is_string($value) && trim($value) !== '' ? trim($value) : null;
+        }
+
+        if (array_key_exists('photo', $data)) {
+            $value = $data['photo'];
+            $data['photo'] = is_string($value) && trim($value) !== '' ? trim($value) : null;
         }
 
         $data['is_published'] = (bool) ($data['is_published'] ?? false);
@@ -132,8 +198,41 @@ class BannerController extends Controller
         return $data;
     }
 
+    private function deleteUploadedPhoto(?string $photo): void
+    {
+        if (filled($photo) && ! Str::of($photo)->contains('/') && Storage::disk('public')->exists('images/banners/home/'.$photo)) {
+            Storage::disk('public')->delete('images/banners/home/'.$photo);
+        }
+    }
+
+    private function photoUrl(?string $photo): ?string
+    {
+        if (! filled($photo)) {
+            return null;
+        }
+
+        $photo = Str::of(html_entity_decode($photo, ENT_QUOTES | ENT_HTML5, 'UTF-8'))
+            ->stripTags()
+            ->squish()
+            ->toString();
+
+        if ($photo === '') {
+            return null;
+        }
+
+        if (Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
+            return $photo;
+        }
+
+        if (Storage::disk('public')->exists('images/banners/home/'.$photo)) {
+            return Storage::disk('public')->url('images/banners/home/'.$photo);
+        }
+
+        return 'https://nemsu.edu.ph/files/Banner/'.rawurlencode($photo);
+    }
+
     /**
-     * @return array{id: int, title: string|null, photo: string, link: string|null, office: string|null, isPublished: bool, createdAt: string|null, updatedAt: string|null}
+     * @return array{id: int, title: string|null, photo: string, photoUrl: string|null, link: string|null, office: string|null, isPublished: bool, createdAt: string|null, updatedAt: string|null}
      */
     private function bannerListData(Banner $banner): array
     {
@@ -141,6 +240,7 @@ class BannerController extends Controller
             'id' => $banner->id,
             'title' => $banner->title,
             'photo' => $banner->photo,
+            'photoUrl' => $this->photoUrl($banner->photo),
             'link' => $banner->link,
             'office' => $banner->office?->name,
             'isPublished' => (bool) $banner->is_published,
@@ -150,13 +250,14 @@ class BannerController extends Controller
     }
 
     /**
-     * @return array{id: int, photo: string, link: string|null, title: string|null, content: string|null, office_id: int|null, is_published: bool}
+     * @return array{id: int, photo: string, photoUrl: string|null, link: string|null, title: string|null, content: string|null, office_id: int|null, is_published: bool}
      */
     private function bannerFormData(Banner $banner): array
     {
         return [
             'id' => $banner->id,
             'photo' => $banner->photo,
+            'photoUrl' => $this->photoUrl($banner->photo),
             'link' => $banner->link,
             'title' => $banner->title,
             'content' => $banner->content,
