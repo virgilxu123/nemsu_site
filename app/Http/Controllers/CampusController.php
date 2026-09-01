@@ -26,6 +26,12 @@ class CampusController extends Controller
         'doctor of education major in educational management' => 'doctor of education in educational management',
         'doctor of education major in english language teaching' => 'doctor of education in english language teaching',
         'master in teaching technology education mtte major in architectural drafting technology' => 'master in teaching technology education mtte major in drafting technology',
+        'bachelor of science in agriculture major in crop science' => 'bachelor of science in agriculture agronomy',
+        'bachelor of science in hospitality management major in hotel and restaurant management' => 'bachelor of science in hospitality management',
+        'bachelor in industrial technology major in automotive technology' => 'bachelor of science in industrial technology major in automotive technology',
+        'bachelor in industrial technology major in electrical technology' => 'bachelor of science in industrial technology major in electrical technology',
+        'bachelor in industrial technology major in computer technology' => 'bachelor of science in industrial technology major in computer technology',
+        'bachelor in industrial technology major in culinary technology' => 'bachelor of industrial technology bindtech major in culinary technology',
     ];
 
     /**
