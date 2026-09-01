@@ -91,11 +91,24 @@ test('the welcome sustainable development section presents a vertical stack of i
         ->toContain('{{ article.date || article.category }}')
         ->toContain('text-sm leading-snug font-bold text-white sm:text-base')
         ->toContain('text-[0.65rem] leading-4 font-medium')
-        ->toContain(':href="newsIndex()"')
+        ->toContain(
+            ':href="newsIndex({ query: { office: \'SDG\' } })"',
+        )
         ->toContain('View all SDG initiatives')
         ->toContain(
             'SDG initiatives will appear here after published',
             'records are available.',
         )
         ->not->toContain('lg:border-l');
+});
+
+test('the welcome sustainable development section links to SDG office news', function () {
+    $section = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/pages/welcome-sections/WelcomeSustainableDevelopment.vue',
+    );
+
+    expect($section)->toContain(
+        ':href="newsIndex({ query: { office: \'SDG\' } })"',
+    );
 });

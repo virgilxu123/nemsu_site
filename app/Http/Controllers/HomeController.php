@@ -50,9 +50,33 @@ class HomeController extends Controller
                 ->limit(3)
                 ->get()
                 ->map(fn (News $news): array => $this->newsListData($news)),
+            'sdgArticles' => $this->sdgArticles(),
             'jobOpportunities' => $this->jobOpportunities(),
             'bacDocuments' => $this->bacDocuments(),
         ]);
+    }
+
+    /**
+     * @return list<array{id: string, title: string, slug: string, date: string|null, category: string, photoUrl: string|null}>
+     */
+    private function sdgArticles(): array
+    {
+        return News::query()
+            ->select(['id', 'title', 'slug', 'short_description', 'photo', 'author', 'type', 'date', 'office_id'])
+            ->where('is_published', true)
+            ->whereHas('office', fn ($query) => $query->where('code', 'SDG'))
+            ->latest('date')
+            ->limit(4)
+            ->get()
+            ->map(fn (News $news): array => [
+                'id' => $news->id,
+                'title' => $this->normalizeDisplayText($news->title) ?? '',
+                'slug' => $news->slug,
+                'date' => $news->date?->format('M j, Y'),
+                'category' => 'SDG Initiative',
+                'photoUrl' => $this->newsPhotoUrl($news->photo),
+            ])
+            ->all();
     }
 
     /**

@@ -39,30 +39,30 @@ export const sdgDescription =
 export const sdgLearnMoreUrl = 'https://sdg.nemsu.edu.ph/';
 
 export const fallbackSdgArticles: SdgArticle[] = [
-    {
-        id: 'sdg-tree-planting',
-        title: 'Earth Month tree-planting activities support campus environmental programs',
-        date: 'Environmental initiative',
-        photoUrl:
-            '/images/campuses/tandag/student-government/earth-month-tree-planting-1.jpeg',
-        href: sdgLearnMoreUrl,
-    },
-    {
-        id: 'sdg-quality-education',
-        title: 'NEMSU strengthens SDG integration in instruction and extension',
-        date: 'Instruction and extension',
-        photoUrl:
-            '/images/campuses/tandag/facilities/gallery/college-of-teacher-education.webp',
-        href: sdgLearnMoreUrl,
-    },
-    {
-        id: 'sdg-partnerships',
-        title: 'University research supports regional sustainability priorities',
-        date: 'Research initiative',
-        photoUrl:
-            '/images/campuses/tandag/facilities/gallery/research-and-development-office.webp',
-        href: sdgLearnMoreUrl,
-    },
+    // {
+    //     id: 'sdg-tree-planting',
+    //     title: 'Earth Month tree-planting activities support campus environmental programs',
+    //     date: 'Environmental initiative',
+    //     photoUrl:
+    //         '/images/campuses/tandag/student-government/earth-month-tree-planting-1.jpeg',
+    //     href: sdgLearnMoreUrl,
+    // },
+    // {
+    //     id: 'sdg-quality-education',
+    //     title: 'NEMSU strengthens SDG integration in instruction and extension',
+    //     date: 'Instruction and extension',
+    //     photoUrl:
+    //         '/images/campuses/tandag/facilities/gallery/college-of-teacher-education.webp',
+    //     href: sdgLearnMoreUrl,
+    // },
+    // {
+    //     id: 'sdg-partnerships',
+    //     title: 'University research supports regional sustainability priorities',
+    //     date: 'Research initiative',
+    //     photoUrl:
+    //         '/images/campuses/tandag/facilities/gallery/research-and-development-office.webp',
+    //     href: sdgLearnMoreUrl,
+    // },
 ];
 
 export const fallbackAtAGlanceStats: GlanceStat[] = [
