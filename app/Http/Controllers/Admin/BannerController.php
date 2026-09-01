@@ -70,7 +70,8 @@ class BannerController extends Controller
         $data = $this->normalizedData($request->validated());
 
         if ($request->hasFile('photo_upload')) {
-            $data['photo'] = $request->file('photo_upload')->store('banners', 'public');
+            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $data['photo'] = basename($path);
         }
 
         $banner = Banner::query()->create($data);
@@ -101,7 +102,8 @@ class BannerController extends Controller
         }
 
         if ($request->hasFile('photo_upload')) {
-            $data['photo'] = $request->file('photo_upload')->store('banners', 'public');
+            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $data['photo'] = basename($path);
         }
 
         $banner->update($data);
@@ -164,8 +166,8 @@ class BannerController extends Controller
 
     private function deleteUploadedPhoto(?string $photo): void
     {
-        if ($photo !== null && Str::of($photo)->startsWith('banners/')) {
-            Storage::disk('public')->delete($photo);
+        if (filled($photo) && ! Str::of($photo)->contains('/') && Storage::disk('public')->exists('images/banners/home/'.$photo)) {
+            Storage::disk('public')->delete('images/banners/home/'.$photo);
         }
     }
 
@@ -184,16 +186,12 @@ class BannerController extends Controller
             return null;
         }
 
-        if (Str::of($photo)->startsWith('banners/')) {
-            return Storage::disk('public')->url($photo);
-        }
-
-        if (Str::of($photo)->startsWith(['http://', 'https://'])) {
+        if (Str::of($photo)->startsWith(['http://', 'https://', '/'])) {
             return $photo;
         }
 
-        if (Str::of($photo)->startsWith('/')) {
-            return 'https://nemsu.edu.ph'.$photo;
+        if (Storage::disk('public')->exists('images/banners/home/'.$photo)) {
+            return Storage::disk('public')->url('images/banners/home/'.$photo);
         }
 
         return 'https://nemsu.edu.ph/files/Banner/'.rawurlencode($photo);

@@ -91,7 +91,7 @@ const bannerPhotoUrl = (photo: string): string => {
         return `/storage/${photo}`;
     }
 
-    return `https://nemsu.edu.ph/files/Banner/${encodeURIComponent(photo)}`;
+    return `/storage/images/banners/home/${encodeURIComponent(photo)}`;
 };
 
 const deleteBanner = (banner: BannerItem): void => {
