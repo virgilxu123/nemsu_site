@@ -114,10 +114,12 @@ export const publicSiteFooterSocialLinks: PublicSiteFooterSocialLink[] = [
     {
         label: 'NEMSU on YouTube',
         icon: Youtube,
+        href: 'https://www.youtube.com/@nemsuofficialph',
     },
     {
         label: 'NEMSU on TikTok',
         icon: Music2,
+        href: 'https://www.tiktok.com/@north.eastern.mind',
     },
 ];
 
