@@ -67,7 +67,7 @@ const boardMembers: BoardMember[] = [
         designation:
             'Chairman of Senate Committee on Higher, Technical, and Vocational Education',
         boardRole: 'Member',
-        photoUrl: null,
+        photoUrl: boardMemberPhoto('50ef8465-2893-4ac8-b377-820b5d8fcacb.png'),
     },
     {
         id: 'house-representative',
@@ -121,10 +121,10 @@ const boardMembers: BoardMember[] = [
     },
     {
         id: 'student-representative',
-        name: 'HON. NEO P. VILLASON',
+        name: 'HON. CLARENCE UBUAN',
         designation: 'President, Federation of Supreme Student Government',
         boardRole: 'Member',
-        photoUrl: boardMemberPhoto('villason.png'),
+        photoUrl: boardMemberPhoto('Image_p54kaap54kaap54k.jpeg'),
     },
     {
         id: 'board-secretary',
