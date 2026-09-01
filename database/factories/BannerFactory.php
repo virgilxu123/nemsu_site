@@ -24,6 +24,7 @@ class BannerFactory extends Factory
             'content' => '<p>'.fake()->sentence(12).'</p>',
             'office_id' => null,
             'is_published' => false,
+            'sequence' => 0,
         ];
     }
 

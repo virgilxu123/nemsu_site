@@ -23,8 +23,9 @@ class HomeController extends Controller
     {
         return Inertia::render('Welcome', [
             'banners' => Banner::query()
-                ->select(['id', 'photo', 'link', 'title', 'content', 'created_at'])
+                ->select(['id', 'photo', 'link', 'title', 'content', 'sequence', 'created_at'])
                 ->where('is_published', true)
+                ->orderBy('sequence')
                 ->latest()
                 ->get()
                 ->filter(fn (Banner $banner): bool => $this->bannerPhotoExists($banner->photo))

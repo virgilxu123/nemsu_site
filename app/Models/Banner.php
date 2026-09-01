@@ -9,13 +9,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['photo', 'link', 'title', 'content', 'office_id', 'is_published'])]
+#[Fillable(['photo', 'link', 'title', 'content', 'office_id', 'is_published', 'sequence'])]
 class Banner extends Model
 {
     use HasFactory, Searchable, Sortable;
 
     protected $attributes = [
         'is_published' => false,
+        'sequence' => 0,
     ];
 
     public function office(): BelongsTo
@@ -32,6 +33,7 @@ class Banner extends Model
     {
         return [
             'is_published' => 'boolean',
+            'sequence' => 'integer',
         ];
     }
 }

@@ -135,7 +135,9 @@ onBeforeUnmount(() => {
                     <p class="text-xs text-muted-foreground">
                         JPEG, PNG, or WebP. Maximum 5 MB.
                     </p>
-                    <InputError :message="errors.photo_upload || errors.photo" />
+                    <InputError
+                        :message="errors.photo_upload || errors.photo"
+                    />
                 </div>
 
                 <div class="grid gap-2">
