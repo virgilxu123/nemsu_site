@@ -79,21 +79,21 @@ const closeMobileMenu = (): void => {
             <PublicSiteDesktopNavigation :groups="publicSiteNavigationGroups" />
 
             <div class="hidden items-center gap-2 xl:flex">
-                <button
+                <!-- <button
                     type="button"
                     class="inline-flex size-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 transition hover:bg-slate-100 dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/10"
                     aria-label="Search"
                 >
                     <Search class="size-4" aria-hidden="true" />
-                </button>
-                <PublicSiteLink
+                </button> -->
+                <!-- <PublicSiteLink
                     v-if="page.props.auth.user"
                     :href="publicSiteDashboard.url()"
                     class="inline-flex h-10 items-center gap-2 rounded-md bg-[#1711d4] px-4 text-sm font-semibold text-white transition hover:bg-[#0f0ab8]"
                 >
                     <UserRound class="size-4" aria-hidden="true" />
                     Dashboard
-                </PublicSiteLink>
+                </PublicSiteLink> -->
                 <!-- Login removed per request -->
             </div>
 
