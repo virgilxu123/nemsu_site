@@ -81,8 +81,8 @@ const atAGlanceMapHighlights = computed<MapHighlight[]>(() =>
         : fallbackAtAGlanceMapHighlights,
 );
 
-const sustainableDevelopmentArticles = computed<SdgArticle[]>(() =>
-    props.sdgArticles.length > 0 ? props.sdgArticles : fallbackSdgArticles,
+const sustainableDevelopmentArticles = computed<SdgArticle[]>(
+    () => props.sdgArticles,
 );
 </script>
 

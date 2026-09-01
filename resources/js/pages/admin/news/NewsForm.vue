@@ -71,13 +71,44 @@ const formData = ref<EditableNewsFormData>({
 });
 
 const slugWasEdited = ref(Boolean(props.newsItem?.slug));
-const officeValue = computed(() => formData.value.office_id?.toString() ?? '');
 const contentImages = ref<Record<string, File>>({});
 const photoInput = ref<HTMLInputElement | null>(null);
 const photoFile = ref<File | null>(null);
 const removePhoto = ref(false);
 const photoPreviewUrl = ref<string | null>(props.newsItem?.photo_url ?? null);
 let localPhotoPreviewUrl: string | null = null;
+
+watch(
+    () => props.newsItem,
+    (newItem) => {
+        if (!newItem) {
+            return;
+        }
+
+        formData.value = {
+            title: newItem.title ?? blankNewsItem.title,
+            slug: newItem.slug ?? blankNewsItem.slug,
+            short_description:
+                newItem.short_description ?? blankNewsItem.short_description,
+            content: newItem.content ?? blankNewsItem.content,
+            author: newItem.author ?? blankNewsItem.author,
+            office_id: newItem.office_id ?? blankNewsItem.office_id,
+            type: newItem.type ?? defaultType.value,
+            is_published: newItem.is_published ?? blankNewsItem.is_published,
+            featured: newItem.featured ?? blankNewsItem.featured,
+            date: newItem.date ?? blankNewsItem.date,
+        };
+        slugWasEdited.value = Boolean(newItem.slug);
+        photoPreviewUrl.value = newItem.photo_url ?? null;
+        photoFile.value = null;
+        removePhoto.value = false;
+
+        if (photoInput.value) {
+            photoInput.value.value = '';
+        }
+    },
+    { deep: true },
+);
 
 const transformForm = (
     data: Record<string, FormDataConvertible>,
@@ -304,21 +335,11 @@ onBeforeUnmount(() => {
                     <Label for="office_id">Office</Label>
                     <select
                         id="office_id"
+                        v-model="formData.office_id"
                         name="office_id"
-                        :value="officeValue"
                         class="h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                        @change="
-                            formData.office_id =
-                                ($event.target as HTMLSelectElement).value ===
-                                ''
-                                    ? null
-                                    : Number(
-                                          ($event.target as HTMLSelectElement)
-                                              .value,
-                                      )
-                        "
                     >
-                        <option value="">No office</option>
+                        <option :value="null">No office</option>
                         <option
                             v-for="office in offices"
                             :key="office.id"
