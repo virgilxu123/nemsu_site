@@ -93,7 +93,7 @@ const articleUrl = (article: SdgArticle): string =>
                         University Contributions to Sustainable Development
                     </h4>
                     <p
-                        class="mt-5 max-w-xl leading-7 text-[#4D5D91] dark:text-slate-300"
+                        class="mt-5 max-w-xl leading-7 text-[#4D5D91] dark:text-slate-300 text-justify"
                     >
                         {{ description }}
                     </p>
