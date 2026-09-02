@@ -66,10 +66,7 @@ foreach ($definitions as $definition) {
                 : 'Monday to Friday, 8:00 AM - 5:00 PM',
         ],
         'stats' => $definition['stats'] ?? [
-            ['label' => 'Student Population', 'value' => '4,280', 'note' => 'Sample enrollment'],
-            ['label' => 'Faculty and Staff', 'value' => '126', 'note' => 'Sample personnel count'],
-            ['label' => 'Program Offerings', 'value' => (string) $programCount, 'note' => 'Dummy academic count'],
-            ['label' => 'Campus Updates', 'value' => '3', 'note' => 'Recent placeholder posts'],
+            ['label' => 'Program Offerings', 'value' => (string) $programCount, 'note' => 'Academic programs'],
         ],
         'facilities' => $definition['facilities'],
         'facilityGallery' => $definition['facilityGallery'] ?? [],
@@ -91,23 +88,7 @@ foreach ($definitions as $definition) {
             ],
             'activities' => $definition['studentGovernmentActivities'] ?? [],
         ],
-        'updates' => $definition['updates'] ?? [
-            [
-                'date' => 'June 2026',
-                'title' => $name.' prepares updated campus profile content',
-                'summary' => 'Placeholder update reserved for the official campus news feed.',
-            ],
-            [
-                'date' => 'May 2026',
-                'title' => 'Student services directory refresh',
-                'summary' => 'Dummy entry for registrar, guidance, admission, and scholarship service notices.',
-            ],
-            [
-                'date' => 'April 2026',
-                'title' => 'Program offering review underway',
-                'summary' => 'Sample announcement for upcoming curriculum and program page updates.',
-            ],
-        ],
+        'updates' => $definition['updates'] ?? [],
     ];
 }
 

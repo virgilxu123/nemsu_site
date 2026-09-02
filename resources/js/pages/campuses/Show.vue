@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
+    Bell,
     CalendarDays,
     ChevronDown,
     ChevronLeft,
@@ -9,12 +10,14 @@ import {
     FileText,
     Mail,
     MapPin,
+    Newspaper,
     Phone,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { CSSProperties } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
+import { index as newsIndex } from '@/routes/news';
 
 type Stat = {
     label: string;
@@ -1525,7 +1528,7 @@ onBeforeUnmount(() => {
                         </p>
                     </div>
 
-                    <ol class="grid">
+                    <ol v-if="campus.updates?.length" class="grid">
                         <li
                             v-for="(update, updateIndex) in campus.updates"
                             :key="update.title"
@@ -1639,6 +1642,45 @@ onBeforeUnmount(() => {
                             </div>
                         </li>
                     </ol>
+
+                    <div
+                        v-else
+                        class="relative rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center sm:p-12 dark:border-slate-800 dark:bg-slate-900/50"
+                    >
+                        <div
+                            class="mx-auto flex size-14 items-center justify-center rounded-full bg-slate-100 text-[#0b6680] dark:bg-slate-800 dark:text-sky-300"
+                        >
+                            <Bell class="size-6" aria-hidden="true" />
+                        </div>
+                        <h3
+                            class="mt-4 font-serif text-xl font-semibold text-slate-900 dark:text-white"
+                        >
+                            No Active Campus Notices
+                        </h3>
+                        <p
+                            class="mx-auto mt-2 max-w-lg text-base leading-7 text-slate-600 dark:text-slate-300"
+                        >
+                            There are currently no posted advisories specific to this campus. Please visit the official university news portal for institution-wide circulars and announcements.
+                        </p>
+                        <div
+                            class="mt-6 flex flex-wrap items-center justify-center gap-4"
+                        >
+                            <Link
+                                :href="newsIndex()"
+                                class="inline-flex items-center gap-2 rounded-lg bg-[#08047d] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#1711d4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08047d] dark:bg-sky-600 dark:hover:bg-sky-500"
+                            >
+                                <Newspaper class="size-4" aria-hidden="true" />
+                                University News & Updates
+                            </Link>
+                            <a
+                                href="#contact"
+                                class="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#08047d] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                            >
+                                <Phone class="size-4" aria-hidden="true" />
+                                Contact Campus Office
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
