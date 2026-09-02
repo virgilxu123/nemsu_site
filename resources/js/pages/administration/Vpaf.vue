@@ -306,7 +306,7 @@ onBeforeUnmount(() => {
                             <h5
                                 class="mt-2 text-2xl leading-tight font-semibold text-slate-950 dark:text-white"
                             >
-                                Atty. Mitchiko Donaire-Maglinte
+                                Atty. Michiko N. Donaire-Maglinte
                             </h5>
                             <p
                                 class="mt-3 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-600 dark:border-white/10 dark:text-sky-100"
