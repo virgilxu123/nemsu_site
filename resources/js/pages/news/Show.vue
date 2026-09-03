@@ -166,6 +166,10 @@ onBeforeUnmount(() => {
                     v-if="props.article.photoUrl"
                     :src="props.article.photoUrl"
                     :alt="props.article.title"
+                    width="1600"
+                    height="900"
+                    decoding="async"
+                    fetchpriority="high"
                     class="absolute inset-0 h-full w-full object-cover opacity-60"
                 />
                 <div
@@ -184,15 +188,45 @@ onBeforeUnmount(() => {
                 <div
                     class="relative mx-auto flex min-h-[72svh] max-w-7xl flex-col justify-between px-4 py-8 sm:px-6 lg:px-8"
                 >
-                    <button
-                        type="button"
-                        @click="goBack"
-                        aria-label="Return to previous page or News section"
-                        class="inline-flex w-fit items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/15 hover:text-white"
+                    <div
+                        class="flex flex-wrap items-center justify-between gap-4"
                     >
-                        <ArrowLeft class="size-4" aria-hidden="true" />
-                        Back
-                    </button>
+                        <button
+                            type="button"
+                            @click="goBack"
+                            aria-label="Return to previous page or News section"
+                            class="inline-flex w-fit items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/15 hover:text-white"
+                        >
+                            <ArrowLeft class="size-4" aria-hidden="true" />
+                            Back
+                        </button>
+
+                        <nav
+                            aria-label="Breadcrumb"
+                            class="flex min-w-0 items-center gap-2 text-sm text-white/70"
+                        >
+                            <Link
+                                :href="home()"
+                                class="transition hover:text-white"
+                            >
+                                Home
+                            </Link>
+                            <span aria-hidden="true">/</span>
+                            <Link
+                                :href="newsIndex()"
+                                class="transition hover:text-white"
+                            >
+                                Newsroom
+                            </Link>
+                            <span aria-hidden="true">/</span>
+                            <span
+                                class="max-w-48 truncate text-white sm:max-w-80"
+                                aria-current="page"
+                            >
+                                {{ props.article.title }}
+                            </span>
+                        </nav>
+                    </div>
 
                     <div class="grid gap-8 py-12 lg:grid-cols-[1fr_18rem]">
                         <div class="max-w-5xl">
@@ -318,6 +352,10 @@ onBeforeUnmount(() => {
                                     <img
                                         :src="image.url"
                                         :alt="image.alt"
+                                        width="288"
+                                        height="192"
+                                        loading="lazy"
+                                        decoding="async"
                                         class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                                     />
                                     <span
@@ -368,6 +406,10 @@ onBeforeUnmount(() => {
                                 v-if="item.photoUrl"
                                 :src="item.photoUrl"
                                 :alt="item.title"
+                                width="640"
+                                height="480"
+                                loading="lazy"
+                                decoding="async"
                                 class="aspect-[4/3] h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                             />
                             <div
@@ -455,6 +497,7 @@ onBeforeUnmount(() => {
                     <img
                         :src="selectedGalleryImage.url"
                         :alt="selectedGalleryImage.alt"
+                        decoding="async"
                         class="max-h-[72svh] max-w-full rounded-md object-contain shadow-2xl shadow-black/40"
                     />
 
@@ -485,6 +528,10 @@ onBeforeUnmount(() => {
                         <img
                             :src="image.url"
                             :alt="image.alt"
+                            width="192"
+                            height="128"
+                            loading="lazy"
+                            decoding="async"
                             class="h-full w-full object-cover"
                         />
                     </button>

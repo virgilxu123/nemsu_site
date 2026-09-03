@@ -42,7 +42,7 @@ test('the welcome page is a thin composition of reusable sections', function () 
         ->toBeLessThan(strpos($welcomePage, '<WelcomeBAC'));
 });
 
-test('the default welcome hero uses the exported video and links its bold tagline to the home route', function () {
+test('the default welcome hero plays the video with the original crossfade transition', function () {
     $heroSection = file_get_contents(
         dirname(__DIR__, 2).
             '/resources/js/pages/welcome-sections/WelcomeHero.vue',
@@ -57,11 +57,18 @@ test('the default welcome hero uses the exported video and links its bold taglin
         ->toContain("import { Link } from '@inertiajs/vue3'")
         ->toContain("import { home } from '@/routes'")
         ->toContain("v-if=\"slide.imageUrl.toLowerCase().endsWith('.mp4')\"")
+        ->toContain('v-else')
+        ->toContain("? 'scale-100 opacity-100'")
+        ->toContain(": 'scale-[1.015] opacity-0'")
+        ->toContain('preload="metadata"')
+        ->toContain('@ended="')
+        ->toContain('<h1')
+        ->toContain('</h1>')
         ->toContain(':href="home()"')
         ->toContain('font-bold')
         ->and($heroSource)
         ->toContain('/storage/images/banners/home/Exported%202.mp4')
-        ->toContain('Walk a journey of Excellence and Success')
+        ->toContain('Walk a Journey of Excellence and Success')
         ->not->toContain(
             'We drive sustainable development through quality instruction',
         );
@@ -94,6 +101,9 @@ test('the welcome news section matches the high fidelity layout and retains anno
         ->toContain('mask-b-from-35%')
         ->toContain('mask-b-to-95%')
         ->toContain('props.pressReleases.slice(0, 5)')
+        ->and(substr_count($newsSection, 'loading="lazy"'))
+        ->toBeGreaterThanOrEqual(2)
+        ->and($newsSection)
         ->toContain('aria-label="Latest news"')
         ->toContain('grid-cols-[7.5rem_minmax(0,1fr)]')
         ->toContain('item.excerpt || item.office')

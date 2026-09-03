@@ -2,6 +2,7 @@
 
 use App\Models\Banner;
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -100,6 +101,30 @@ test('admins can store banners with normalized data', function () {
         ->and($banner->link)->toBe('https://nemsu.edu.ph/admissions')
         ->and($banner->is_published)->toBeTrue()
         ->and($banner->sequence)->toBe(5);
+});
+
+test('uploaded banners are resized and stored as webp images', function () {
+    Storage::fake('public');
+    $admin = bannerAdminUser();
+
+    $this->actingAs($admin)
+        ->post(route('admin.banners.store'), bannerPayload([
+            'photo' => null,
+            'photo_upload' => UploadedFile::fake()->image('oversized-banner.png', 2600, 1400),
+        ]))
+        ->assertSessionHasNoErrors();
+
+    $banner = Banner::query()->firstOrFail();
+    $path = 'images/banners/home/'.$banner->photo;
+    $dimensions = getimagesize(Storage::disk('public')->path($path));
+
+    expect($banner->photo)
+        ->toEndWith('.webp')
+        ->and($dimensions[0])->toBeLessThanOrEqual(1920)
+        ->and($dimensions[1])->toBeLessThanOrEqual(1080)
+        ->and($dimensions['mime'])->toBe('image/webp');
+
+    Storage::disk('public')->assertExists($path);
 });
 
 test('admins can update and delete banners', function () {

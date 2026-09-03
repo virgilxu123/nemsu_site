@@ -70,6 +70,7 @@ watch(
                 autoplay
                 muted
                 playsinline
+                preload="metadata"
                 @ended="
                     handleVideoEnded
                         ? handleVideoEnded()
@@ -89,6 +90,11 @@ watch(
                 v-else
                 :src="slide.imageUrl"
                 :alt="slide.title || 'NEMSU banner'"
+                width="1920"
+                height="1080"
+                :loading="index === activeHeroIndex ? 'eager' : 'lazy'"
+                decoding="async"
+                :fetchpriority="index === activeHeroIndex ? 'high' : 'low'"
                 class="absolute inset-0 h-full w-full bg-slate-950 transition-all duration-1000 ease-out motion-reduce:transition-none"
                 :class="[
                     slide.id === fallbackHeroSlide.id
@@ -124,25 +130,26 @@ watch(
                     <Sparkles class="size-4" aria-hidden="true" />
                     Research University for Sustainable Development
                 </p> -->
-                <h2
-                    class="mt-6 text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl font-serif"
+                <h1
+                    class="mt-6 font-serif text-4xl font-semibold tracking-normal text-balance sm:text-5xl lg:text-6xl"
                 >
                     <!-- {{
                         fallbackHeroSlide.title ||
                         'North Eastern Mindanao State University'
                     }} -->
-                        North Eastern Mindanao <br>
-                        State University
-                </h2>
-                <span
-                    class="mt-8 block max-w-2xl text-2xl text-sky-50 transition"
+                    North Eastern Mindanao <br />
+                    State University
+                </h1>
+                <Link
+                    :href="home()"
+                    class="mt-8 block max-w-2xl text-2xl font-bold text-sky-50 transition"
                 >
                     <!-- {{
                         fallbackHeroSlide.summary ||
                         'Walk a Journey of Excellence and Success'
                     }} -->
-                        Walk a Journey of Excellence and Success
-                </span>
+                    Walk a Journey of Excellence and Success
+                </Link>
                 <!-- <div class="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a
                         href="#academics"

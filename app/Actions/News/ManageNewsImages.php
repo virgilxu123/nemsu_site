@@ -2,6 +2,7 @@
 
 namespace App\Actions\News;
 
+use App\Actions\Media\OptimizeUploadedImage;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
@@ -13,9 +14,16 @@ class ManageNewsImages
 {
     private const DIRECTORY = 'news';
 
+    public function __construct(private OptimizeUploadedImage $optimizeUploadedImage) {}
+
     public function storePhoto(UploadedFile $photo): string
     {
-        return $photo->store(self::DIRECTORY.'/photos', 'public');
+        return $this->optimizeUploadedImage->store(
+            $photo,
+            self::DIRECTORY.'/photos',
+            maxWidth: 1600,
+            maxHeight: 1200,
+        );
     }
 
     /**
@@ -47,7 +55,12 @@ class ManageNewsImages
                     continue;
                 }
 
-                $path = $upload->store(self::DIRECTORY.'/content', 'public');
+                $path = $this->optimizeUploadedImage->store(
+                    $upload,
+                    self::DIRECTORY.'/content',
+                    maxWidth: 1600,
+                    maxHeight: 1600,
+                );
                 $storedPaths[] = $path;
                 $image->setAttribute('src', Storage::disk('public')->url($path));
                 $image->setAttribute('alt', $image->getAttribute('alt') ?: $upload->getClientOriginalName());

@@ -67,7 +67,7 @@ const announcementItems = computed<AnnouncementDisplay[]>(() =>
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <header class="mb-9 text-center">
                 <h2
-                    class="text-3xl font-bold leading-[1.08] tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
+                    class="text-3xl leading-[1.08] font-bold tracking-tight text-[#08045F] sm:text-4xl dark:text-white"
                 >
                     News and Announcements
                 </h2>
@@ -97,6 +97,10 @@ const announcementItems = computed<AnnouncementDisplay[]>(() =>
                                 v-if="props.featuredNews.photoUrl"
                                 :src="props.featuredNews.photoUrl"
                                 :alt="props.featuredNews.title"
+                                width="960"
+                                height="540"
+                                loading="lazy"
+                                decoding="async"
                                 class="size-full object-cover transition duration-500 group-hover:scale-[1.02]"
                             />
                             <div
@@ -187,6 +191,10 @@ const announcementItems = computed<AnnouncementDisplay[]>(() =>
                                     v-if="item.photoUrl"
                                     :src="item.photoUrl"
                                     :alt="item.title"
+                                    width="640"
+                                    height="448"
+                                    loading="lazy"
+                                    decoding="async"
                                     class="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-[1.03]"
                                 />
                                 <div

@@ -63,11 +63,11 @@ const boardMembers: BoardMember[] = [
     },
     {
         id: 'senate-representative',
-        name: 'HON. SENATOR LOREN B. LEGARDA',
+        name: 'HON. SEN. EMMANUEL JOEL J. VILLANUEVA',
         designation:
             'Chairman of Senate Committee on Higher, Technical, and Vocational Education',
         boardRole: 'Member',
-        photoUrl: boardMemberPhoto('50ef8465-2893-4ac8-b377-820b5d8fcacb.png'),
+        photoUrl: boardMemberPhoto('VILLANUEVA.png'),
     },
     {
         id: 'house-representative',
@@ -122,7 +122,7 @@ const boardMembers: BoardMember[] = [
     {
         id: 'student-representative',
         name: 'HON. CLARENCE UBUAN',
-        designation: 'President, Federation of Supreme Student Government',
+        designation: 'President, Federation of University Student Government',
         boardRole: 'Member',
         photoUrl: boardMemberPhoto('Image_p54kaap54kaap54k.jpeg'),
     },

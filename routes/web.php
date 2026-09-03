@@ -22,11 +22,13 @@ use App\Http\Controllers\OvpaaOfficeController;
 use App\Http\Controllers\OvpafOfficeController;
 use App\Http\Controllers\OvprieOfficeController;
 use App\Http\Controllers\ResearchPublicationController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\VppsiController;
 use App\Http\Controllers\VppsiOfficeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 Route::get('/academics/academic-affairs', AcademicAffairsController::class)->name('academics.academic-affairs');
 Route::get('/academics/academic-affairs/colleges/{college}', [CollegeController::class, 'show'])->name('academics.academic-affairs.colleges.show');
 Route::get('/academics/academic-affairs/graduate-professional-studies/{study}', [GraduateProfessionalStudyController::class, 'show'])->name('academics.academic-affairs.graduate-professional-studies.show');

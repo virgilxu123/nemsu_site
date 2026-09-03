@@ -51,8 +51,37 @@ const paginationLabel = (label: string): string =>
     <PublicSiteLayout>
         <Head title="Announcements" />
 
-        <section class="bg-[#06131f] text-white">
-            <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <section
+            class="relative isolate overflow-hidden bg-slate-950 text-white"
+        >
+            <img
+                src="/storage/images/hero/6I3A7029(1).jpg"
+                alt=""
+                class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-60 select-none"
+                aria-hidden="true"
+            />
+            <div
+                class="pointer-events-none absolute inset-0 z-0 bg-[#1711d4]/70 mix-blend-multiply"
+                aria-hidden="true"
+            ></div>
+            <div
+                class="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                aria-hidden="true"
+            >
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_72%_28%,rgba(242,183,5,0.22),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),transparent_34%)]"
+                ></div>
+                <div
+                    class="absolute inset-0 [background-image:linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(180deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:3.5rem_3.5rem] opacity-35"
+                ></div>
+                <div
+                    class="absolute top-10 left-8 h-44 w-44 rounded-full border border-white/10 sm:h-64 sm:w-64"
+                ></div>
+            </div>
+
+            <div
+                class="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+            >
                 <Link
                     :href="home()"
                     class="inline-flex w-fit items-center gap-2 rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm font-semibold text-white/90 backdrop-blur transition hover:bg-white/15 hover:text-white"

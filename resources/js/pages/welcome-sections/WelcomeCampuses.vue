@@ -162,7 +162,7 @@ onBeforeUnmount(() => {
         >
             <header class="mx-auto mb-10 max-w-2xl text-center">
                 <h2
-                    class="text-3xl font-bold tracking-tight leading-[1.08] text-white sm:text-4xl"
+                    class="text-3xl leading-[1.08] font-bold tracking-tight text-white sm:text-4xl"
                 >
                     Campuses
                 </h2>
@@ -199,8 +199,11 @@ onBeforeUnmount(() => {
                     <img
                         :src="photoForCampus(campus)"
                         :alt="`${campus.name} Campus`"
+                        width="640"
+                        height="960"
                         class="absolute inset-x-0 top-0 -z-20 h-[75%] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                         loading="lazy"
+                        decoding="async"
                         draggable="false"
                     />
                     <span

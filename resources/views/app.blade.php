@@ -147,7 +147,29 @@
 
         </style>
         <x-inertia::head>
-            <title>{{ config('app.name', 'NEMSU') }}</title>
+            @php($seo = $page['props']['seo'] ?? [])
+            <title>{{ $seo['fullTitle'] ?? config('app.name', 'NEMSU') }}</title>
+            <meta data-inertia="description" name="description" content="{{ $seo['description'] ?? config('seo.description') }}">
+            <meta data-inertia="keywords" name="keywords" content="{{ $seo['keywords'] ?? config('seo.keywords') }}">
+            <meta data-inertia="robots" name="robots" content="{{ $seo['robots'] ?? 'index, follow' }}">
+            <link data-inertia="canonical" rel="canonical" href="{{ $seo['canonical'] ?? request()->url() }}">
+            <meta data-inertia="og:title" property="og:title" content="{{ $seo['fullTitle'] ?? config('app.name', 'NEMSU') }}">
+            <meta data-inertia="og:description" property="og:description" content="{{ $seo['description'] ?? config('seo.description') }}">
+            <meta data-inertia="og:type" property="og:type" content="{{ $seo['type'] ?? 'website' }}">
+            <meta data-inertia="og:url" property="og:url" content="{{ $seo['canonical'] ?? request()->url() }}">
+            <meta data-inertia="og:image" property="og:image" content="{{ $seo['image'] ?? url(config('seo.default_image')) }}">
+            <meta data-inertia="og:locale" property="og:locale" content="{{ $seo['locale'] ?? config('seo.locale') }}">
+            <meta data-inertia="og:site_name" property="og:site_name" content="{{ $seo['siteName'] ?? config('seo.site_name') }}">
+            <meta data-inertia="twitter:card" name="twitter:card" content="summary_large_image">
+            <meta data-inertia="twitter:title" name="twitter:title" content="{{ $seo['fullTitle'] ?? config('app.name', 'NEMSU') }}">
+            <meta data-inertia="twitter:description" name="twitter:description" content="{{ $seo['description'] ?? config('seo.description') }}">
+            <meta data-inertia="twitter:image" name="twitter:image" content="{{ $seo['image'] ?? url(config('seo.default_image')) }}">
+            @if (filled($seo['googleSiteVerification'] ?? null))
+                <meta data-inertia="google-site-verification" name="google-site-verification" content="{{ $seo['googleSiteVerification'] }}">
+            @endif
+            @foreach (($seo['schema'] ?? []) as $index => $schema)
+                <script data-inertia="schema-{{ $index }}" type="application/ld+json">{!! json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}</script>
+            @endforeach
         </x-inertia::head>
     </head>
     <body class="font-sans antialiased">

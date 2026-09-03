@@ -6,6 +6,7 @@ use App\Actions\Navigation\ResolveNavigationItemUrl;
 use App\Concerns\FormatsNewsForPublicDisplay;
 use App\Models\NavigationItem;
 use App\Models\News;
+use App\Support\SeoMetadata;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Middleware;
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'seo' => fn (): array => app(SeoMetadata::class)->forRequest($request),
             'auth' => [
                 'user' => $request->user(),
                 'can' => [

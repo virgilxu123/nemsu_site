@@ -13,6 +13,7 @@ createInertiaApp({
         switch (true) {
             case name === 'Welcome':
                 return null;
+            case name.startsWith('announcements/'):
             case name.startsWith('news/'):
                 return null;
             case name.startsWith('content/'):

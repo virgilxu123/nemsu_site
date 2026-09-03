@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import AppLogo from '@/components/AppLogo.vue';
+import SeoHead from '@/components/public-site/SeoHead.vue';
 import { home } from '@/routes';
 import type { SharedNavigation } from '@/types';
 
@@ -26,6 +27,7 @@ const isExternalUrl = (url: string): boolean => /^https?:\/\//.test(url);
 </script>
 
 <template>
+    <SeoHead />
     <Head :title="props.page.title" />
 
     <div

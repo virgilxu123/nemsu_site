@@ -154,6 +154,8 @@ test('admins can upload a lead photo and inline content images', function () {
     $contentPath = str($news->content)->match('#/storage/(news/content/[^" ]+)#')->toString();
 
     expect($news->photo)->toStartWith('news/photos/')
+        ->and($news->photo)->toEndWith('.webp')
+        ->and($contentPath)->toEndWith('.webp')
         ->and($news->content)->toContain('<img')
         ->and($news->content)->toContain('alt="Campus laboratory"')
         ->and($news->content)->not->toContain('data-upload-id')

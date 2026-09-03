@@ -21,13 +21,15 @@ defineProps<{
         class="relative isolate min-h-[34rem] overflow-hidden bg-[#EEF2FF] py-16 lg:py-20 dark:bg-slate-950"
     >
         <!-- <div> -->
-             <img
-                src="/storage/images/nemsu-at-glance/nemsu-bg-text.png"
-                alt="Map of Surigao del Sur showing the seven NEMSU campuses"
-                loading="lazy"
-                decoding="async"
-                class="h-auto w-full absolute bottom-0"
-            />
+        <img
+            src="/storage/images/nemsu-at-glance/nemsu-bg-text.png"
+            alt="Map of Surigao del Sur showing the seven NEMSU campuses"
+            width="1912"
+            height="357"
+            loading="lazy"
+            decoding="async"
+            class="absolute bottom-0 h-auto w-full"
+        />
         <!-- </div> -->
         <!-- <div
             class="pointer-events-none absolute inset-x-0 bottom-[-2vw] -z-10 overflow-hidden"
@@ -62,16 +64,14 @@ defineProps<{
                             <h2
                                 class="flex flex-wrap items-baseline text-3xl leading-[1.08] text-[#08045F] sm:text-4xl dark:text-white"
                             >
-                                <span
-                                    class="font-bold tracking-tight"
-                                >
+                                <span class="font-bold tracking-tight">
                                     NEMSU
                                 </span>
                                 <small class="ml-2 font-normal italic">
                                     at a
                                 </small>
                                 <span
-                                    class="ml-2 font-allura font-bold text-[4rem] italic"
+                                    class="font-allura ml-2 text-[4rem] font-bold italic"
                                 >
                                     Glance
                                 </span>

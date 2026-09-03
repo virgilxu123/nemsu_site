@@ -23,6 +23,25 @@ test('the public site layout is a thin composition', function () {
         ->toBeLessThan(30);
 });
 
+test('the announcements page is excluded from the administrative layout', function () {
+    $inertiaApp = file_get_contents(
+        dirname(__DIR__, 2).'/resources/js/app.ts',
+    );
+    $announcementsPage = file_get_contents(
+        dirname(__DIR__, 2).'/resources/js/pages/announcements/Index.vue',
+    );
+
+    expect($inertiaApp)
+        ->toContain("case name.startsWith('announcements/'):")
+        ->and($announcementsPage)
+        ->toContain("import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue'")
+        ->toContain('<PublicSiteLayout>')
+        ->toContain('</PublicSiteLayout>')
+        ->toContain('src="/storage/images/hero/6I3A7029(1).jpg"')
+        ->toContain('object-cover object-center opacity-60')
+        ->toContain('bg-[#1711d4]/70 mix-blend-multiply');
+});
+
 test('public site navigation is typed and backed by wayfinder routes', function () {
     $navigation = file_get_contents(
         dirname(__DIR__, 2).

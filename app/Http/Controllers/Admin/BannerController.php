@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Actions\Banners\ReorderBanners;
+use App\Actions\Media\OptimizeUploadedImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReorderBannersRequest;
 use App\Http\Requests\StoreBannerRequest;
@@ -76,12 +77,17 @@ class BannerController extends Controller
         ]);
     }
 
-    public function store(StoreBannerRequest $request): RedirectResponse
+    public function store(StoreBannerRequest $request, OptimizeUploadedImage $optimizeUploadedImage): RedirectResponse
     {
         $data = $this->normalizedData($request->validated());
 
         if ($request->hasFile('photo_upload')) {
-            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $path = $optimizeUploadedImage->store(
+                $request->file('photo_upload'),
+                'images/banners/home',
+                maxWidth: 1920,
+                maxHeight: 1080,
+            );
             $data['photo'] = basename($path);
         }
 
@@ -113,8 +119,11 @@ class BannerController extends Controller
         ]);
     }
 
-    public function update(UpdateBannerRequest $request, Banner $banner): RedirectResponse
-    {
+    public function update(
+        UpdateBannerRequest $request,
+        Banner $banner,
+        OptimizeUploadedImage $optimizeUploadedImage,
+    ): RedirectResponse {
         $data = $this->normalizedData($request->validated());
         $oldPhoto = $banner->photo;
 
@@ -123,7 +132,12 @@ class BannerController extends Controller
         }
 
         if ($request->hasFile('photo_upload')) {
-            $path = $request->file('photo_upload')->store('images/banners/home', 'public');
+            $path = $optimizeUploadedImage->store(
+                $request->file('photo_upload'),
+                'images/banners/home',
+                maxWidth: 1920,
+                maxHeight: 1080,
+            );
             $data['photo'] = basename($path);
         }
 

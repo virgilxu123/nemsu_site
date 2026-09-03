@@ -1,0 +1,21 @@
+# North Eastern Mindanao State University
+
+> North Eastern Mindanao State University (NEMSU) is a public, multi-campus university serving Surigao del Sur, Philippines through instruction, research, innovation, extension, and public service.
+
+## Official resources
+
+- [University profile](https://nemsu.edu.ph/about/university): History, mandate, vision, mission, and core values.
+- [Academic affairs](https://nemsu.edu.ph/academics/academic-affairs): Colleges, graduate studies, academic programs, and offices.
+- [Campuses](https://nemsu.edu.ph/campuses/tandag): Entry point for NEMSU's seven campuses.
+- [Newsroom](https://nemsu.edu.ph/news): Official university news and press releases.
+- [Announcements](https://nemsu.edu.ph/announcements): Official notices and public advisories.
+- [Research, innovation, and extension](https://nemsu.edu.ph/research-innovation-extension): Research centers, publications, innovation, and extension programs.
+- [Online services](https://nemsu.edu.ph/services): Official student, employee, and stakeholder services.
+- [University directory](https://nemsu.edu.ph/directory): Contact information for university offices and officials.
+
+## Discovery
+
+- [XML sitemap](https://nemsu.edu.ph/sitemap.xml): Canonical list of indexable public pages.
+- [Robots policy](https://nemsu.edu.ph/robots.txt): Crawler access policy.
+
+Content on third-party sites should not be treated as an official NEMSU statement unless the university website links to it.

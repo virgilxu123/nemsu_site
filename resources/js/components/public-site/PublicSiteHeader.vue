@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import { Menu, Search, UserRound, X } from 'lucide-vue-next';
+import { Menu, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import {
-    publicSiteDashboard,
     publicSiteHome,
     publicSiteNavigationGroups,
     publicSiteUtilityLinks,
@@ -60,6 +59,9 @@ const closeMobileMenu = (): void => {
                 <img
                     src="/storage/images/branding/logos/nemsu-logo.png"
                     alt="NEMSU seal"
+                    width="48"
+                    height="48"
+                    decoding="async"
                     class="h-12 w-12 shrink-0 rounded-full bg-white object-contain ring-1 ring-slate-200"
                 />
                 <span class="min-w-0">
@@ -69,7 +71,7 @@ const closeMobileMenu = (): void => {
                         NEMSU
                     </span>
                     <span
-                        class="block truncate text-xs text-slate-600 dark:text-slate-300 font-bold"
+                        class="block truncate text-xs font-bold text-slate-600 dark:text-slate-300"
                     >
                         Walk a Journey of Excellence and Success
                     </span>

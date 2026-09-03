@@ -12,7 +12,7 @@ import {
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
-import { show as newsShow } from '@/routes/news';
+import { index as newsIndex, show as newsShow } from '@/routes/news';
 
 type NewsItem = {
     id: string;
@@ -43,9 +43,17 @@ type PaginatedNews = {
     total: number;
 };
 
+type NewsCategory = {
+    value: 'all' | 'press-releases' | 'announcements';
+    label: string;
+    count: number;
+};
+
 const props = defineProps<{
     featuredNews: NewsItem | null;
     news: PaginatedNews;
+    activeCategory: NewsCategory['value'];
+    categories: NewsCategory[];
 }>();
 
 const campusBackdrop = 'https://nemsu.edu.ph/files/News/cm-00.jpg';
@@ -159,6 +167,10 @@ onBeforeUnmount(() => {
             <img
                 :src="campusBackdrop"
                 alt=""
+                width="1920"
+                height="1080"
+                decoding="async"
+                fetchpriority="high"
                 class="pointer-events-none absolute inset-x-0 top-[-8rem] -z-20 h-[calc(100%+16rem)] w-full object-cover opacity-45"
                 :style="backdropStyle"
                 aria-hidden="true"
@@ -167,6 +179,9 @@ onBeforeUnmount(() => {
             <img
                 :src="nemsuSeal"
                 alt=""
+                width="512"
+                height="512"
+                decoding="async"
                 class="pointer-events-none absolute right-[-5rem] bottom-[-8rem] -z-10 hidden size-[34rem] object-contain opacity-[0.16] lg:block xl:right-[2rem]"
                 :style="sealStyle"
                 aria-hidden="true"
@@ -183,6 +198,10 @@ onBeforeUnmount(() => {
                         v-if="props.featuredNews?.photoUrl"
                         :src="props.featuredNews.photoUrl"
                         :alt="props.featuredNews.title"
+                        width="1600"
+                        height="1000"
+                        decoding="async"
+                        fetchpriority="high"
                         class="absolute inset-0 h-full w-full object-cover"
                     />
                     <div
@@ -214,6 +233,9 @@ onBeforeUnmount(() => {
                                 <img
                                     :src="nemsuSeal"
                                     alt="NEMSU seal"
+                                    width="56"
+                                    height="56"
+                                    decoding="async"
                                     class="size-14 rounded-full bg-white object-contain p-1 shadow-lg ring-1 shadow-black/20 ring-white/50"
                                 />
                                 <div
@@ -337,6 +359,10 @@ onBeforeUnmount(() => {
             <img
                 :src="campusBackdrop"
                 alt=""
+                width="1920"
+                height="1080"
+                loading="lazy"
+                decoding="async"
                 class="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover opacity-30"
                 :style="backdropStyle"
                 aria-hidden="true"
@@ -345,6 +371,10 @@ onBeforeUnmount(() => {
             <img
                 :src="nemsuSeal"
                 alt=""
+                width="384"
+                height="384"
+                loading="lazy"
+                decoding="async"
                 class="pointer-events-none absolute top-1/2 right-[-3rem] -z-10 size-72 -translate-y-1/2 object-contain opacity-[0.12] sm:size-96"
                 :style="sealStyle"
                 aria-hidden="true"
@@ -358,6 +388,10 @@ onBeforeUnmount(() => {
                     <img
                         :src="nemsuSeal"
                         alt="NEMSU seal"
+                        width="64"
+                        height="64"
+                        loading="lazy"
+                        decoding="async"
                         class="size-16 shrink-0 rounded-full bg-white object-contain p-1.5 ring-1 ring-white/50"
                     />
                     <div>
@@ -424,6 +458,36 @@ onBeforeUnmount(() => {
                     </p>
                 </div>
 
+                <nav
+                    aria-label="News categories"
+                    class="mt-6 flex flex-wrap gap-2"
+                >
+                    <Link
+                        v-for="category in props.categories"
+                        :key="category.value"
+                        :href="
+                            newsIndex(
+                                category.value === 'all'
+                                    ? {}
+                                    : { query: { category: category.value } },
+                            )
+                        "
+                        class="inline-flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition"
+                        :class="
+                            props.activeCategory === category.value
+                                ? 'border-[#1711d4] bg-[#1711d4] text-white dark:border-sky-200 dark:bg-sky-200 dark:text-slate-950'
+                                : 'border-slate-300 bg-white text-slate-700 hover:border-[#0b6680] hover:text-[#0b6680] dark:border-white/15 dark:bg-white/5 dark:text-slate-200 dark:hover:border-sky-200 dark:hover:text-sky-100'
+                        "
+                    >
+                        {{ category.label }}
+                        <span
+                            class="rounded-full bg-current/10 px-1.5 py-0.5 text-xs"
+                        >
+                            {{ category.count }}
+                        </span>
+                    </Link>
+                </nav>
+
                 <div
                     v-if="props.news.data.length > 0"
                     class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
@@ -442,6 +506,10 @@ onBeforeUnmount(() => {
                                 v-if="item.photoUrl"
                                 :src="item.photoUrl"
                                 :alt="item.title"
+                                width="800"
+                                height="500"
+                                loading="lazy"
+                                decoding="async"
                                 class="aspect-[16/10] w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                             />
                             <div

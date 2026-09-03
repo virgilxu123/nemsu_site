@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://nemsu.edu.ph/sitemap.xml

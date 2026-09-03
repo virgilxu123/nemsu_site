@@ -26,11 +26,15 @@ const currentYear = new Date().getFullYear();
                 <img
                     src="/storage/images/branding/logos/nemsu-logo.png"
                     alt="NEMSU seal"
+                    width="96"
+                    height="96"
+                    loading="lazy"
+                    decoding="async"
                     class="size-24 shrink-0 object-contain"
                 />
                 <h3
                     id="footer-university"
-                    class="max-w-md mt-2 font-academic leading-[1.15] font-extrabold tracking-wide text-[#08045f] dark:text-white"
+                    class="mt-2 max-w-md font-academic leading-[1.15] font-extrabold tracking-wide text-[#08045f] dark:text-white"
                 >
                     North Eastern Mindanao <br />
                     State University
@@ -47,7 +51,7 @@ const currentYear = new Date().getFullYear();
                     </component>
                 </div>
                 <div
-                    class="h-px mt-2 mb-3 w-full max-w-sm bg-slate-200 dark:bg-white/15"
+                    class="mt-2 mb-3 h-px w-full max-w-sm bg-slate-200 dark:bg-white/15"
                     aria-hidden="true"
                 ></div>
                 <div
@@ -67,6 +71,10 @@ const currentYear = new Date().getFullYear();
                         <img
                             :src="certification.image"
                             :alt="certification.imageAlt"
+                            width="112"
+                            height="56"
+                            loading="lazy"
+                            decoding="async"
                             class="h-14 w-auto object-contain sm:h-14"
                         />
                     </PublicSiteLink>
@@ -83,6 +91,10 @@ const currentYear = new Date().getFullYear();
                         <img
                             :src="seal.image"
                             :alt="seal.imageAlt"
+                            width="56"
+                            height="56"
+                            loading="lazy"
+                            decoding="async"
                             class="size-14 object-contain sm:size-14"
                         />
                     </PublicSiteLink>

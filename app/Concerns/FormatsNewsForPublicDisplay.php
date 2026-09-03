@@ -176,6 +176,9 @@ trait FormatsNewsForPublicDisplay
                 $element->removeAttribute('src');
             } else {
                 $element->setAttribute('src', $src);
+                $element->setAttribute('alt', $element->getAttribute('alt'));
+                $element->setAttribute('loading', 'lazy');
+                $element->setAttribute('decoding', 'async');
             }
         }
     }

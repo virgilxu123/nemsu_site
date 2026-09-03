@@ -24,7 +24,15 @@ const articleUrl = (article: SdgArticle): string =>
         data-scroll-section="sustainable-development"
         class="relative isolate overflow-hidden border-y border-[#D8DEE8] bg-[#EEF3FF] py-16 lg:py-20 dark:border-white/10 dark:bg-slate-950"
     >
-        <img src="/storage/images/sdg/sdg-bg-text.png" alt="Sdg background text" class="absolute top-0 left-0 h-[13rem] w-auto">
+        <img
+            src="/storage/images/sdg/sdg-bg-text.png"
+            alt=""
+            width="999"
+            height="292"
+            loading="lazy"
+            decoding="async"
+            class="absolute top-0 left-0 h-[13rem] w-auto"
+        />
         <!-- <div class="pointer-events-none absolute inset-0" aria-hidden="true">
             <span
                 class="absolute font-serif top-0 left-0 font-academic text-[20rem] leading-none font-semibold tracking-[-0.12em] text-[#DCE5F7] select-none sm:text-[26rem] lg:-top-20 lg:-left-4 lg:text-[23rem] dark:text-white/[0.025]"
@@ -45,6 +53,10 @@ const articleUrl = (article: SdgArticle): string =>
                 <img
                     src="/storage/images/sdg/sdg-logo-1.png"
                     alt="United Nations Sustainable Development Goals vertical banner"
+                    width="91"
+                    height="1662"
+                    loading="lazy"
+                    decoding="async"
                     class="absolute top-0 left-0 h-auto w-[3.25rem] max-w-none"
                 />
             </div>
@@ -93,7 +105,7 @@ const articleUrl = (article: SdgArticle): string =>
                         University Contributions to Sustainable Development
                     </h4>
                     <p
-                        class="mt-5 max-w-xl leading-7 text-[#4D5D91] dark:text-slate-300 text-justify"
+                        class="mt-5 max-w-xl text-justify leading-7 text-[#4D5D91] dark:text-slate-300"
                     >
                         {{ description }}
                     </p>
@@ -126,6 +138,10 @@ const articleUrl = (article: SdgArticle): string =>
                                 v-if="article.photoUrl"
                                 :src="article.photoUrl"
                                 :alt="article.title"
+                                width="640"
+                                height="360"
+                                loading="lazy"
+                                decoding="async"
                                 class="absolute inset-0 size-full object-cover transition duration-500 group-hover:scale-[1.04]"
                             />
                             <div
@@ -140,9 +156,7 @@ const articleUrl = (article: SdgArticle): string =>
                                 >
                                     {{ article.title }}
                                 </h4>
-                                <p
-                                    class="mt-2 text-sm text-white/60"
-                                >
+                                <p class="mt-2 text-sm text-white/60">
                                     {{ article.date || article.category }}
                                 </p>
                             </div>
