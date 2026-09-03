@@ -20,7 +20,7 @@ class CollegeController extends Controller
     public const COLLEGES = [
         'college-of-accountancy' => [
             'title' => 'College of Accountancy',
-            'photo' => '',
+            'photo' => '/images/academics/colleges/featured-photo-placeholder.svg',
             'overview' => 'The College of Accountancy develops competent, ethical, and globally competitive accounting professionals equipped with technical expertise, analytical skills, and a strong commitment to integrity and public accountability. It prepares future accountants and financial professionals through quality instruction, research, and community engagement, fostering excellence in accounting practice and responsible stewardship of financial resources.',
             'campuses' => [
                 [
@@ -217,7 +217,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management' => [
                     'description' => 'The Bachelor of Science in Hospitality Management major in Hotel and Restaurant Management program prepares students for professional careers in the hospitality industry through quality instruction, practical training, and industry immersion. It develops competencies in hotel operations, restaurant management, food and beverage services, customer relations, event coordination, and hospitality leadership while promoting professionalism, innovation, cultural awareness, and excellence in service delivery.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1EV-UYg6qD4cj1vnCuXTHSLHp4IyfNqHl/view?usp=sharing',
                 ],
                 'Bachelor of Science in Business Administration major in Marketing Management' => [
                     'description' => 'The Bachelor of Science in Business Administration major in Marketing Management program equips students with knowledge and skills in marketing strategies, consumer behavior, brand management, digital marketing, sales management, and market research. It prepares graduates to become innovative and customer-oriented professionals capable of developing effective marketing solutions and contributing to organizational growth and competitiveness.',
@@ -273,6 +273,7 @@ class CollegeController extends Controller
                 [
                     'name' => 'Cantilan Campus',
                     'courses' => [
+                        'Bachelor of Science in Computer Engineering (BSCpE)',
                         'Bachelor of Industrial Technology (BIndTech) major in Architectural Drafting Technology',
                         'Bachelor of Industrial Technology (BIndTech) major in Automotive Technology',
                         'Bachelor of Industrial Technology (BIndTech) major in Computer Technology',
@@ -291,6 +292,10 @@ class CollegeController extends Controller
                 ],
             ],
             'programDetails' => [
+                'Bachelor of Science in Computer Engineering (BSCpE)' => [
+                    'description' => 'The Bachelor of Science in Computer Engineering program integrates principles of computer science and electrical engineering to prepare students in the design, development, implementation, and maintenance of computer systems, hardware, software, and embedded technologies. It equips students with analytical, technical, and problem-solving skills necessary for innovation, automation, networking, and the advancement of modern computing technologies.',
+                    'prospectusUrl' => 'https://drive.google.com/file/d/14dYueVGHIG9lK5JmwshPdTLltMs12-Hv/view?usp=sharing',
+                ],
                 'Bachelor of Science in Electrical Engineering' => [
                     'description' => 'The Bachelor of Science in Electrical Engineering program prepares students in the design, operation, maintenance, and management of electrical systems, power generation, transmission, instrumentation, and control systems. It develops analytical, technical, and problem-solving skills necessary for the safe, efficient, and sustainable application of electrical technologies in industrial, commercial, and community settings.',
                     'prospectusUrl' => 'https://drive.google.com/file/d/16NdKtdyW0gdQ7MjmQNeEUQgYcIK-sDU_/view?usp=sharing',
@@ -309,7 +314,7 @@ class CollegeController extends Controller
                 ],
                 'Bachelor of Science in Industrial Technology major in Electrical Technology' => [
                     'description' => 'The Bachelor of Science in Industrial Technology major in Electrical Technology program equips students with competencies in electrical installation, maintenance, troubleshooting, and operation of electrical systems and equipment. The program develops skilled and industry-ready graduates capable of applying electrical principles, technical standards, and safety practices in industrial, commercial, and community settings.',
-                    'prospectusUrl' => null,
+                    'prospectusUrl' => 'https://drive.google.com/file/d/1xTCet-KSuKINnREO3z4acJNrKbikM3xp/view?usp=sharing',
                 ],
                 // 'Bachelor of Science in Industrial Technology major in Culinary Technology' => [
                 //     'description' => 'The Bachelor of Science in Industrial Technology major in Culinary Technology program develops students’ knowledge and practical skills in food preparation, culinary arts, kitchen operations, food safety, nutrition, and hospitality services. It prepares graduates for careers in the culinary and food service industries by promoting creativity, professionalism, technical expertise, and entrepreneurship in culinary practices.',
@@ -391,7 +396,6 @@ class CollegeController extends Controller
                 [
                     'name' => 'Cantilan Campus',
                     'courses' => [
-                        'Bachelor of Science in Computer Engineering (BSCpE)',
                         'Bachelor of Science in Computer Science',
                         'Bachelor of Science in Information Technology',
                     ],
@@ -419,10 +423,6 @@ class CollegeController extends Controller
                 'Bachelor of Science in Information Technology' => [
                     'description' => 'The Bachelor of Science in Information Technology program equips students with knowledge and technical competencies in software development, database management, networking, systems administration, cybersecurity, and information systems. It develops innovative, analytical, and problem-solving skills necessary for designing, implementing, and managing technology-driven solutions that support organizational operations, digital transformation, and sustainable development in various industries and institutions.',
                     'prospectusUrl' => 'https://drive.google.com/file/d/17EZpmg5MQRP6J8Ur5j5DzA7CXZdFGUak/view?usp=sharing',
-                ],
-                'Bachelor of Science in Computer Engineering (BSCpE)' => [
-                    'description' => 'The Bachelor of Science in Computer Engineering program integrates principles of computer science and electrical engineering to prepare students in the design, development, implementation, and maintenance of computer systems, hardware, software, and embedded technologies. It equips students with analytical, technical, and problem-solving skills necessary for innovation, automation, networking, and the advancement of modern computing technologies.',
-                    'prospectusUrl' => 'https://drive.google.com/file/d/14dYueVGHIG9lK5JmwshPdTLltMs12-Hv/view?usp=sharing',
                 ],
                 'Bachelor of Science in Computer Science' => [
                     'description' => 'The Bachelor of Science in Computer Science program provides students with strong foundations in algorithms, programming, software development, artificial intelligence, data structures, database systems, and computational theory. It develops innovative, analytical, and research-oriented professionals capable of designing efficient computing solutions, developing advanced software systems, and contributing to technological innovation across various industries and disciplines.',

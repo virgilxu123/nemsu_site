@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { onBeforeUnmount, onMounted } from 'vue';
 import { show as studyShow } from '@/actions/App/Http/Controllers/GraduateProfessionalStudyController';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
 import { home } from '@/routes';
@@ -38,6 +39,34 @@ const props = defineProps<{
 }>();
 
 const heroBackgroundImage = '/images/administration/ovpaf/6I3A7029(1).jpg';
+
+const openLinkedProgram = (): void => {
+    const programId = window.location.hash.slice(1);
+
+    if (!programId) {
+        return;
+    }
+
+    const programElement = document.getElementById(programId);
+
+    if (!(programElement instanceof HTMLDetailsElement)) {
+        return;
+    }
+
+    programElement.open = true;
+    window.requestAnimationFrame(() => {
+        programElement.scrollIntoView({ block: 'start' });
+    });
+};
+
+onMounted(() => {
+    openLinkedProgram();
+    window.addEventListener('hashchange', openLinkedProgram);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('hashchange', openLinkedProgram);
+});
 </script>
 
 <template>

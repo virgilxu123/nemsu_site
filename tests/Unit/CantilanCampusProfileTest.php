@@ -57,6 +57,7 @@ test('the Cantilan campus profile lists its official program offerings', functio
             $programs,
         ))
         ->toBe([5, 10, 1, 4, 3, 8]);
+        ->toBe([5, 10, 1, 4, 2, 9]);
 
     $offerings = collect($programs)->flatMap(
         static fn (array $program): array => $program['offerings'],

@@ -571,6 +571,7 @@ TEXT,
         [
             'college' => 'College of Engineering and Technology',
             'offerings' => [
+                'Bachelor of Science in Computer Engineering (BSCpE)',
                 'Bachelor of Industrial Technology (BIndTech) major in Architectural Drafting Technology',
                 'Bachelor of Industrial Technology (BIndTech) major in Automotive Technology',
                 'Bachelor of Industrial Technology (BIndTech) major in Computer Technology',

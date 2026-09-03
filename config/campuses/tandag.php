@@ -345,7 +345,7 @@ TEXT,
             'category' => 'Administration',
         ],
         [
-            'image' => '/images/campuses/tandag/facilities/gallery/administrative-building.webp',
+            'image' => '/images/campuses/tandag/facilities/gallery/admin.jpg',
             'alt' => 'Exterior of a campus administrative building',
             'title' => 'Administrative Building',
             'category' => 'Administration',

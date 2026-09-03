@@ -68,9 +68,9 @@ test('program aliases are consolidated under one expanded title', function () {
     $this->get(route('academics.academic-affairs.colleges.show', 'college-of-information-technology-education'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->has('college.programs', 3)
-            ->where('college.programs.2.title', 'Bachelor of Science in Computer Science')
-            ->where('college.programs.2.campuses', ['Cantilan Campus', 'Lianga Campus', 'Tagbina Campus', 'Tandag Campus'])
+            ->has('college.programs', 2)
+            ->where('college.programs.1.title', 'Bachelor of Science in Computer Science')
+            ->where('college.programs.1.campuses', ['Cantilan Campus', 'Lianga Campus', 'Tagbina Campus', 'Tandag Campus'])
         );
 
     $this->get(route('academics.academic-affairs.colleges.show', 'college-of-teacher-education'))
