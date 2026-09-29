@@ -91,7 +91,9 @@ const transparencyYears: TransparencyYear[] = [
                 doc('FAR NO 2', 'https://drive.google.com/file/d/17lVQguLCeHCjN7_PWs21G2pVJJMeOb6o/view?usp=sharing'),
                 doc('FAR NO 2-A', 'https://drive.google.com/file/d/1kdhsJqdRPCyflpRlbZ3yYhXyVclPWqUs/view?usp=sharing'),
                 doc('FAR NO 4 - April', 'https://drive.google.com/file/d/1AvZpJ6skz8pQk0QByzVfscE0I_5UtuRl/view?usp=sharing'),
+                doc('FAR NO 4 - May', 'https://drive.google.com/file/d/1I24FKvo1fd2ZhQWSs2qBjxwt8pi2q26T/view?usp=sharing'),
                 doc('FAR NO 4 - June', 'https://drive.google.com/file/d/1ZwzG8KrzEaYMLIGl_dSOFEUVnR5umH-l/view?usp=sharing'),
+                doc('FAR NO 5 - June', 'https://drive.google.com/file/d/1POznD_vYPDAbvn98v1YUjOkagYDrt98_/view?usp=sharing'),
                 doc('FAR NO 5 - Internally Generated Funds', 'https://drive.google.com/file/d/1eh6H6MdVLymeCOCSQqm5ptD4EvEnoT7y/view?usp=sharing'),
                 doc('FAR NO 5 - Business Related Funds', 'https://drive.google.com/file/d/1CraeXwZ0vjQBq3Ms5dZ7e4GxfO9JlFWM/view?usp=sharing'),
                 doc('FAR NO 5 - Trust Receipts', 'https://drive.google.com/file/d/17MVdL6OLEqubOlVpSPAj3as1AWmAZDs5/view?usp=sharing'),
@@ -558,22 +560,11 @@ onBeforeUnmount(() => {
                 id="annual-reports"
                 class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
             >
-                <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8">
-                    <aside
-                        data-scroll-section="annual-reports-heading"
-                        class="lg:sticky lg:top-32 lg:self-start"
-                        :class="revealClasses('annual-reports-heading', 'right')"
-                    >
-                        <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
-                            Annual Financial Reports
-                        </p>
-                        <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                            Year-by-year archive
-                        </h4>
-                        <p class="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                            The attached data is organized from the latest posted year down to 2020 so each quarter remains easy to scan.
-                        </p>
-                    </aside>
+                <div class="mx-auto max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8">
+                    
+                    <p class="mb-4 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
+                        Annual Financial Reports
+                    </p>
 
                     <div class="grid gap-5">
                         <article
