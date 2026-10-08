@@ -457,8 +457,9 @@ const transparencySections: TransparencySection[] = [
         description: 'FOI manual, request tools, survey form, and annual FOI reports.',
         items: [
             { label: 'NEMSU People\'s FOI Manual', href: 'https://drive.google.com/file/d/1S2QPmPW-sx98hcPxa6VTxzQ7X8ZpuBBf/view?usp=sharing' },
-            { label: 'NEMSU-One-page-FOI-Manual', href: 'https://drive.google.com/file/d/1T4_eUD8SAtTlDvvQGjNPNBjOeCNAACQO/view?usp=sharing' },
+            { label: 'NEMSU-One-page-FOI-Manual', href: 'https://drive.google.com/file/d/15VK5pTpXea9bm1gbnnX4MgCJUwQ4qjl5/view?usp=sharing' },
             { label: 'NEMSU-FOI-Request-Feedbak-Survey-Form', href: 'https://drive.google.com/file/d/1l1oAYuVyRquzj0e03E2_jcS-d0cmLPAm/view?usp=sharing' },
+            { label: '2025 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1TwgC2N5rNzyfcVVTm2jwKwu2IZGEGrp1/edit?usp=sharing&ouid=118069644834388500470&rtpof=true&sd=true' },
             { label: '2024 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1Vi7eTrjR2FrY-7CwmHUXOYxlPNhHoKBy/edit?usp=drive_link&ouid=118069644834388500470&rtpof=true&sd=true' },
             { label: '2023 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/13RwB_ZvmJwUnoWJbXiPhDhM6olvSdS2D/edit?usp=sharing' },
             { label: '2022 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1-peJiXcwBVjAdspKYb-QfTas4nO5cytZ/edit?usp=sharing' },
