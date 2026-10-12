@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import {
+    ArrowRight,
     ArrowUpRight,
+    Building2,
     CalendarRange,
+    ChevronDown,
+    ChevronRight,
+    UsersRound,
 } from 'lucide-vue-next';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import PageHero from '@/components/PageHero.vue';
 import PublicSiteLayout from '@/layouts/PublicSiteLayout.vue';
-import { home } from '@/routes';
+import { directory, home } from '@/routes';
+import { university } from '@/routes/about';
 import { goodGovernance } from '@/routes/administration';
 
 type RevealDirection = 'down' | 'left' | 'right' | 'up';
@@ -25,7 +31,13 @@ type SectionItem = {
 type TransparencySection = {
     code: string;
     title: string;
+    navigationTitle?: string;
     description: string;
+    items: SectionItem[];
+};
+
+type DocumentGroup = {
+    year: number | null;
     items: SectionItem[];
 };
 
@@ -34,10 +46,13 @@ type QuarterArchive = {
     documents: DocumentLink[];
 };
 
-type TransparencyYear = {
+type ReportYear = {
     year: string;
-    summary: string;
     quarters: QuarterArchive[];
+};
+
+type TransparencyYear = ReportYear & {
+    summary: string;
 };
 
 const revealOffset: Record<RevealDirection, string> = {
@@ -330,11 +345,136 @@ const transparencyYears: TransparencyYear[] = [
     },
 ];
 
+const budgetAccountabilityYears: ReportYear[] = [
+    {
+        year: '2026',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1OZ4TMkeETanc9dsqQHqcPh3yfb-VS4lF/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1HmwN4qMOzYMLirIy6whrENwG5uIGSqCv/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter'),
+            quarter('Fourth Quarter'),
+        ],
+    },
+    {
+        year: '2025',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1hRUm2AMYuGcORa4uEk8ZS_cSkVBaDC-0/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1ZSyfOOnxDS4SF93pFDuKwAwWspmMqFFY/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1un8BBRCzz4jCVJt3scxwGJvseIlNkH4N/view?usp=sharing'),
+            ]),
+            quarter('Fourth Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1HvNvxtptM1adyQpGBKkWAV4vFeHrm0xo/view?usp=sharing'),
+            ]),
+        ],
+    },
+    {
+        year: '2024',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/13MVdp2vHxAkX9xQX1WuyC7Ocmbfo8t4h/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/17Zz-UtSNSi22iMVFen-SrrSljRRfTrJr/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1GFqH5O8ge9LRepVT1VpIAKJWri412zFC/view?usp=sharing'),
+            ]),
+            quarter('Fourth Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1FXNZXPekfWN3shxMHQZA_qOondqlBG9p/view?usp=sharing'),
+            ]),
+        ],
+    },
+    {
+        year: '2023',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1J2p2ovNIy_BNNHRjQ_K9nJebhvgS3UMN/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1bsr4eUyIMRcxyYrTx-dsAGx9y8dr41Gi/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1_HB0BqMg5kYIvwQRc_gagXe1tUcANIBH/view?usp=sharing'),
+            ]),
+            quarter('Fourth Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/14tDqcd6z8-eC-KT5z9JeO596oLq4Oxlc/view?usp=sharing'),
+            ]),
+        ],
+    },
+    {
+        year: '2022',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1XSecA6Nqs5Di3QLMDxxB6JPr3IfQ_hCJ/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1DjG4RgLUHQ1WSI1zABIDsS5VSPnlAa2k/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1U6tnxg5jBmRovPs5S9tCx5a5yFbuXTc0/view?usp=share_link'),
+            ]),
+            quarter('Fourth Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1r3XDXu7WCvOvSlvydudMCSQuOk8Hi8FG/view?usp=sharing'),
+            ]),
+        ],
+    },
+    {
+        year: '2021',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1a3AZCk6wGDXlLJVl88vE3G4gJx1d-W5r/view?usp=sharing'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1iMI02QSDxRzm0mWdddgXLVAKut3UT0zK/view?usp=sharing'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1CxPL-TupSyq3w_gVIG8sUznvO8KXnZ-E/view?usp=sharing'),
+            ]),
+            quarter('Fourth Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1n0HuaIXKXi7G2OWtVlpCEh4Y9FD8-blW/view?usp=sharing'),
+            ]),
+        ],
+    },
+    {
+        year: '2020',
+        quarters: [
+            quarter('First Quarter', [
+                doc('BAR NO.1', 'https://nemsu.edu.ph/public_files/files/Bar%20no.%201.pdf'),
+            ]),
+            quarter('Second Quarter', [
+                doc('BAR NO.1', 'https://nemsu.edu.ph/public_files/files/BAR%20NO.%201%20transparency%202nd%20quarter.pdf'),
+            ]),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/118nzuTbPehG6euUrs0gTu4GBPsgkOJVn/view?usp=sharing'),
+            ]),
+            quarter('Fourth Quarter'),
+        ],
+    },
+];
+
+const marcReports: DocumentLink[] = [
+    doc('2023 Scorecard', 'https://drive.google.com/file/d/10WrHcpyg-LUlUIFT_fOIddiujYtmARDg/view?usp=sharing'),
+    doc('2022 Scorecard', 'https://drive.google.com/file/d/1OeUB0nzckF7eAIUTH-4HCufgE5nzHkF9/view?usp=sharing'),
+    doc('2021 Scorecard', 'https://drive.google.com/file/d/1e3W59W8gWjzcmXCfIJNeQq0Hr69UAe2x/view?usp=sharing'),
+    doc('2020 MARC I', 'https://drive.google.com/file/d/1WN2l2iS7oPwFqjuQTI9wvuFt8B_jYtpt/view?usp=sharing'),
+    doc('2019 MARC I', 'https://drive.google.com/file/d/1hHBT7x9-QY7RSnJ5jv7rJR865g2Y6MCC/view?usp=sharing'),
+];
+
 const transparencySections: TransparencySection[] = [
     {
         code: 'III',
-        title: 'Current GAA Budget and Target',
-        description: 'Annual GAA budget and physical target references by fiscal year.',
+        title: 'GAA Budget and Performance Targets',
+        navigationTitle: 'GAA Budget and Performance Targets',
+        description: 'Annual budget allocations and performance targets organized by fiscal year.',
         items: [
             { label: 'GAA FY2024 NEMSU Budget', href: 'https://drive.google.com/file/d/1hC4kcD4wdQh6Xp5MkuCzWntgFogJdHij/view?usp=sharing' },
             { label: 'GAA FY2024 NEMSU Physical Targets', href: 'https://drive.google.com/file/d/1H0DHIocwVFAHCqTJSgPLaf91qUJSjLUQ/view?usp=sharing' },
@@ -352,39 +492,41 @@ const transparencySections: TransparencySection[] = [
     },
     {
         code: 'IV',
-        title: 'Projects, Programs and Activities, Beneficiaries, and Status of Implementation for FY 2023',
-        description: 'The source file marks this section as not applicable.',
+        title: 'Programs, Projects, and Activities',
+        navigationTitle: 'Programs, Projects, and Activities',
+        description: 'Program beneficiaries and implementation status for fiscal year 2023.',
         items: [{ label: 'Not Applicable' }],
     },
     {
         code: 'V',
-        title: 'Annual Procurement Plan',
-        description: 'Annual procurement plan documents, CSE forms, and semester changes.',
+        title: 'Annual Procurement Plans (APP)',
+        navigationTitle: 'Annual Procurement Plans',
+        description: 'Annual, indicative, and revised procurement plans, including common-use supplies and equipment.',
         items: [
             { label: 'Revised Annual Procurement Plan FY 2025-GOP', href: 'https://drive.google.com/file/d/1I0oCRSg9eDrPUkYE6KD4JYlyJc7_pLCS/view?usp=drive_link' },
             { label: 'Revised Annual Procurement Plan FY 2025-Income', href: 'https://drive.google.com/file/d/1IVrLLtIJsMvSx46nDuxWnClusNS76sHF/view?usp=drive_link' },
-            { label: 'Annual Prcurement Plan GAA FY 2026', href: 'https://drive.google.com/file/d/1ThVnNr6McIBRxtTMfcLKj5pq_OZ41vY8/view?usp=drive_link' },
-            { label: 'Annual Prcurement Plan STF FY 2026', href: 'https://drive.google.com/file/d/1RzEC5KGWuZ3xNlhdR7wWGBwkKPuS-S8z/view?usp=drive_link' },
-            { label: 'Indicative Annual Prcurement Plan FY 2026', href: 'https://drive.google.com/file/d/1CZnLWYM84PF0rN-BWipagGnNMociD6pY/view?usp=sharing' },
+            { label: 'Annual Procurement Plan GAA FY 2026', href: 'https://drive.google.com/file/d/1ThVnNr6McIBRxtTMfcLKj5pq_OZ41vY8/view?usp=drive_link' },
+            { label: 'Annual Procurement Plan STF FY 2026', href: 'https://drive.google.com/file/d/1RzEC5KGWuZ3xNlhdR7wWGBwkKPuS-S8z/view?usp=drive_link' },
+            { label: 'Indicative Annual Procurement Plan FY 2026', href: 'https://drive.google.com/file/d/1CZnLWYM84PF0rN-BWipagGnNMociD6pY/view?usp=sharing' },
             { label: 'Annual Procurement Plan-Common-Use Supplies and Equipment (APP-CSE) 2026 Form', href: 'https://drive.google.com/file/d/1GCxz5E00KA-JEVbX75Tsnf5epZdj_uJi/view?usp=sharing' },
-            { label: 'Annual Procuremen Plan FY 2025-GOP -Changes from Fisrt Semester', href: 'https://drive.google.com/file/d/1k-cwNWj3eFcbEtoZ5-hGBHzJs9JdwOfp/view?usp=sharing' },
-            { label: 'Annual Procuremen Plan FY 2025-Income-Changes from First Semester', href: 'https://drive.google.com/file/d/1693jJrkllRlfYPmBXVpNUxdLo4X3UqXJ/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2025-GOP -Changes from First Semester', href: 'https://drive.google.com/file/d/1k-cwNWj3eFcbEtoZ5-hGBHzJs9JdwOfp/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2025-Income-Changes from First Semester', href: 'https://drive.google.com/file/d/1693jJrkllRlfYPmBXVpNUxdLo4X3UqXJ/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY 2025-GOP', href: 'https://drive.google.com/file/d/150aNA5foE6oHLW5oTTlDAq6GEfOMFS7Q/view?usp=sharing' },
-            { label: 'Annual Procuremnt Plan FY 2025-Income', href: 'https://drive.google.com/file/d/15rbny-m3M67TpdWSXs2Z6ATOVBMOMuYV/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2025-Income', href: 'https://drive.google.com/file/d/15rbny-m3M67TpdWSXs2Z6ATOVBMOMuYV/view?usp=sharing' },
             { label: 'Indicative Annual Procurement Plan FY 2025 (GAA)', href: 'https://drive.google.com/file/d/1olP2nxqg1WIaOT-lt0v5u1vcLckwP0mq/view?usp=share_link' },
             { label: 'Indicative Annual Procurement Plan FY 2025 (STF)', href: 'https://drive.google.com/file/d/1jcnPmd3oXd0IoSh1tBVzdeGR0gYZ2o1t/view?usp=share_link' },
             { label: 'Annual Procurement Plan FY 2025 CSE', href: 'https://drive.google.com/file/d/1TWuZEABGMXXqMJlUPswrkCOG-l7yALjv/view?usp=sharing' },
-            { label: 'Annual Procuremen Plan FY 2024-GOP -Changes from Fisrt Semester', href: 'https://drive.google.com/file/d/1PeYJxoA9pQ9WEMW-GmGhq8KUpZaU9s4X/view?usp=sharing' },
-            { label: 'Annual Procuremen Plan FY 2024-Income-Changes from First Semester', href: 'https://drive.google.com/file/d/1XsssH3OVDzEwip7I17oyt4HcPCW1FrcH/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2024-GOP -Changes from First Semester', href: 'https://drive.google.com/file/d/1PeYJxoA9pQ9WEMW-GmGhq8KUpZaU9s4X/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2024-Income-Changes from First Semester', href: 'https://drive.google.com/file/d/1XsssH3OVDzEwip7I17oyt4HcPCW1FrcH/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY 2024-GOP', href: 'https://drive.google.com/file/d/1n8Oh6Pkxees9tF0vP5T_4DksdeUlSl5A/view?usp=sharing' },
-            { label: 'Annual Procuremnt Plan FY 2024-Income', href: 'https://drive.google.com/file/d/1fSlK3YgBWMjOtLfbocn0lZ5RDQXb_zNc/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY 2024-Income', href: 'https://drive.google.com/file/d/1fSlK3YgBWMjOtLfbocn0lZ5RDQXb_zNc/view?usp=sharing' },
             { label: 'Indicative Annual Procurement Plan FY-2024 - GOP', href: 'https://drive.google.com/file/d/1p2jBR_jH9UjIB_brHbLscna5O6KquTRT/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY-2024 - Income', href: 'https://drive.google.com/file/d/1QwHwhsJuYHZChfMmTknWdi0wlVapo-aB/view?usp=sharing' },
-            { label: 'Annual Procuremnt Plan Common Use Supplies and Equipment (APP-CSE) 2024 Form', href: 'https://drive.google.com/file/d/1f1GdBceXApZ3_RHKcf3MK88-EgINcMzT/view?usp=sharing' },
+            { label: 'Annual Procurement Plan Common Use Supplies and Equipment (APP-CSE) 2024 Form', href: 'https://drive.google.com/file/d/1f1GdBceXApZ3_RHKcf3MK88-EgINcMzT/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY-2023-GOP', href: 'https://drive.google.com/file/d/1IF3N8R21-SHJNXGmggjxxFWzd_iydCfS/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY-2023-Income', href: 'https://drive.google.com/file/d/1FFWsSVA1K1GUeTjfr_zS_3XU1AooUkEM/view?usp=sharing' },
             { label: 'Annual Procurement Plan FY-2022 GOP Changes from Second Semester', href: 'https://drive.google.com/file/d/1BLN_2IYE2Vc1pxh5RflxXzqpcDlxxP7S/view?usp=sharing' },
-            { label: 'Annual Procurement Plan FY-2022 Income Changes from SecondSemester', href: 'https://drive.google.com/file/d/1gWeWgXDiYjP2DBVQJDYEpOfBR0qtoNZG/view?usp=sharing' },
+            { label: 'Annual Procurement Plan FY-2022 Income Changes from Second Semester', href: 'https://drive.google.com/file/d/1gWeWgXDiYjP2DBVQJDYEpOfBR0qtoNZG/view?usp=sharing' },
             { label: 'Indicative Annual Procurement Plan FY-2023 (Non-CSE) GOP', href: 'https://drive.google.com/file/d/1gotGtDI3fHfbZNIniigjRUFW3CaOvCTq/view?usp=share_link' },
             { label: 'Indicative Annual Procurement Plan FY-2023 (Non-CSE) Income', href: 'https://drive.google.com/file/d/13kzx5mNPl1aSkRsLXa0UKamORB98b3Pd/view?usp=share_link' },
             { label: 'Annual Procurement Plan FY-2022 (Non-CSE) GOP', href: 'https://drive.google.com/file/d/1nx_fJs2t69WHAZfMS1pD-0pc3j_fJNCh/view?usp=sharing' },
@@ -409,8 +551,9 @@ const transparencySections: TransparencySection[] = [
     },
     {
         code: 'VI',
-        title: 'Procurement Monitoring Report (PMR)',
-        description: 'Quarterly PMR entries grouped by fiscal year.',
+        title: 'Procurement Monitoring Reports (PMR)',
+        navigationTitle: 'Procurement Monitoring Reports',
+        description: 'Procurement monitoring records organized by fiscal year and reporting period.',
         items: [
             { label: 'FY 2025 Procurement Monitoring Report (PMR) - July - December 2025', href: 'https://drive.google.com/file/d/1MU-w8sHhu5lbhM2sEvP8HHIAHl-1CZau/view?usp=sharing' },
             { label: 'FY 2025 Procurement Monitoring Report (PMR) - January - June 2025', href: 'https://drive.google.com/file/d/1Stt6KaQkXezVaw_RX_tn2wJx25razKHS/view?usp=sharing' },
@@ -432,33 +575,37 @@ const transparencySections: TransparencySection[] = [
     },
     {
         code: 'VII',
-        title: 'QMS ISO Certification',
-        description: 'Quality management system certification references.',
+        title: 'Quality Management System Certification',
+        navigationTitle: 'Quality Management Certification',
+        description: 'ISO certification records for the university\'s quality management system.',
         items: [{ label: 'ISO certification document', href: 'https://drive.google.com/file/d/1XnsOcYKg5saDhKxyoh0HNpbWsovWVlvu/view?usp=sharing' }],
     },
     {
         code: 'VIII',
-        title: 'System of Evaluating the Performance of Delivery Units',
-        description: 'Performance evaluation system reference for delivery units.',
+        title: 'Delivery Unit Performance Evaluation',
+        navigationTitle: 'Delivery Unit Performance Evaluation',
+        description: 'Documentation of the university\'s performance evaluation system for delivery units.',
         items: [{ label: 'Performance evaluation system document', href: 'https://drive.google.com/file/d/17idGOPVtmkdg4Td15XnPb0QRokGnj3Cn/view?usp=sharing' }],
     },
     {
         code: 'IX',
-        title: 'The Agency Review and Compliance Procedure of Statements and Financial Disclosures',
-        description: 'Review and compliance records for statements and financial disclosures.',
+        title: 'SALN Review and Compliance',
+        navigationTitle: 'SALN Review and Compliance',
+        description: 'Review and compliance certification records for financial disclosures.',
         items: [
-            { label: 'A. SALN Review Certification FY2022', href: 'https://drive.google.com/file/d/1rDoUXGOj8cK8pg_dkBGTSphq71EaEJjv/view?usp=sharing' },
-            { label: 'B. SALN Review Certification FY2021', href: 'https://drive.google.com/file/d/13sikIP46mcmdFbSDIAYoK4X4feAXm_y0/view?usp=sharing' },
+            { label: 'SALN Review Certification for FY 2022', href: 'https://drive.google.com/file/d/1rDoUXGOj8cK8pg_dkBGTSphq71EaEJjv/view?usp=sharing' },
+            { label: 'SALN Review Certification for FY 2021', href: 'https://drive.google.com/file/d/13sikIP46mcmdFbSDIAYoK4X4feAXm_y0/view?usp=sharing' },
         ],
     },
     {
         code: 'X',
-        title: 'People’s Freedom to Information',
-        description: 'FOI manual, request tools, survey form, and annual FOI reports.',
+        title: 'Freedom of Information (FOI)',
+        navigationTitle: 'Freedom of Information',
+        description: 'FOI manuals, request and feedback resources, and annual reports.',
         items: [
             { label: 'NEMSU People\'s FOI Manual', href: 'https://drive.google.com/file/d/1S2QPmPW-sx98hcPxa6VTxzQ7X8ZpuBBf/view?usp=sharing' },
-            { label: 'NEMSU-One-page-FOI-Manual', href: 'https://drive.google.com/file/d/15VK5pTpXea9bm1gbnnX4MgCJUwQ4qjl5/view?usp=sharing' },
-            { label: 'NEMSU-FOI-Request-Feedbak-Survey-Form', href: 'https://drive.google.com/file/d/1l1oAYuVyRquzj0e03E2_jcS-d0cmLPAm/view?usp=sharing' },
+            { label: 'NEMSU One-Page FOI Manual', href: 'https://drive.google.com/file/d/15VK5pTpXea9bm1gbnnX4MgCJUwQ4qjl5/view?usp=sharing' },
+            { label: 'NEMSU FOI Request Feedback Survey Form', href: 'https://drive.google.com/file/d/1l1oAYuVyRquzj0e03E2_jcS-d0cmLPAm/view?usp=sharing' },
             { label: '2025 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1TwgC2N5rNzyfcVVTm2jwKwu2IZGEGrp1/edit?usp=sharing&ouid=118069644834388500470&rtpof=true&sd=true' },
             { label: '2024 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1Vi7eTrjR2FrY-7CwmHUXOYxlPNhHoKBy/edit?usp=drive_link&ouid=118069644834388500470&rtpof=true&sd=true' },
             { label: '2023 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/13RwB_ZvmJwUnoWJbXiPhDhM6olvSdS2D/edit?usp=sharing' },
@@ -466,6 +613,49 @@ const transparencySections: TransparencySection[] = [
             { label: '2021 FOI Reports', href: 'https://docs.google.com/spreadsheets/d/1HQUNHkxSsrr5YRp2idNBvh3Sse3VauU3/edit?usp=sharing' },
         ],
     },
+];
+
+const groupDocumentsByYear = (items: SectionItem[]): DocumentGroup[] => {
+    const groups = new Map<number | null, SectionItem[]>();
+
+    items.forEach((item) => {
+        const yearMatch = item.label.match(/(?:19|20)\d{2}/);
+        const year = yearMatch ? Number(yearMatch[0]) : null;
+        const yearItems = groups.get(year) ?? [];
+
+        yearItems.push(item);
+        groups.set(year, yearItems);
+    });
+
+    return Array.from(groups, ([year, yearItems]) => ({
+        year,
+        items: yearItems,
+    })).sort((left, right) => {
+        if (left.year === null) {
+            return -1;
+        }
+
+        if (right.year === null) {
+            return 1;
+        }
+
+        return right.year - left.year;
+    });
+};
+
+const groupedTransparencySections = transparencySections.map((section) => ({
+    ...section,
+    groups: groupDocumentsByYear(section.items),
+}));
+
+const sectionNavigation = [
+    { code: 'I', title: 'Institutional Mandate and Officials', href: '#agency-information' },
+    { code: 'II', title: 'Annual Financial Reports', href: '#annual-reports' },
+    ...transparencySections.map((section) => ({
+        code: section.code,
+        title: section.navigationTitle ?? section.title,
+        href: `#transparency-section-${section.code}`,
+    })),
 ];
 
 const setSectionVisibility = (section: string, isVisible: boolean): void => {
@@ -557,155 +747,264 @@ onBeforeUnmount(() => {
                 ]"
             />
 
-            <section
-                id="annual-reports"
-                class="border-y border-slate-200 bg-[#f7f8f5] py-14 dark:border-white/10 dark:bg-slate-900"
-            >
-                <div class="mx-auto max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[20rem_1fr] lg:px-8">
-                    
-                    <p class="mb-4 text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
-                        Annual Financial Reports
-                    </p>
+            <nav aria-labelledby="disclosure-directory-heading" class="border-b border-slate-200 py-8 sm:py-10 dark:border-white/10">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50/80 p-5 sm:p-8 lg:grid lg:grid-cols-[minmax(0,16rem)_minmax(0,1fr)] lg:gap-10 dark:border-white/10 dark:bg-white/4">
+                        <div>
+                            <p class="text-xs font-semibold tracking-widest text-[#9b1c31] uppercase dark:text-rose-300">
+                                Public Accountability
+                            </p>
+                            <h2 id="disclosure-directory-heading" class="mt-3 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+                                Transparency Disclosures
+                            </h2>
+                            <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                                Access institutional information, financial reports, and governance records by disclosure category.
+                            </p>
+                        </div>
 
-                    <div class="grid gap-5">
-                        <article
-                            v-for="year in transparencyYears"
-                            :key="year.year"
-                            :data-scroll-section="`annual-report-${year.year}`"
-                            class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
-                            :class="revealClasses(`annual-report-${year.year}`)"
-                        >
-                            <div class="border-b border-[#0f0ab8] bg-[#1711d4] p-5 text-white dark:border-white/10">
-                                <p class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
-                                    {{ year.year }}
-                                </p>
-                                <div class="mt-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                                    <div>
-                                        <h4 class="text-2xl font-semibold tracking-normal">
-                                            {{ year.summary }}
-                                        </h4>
-                                    </div>
-                                    <p class="text-sm text-white/85">
-                                        {{ year.quarters.length }} quarter blocks
-                                    </p>
+                        <ol class="mt-5 grid gap-x-8 sm:grid-cols-2 lg:mt-0">
+                            <li v-for="section in sectionNavigation" :key="section.code" class="border-b border-slate-200 dark:border-white/10">
+                                <a :href="section.href" class="group flex h-full min-h-16 items-center gap-3 rounded-md px-2 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-white hover:text-[#0b3d91] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1711d4] dark:text-slate-200 dark:hover:bg-white/5 dark:hover:text-white dark:focus-visible:outline-sky-200">
+                                    <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-md bg-[#1711d4]/5 text-xs font-semibold text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200">{{ section.code }}</span>
+                                    <span class="min-w-0 flex-1 leading-6">{{ section.title }}</span>
+                                    <ChevronRight class="size-4 shrink-0 text-slate-400 transition-colors group-hover:text-[#1711d4] dark:text-slate-500 dark:group-hover:text-sky-200" aria-hidden="true" />
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </nav>
+
+            <section id="agency-information" aria-labelledby="agency-information-heading" class="scroll-mt-32 py-14 sm:py-16">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <h2 id="agency-information-heading" class="text-3xl font-semibold tracking-tight text-slate-950 dark:text-white">
+                        I. Institutional Mandate and Officials
+                    </h2>
+                    <p class="mt-3 max-w-3xl text-base leading-7 text-slate-600 dark:text-slate-300">
+                        Information on the university's mandate, institutional functions, and officials, including their positions, designations, and contact details.
+                    </p>
+                    <div class="mt-8 grid gap-5 sm:grid-cols-2">
+                        <Link :href="university()" class="group flex h-full flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-xs transition-colors hover:border-[#1711d4]/40 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1711d4] sm:p-7 dark:border-white/10 dark:bg-white/4 dark:hover:border-sky-200/40 dark:hover:bg-white/7 dark:focus-visible:outline-sky-200">
+                            <div class="flex items-start gap-4">
+                                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-lg bg-[#1711d4]/5 text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200">
+                                    <Building2 class="size-5" aria-hidden="true" />
+                                </span>
+                                <div>
+                                    <h3 class="text-lg leading-7 font-semibold text-slate-950 dark:text-white">Institutional Mandate and Functions</h3>
+                                    <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">University profile, vision, mission, and core values.</p>
                                 </div>
                             </div>
+                            <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200">
+                                View University Profile
+                                <ArrowRight class="size-4" aria-hidden="true" />
+                            </span>
+                        </Link>
+                        <Link :href="directory()" class="group flex h-full flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-xs transition-colors hover:border-[#1711d4]/40 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1711d4] sm:p-7 dark:border-white/10 dark:bg-white/4 dark:hover:border-sky-200/40 dark:hover:bg-white/7 dark:focus-visible:outline-sky-200">
+                            <div class="flex items-start gap-4">
+                                <span class="inline-flex size-11 shrink-0 items-center justify-center rounded-lg bg-[#1711d4]/5 text-[#1711d4] dark:bg-sky-400/10 dark:text-sky-200">
+                                    <UsersRound class="size-5" aria-hidden="true" />
+                                </span>
+                                <div>
+                                    <h3 class="text-lg leading-7 font-semibold text-slate-950 dark:text-white">University Officials and Contact Directory</h3>
+                                    <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">Names, positions, designations, and official contact details.</p>
+                                </div>
+                            </div>
+                            <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#1711d4] dark:text-sky-200">
+                                View Official Directory
+                                <ArrowRight class="size-4" aria-hidden="true" />
+                            </span>
+                        </Link>
+                    </div>
+                </div>
+            </section>
 
-                            <div class="grid gap-0 xl:grid-cols-4">
-                                <section v-for="quarterArchive in year.quarters" :key="`${year.year}-${quarterArchive.label}`" class="border-t border-slate-200 p-5 first:border-t-0 xl:border-t-0 xl:border-l dark:border-white/10">
-                                    <div class="flex items-center gap-3">
-                                        <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-[#e7f3fb] text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200">
-                                            <CalendarRange class="size-5" aria-hidden="true" />
-                                        </span>
-                                        <div>
-                                            <h5 class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white">
-                                                {{ quarterArchive.label }}
-                                            </h5>
-                                            <p class="text-xs text-slate-500 dark:text-slate-400">
-                                                {{ quarterArchive.documents.length ? `${quarterArchive.documents.length} files` : 'No file posted yet' }}
-                                            </p>
-                                        </div>
+            <section
+                id="annual-reports"
+                aria-labelledby="annual-reports-heading"
+                class="scroll-mt-32 border-y border-slate-200 bg-[#f7f8f5] py-14 sm:py-16 dark:border-white/10 dark:bg-slate-900"
+            >
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <h2 id="annual-reports-heading" class="text-3xl font-semibold text-slate-950 dark:text-white">
+                        II. Annual Financial Reports
+                    </h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                        Accountability reports, MARC records, and scorecards arranged by report type and fiscal year.
+                    </p>
+
+                    <h3 class="mt-8 border-b border-slate-200 pb-4 text-2xl font-semibold text-slate-950 dark:border-white/10 dark:text-white">
+                        A. Budget Accountability Reports
+                    </h3>
+
+                    <section id="financial-accountability-reports" aria-labelledby="financial-accountability-heading" class="mt-6 scroll-mt-32">
+                        <h4 id="financial-accountability-heading" class="mb-5 text-xl font-semibold text-slate-950 dark:text-white">
+                            A.1 Financial Accountability Reports (FAR)
+                        </h4>
+
+                        <div class="grid gap-5">
+                            <details
+                                v-for="year in transparencyYears"
+                                :key="year.year"
+                                :open="year.year === transparencyYears[0].year"
+                                :data-scroll-section="`annual-report-${year.year}`"
+                                class="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
+                                :class="revealClasses(`annual-report-${year.year}`)"
+                            >
+                                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 bg-[#1711d4] p-5 text-white [&::-webkit-details-marker]:hidden">
+                                    <div>
+                                        <h5 class="text-2xl font-semibold text-[#f2b705]">
+                                            {{ year.year }}
+                                        </h5>
+                                        <p class="mt-2 text-sm leading-6 text-white/85">
+                                            {{ year.summary }}
+                                        </p>
                                     </div>
+                                    <ChevronDown class="size-5 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+                                </summary>
 
-                                    <ul class="mt-4 space-y-2">
-                                        <li v-if="!quarterArchive.documents.length" class="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-white/5 dark:text-slate-400">
-                                            Pending publication.
-                                        </li>
-                                        <li v-for="document in quarterArchive.documents" :key="`${year.year}-${quarterArchive.label}-${document.label}`">
-                                            <a :href="document.href" target="_blank" rel="noreferrer" class="group flex items-center justify-between gap-3 rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-700 transition hover:bg-[#e7f3fb] hover:text-[#0b3d91] dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">
-                                                <span class="leading-6">{{ document.label }}</span>
-                                                <ArrowUpRight class="size-4 shrink-0 text-slate-400 transition group-hover:text-[#1711d4] dark:text-slate-500 dark:group-hover:text-sky-200" aria-hidden="true" />
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <div class="grid gap-0 xl:grid-cols-4">
+                                    <section v-for="quarterArchive in year.quarters" :key="`${year.year}-${quarterArchive.label}`" class="border-t border-slate-200 p-5 first:border-t-0 xl:border-t-0 xl:border-l dark:border-white/10">
+                                        <div class="flex items-center gap-3">
+                                            <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-md bg-[#e7f3fb] text-[#0b3d91] dark:bg-sky-400/10 dark:text-sky-200">
+                                                <CalendarRange class="size-5" aria-hidden="true" />
+                                            </span>
+                                            <div>
+                                                <h6 class="text-sm font-semibold tracking-wide text-slate-950 uppercase dark:text-white">
+                                                    {{ quarterArchive.label }}
+                                                </h6>
+                                                <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                    {{ quarterArchive.documents.length ? `${quarterArchive.documents.length} ${quarterArchive.documents.length === 1 ? 'file' : 'files'}` : 'No file posted yet' }}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <ul class="mt-4 space-y-2">
+                                            <li v-if="!quarterArchive.documents.length" class="rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-500 dark:bg-white/5 dark:text-slate-400">
+                                                No file posted yet.
+                                            </li>
+                                            <li v-for="document in quarterArchive.documents" :key="`${year.year}-${quarterArchive.label}-${document.label}`">
+                                                <a :href="document.href" target="_blank" rel="noreferrer" class="group flex items-center justify-between gap-3 rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-700 transition hover:bg-[#e7f3fb] hover:text-[#0b3d91] dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">
+                                                    <span class="leading-6">{{ document.label }}</span>
+                                                    <ArrowUpRight class="size-4 shrink-0 text-slate-400 transition group-hover:text-[#1711d4] dark:text-slate-500 dark:group-hover:text-sky-200" aria-hidden="true" />
+                                                </a>
+                                            </li>
+                                        </ul>
                                 </section>
                             </div>
-                        </article>
+                        </details>
                     </div>
-                </div>
-            </section>
+                    </section>
 
-            <section class="py-14 sm:py-16">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        data-scroll-section="public-access"
-                        class="grid gap-5 rounded-4xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5 sm:p-8 lg:grid-cols-[1fr_auto] dark:border-white/10 dark:bg-white/4"
-                        :class="revealClasses('public-access', 'up')"
+                    <section
+                        id="budget-accountability-reports"
+                        data-scroll-section="budget-accountability-reports"
+                        aria-labelledby="budget-accountability-heading"
+                        class="mt-10 scroll-mt-32"
+                        :class="revealClasses('budget-accountability-reports')"
                     >
-                        <div>
-                            <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
-                                Public access
-                            </p>
-                            <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                                Keep the seal visible and the records easy to verify.
-                            </h4>
-                            <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
-                                This page keeps the seal image, the accountability summary, and the financial archive aligned with the public site styling used across NEMSU.
-                            </p>
-                        </div>
-
-                        <div class="flex items-center">
-                            <Link :href="home()" class="inline-flex items-center justify-center rounded-md bg-[#1711d4] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0f0ab8]">
-                                Visit Home
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="border-t border-slate-200 bg-white py-14 sm:py-16 dark:border-white/10 dark:bg-slate-950">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div
-                        data-scroll-section="transparency-sections-heading"
-                        class="max-w-3xl"
-                        :class="revealClasses('transparency-sections-heading', 'right')"
-                    >
-                        <p class="text-sm font-semibold tracking-wide text-[#9b1c31] uppercase dark:text-rose-300">
-                            Transparency seal sections
-                        </p>
-                        <h4 class="mt-3 text-3xl font-semibold tracking-normal text-slate-950 dark:text-white">
-                            Sections III to X are now laid out here.
+                        <h4 id="budget-accountability-heading" class="mb-5 text-xl font-semibold text-slate-950 dark:text-white">
+                            A.2 Budget Accountability Reports (BAR)
                         </h4>
-                        <p class="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
-                            Each block below matches the requested transparency seal grouping. Items without uploaded files are shown as labels so the section structure stays visible.
-                        </p>
-                    </div>
 
-                    <div class="mt-8 grid gap-5">
-                        <article
-                            v-for="section in transparencySections"
+                        <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4">
+                            <table class="w-full min-w-3xl text-left text-sm">
+                                <caption class="sr-only">
+                                    BAR NO.1 reports by year and quarter
+                                </caption>
+                                <thead class="bg-[#1711d4] text-white">
+                                    <tr>
+                                        <th scope="col" class="px-5 py-4 font-semibold text-[#f2b705]">Year</th>
+                                        <th scope="col" class="px-5 py-4 font-semibold">First Quarter</th>
+                                        <th scope="col" class="px-5 py-4 font-semibold">Second Quarter</th>
+                                        <th scope="col" class="px-5 py-4 font-semibold">Third Quarter</th>
+                                        <th scope="col" class="px-5 py-4 font-semibold">Fourth Quarter</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-white/10">
+                                    <tr v-for="year in budgetAccountabilityYears" :key="year.year" class="align-top even:bg-slate-50 dark:even:bg-white/5">
+                                        <th scope="row" class="px-5 py-4 font-semibold text-slate-950 dark:text-white">
+                                            {{ year.year }}
+                                        </th>
+                                        <td v-for="quarterArchive in year.quarters" :key="`${year.year}-${quarterArchive.label}`" class="px-5 py-4">
+                                            <span v-if="!quarterArchive.documents.length" class="text-slate-500 dark:text-slate-400">
+                                                No file posted yet.
+                                            </span>
+                                            <a
+                                                v-for="document in quarterArchive.documents"
+                                                :key="document.href"
+                                                :href="document.href"
+                                                :aria-label="`${document.label} — ${year.year}, ${quarterArchive.label}`"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="group inline-flex items-center gap-2 font-medium text-[#0b3d91] underline decoration-slate-300 underline-offset-4 transition hover:text-[#1711d4] hover:decoration-current dark:text-sky-200 dark:decoration-sky-200/30 dark:hover:text-white"
+                                            >
+                                                {{ document.label }}
+                                                <ArrowUpRight class="size-4 shrink-0" aria-hidden="true" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="marc-reports" aria-labelledby="marc-reports-heading" class="mt-10 scroll-mt-32 border-t border-slate-200 pt-8 dark:border-white/10">
+                        <h3 id="marc-reports-heading" class="mb-5 text-2xl font-semibold text-slate-950 dark:text-white">
+                            B. MARC and Scorecards
+                        </h3>
+                        <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                            <li v-for="report in marcReports" :key="report.href">
+                                <a :href="report.href" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-white p-4 text-sm font-medium text-[#0b3d91] transition hover:border-[#1711d4] hover:bg-[#e7f3fb] dark:border-white/10 dark:bg-white/4 dark:text-sky-200 dark:hover:bg-white/10">
+                                    {{ report.label }}
+                                    <ArrowUpRight class="size-4 shrink-0" aria-hidden="true" />
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+
+            <div class="bg-white py-14 sm:py-16 dark:bg-slate-950">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="grid gap-8">
+                        <section
+                            v-for="section in groupedTransparencySections"
                             :key="section.code"
+                            :id="`transparency-section-${section.code}`"
+                            :aria-labelledby="`transparency-heading-${section.code}`"
                             :data-scroll-section="`transparency-section-${section.code}`"
-                            class="overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
+                            class="scroll-mt-32 overflow-hidden rounded-2xl border border-slate-200 bg-[#f8fafc] shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/4"
                             :class="revealClasses(`transparency-section-${section.code}`)"
                         >
                             <div class="border-b border-[#0f0ab8] bg-[#1711d4] p-5 text-white dark:border-white/10">
-                                <p class="text-sm font-semibold tracking-wide text-[#f2b705] uppercase">
-                                    {{ section.code }}
-                                </p>
-                                <h4 class="mt-2 text-2xl font-semibold tracking-normal text-white">
+                                <h2 :id="`transparency-heading-${section.code}`" class="text-2xl font-semibold tracking-normal text-white">
+                                    <span class="text-[#f2b705]">{{ section.code }}.</span>
                                     {{ section.title }}
-                                </h4>
+                                </h2>
                                 <p class="mt-2 text-sm leading-6 text-white/80">
                                     {{ section.description }}
                                 </p>
                             </div>
 
-                            <div class="p-5">
-                                <ul class="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                                    <li v-for="item in section.items" :key="`${section.code}-${item.label}`" class="">
-                                        <a v-if="item.href" :href="item.href" target="_blank" rel="noreferrer" class="group flex items-center justify-between gap-3 rounded-md bg-slate-50 px-3 py-2 text-sm text-slate-700 transition hover:bg-[#e7f3fb] hover:text-[#0b3d91] dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white">
-                                            <span class="leading-6">{{ item.label }}</span>
-                                            <ArrowUpRight class="size-4 shrink-0 text-slate-400 transition group-hover:text-[#1711d4] dark:text-slate-500 dark:group-hover:text-sky-200" aria-hidden="true" />
-                                        </a>
-                                        <span v-else class="rounded-md bg-white px-3 py-2 text-sm text-slate-700 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-white/10">{{ item.label }}</span>
-                                    </li>
-                                </ul>
+                            <div class="grid gap-6 p-5">
+                                <div v-for="group in section.groups" :key="group.year ?? 'general'">
+                                    <h3 v-if="section.groups.length > 1" class="mb-3 border-b border-slate-200 pb-3 text-lg font-semibold text-slate-950 dark:border-white/10 dark:text-white">
+                                        {{ group.year ? `FY ${group.year}` : 'Manuals and request resources' }}
+                                    </h3>
+                                    <ul class="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                                        <li v-for="item in group.items" :key="`${section.code}-${item.label}`">
+                                            <a v-if="item.href" :href="item.href" target="_blank" rel="noopener noreferrer" class="group flex h-full items-center justify-between gap-3 rounded-md bg-white px-3 py-2 text-sm text-slate-700 ring-1 ring-slate-200 transition hover:bg-[#e7f3fb] hover:text-[#0b3d91] dark:bg-white/5 dark:text-slate-300 dark:ring-white/10 dark:hover:bg-white/10 dark:hover:text-white">
+                                                <span class="leading-6">{{ item.label }}</span>
+                                                <ArrowUpRight class="size-4 shrink-0 text-slate-400 transition group-hover:text-[#1711d4] dark:text-slate-500 dark:group-hover:text-sky-200" aria-hidden="true" />
+                                            </a>
+                                            <span v-else class="block rounded-md bg-white px-3 py-2 text-sm text-slate-700 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-200 dark:ring-white/10">{{ item.label }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </article>
+                        </section>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </PublicSiteLayout>
 </template>
