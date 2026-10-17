@@ -45,13 +45,19 @@ const freedomOfInformationResources = [
         category: 'Manual',
         title: 'NEMSU One-Page Freedom of Information Manual',
         year: 'Current',
-        href: 'https://drive.google.com/file/d/1T4_eUD8SAtTlDvvQGjNPNBjOeCNAACQO/view?usp=sharing',
+        href: 'https://drive.google.com/file/d/15VK5pTpXea9bm1gbnnX4MgCJUwQ4qjl5/view?usp=sharing',
     },
     {
         category: 'Form',
         title: 'NEMSU FOI Request Feedback Survey Form',
         year: 'Current',
         href: 'https://drive.google.com/file/d/1l1oAYuVyRquzj0e03E2_jcS-d0cmLPAm/view',
+    },
+    {
+        category: 'Report',
+        title: 'Freedom of Information Report',
+        year: '2025',
+        href: 'https://docs.google.com/spreadsheets/d/1TwgC2N5rNzyfcVVTm2jwKwu2IZGEGrp1/edit?usp=sharing&ouid=118069644834388500470&rtpof=true&sd=true',
     },
     {
         category: 'Report',

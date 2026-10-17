@@ -52,7 +52,7 @@ const boardMembers: BoardMember[] = [
         name: 'HON. RICMAR P. AQUINO, PhD',
         designation: 'Commissioner, CHED',
         boardRole: 'Chairperson, NEMSU Board of Regents',
-        photoUrl: boardMemberPhoto('Pasted image.png'),
+        photoUrl: boardMemberPhoto('R.Aquino.png'),
     },
     {
         id: 'vice-chairperson',
@@ -71,10 +71,10 @@ const boardMembers: BoardMember[] = [
     },
     {
         id: 'house-representative',
-        name: 'HON. JUDE A. ACIDRE',
+        name: 'HON. ROMEO S. MOMO',
         designation: 'Chairman, House Committee on Higher Technical Education',
         boardRole: 'Member',
-        photoUrl: boardMemberPhoto('acidre.png'),
+        photoUrl: boardMemberPhoto('R.momo.png'),
     },
     {
         id: 'economy-and-planning-representative',
@@ -93,10 +93,10 @@ const boardMembers: BoardMember[] = [
     },
     {
         id: 'private-sector-representative-one',
-        name: 'Vacant',
+        name: 'HON. RONNIE M. LALA',
         designation: 'Private Sector Representative',
         boardRole: 'Member',
-        photoUrl: null,
+        photoUrl: boardMemberPhoto('lala.png'),
     },
     {
         id: 'private-sector-representative-two',
