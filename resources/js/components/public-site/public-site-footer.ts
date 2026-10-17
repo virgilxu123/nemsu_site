@@ -142,7 +142,9 @@ export const publicSiteGovernanceSealLinks: PublicSiteFooterImageLink[] = [
     },
     {
         label: 'Freedom of Information',
-        href: `${goodGovernance().url}#freedom-of-information`,
+        //href: `${goodGovernance().url}#freedom-of-information`,
+        href: 'https://www.foi.gov.ph/agencies/nemsu/data-request-nemsu-661122023403/',
+        external: true,
         image: '/storage/images/compliance/freedom-of-information/FOI-Logo_0-150x150.png',
         imageAlt: 'Freedom of Information seal',
     },
