@@ -32,9 +32,10 @@ Bachelor of Technical-Vocational Teacher Education (Electrical Technology) – L
 These accomplishments reflect the Campus' unwavering commitment to academic excellence, quality assurance, and continuous institutional improvement in fulfilling its mandate of providing relevant, responsive, and transformative higher education for the people of Bislig City, Surigao del Sur, the Caraga Region, and beyond.
 TEXT,
     'highlights' => ['Agroforestry', 'Industry alignment', 'Professional education'],
-    'director' => 'Whelson C. Pasos',
-    'directorEmail' => 'wcpasos@nemsu.edu.ph',
-    'directorPhoto' => '/images/campuses/bislig/whelson-c-pasos.jpg',
+    'director' => 'Dr. Myrna T. Alferez',
+    'directorEmail' => 'mtalferez@nemsu.edu.ph',
+    'directorPhoto' => '/images/campuses/bislig/alferez.jpg',
+    'directorRole' => 'OIC Campus Director',
     'focus' => 'Regional workforce development',
     'stats' => [
         ['label' => 'Student Population (1st Semester)', 'value' => '1,787', 'note' => 'AY 2025–2026'],
