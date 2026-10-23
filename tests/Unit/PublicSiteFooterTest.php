@@ -57,3 +57,14 @@ test('public site footer keeps compliance assets and social presentation', funct
         ->toContain("label: 'NEMSU on TikTok'")
         ->toContain('aria-label="Official social media"');
 });
+
+test('public site footer marks the freedom of information link as external', function () {
+    $footerData = file_get_contents(
+        dirname(__DIR__, 2).
+            '/resources/js/components/public-site/public-site-footer.ts',
+    );
+
+    expect($footerData)->toContain(
+        "href: 'https://www.foi.gov.ph/agencies/nemsu/data-request-nemsu-661122023403/',\n        external: true,",
+    );
+});

@@ -67,7 +67,7 @@ const services = [
     {
         name: 'Document Tracking System (DTS)',
         description: 'Track routing and status of official documents.',
-        url: '',
+        url: 'https://dts.nemsu.edu.ph',
         image: 'https://placehold.co/600x400/1711d4/ffffff?text=DTS',
     },
     {
