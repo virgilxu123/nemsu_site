@@ -503,6 +503,7 @@ const transparencySections: TransparencySection[] = [
         navigationTitle: 'Annual Procurement Plans',
         description: 'Annual, indicative, and revised procurement plans, including common-use supplies and equipment.',
         items: [
+            {label: 'INDICATIVE-Annual Procurement Plan FY 2027', href: 'https://drive.google.com/file/d/1Drbw91rO-uI4Ud6Nrha_dz3VTby9anfS/view?usp=sharing'},
             { label: 'Revised Annual Procurement Plan FY 2025-GOP', href: 'https://drive.google.com/file/d/1I0oCRSg9eDrPUkYE6KD4JYlyJc7_pLCS/view?usp=drive_link' },
             { label: 'Revised Annual Procurement Plan FY 2025-Income', href: 'https://drive.google.com/file/d/1IVrLLtIJsMvSx46nDuxWnClusNS76sHF/view?usp=drive_link' },
             { label: 'Annual Procurement Plan GAA FY 2026', href: 'https://drive.google.com/file/d/1ThVnNr6McIBRxtTMfcLKj5pq_OZ41vY8/view?usp=drive_link' },
