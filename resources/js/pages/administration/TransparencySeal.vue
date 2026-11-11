@@ -355,7 +355,9 @@ const budgetAccountabilityYears: ReportYear[] = [
             quarter('Second Quarter', [
                 doc('BAR NO.1', 'https://drive.google.com/file/d/1HmwN4qMOzYMLirIy6whrENwG5uIGSqCv/view?usp=sharing'),
             ]),
-            quarter('Third Quarter'),
+            quarter('Third Quarter', [
+                doc('BAR NO.1', 'https://drive.google.com/file/d/1pw_II-0lYtZFAjTJglBBIPE63RsGmZar/view?usp=sharing'),
+            ]),
             quarter('Fourth Quarter'),
         ],
     },
