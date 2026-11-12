@@ -9,8 +9,11 @@ use App\Http\Requests\StoreNewsRequest;
 use App\Http\Requests\UpdateNewsRequest;
 use App\Models\News;
 use App\Models\Office;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -118,6 +121,23 @@ class NewsController extends Controller
         ]);
 
         return to_route('admin.news.index');
+    }
+
+    public function uploadImage(Request $request): JsonResponse
+    {
+        $request->validate([
+            'image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
+        ]);
+
+        /** @var UploadedFile $image */
+        $image = $request->file('image');
+        $path = $this->manageNewsImages->storeContentImage($image);
+
+        return response()->json([
+            'url' => Storage::disk('public')->url($path),
+            'path' => $path,
+            'alt' => pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME),
+        ]);
     }
 
     /**

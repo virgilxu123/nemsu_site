@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ContentPage;
 use App\Models\News;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
@@ -334,4 +335,104 @@ test('admin news index searches filters and sorts records', function () {
             ->where('filters.type', 'news')
             ->where('filters.featured', 'featured')
         );
+});
+
+test('guests and non admins cannot upload news content images', function () {
+    $this->postJson(route('admin.news.images.store'), [
+        'image' => UploadedFile::fake()->image('test.jpg'),
+    ])->assertUnauthorized();
+
+    $contributor = User::factory()->create([
+        'account_type' => 'contributor',
+    ]);
+
+    $this->actingAs($contributor)
+        ->postJson(route('admin.news.images.store'), [
+            'image' => UploadedFile::fake()->image('test.jpg'),
+        ])->assertForbidden();
+});
+
+test('admins can upload a news content image', function () {
+    Storage::fake('public');
+
+    $admin = newsAdminUser();
+    $image = UploadedFile::fake()->image('gallery-photo.jpg', 800, 600);
+
+    $response = $this->actingAs($admin)
+        ->postJson(route('admin.news.images.store'), [
+            'image' => $image,
+        ]);
+
+    $response->assertOk()
+        ->assertJsonStructure(['url', 'path', 'alt']);
+
+    $path = $response->json('path');
+    Storage::disk('public')->assertExists($path);
+});
+
+test('news content preserves photo grid structure on save', function () {
+    Storage::fake('public');
+
+    $admin = newsAdminUser();
+    $content = '<p>Announcement text</p><div class="photo-grid" data-columns="3"><figure><img src="/storage/news/content/photo1.webp" alt="Photo 1" /></figure><figure><img src="/storage/news/content/photo2.webp" alt="Photo 2" /></figure></div>';
+
+    $response = $this->actingAs($admin)
+        ->post(route('admin.news.store'), newsPayload([
+            'title' => 'Article With Photo Grid',
+            'slug' => 'article-with-photo-grid',
+            'content' => $content,
+        ]));
+
+    $news = News::where('slug', 'article-with-photo-grid')->firstOrFail();
+    $response->assertRedirect(route('admin.news.edit', $news));
+
+    expect($news->content)->toContain('class="photo-grid"');
+    expect($news->content)->toContain('data-columns="3"');
+    expect($news->content)->toContain('photo1.webp');
+    expect($news->content)->toContain('photo2.webp');
+});
+
+test('prune orphaned news images command deletes only unreferenced files older than cutoff', function () {
+    Storage::fake('public');
+
+    // Referenced photo and content image
+    Storage::disk('public')->put('news/photos/active-photo.jpg', 'image-bytes');
+    Storage::disk('public')->put('news/content/active-content.webp', 'image-bytes');
+    Storage::disk('public')->put('news/content/page-referenced.webp', 'image-bytes');
+
+    // Orphaned files
+    Storage::disk('public')->put('news/photos/orphaned-photo.jpg', 'image-bytes');
+    Storage::disk('public')->put('news/content/orphaned-content.webp', 'image-bytes');
+
+    // Create a news article referencing active files
+    News::factory()->create([
+        'photo' => 'news/photos/active-photo.jpg',
+        'content' => '<p>News content</p><img src="/storage/news/content/active-content.webp" />',
+    ]);
+
+    // Create a content page referencing a news image
+    ContentPage::factory()->create([
+        'body' => '<p>Page content with image <img src="/storage/news/content/page-referenced.webp" /></p>',
+    ]);
+
+    // Test dry run does not delete
+    $this->artisan('news:prune-orphaned-images --hours=0 --dry-run')
+        ->assertSuccessful();
+
+    Storage::disk('public')->assertExists('news/photos/orphaned-photo.jpg');
+    Storage::disk('public')->assertExists('news/content/orphaned-content.webp');
+    Storage::disk('public')->assertExists('news/content/page-referenced.webp');
+
+    // Actual run with --hours=0 deletes orphaned files
+    $this->artisan('news:prune-orphaned-images --hours=0')
+        ->assertSuccessful();
+
+    // Active files preserved (both in News and ContentPage)
+    Storage::disk('public')->assertExists('news/photos/active-photo.jpg');
+    Storage::disk('public')->assertExists('news/content/active-content.webp');
+    Storage::disk('public')->assertExists('news/content/page-referenced.webp');
+
+    // Orphaned files deleted
+    Storage::disk('public')->assertMissing('news/photos/orphaned-photo.jpg');
+    Storage::disk('public')->assertMissing('news/content/orphaned-content.webp');
 });

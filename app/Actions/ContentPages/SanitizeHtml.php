@@ -12,7 +12,7 @@ class SanitizeHtml
     public function handle(string $html): string
     {
         $html = preg_replace('/<\s*(script|style|iframe|object|embed)\b[^>]*>.*?<\s*\/\s*\1\s*>/is', '', $html) ?? '';
-        $html = strip_tags($html, '<p><br><strong><b><em><i><u><s><blockquote><ul><ol><li><a><img><h2><h3><h4>');
+        $html = strip_tags($html, '<p><br><strong><b><em><i><u><s><blockquote><ul><ol><li><a><img><h2><h3><h4><div><figure><figcaption>');
 
         $document = new DOMDocument;
         $previous = libxml_use_internal_errors(true);
@@ -46,12 +46,27 @@ class SanitizeHtml
             $allowedAttributes = match ($child->tagName) {
                 'a' => ['href', 'title', 'target', 'rel'],
                 'img' => ['src', 'alt', 'title'],
+                'div', 'figure' => ['class', 'data-columns', 'data-grid'],
+                'figcaption' => ['class'],
                 default => [],
             };
 
             foreach (iterator_to_array($child->attributes) as $attribute) {
                 if (! in_array($attribute->name, $allowedAttributes, true)) {
                     $child->removeAttribute($attribute->name);
+                }
+            }
+
+            if (in_array($child->tagName, ['div', 'figure', 'figcaption'], true) && $child->hasAttribute('class')) {
+                $classes = collect(explode(' ', (string) $child->getAttribute('class')))
+                    ->map(fn ($c) => trim($c))
+                    ->filter(fn ($c) => preg_match('/^[a-zA-Z0-9_\-\:\[\]]+$/', $c))
+                    ->implode(' ');
+
+                if ($classes !== '') {
+                    $child->setAttribute('class', $classes);
+                } else {
+                    $child->removeAttribute('class');
                 }
             }
 

@@ -270,3 +270,84 @@
         }
     }
 }
+
+/* Photo Grid component for news articles & rich text editor */
+.photo-grid {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+    .photo-grid[data-columns="2"],
+    .photo-grid.photo-grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .photo-grid[data-columns="3"],
+    .photo-grid.photo-grid-3,
+    .photo-grid[data-columns="4"],
+    .photo-grid.photo-grid-4,
+    .photo-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.photo-grid figure,
+.photo-grid > div {
+    margin: 0 !important;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.photo-grid img {
+    width: 100% !important;
+    height: 14rem !important;
+    max-height: 16rem !important;
+    object-fit: cover !important;
+    border-radius: 0.5rem !important;
+    margin: 0 !important;
+    display: block !important;
+    cursor: pointer;
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.photo-grid img:hover {
+    transform: scale(1.02);
+}
+
+[contenteditable] .photo-grid figure {
+    position: relative;
+}
+
+[contenteditable] .photo-grid img:hover,
+[contenteditable] img:hover {
+    outline: 2px solid #e11d48 !important;
+    outline-offset: -2px;
+}
+
+/* Legacy Bootstrap row support (.row .col-*) */
+.row:has([class*='col-']) {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 0.75rem !important;
+    margin: 1.5rem 0 !important;
+}
+
+.row:has([class*='col-']) [class*='col-'] {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.row:has([class*='col-']) img {
+    width: 100% !important;
+    height: 14rem !important;
+    max-height: 16rem !important;
+    object-fit: cover !important;
+    border-radius: 0.5rem !important;
+    margin: 0 !important;
+    display: block !important;
+    cursor: pointer;
+}

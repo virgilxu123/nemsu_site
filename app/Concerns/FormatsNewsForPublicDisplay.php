@@ -37,7 +37,7 @@ trait FormatsNewsForPublicDisplay
         return [
             ...$this->newsListData($news),
             'contentHtml' => $this->cleanArticleHtml($news->content),
-            'galleryImages' => [],
+            'galleryImages' => $this->extractArticleGalleryImages($news),
         ];
     }
 
@@ -144,17 +144,69 @@ trait FormatsNewsForPublicDisplay
         }
     }
 
+    /**
+     * @return list<array{url: string, alt: string}>
+     */
+    protected function extractArticleGalleryImages(News $news): array
+    {
+        if ($news->content === null || trim($news->content) === '') {
+            return [];
+        }
+
+        [, $main] = $this->articleDocument((string) $news->content);
+
+        if (! $main instanceof DOMElement) {
+            return [];
+        }
+
+        $images = [];
+
+        foreach (iterator_to_array($main->getElementsByTagName('img')) as $element) {
+            if (! $element instanceof DOMElement || ! $element->hasAttribute('src')) {
+                continue;
+            }
+
+            $src = trim($element->getAttribute('src'));
+
+            if ($src === '' || Str::of($src)->lower()->startsWith(['javascript:', 'data:', 'blob:'])) {
+                continue;
+            }
+
+            $images[] = [
+                'url' => $this->absoluteLegacyUrl($src),
+                'alt' => $element->getAttribute('alt') ?: (string) $news->title,
+            ];
+        }
+
+        return $images;
+    }
+
     private function sanitizeAttributes(DOMElement $element): void
     {
         $allowed = match ($element->tagName) {
             'a' => ['href', 'title', 'target', 'rel'],
             'img' => ['src', 'alt', 'title'],
+            'div', 'figure' => ['class', 'data-columns', 'data-grid'],
+            'figcaption' => ['class'],
             default => [],
         };
 
         foreach (iterator_to_array($element->attributes) as $attribute) {
             if (! in_array($attribute->name, $allowed, true)) {
                 $element->removeAttribute($attribute->name);
+            }
+        }
+
+        if (in_array($element->tagName, ['div', 'figure', 'figcaption'], true) && $element->hasAttribute('class')) {
+            $classes = collect(explode(' ', (string) $element->getAttribute('class')))
+                ->map(fn ($c) => trim($c))
+                ->filter(fn ($c) => preg_match('/^[a-zA-Z0-9_\-\:\[\]]+$/', $c))
+                ->implode(' ');
+
+            if ($classes !== '') {
+                $element->setAttribute('class', $classes);
+            } else {
+                $element->removeAttribute('class');
             }
         }
 

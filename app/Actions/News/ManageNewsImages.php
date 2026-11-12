@@ -26,6 +26,16 @@ class ManageNewsImages
         );
     }
 
+    public function storeContentImage(UploadedFile $image): string
+    {
+        return $this->optimizeUploadedImage->store(
+            $image,
+            self::DIRECTORY.'/content',
+            maxWidth: 1600,
+            maxHeight: 1600,
+        );
+    }
+
     /**
      * @param  array<string, UploadedFile>  $images
      * @return array{html: string, storedPaths: list<string>}

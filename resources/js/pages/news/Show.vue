@@ -6,7 +6,6 @@ import {
     CalendarDays,
     ChevronLeft,
     ChevronRight,
-    Images,
     Megaphone,
     X,
 } from 'lucide-vue-next';
@@ -96,6 +95,19 @@ const openGalleryImage = (index: number): void => {
 
 const closeGallery = (): void => {
     selectedGalleryImageIndex.value = null;
+};
+
+const handleContentImageClick = (event: MouseEvent): void => {
+    const target = event.target as HTMLElement | null;
+    if (target?.tagName === 'IMG') {
+        const src = (target as HTMLImageElement).currentSrc || (target as HTMLImageElement).src;
+        const index = props.article.galleryImages.findIndex((img) => {
+            return img.url === src || src.endsWith(img.url) || img.url.endsWith(src);
+        });
+        if (index !== -1) {
+            openGalleryImage(index);
+        }
+    }
 };
 
 const showPreviousGalleryImage = (): void => {
@@ -296,82 +308,10 @@ onBeforeUnmount(() => {
                         <span>{{ props.article.date }}</span>
                     </div>
 
-                    <section
-                        v-if="props.article.galleryImages.length > 0"
-                        class="mx-auto mb-8 max-w-3xl rounded-md border border-slate-200 bg-white p-4 shadow-sm shadow-slate-900/5 dark:border-white/10 dark:bg-white/5"
-                        aria-label="Article photos"
-                    >
-                        <div
-                            class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
-                        >
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="inline-flex size-10 items-center justify-center rounded-md bg-[#f8e7eb] text-[#9b1c31] dark:bg-rose-400/10 dark:text-rose-200"
-                                >
-                                    <Images class="size-5" aria-hidden="true" />
-                                </span>
-                                <div>
-                                    <h2
-                                        class="font-sans text-uni-micro font-semibold text-slate-950 dark:text-white"
-                                    >
-                                        Article photos
-                                    </h2>
-                                    <p
-                                        class="mt-0.5 text-xs text-slate-500 dark:text-slate-400"
-                                    >
-                                        {{ props.article.galleryImages.length }}
-                                        image{{
-                                            props.article.galleryImages
-                                                .length === 1
-                                                ? ''
-                                                : 's'
-                                        }}
-                                        available
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                type="button"
-                                class="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 px-3 text-sm font-semibold text-[#1711d4] transition hover:border-[#0b6680] hover:text-[#0b6680] dark:border-white/10 dark:text-sky-100 dark:hover:border-sky-300"
-                                @click="openGalleryImage(0)"
-                            >
-                                View all
-                            </button>
-                        </div>
-
-                        <div class="mt-4 overflow-x-auto">
-                            <div class="flex gap-3 pb-1">
-                                <button
-                                    v-for="(image, index) in props.article
-                                        .galleryImages"
-                                    :key="image.url"
-                                    type="button"
-                                    class="group relative h-24 w-36 shrink-0 overflow-hidden rounded-md border border-slate-200 bg-slate-100 text-left transition hover:border-[#9b1c31]/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b6680] dark:border-white/10 dark:bg-white/10"
-                                    @click="openGalleryImage(index)"
-                                >
-                                    <img
-                                        :src="image.url"
-                                        :alt="image.alt"
-                                        width="288"
-                                        height="192"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                                    />
-                                    <span
-                                        v-if="index === 0"
-                                        class="absolute bottom-2 left-2 rounded bg-slate-950/75 px-2 py-1 text-[11px] font-semibold text-white"
-                                    >
-                                        Open gallery
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </section>
-
                     <div
                         class="mx-auto max-w-[70ch] text-uni-body text-slate-700 dark:text-slate-200 [&_a]:font-semibold [&_a]:text-[#0b6680] hover:[&_a]:text-[#9b1c31] dark:[&_a]:text-sky-200 [&_blockquote]:my-9 [&_blockquote]:border-l-4 [&_blockquote]:border-[#9b1c31] [&_blockquote]:bg-white [&_blockquote]:py-4 [&_blockquote]:pr-5 [&_blockquote]:pl-5 [&_blockquote]:text-uni-body [&_blockquote]:font-medium [&_blockquote]:text-slate-700 dark:[&_blockquote]:bg-white/5 dark:[&_blockquote]:text-slate-200 [&_br]:my-2 [&_h2]:mt-12 [&_h2]:font-academic [&_h2]:text-[1.5rem] [&_h2]:leading-[1.3] [&_h2]:font-semibold [&_h2]:tracking-[-0.02em] [&_h2]:text-slate-950 md:[&_h2]:text-uni-h2 dark:[&_h2]:text-white [&_h3]:mt-9 [&_h3]:font-academic [&_h3]:text-[1.125rem] [&_h3]:leading-[1.4] [&_h3]:font-semibold [&_h3]:tracking-[-0.01em] [&_h3]:text-slate-950 md:[&_h3]:text-uni-h3 dark:[&_h3]:text-white [&_img]:my-8 [&_img]:max-h-[44rem] [&_img]:w-full [&_img]:rounded-xl [&_img]:object-contain [&_li]:my-2 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-6 [&_strong]:font-semibold [&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6"
                         v-html="props.article.contentHtml"
+                        @click="handleContentImageClick"
                     ></div>
                 </main>
 

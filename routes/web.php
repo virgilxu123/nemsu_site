@@ -67,6 +67,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->names('admin.content-pages')
         ->middleware('can:manage-cms');
 
+    Route::post('admin/news/images', [AdminNewsController::class, 'uploadImage'])
+        ->name('admin.news.images.store')
+        ->middleware('can:manage-cms');
+
     Route::resource('admin/news', AdminNewsController::class)
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->names('admin.news')
