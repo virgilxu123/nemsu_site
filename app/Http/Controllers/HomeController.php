@@ -29,7 +29,7 @@ class HomeController extends Controller
                 ->latest()
                 ->get()
                 ->filter(fn (Banner $banner): bool => $this->bannerPhotoExists($banner->photo))
-                ->take(8)
+                ->take(12)
                 ->values()
                 ->map(fn (Banner $banner): array => $this->bannerData($banner)),
             'featuredNews' => $this->featuredNews(),

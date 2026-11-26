@@ -302,3 +302,30 @@ test('published banners continue to feed the homepage carousel', function () {
             ->where('banners.1.link', 'https://nemsu.edu.ph')
         );
 });
+
+test('homepage carousel includes up to twelve published banners', function () {
+    Storage::fake('public');
+
+    foreach (range(1, 13) as $index) {
+        $photo = "banner-{$index}.jpg";
+        Storage::disk('public')->put('images/banners/home/'.$photo, 'banner');
+
+        Banner::factory()->published()->create([
+            'photo' => $photo,
+            'title' => "Banner {$index}",
+            'sequence' => $index,
+        ]);
+    }
+
+    $response = $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Welcome')
+            ->has('banners', 12)
+            ->where('banners.0.title', 'Banner 1')
+            ->where('banners.11.title', 'Banner 12')
+        );
+
+    expect(collect($response->inertiaProps('banners'))->pluck('title')->all())
+        ->not->toContain('Banner 13');
+});
