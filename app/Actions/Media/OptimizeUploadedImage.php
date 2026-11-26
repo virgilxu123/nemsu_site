@@ -27,7 +27,8 @@ class OptimizeUploadedImage
         }
 
         $contents = file_get_contents($image->getPathname());
-        $source = is_string($contents) ? imagecreatefromstring($contents) : false;
+        // Suppress non-fatal libpng/GD warnings (e.g. "iCCP: known incorrect sRGB profile") that Laravel converts to ErrorException.
+        $source = is_string($contents) ? @imagecreatefromstring($contents) : false;
 
         if ($source === false) {
             throw new RuntimeException('The uploaded image could not be processed.');
