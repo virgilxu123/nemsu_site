@@ -89,8 +89,8 @@ const deletePage = (item: ContentPageItem): void => {
     }
 
     router.post(
-        AdminContentPageController.destroy.url(item.id),
-        { _method: 'delete' },
+        AdminContentPageController.destroy.form(item.id).action,
+        {},
         {
             preserveScroll: true,
         },

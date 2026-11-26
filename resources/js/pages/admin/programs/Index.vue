@@ -92,8 +92,8 @@ const deleteProgram = (program: ProgramItem): void => {
     }
 
     router.post(
-        AdminProgramController.destroy.url(program.id),
-        { _method: 'delete' },
+        AdminProgramController.destroy.form(program.id).action,
+        {},
         {
             preserveScroll: true,
         },

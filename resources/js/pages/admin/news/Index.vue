@@ -135,12 +135,12 @@ const deleteNews = (item: NewsItem): void => {
     }
 
     const destroyUrl = isAnnouncementMode.value
-        ? AdminAnnouncementController.destroy.url(item.id)
-        : AdminNewsController.destroy.url(item.id);
+        ? AdminAnnouncementController.destroy.form(item.id).action
+        : AdminNewsController.destroy.form(item.id).action;
 
     router.post(
         destroyUrl,
-        { _method: 'delete' },
+        {},
         {
             preserveScroll: true,
         },

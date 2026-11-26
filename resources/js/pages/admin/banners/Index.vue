@@ -232,9 +232,8 @@ const dropBanner = (event: DragEvent, targetBannerId: number): void => {
     resetDragState();
 
     router.post(
-        reorderBanners.url(),
+        reorderBanners.form().action,
         {
-            _method: 'patch',
             banner_ids: reorderedBannerIds,
         },
         {
@@ -273,8 +272,8 @@ const deleteBanner = (banner: BannerItem): void => {
     }
 
     router.post(
-        destroy.url(banner.id),
-        { _method: 'delete' },
+        destroy.form(banner.id).action,
+        {},
         {
             preserveScroll: true,
         },

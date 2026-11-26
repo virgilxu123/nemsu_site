@@ -76,8 +76,8 @@ const deleteOpportunity = (opportunity: JobOpportunityItem): void => {
     }
 
     router.post(
-        AdminJobOpportunityController.destroy.url(opportunity.id),
-        { _method: 'delete' },
+        AdminJobOpportunityController.destroy.form(opportunity.id).action,
+        {},
         {
             preserveScroll: true,
         },

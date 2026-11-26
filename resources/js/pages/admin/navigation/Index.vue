@@ -87,8 +87,8 @@ const deleteItem = (item: NavigationItem): void => {
     }
 
     router.post(
-        AdminNavigationItemController.destroy.url(item.id),
-        { _method: 'delete' },
+        AdminNavigationItemController.destroy.form(item.id).action,
+        {},
         {
             preserveScroll: true,
         },

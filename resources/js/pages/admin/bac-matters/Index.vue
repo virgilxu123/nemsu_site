@@ -85,8 +85,8 @@ const deleteMatter = (matter: BacMatterItem): void => {
     }
 
     router.post(
-        AdminBacMatterController.destroy.url(matter.id),
-        { _method: 'delete' },
+        AdminBacMatterController.destroy.form(matter.id).action,
+        {},
         {
             preserveScroll: true,
         },
