@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
 import {
+    ArrowUpToLine,
     Edit,
     GripVertical,
     Plus,
@@ -71,7 +72,7 @@ const { filters, handleFilter, handlePageLink, handleSort, resetFilter } =
     useTableQuery<BannerFilters>({
         url: index.url(),
         initialFilters: props.filters,
-        only: ['filters', 'banners'],
+        only: ['filters', 'banners', 'bannerOrder'],
         debounce: 250,
     });
 
@@ -228,8 +229,12 @@ const dropBanner = (event: DragEvent, targetBannerId: number): void => {
     }
 
     displayedBanners.value = reorderedVisibleBanners;
-    isReordering.value = true;
     resetDragState();
+    submitReorder(reorderedBannerIds);
+};
+
+const submitReorder = (reorderedBannerIds: number[]): void => {
+    isReordering.value = true;
 
     router.post(
         reorderBanners.form().action,
@@ -248,6 +253,39 @@ const dropBanner = (event: DragEvent, targetBannerId: number): void => {
             },
         },
     );
+};
+
+const moveBannerToTop = (bannerId: number): void => {
+    if (
+        isReordering.value ||
+        props.bannerOrder.length <= 1 ||
+        props.bannerOrder[0] === bannerId ||
+        !props.bannerOrder.includes(bannerId)
+    ) {
+        return;
+    }
+
+    const reorderedBannerIds = [
+        bannerId,
+        ...props.bannerOrder.filter((id) => id !== bannerId),
+    ];
+
+    if (canReorder.value && (props.banners.from ?? 1) === 1) {
+        const targetBanner = displayedBanners.value.find(
+            (banner) => banner.id === bannerId,
+        );
+
+        if (targetBanner) {
+            displayedBanners.value = [
+                targetBanner,
+                ...displayedBanners.value.filter(
+                    (banner) => banner.id !== bannerId,
+                ),
+            ];
+        }
+    }
+
+    submitReorder(reorderedBannerIds);
 };
 
 const bannerPhotoUrl = (photo: string): string => {
@@ -465,6 +503,20 @@ const paginationLabel = (label: string): string =>
                         </td>
                         <td class="px-4 py-4">
                             <div class="flex justify-end gap-2">
+                                <Button
+                                    size="icon"
+                                    variant="ghost"
+                                    type="button"
+                                    title="Move to top"
+                                    :disabled="
+                                        isReordering ||
+                                        bannerOrder[0] === banner.id
+                                    "
+                                    @click="moveBannerToTop(banner.id)"
+                                >
+                                    <ArrowUpToLine class="size-4" />
+                                    <span class="sr-only">Move to top</span>
+                                </Button>
                                 <Button size="icon" variant="ghost" as-child>
                                     <Link :href="edit(banner.id)" title="Edit">
                                         <Edit class="size-4" />

@@ -83,7 +83,7 @@ test('admins can view banner management pages', function () {
 
 test('admins can store banners with normalized data', function () {
     $admin = bannerAdminUser();
-    Banner::factory()->create(['sequence' => 4]);
+    $existingBanner = Banner::factory()->create(['sequence' => 4]);
 
     $response = $this->actingAs($admin)
         ->post(route('admin.banners.store'), bannerPayload([
@@ -100,7 +100,8 @@ test('admins can store banners with normalized data', function () {
         ->and($banner->title)->toBe('Enrollment Now Open')
         ->and($banner->link)->toBe('https://nemsu.edu.ph/admissions')
         ->and($banner->is_published)->toBeTrue()
-        ->and($banner->sequence)->toBe(5);
+        ->and($banner->sequence)->toBe(0)
+        ->and($existingBanner->refresh()->sequence)->toBe(5);
 });
 
 test('uploaded banners are resized and stored as webp images', function () {
@@ -328,4 +329,26 @@ test('homepage carousel includes up to twelve published banners', function () {
 
     expect(collect($response->inertiaProps('banners'))->pluck('title')->all())
         ->not->toContain('Banner 13');
+});
+
+test('admin banner index paginates twelve banners per page', function () {
+    $admin = bannerAdminUser();
+
+    foreach (range(0, 12) as $sequence) {
+        Banner::factory()->create([
+            'title' => "Banner {$sequence}",
+            'sequence' => $sequence,
+        ]);
+    }
+
+    $this->actingAs($admin)
+        ->get(route('admin.banners.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('banners.data', 12)
+            ->has('bannerOrder', 13)
+            ->where('banners.total', 13)
+            ->where('banners.data.0.title', 'Banner 0')
+            ->where('banners.data.11.title', 'Banner 11')
+        );
 });

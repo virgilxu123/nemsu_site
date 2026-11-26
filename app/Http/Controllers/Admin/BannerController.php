@@ -58,7 +58,7 @@ class BannerController extends Controller
                 ->when($status === 'draft', fn ($query) => $query->where('is_published', false))
                 ->sort($sortBy, $sortDirection, $sortFields, 'sequence', 'asc')
                 ->when($sortBy === 'sequence', fn ($query) => $query->latest()->orderByDesc('id'))
-                ->paginate(10)
+                ->paginate(12)
                 ->withQueryString()
                 ->through(fn (Banner $banner): array => $this->bannerListData($banner)),
             'bannerOrder' => Banner::query()
@@ -92,13 +92,8 @@ class BannerController extends Controller
         }
 
         $banner = DB::transaction(function () use ($data): Banner {
-            $lastBanner = Banner::query()
-                ->select(['id', 'sequence'])
-                ->orderByDesc('sequence')
-                ->orderByDesc('id')
-                ->lockForUpdate()
-                ->first();
-            $data['sequence'] = $lastBanner instanceof Banner ? $lastBanner->sequence + 1 : 0;
+            Banner::query()->lockForUpdate()->increment('sequence');
+            $data['sequence'] = 0;
 
             return Banner::query()->create($data);
         }, attempts: 3);
