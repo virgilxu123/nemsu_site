@@ -88,9 +88,13 @@ const deletePage = (item: ContentPageItem): void => {
         return;
     }
 
-    router.delete(AdminContentPageController.destroy.url(item.id), {
-        preserveScroll: true,
-    });
+    router.post(
+        AdminContentPageController.destroy.url(item.id),
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>

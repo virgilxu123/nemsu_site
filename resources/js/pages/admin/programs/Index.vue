@@ -91,9 +91,13 @@ const deleteProgram = (program: ProgramItem): void => {
         return;
     }
 
-    router.delete(AdminProgramController.destroy.url(program.id), {
-        preserveScroll: true,
-    });
+    router.post(
+        AdminProgramController.destroy.url(program.id),
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>
@@ -225,12 +229,8 @@ const degreeLabel = (degree: string): string =>
                             :sort-direction="filters.sort_direction"
                             @sort="handleSort"
                         />
-                        <th class="px-4 py-3 text-left font-medium">
-                            Campus
-                        </th>
-                        <th class="px-4 py-3 text-left font-medium">
-                            College
-                        </th>
+                        <th class="px-4 py-3 text-left font-medium">Campus</th>
+                        <th class="px-4 py-3 text-left font-medium">College</th>
                         <SortableTableHeader
                             column="degree_program"
                             label="Degree"
@@ -319,9 +319,7 @@ const degreeLabel = (degree: string): string =>
                         <td class="px-4 py-4">
                             <Badge
                                 :variant="
-                                    program.isArchived
-                                        ? 'secondary'
-                                        : 'default'
+                                    program.isArchived ? 'secondary' : 'default'
                                 "
                             >
                                 {{ program.isArchived ? 'Archived' : 'Active' }}
@@ -333,10 +331,7 @@ const degreeLabel = (degree: string): string =>
                         <td class="px-4 py-4">
                             <div class="flex justify-end gap-2">
                                 <Button size="icon" variant="ghost" as-child>
-                                    <Link
-                                        :href="edit(program.id)"
-                                        title="Edit"
-                                    >
+                                    <Link :href="edit(program.id)" title="Edit">
                                         <Edit class="size-4" />
                                         <span class="sr-only">Edit</span>
                                     </Link>

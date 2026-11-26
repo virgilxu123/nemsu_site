@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Head, Link, router } from '@inertiajs/vue3';
-import { Edit, ExternalLink, FileText, Plus, RotateCcw, Search, Trash2 } from 'lucide-vue-next';
+import {
+    Edit,
+    ExternalLink,
+    FileText,
+    Plus,
+    RotateCcw,
+    Search,
+    Trash2,
+} from 'lucide-vue-next';
 import { computed } from 'vue';
 import AdminBacMatterController from '@/actions/App/Http/Controllers/Admin/BacMatterController';
 import Heading from '@/components/Heading.vue';
@@ -76,9 +84,13 @@ const deleteMatter = (matter: BacMatterItem): void => {
         return;
     }
 
-    router.delete(AdminBacMatterController.destroy.url(matter.id), {
-        preserveScroll: true,
-    });
+    router.post(
+        AdminBacMatterController.destroy.url(matter.id),
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>
@@ -231,7 +243,9 @@ const paginationLabel = (label: string): string =>
                                 None
                             </span>
                         </td>
-                        <td class="px-4 py-4">{{ matter.date ?? 'Not set' }}</td>
+                        <td class="px-4 py-4">
+                            {{ matter.date ?? 'Not set' }}
+                        </td>
                         <td class="px-4 py-4">
                             <Badge
                                 :variant="

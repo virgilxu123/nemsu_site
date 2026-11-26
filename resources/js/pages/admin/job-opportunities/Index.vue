@@ -75,9 +75,13 @@ const deleteOpportunity = (opportunity: JobOpportunityItem): void => {
         return;
     }
 
-    router.delete(AdminJobOpportunityController.destroy.url(opportunity.id), {
-        preserveScroll: true,
-    });
+    router.post(
+        AdminJobOpportunityController.destroy.url(opportunity.id),
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>

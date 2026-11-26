@@ -138,9 +138,13 @@ const deleteNews = (item: NewsItem): void => {
         ? AdminAnnouncementController.destroy.url(item.id)
         : AdminNewsController.destroy.url(item.id);
 
-    router.delete(destroyUrl, {
-        preserveScroll: true,
-    });
+    router.post(
+        destroyUrl,
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>

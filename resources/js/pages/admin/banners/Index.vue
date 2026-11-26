@@ -231,9 +231,10 @@ const dropBanner = (event: DragEvent, targetBannerId: number): void => {
     isReordering.value = true;
     resetDragState();
 
-    router.patch(
+    router.post(
         reorderBanners.url(),
         {
+            _method: 'patch',
             banner_ids: reorderedBannerIds,
         },
         {
@@ -271,9 +272,13 @@ const deleteBanner = (banner: BannerItem): void => {
         return;
     }
 
-    router.delete(destroy.url(banner.id), {
-        preserveScroll: true,
-    });
+    router.post(
+        destroy.url(banner.id),
+        { _method: 'delete' },
+        {
+            preserveScroll: true,
+        },
+    );
 };
 
 const paginationLabel = (label: string): string =>
